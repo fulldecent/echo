@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7707AF1915605B7A0037114F /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7707AF1715605B7A0037114F /* UIGlossyButton.m */; };
 		770816051611476500A9EF6F /* libShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789052616113FED00506873 /* libShareKit.a */; };
 		7729FEBF15294D1C00D2180E /* ear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEBD15294D1C00D2180E /* ear.png */; };
 		7729FEC015294D1C00D2180E /* ear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEBE15294D1C00D2180E /* ear@2x.png */; };
@@ -44,7 +43,11 @@
 		7761D6A515E2E77E00975F1B /* practiceIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A315E2E77E00975F1B /* practiceIcon.png */; };
 		7761D6A615E2E77E00975F1B /* practiceIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */; };
 		777667C21569F41C0099996B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777667C11569F41C0099996B /* AudioToolbox.framework */; };
-		779F867A1586ABDE00EDD3BA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 779F86791586ABDE00EDD3BA /* MBProgressHUD.m */; };
+		7798DDA616154974004EE464 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDA516154974004EE464 /* FDTakeController.m */; };
+		7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDA716154BDA004EE464 /* MBProgressHUD.m */; };
+		7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDAA16154CAB004EE464 /* UIGlossyButton.m */; };
+		7798DE111619138C004EE464 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE0F1619138C004EE464 /* flag.png */; };
+		7798DE121619138C004EE464 /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE101619138C004EE464 /* flag@2x.png */; };
 		779F86841586BBAC00EDD3BA /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */; };
 		779F86851586BBAC00EDD3BA /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */; };
 		779F86881586BFD500EDD3BA /* 37x-BigX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */; };
@@ -55,7 +58,6 @@
 		77A50BE3157C59BE00027CB1 /* Checkbox checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BE2157C59BE00027CB1 /* Checkbox checked.png */; };
 		77A50BE7157EEB6500027CB1 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE6157EEB6500027CB1 /* Word.m */; };
 		77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE9157EF1B800027CB1 /* Lesson.m */; };
-		77B40C1E15DC7E7900ED6F8F /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B40C1D15DC7E7900ED6F8F /* FDTakeController.m */; };
 		77B5137F151970B100F041D7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
 		77B51381151970B100F041D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51380151970B100F041D7 /* Foundation.framework */; };
 		77B51383151970B100F041D7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51382151970B100F041D7 /* CoreGraphics.framework */; };
@@ -101,8 +103,6 @@
 		77DB5F8D15A2B3880043DC79 /* GetLessonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */; };
 		77E9BEF615CE037300BC567B /* like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF215CE037300BC567B /* like@2x.png */; };
 		77E9BEF715CE037300BC567B /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF315CE037300BC567B /* like.png */; };
-		77E9BEF815CE037300BC567B /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF415CE037300BC567B /* flag@2x.png */; };
-		77E9BEF915CE037300BC567B /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF515CE037300BC567B /* flag.png */; };
 		77EB10C41560ACF500C00842 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = 77EB10C31560ACF500C00842 /* Next.aif */; };
 		77F4A16615F5460200D6189B /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F4A16515F5460200D6189B /* Default-Landscape~ipad.png */; };
 		77F4A16815F5460700D6189B /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F4A16715F5460700D6189B /* Default-Landscape@2x~ipad.png */; };
@@ -155,8 +155,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7707AF1715605B7A0037114F /* UIGlossyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIGlossyButton.m; sourceTree = "<group>"; };
-		7707AF1815605B7A0037114F /* UIGlossyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGlossyButton.h; sourceTree = "<group>"; };
 		7729FEBD15294D1C00D2180E /* ear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ear.png; sourceTree = "<group>"; };
 		7729FEBE15294D1C00D2180E /* ear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ear@2x.png"; sourceTree = "<group>"; };
 		7729FEC115294E5900D2180E /* echo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = echo.png; sourceTree = "<group>"; };
@@ -209,8 +207,14 @@
 		7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "practiceIcon@2x.png"; sourceTree = "<group>"; };
 		777667C11569F41C0099996B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7789051816113FED00506873 /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = Submodules/ShareKit/ShareKit.xcodeproj; sourceTree = "<group>"; };
-		779F86781586ABDE00EDD3BA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		779F86791586ABDE00EDD3BA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		7798DD9F16154849004EE464 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FDTakeController.h; path = Submodules/FDTake/FDTakeExample/FDTakeController.h; sourceTree = SOURCE_ROOT; };
+		7798DDA516154974004EE464 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FDTakeController.m; path = ../../FDTakeExample/FDTakeExample/FDTakeController.m; sourceTree = "<group>"; };
+		7798DDA716154BDA004EE464 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Submodules/MBProgressHUD/MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
+		7798DDA816154BDA004EE464 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Submodules/MBProgressHUD/MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
+		7798DDAA16154CAB004EE464 /* UIGlossyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIGlossyButton.m; path = Submodules/UIGlossyButton/UIGlossyButton/UIGlossyButton.m; sourceTree = SOURCE_ROOT; };
+		7798DDAB16154CAB004EE464 /* UIGlossyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIGlossyButton.h; path = Submodules/UIGlossyButton/UIGlossyButton/UIGlossyButton.h; sourceTree = SOURCE_ROOT; };
+		7798DE0F1619138C004EE464 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
+		7798DE101619138C004EE464 /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
 		779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-BigX@2x.png"; sourceTree = "<group>"; };
@@ -224,8 +228,6 @@
 		77A50BE6157EEB6500027CB1 /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
 		77A50BE8157EF1B800027CB1 /* Lesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lesson.h; sourceTree = "<group>"; };
 		77A50BE9157EF1B800027CB1 /* Lesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lesson.m; sourceTree = "<group>"; };
-		77B40C1C15DC7E7900ED6F8F /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
-		77B40C1D15DC7E7900ED6F8F /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
 		77B5137A151970B100F041D7 /* Echo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Echo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77B5137E151970B100F041D7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		77B51380151970B100F041D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -286,8 +288,6 @@
 		77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetLessonsViewController.m; sourceTree = "<group>"; };
 		77E9BEF215CE037300BC567B /* like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like@2x.png"; sourceTree = "<group>"; };
 		77E9BEF315CE037300BC567B /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
-		77E9BEF415CE037300BC567B /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
-		77E9BEF515CE037300BC567B /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
 		77EB10C31560ACF500C00842 /* Next.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Next.aif; sourceTree = "<group>"; };
 		77F4A16515F5460200D6189B /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		77F4A16715F5460700D6189B /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
@@ -477,10 +477,10 @@
 				77B51386151970B100F041D7 /* Echo-Info.plist */,
 				77B51387151970B100F041D7 /* InfoPlist.strings */,
 				77B5138A151970B100F041D7 /* main.m */,
+				7798DE0F1619138C004EE464 /* flag.png */,
+				7798DE101619138C004EE464 /* flag@2x.png */,
 				77E9BEF215CE037300BC567B /* like@2x.png */,
 				77E9BEF315CE037300BC567B /* like.png */,
-				77E9BEF415CE037300BC567B /* flag@2x.png */,
-				77E9BEF515CE037300BC567B /* flag.png */,
 				774CDA1B15D080F100B14C45 /* message.png */,
 				774CDA1C15D080F100B14C45 /* message@2x.png */,
 				774CDA1D15D080F100B14C45 /* share.png */,
@@ -543,13 +543,15 @@
 		77DDC70E156DD81F00568CDE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				77B40C1C15DC7E7900ED6F8F /* FDTakeController.h */,
-				77B40C1D15DC7E7900ED6F8F /* FDTakeController.m */,
+				7798DD9F16154849004EE464 /* FDTakeController.h */,
+				7798DDA516154974004EE464 /* FDTakeController.m */,
+				7798DDA716154BDA004EE464 /* MBProgressHUD.m */,
+				7798DDA816154BDA004EE464 /* MBProgressHUD.h */,
+				7798DDAA16154CAB004EE464 /* UIGlossyButton.m */,
+				7798DDAB16154CAB004EE464 /* UIGlossyButton.h */,
 				774CDA5015D0B08100B14C45 /* EchoSHKConfigurator.h */,
 				774CDA5115D0B08100B14C45 /* EchoSHKConfigurator.m */,
 				774993A115A2799C001DE784 /* AFNetworking */,
-				7707AF1715605B7A0037114F /* UIGlossyButton.m */,
-				7707AF1815605B7A0037114F /* UIGlossyButton.h */,
 				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
 				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
 				77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */,
@@ -563,8 +565,6 @@
 				77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */,
 				77D8AD1B157ABF1A001E2E25 /* Ready to record.m4a */,
 				77D8AD1C157ABF1A001E2E25 /* Record failed.m4a */,
-				779F86781586ABDE00EDD3BA /* MBProgressHUD.h */,
-				779F86791586ABDE00EDD3BA /* MBProgressHUD.m */,
 				779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */,
 				779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */,
 				779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */,
@@ -693,8 +693,6 @@
 				779F86891586BFD500EDD3BA /* 37x-BigX.png in Resources */,
 				77E9BEF615CE037300BC567B /* like@2x.png in Resources */,
 				77E9BEF715CE037300BC567B /* like.png in Resources */,
-				77E9BEF815CE037300BC567B /* flag@2x.png in Resources */,
-				77E9BEF915CE037300BC567B /* flag.png in Resources */,
 				774CDA1F15D080F100B14C45 /* message.png in Resources */,
 				774CDA2015D080F100B14C45 /* message@2x.png in Resources */,
 				774CDA2115D080F100B14C45 /* share.png in Resources */,
@@ -714,6 +712,8 @@
 				77F4A16615F5460200D6189B /* Default-Landscape~ipad.png in Resources */,
 				77F4A16815F5460700D6189B /* Default-Landscape@2x~ipad.png in Resources */,
 				77B9BC45160AC28500931E92 /* Default-568h@2x.png in Resources */,
+				7798DE111619138C004EE464 /* flag.png in Resources */,
+				7798DE121619138C004EE464 /* flag@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,7 +729,6 @@
 				77B51398151970B100F041D7 /* GuessingViewController.m in Sources */,
 				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
 				77B513C0151A993C00F041D7 /* SoundGuessingGame.m in Sources */,
-				7707AF1915605B7A0037114F /* UIGlossyButton.m in Sources */,
 				77CB51AE1561FCAA00BBD4FC /* LessonListViewController.m in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
 				77D8AD15157ABE53001E2E25 /* PHOREchoRecordButton.m in Sources */,
@@ -740,7 +739,6 @@
 				77BBFE10157C189600511CEC /* Languages.m in Sources */,
 				77A50BE7157EEB6500027CB1 /* Word.m in Sources */,
 				77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */,
-				779F867A1586ABDE00EDD3BA /* MBProgressHUD.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				774993B715A2799C001DE784 /* AFHTTPClient.m in Sources */,
 				774993B815A2799C001DE784 /* AFHTTPRequestOperation.m in Sources */,
@@ -756,9 +754,11 @@
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
 				774CDA1A15CF05B700B14C45 /* SocialViewController.m in Sources */,
 				774CDA5215D0B08100B14C45 /* EchoSHKConfigurator.m in Sources */,
-				77B40C1E15DC7E7900ED6F8F /* FDTakeController.m in Sources */,
 				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
 				7761D6A115E2E4DB00975F1B /* PracticeListViewController.m in Sources */,
+				7798DDA616154974004EE464 /* FDTakeController.m in Sources */,
+				7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */,
+				7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
