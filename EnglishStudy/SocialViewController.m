@@ -11,6 +11,7 @@
 #import "FDTakeController.h"
 #import "NetworkManager.h"
 #import "WordDetailController.h"
+#import "AFNetworking.h"
 
 @interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, UIAlertViewDelegate, UIActionSheetDelegate, FDTakeDelegate, UITextFieldDelegate, WordDetailControllerDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -42,15 +43,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     [self loadPage];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload
 {
     [self setWebView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 #pragma mark - UIWebViewDelegate
@@ -113,18 +120,17 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.delegate = self;
-	self.hud.mode = MBProgressHUDModeIndeterminate;
+    [[AFNetworkActivityIndicatorManager sharedManager] incrementActivityCount];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.hud hide:YES afterDelay:0.2];
+    [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     [self.hud hide:YES];
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.delegate = self;

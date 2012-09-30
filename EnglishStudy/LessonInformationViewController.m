@@ -241,10 +241,6 @@
         [self.tableView reloadData];
     } else {
         [self.editingDetail setObject:[NSString string] forKey:tag];
-        NSUInteger index = [[Languages sortedListOfLanguages:self.editingDetail.allKeys] indexOfObject:tag];
-        NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:1];
-        //[self.tableView beginUpdates];
-        //[self.tableView endUpdates];
         [self.tableView reloadData];
         
         //[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationAutomatic];

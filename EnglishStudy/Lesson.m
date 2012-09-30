@@ -324,7 +324,7 @@
 
 - (BOOL)isNewerThanServer
 {
-    return [self.version integerValue] > [self.serverVersion integerValue];
+    return [self.version integerValue] > [self.serverVersion integerValue] || [self.serverVersion integerValue] == 0;
 }
 
 - (BOOL)isUsable
@@ -339,7 +339,7 @@
 
 - (BOOL)isShared
 {
-    return [self.lessonID integerValue] > 0 && [self.lessonCode length] > 0;
+    return ([self.lessonID integerValue] > 0 && [self.lessonCode length] > 0) || [self.name isEqualToString:@"PRACTICE"];
 }
 
 #pragma mark - NSCopying

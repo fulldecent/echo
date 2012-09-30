@@ -11,6 +11,7 @@
 #import "NetworkManager.h"
 #import "LanguageSelectController.h"
 #import "Languages.h"
+#import "AFNetworking.h"
 
 @interface GetLessonsViewController () <UIWebViewDelegate, MBProgressHUDDelegate, LanguageSelectControllerDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -85,18 +86,17 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.delegate = self;
-	self.hud.mode = MBProgressHUDModeIndeterminate;
+    [[AFNetworkActivityIndicatorManager sharedManager] incrementActivityCount];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.hud hide:YES afterDelay:0.2];
+    [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.delegate = self;
 //    self.hud.labelText = error.localizedDescription;

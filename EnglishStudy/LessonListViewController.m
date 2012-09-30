@@ -15,21 +15,44 @@
 #import "NetworkManager.h"
 #import "LessonSet.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface LessonListViewController() <LessonViewDelegate, LessonInformationViewDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) Lesson *currentLesson;
+@property (strong, nonatomic) UIBarButtonItem *refreshButton;
+@property (strong, nonatomic) UIBarButtonItem *loadingButton;
 @end
 
 @implementation LessonListViewController
 @synthesize lessonSet = _lessonSet;
 @synthesize currentLesson = _lessonForSegue;
+@synthesize refreshButton = _refreshButton;
+@synthesize loadingButton = _loadingButton;
 
 - (LessonSet *)lessonSet
 {
     if (!_lessonSet)
         _lessonSet = [LessonSet lessonSetWithName:@"downloadsAndUploads"];
     return _lessonSet;
+}
+
+- (UIBarButtonItem *)refreshButton
+{
+    if (!_refreshButton)
+        _refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload:)];
+    return _refreshButton;
+}
+
+- (UIBarButtonItem *)loadingButton
+{
+    if (!_loadingButton) {
+        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        activityView.hidesWhenStopped = YES;
+        [activityView startAnimating];
+        _loadingButton = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+    }
+    return _loadingButton;
 }
 
 - (void)viewDidLoad
@@ -40,6 +63,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.navigationItem.leftBarButtonItem = self.refreshButton;
     self.currentLesson = nil;
     [super viewWillAppear:YES];
 }
@@ -55,28 +79,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//    return 2;
     return 1;
 }
 
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 0)
-        return @"Downloaded lessons";
-    if (section == 1)
-        return @"Lessons I created";
-    else
-        return nil;
-}
- */
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
-        return self.lessonSet.lessons.count + 2; // Lessons, "Download lessons", "Create lesson"
-    else // (section == 1)
-        return 1; // Favorite words
+    return self.lessonSet.lessons.count + 2; // Lessons, "Download lessons", "Create lesson"
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -193,10 +201,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-        if (indexPath.row < self.lessonSet.lessons.count)
-        {
+    if (indexPath.section == 0) {
+        if (indexPath.row < self.lessonSet.lessons.count) {
             Lesson *lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             if ([self.lessonSet transferProgressForLesson:lesson])
                 return 63;
@@ -273,19 +279,21 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
 #pragma mark - Networking and internet
 
 - (IBAction)reload:(UIBarButtonItem *)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Preparing to sync...";
-    //[self.hud hide:YES afterDelay:1.0];
-
+    self.navigationItem.leftBarButtonItem = self.loadingButton;
     [self.lessonSet markStaleLessonsWithCallback:^
      {
+         NSString *badge = self.lessonSet.countOfLessonsNeedingSync ? [NSString stringWithFormat:@"%d", self.lessonSet.countOfLessonsNeedingSync] : nil;
+         self.navigationController.tabBarItem.badgeValue = badge;
          [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
              NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
              [self reloadRowAtIndexPathWithoutAnimation:[NSIndexPath indexPathForRow:index inSection:0]];
+             if (progress.integerValue == 1.0) {
+                 NSString *badge = self.lessonSet.countOfLessonsNeedingSync ? [NSString stringWithFormat:@"%d", self.lessonSet.countOfLessonsNeedingSync] : nil;
+                 self.navigationController.tabBarItem.badgeValue = badge;
+             }
          }];
-         [hud hide:YES afterDelay:0.5];
          [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+         self.navigationItem.leftBarButtonItem = self.refreshButton;
      }];
 }
 

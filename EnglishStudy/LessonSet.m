@@ -11,7 +11,6 @@
 
 @interface LessonSet()
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSMutableSet *staleLessons; // Lesson *
 @property (strong, nonatomic) NSMutableDictionary *lessonTransferProgress; // NSValue: Lesson *
 @end
 
@@ -25,7 +24,6 @@
     lessonSet.name = name;
     lessonSet.lessonTransferProgress = [[NSMutableDictionary alloc] init];
     lessonSet.lessons = [[NSMutableArray alloc] init];
-    lessonSet.staleLessons = [[NSMutableSet alloc] init];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (NSString *lessonJSON in [defaults objectForKey:[@"lessons-" stringByAppendingString:name]]) {
@@ -47,15 +45,14 @@
     [defaults synchronize];
 }
 
-- (void)markStaleLessonsWithCallback:(void (^)())block // Stale lessons should not be opened while syncing
+- (void)markStaleLessonsWithCallback:(void (^)())block // Stale lessons must not be opened while syncing
 {
-    [self.staleLessons removeAllObjects];
     NSMutableArray *lessonsToCheck = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
         if (lesson.isEditable && !lesson.isShared)
-            continue;
+            continue; // local only, no need to compare to server
         else if (lesson.isNewerThanServer || lesson.isOlderThanServer)
-            [self.staleLessons addObject:lesson];
+            continue; // already known
         else
             [lessonsToCheck addObject:lesson];
     }
@@ -66,9 +63,7 @@
     }
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager whichLessonsAreStale:lessonsToCheck withBlock:^(NSArray *staleLessons) {
-#warning FOR V1.1 SET EACH LESSON SERVER VERSION HERE
-        [self.staleLessons addObjectsFromArray:staleLessons];
+    [networkManager updateServerVersionForLessons:lessonsToCheck onCompletion:^() {
         if (block)
             block();
     }];
@@ -76,14 +71,22 @@
 
 - (void)syncStaleLessonsWithProgress:(void (^)(Lesson *lesson, NSNumber *progress))progress // Syncs the ones that are stale
 {
-    for (Lesson *lesson in [self.staleLessons allObjects]) {
+    NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
+    for (Lesson *lesson in self.lessons) {
+        if (lesson.isEditable && !lesson.isShared)
+            continue; // local only, no need to compare to server
+        else if (lesson.isNewerThanServer || lesson.isOlderThanServer)
+            [staleLessons addObject:lesson];
+    }
+
+    for (Lesson *lesson in staleLessons) {
         [self.lessonTransferProgress setObject:[NSNumber numberWithInt:0] forKey:[NSValue valueWithNonretainedObject:lesson]];
         if (progress)
             progress(lesson, [NSNumber numberWithInt:0]);
     }
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager syncLessons:[self.staleLessons allObjects]
+    [networkManager syncLessons:[NSSet setWithArray:staleLessons]
                    withProgress:^(Lesson *NMlesson, NSNumber *NMprogress)
      {
          [self.lessonTransferProgress setObject:NMprogress forKey:[NSValue valueWithNonretainedObject:NMlesson]];
@@ -91,7 +94,6 @@
          if ([NMprogress isEqualToNumber:[NSNumber numberWithInt:1]]) {
              NSLog(@"lessonSetGotProgress: %@", NMprogress);
              [self.lessonTransferProgress removeObjectForKey:[NSValue valueWithNonretainedObject:NMlesson]];
-             [self.staleLessons removeObject:NMlesson];
          }
          if (progress)
              progress(NMlesson, NMprogress);
@@ -108,13 +110,11 @@
     [networkManager syncLessons:[NSArray arrayWithObject:lesson]
                    withProgress:^(Lesson *NMlesson, NSNumber *NMprogress)
      {
-         [self.lessonTransferProgress setObject:NMprogress forKey:[NSValue valueWithNonretainedObject:NMlesson]];
          if ([NMprogress floatValue] < 1.0)
-             [self.staleLessons addObject:NMlesson];
-         if ([NMprogress isEqualToNumber:[NSNumber numberWithInt:1]]) {
+             [self.lessonTransferProgress setObject:NMprogress forKey:[NSValue valueWithNonretainedObject:NMlesson]];
+         else {
              [self.lessonTransferProgress removeObjectForKey:[NSValue valueWithNonretainedObject:NMlesson]];
              [self writeToDisk];
-             [self.staleLessons removeObject:NMlesson];
          }
          if (progress)
              progress(NMlesson, NMprogress);
@@ -139,7 +139,6 @@
     }
     
     // Remove data
-    [self.staleLessons removeObject:lesson];
     [self.lessonTransferProgress removeObjectForKey:lesson];
     [self.lessons removeObject:lesson];
     [self writeToDisk];
@@ -178,6 +177,18 @@
     }
     [self.lessons addObject:lesson];
     [self writeToDisk];
+}
+
+- (NSUInteger)countOfLessonsNeedingSync
+{
+    NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
+    for (Lesson *lesson in self.lessons) {
+        if (lesson.isEditable && !lesson.isShared)
+            continue; // local only, no need to compare to server
+        else if (lesson.isNewerThanServer || lesson.isOlderThanServer)
+            [staleLessons addObject:lesson];
+    }
+    return staleLessons.count;
 }
 
 @end

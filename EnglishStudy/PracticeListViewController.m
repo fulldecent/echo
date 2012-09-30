@@ -26,6 +26,8 @@
 @property (nonatomic) BOOL isCreatingNewWord;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (nonatomic) NSInteger currentWordIndex;
+@property (strong, nonatomic) UIBarButtonItem *refreshButton;
+@property (strong, nonatomic) UIBarButtonItem *loadingButton;
 @end
 
 @implementation PracticeListViewController
@@ -35,11 +37,31 @@
 @synthesize isCreatingNewWord = _isCreatingNewWord;
 @synthesize hud = _hud;
 @synthesize currentWordIndex = _currentWordIndex;
+@synthesize refreshButton = _refreshButton;
+@synthesize loadingButton = _loadingButton;
 
 - (LessonSet *)practiceLessonSet
 {
     if (!_practiceLessonSet) _practiceLessonSet = [LessonSet lessonSetWithName:@"practiceLessons"];
     return _practiceLessonSet;
+}
+
+- (UIBarButtonItem *)refreshButton
+{
+    if (!_refreshButton)
+        _refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload:)];
+    return _refreshButton;
+}
+
+- (UIBarButtonItem *)loadingButton
+{
+    if (!_loadingButton) {
+        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        activityView.hidesWhenStopped = YES;
+        [activityView startAnimating];
+        _loadingButton = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+    }
+    return _loadingButton;
 }
 
 - (void)viewDidLoad
@@ -52,6 +74,12 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationItem.leftBarButtonItem = self.refreshButton;
 }
 
 - (void)viewDidUnload
@@ -77,6 +105,17 @@
         return @"Creating a new practice word will share your voice online for others to give feedback";
     else
         return nil;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section < self.practiceLessonSet.lessons.count) {
+        if ([[self.practiceLessonSet.lessons objectAtIndex:section] words].count == 1) {
+            //return @"No replies yet. Tap share to send to friends.";
+            return @"No replies yet. Try the share button?";
+        }
+    }
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -205,6 +244,7 @@
     [self.tableView reloadData];
     [controller.navigationController popViewControllerAnimated:YES];
     
+    /*
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.delegate = self;
 	self.hud.mode = MBProgressHUDModeDeterminate;
@@ -218,6 +258,17 @@
              [self.tableView reloadData];
          }
      }];
+    */
+    
+    [self.practiceLessonSet syncLesson:self.currentLesson withProgress:^(Lesson *lesson, NSNumber *progress)
+     {
+        NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
+        if (progress.integerValue == 1.0)
+            self.navigationItem.leftBarButtonItem = self.refreshButton;
+     }];
+    NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     self.currentLesson = nil;
 }
@@ -299,17 +350,14 @@
 }
 
 - (IBAction)reload:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Preparing to sync...";
-    
+    self.navigationItem.leftBarButtonItem = self.loadingButton;
     [self.practiceLessonSet markStaleLessonsWithCallback:^
      {
          [self.practiceLessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
              NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
              [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
          }];
-         [hud hide:YES afterDelay:0.5];
+         self.navigationItem.leftBarButtonItem = self.refreshButton;
          [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
      }];
 }

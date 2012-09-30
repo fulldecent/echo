@@ -36,5 +36,6 @@
 - (void)deleteLessonAndStopSharing:(Lesson *)lesson
                          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)addOrUpdateLesson:(Lesson *)lesson;
+- (NSUInteger)countOfLessonsNeedingSync;
 
 @end

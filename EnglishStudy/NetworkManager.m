@@ -47,20 +47,17 @@
     return self;
 }
     
-- (void)whichLessonsAreStale:(NSArray *)lessons
-                   withBlock:(void(^)(NSArray *lessons))block
+- (void)updateServerVersionForLessons:(NSArray *)lessons
+                   onCompletion:(void(^)())block
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
     
     NSMutableArray *lessonIDsToCheck = [[NSMutableArray alloc] init];
     NSMutableArray *lessonIDTimestamps = [[NSMutableArray alloc] init];
-    __block NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
 
     for (Lesson *lesson in lessons) {
-        if ([lesson.lessonID integerValue] == 0) // Didn't finish uploading
-            [staleLessons addObject:lesson];
-        else {
+        if ([lesson.lessonID integerValue] != 0) { // Didn't finish uploading
             [lessonIDsToCheck addObject:lesson.lessonID];
             [lessonIDTimestamps addObject:lesson.version];
         }
@@ -83,32 +80,31 @@
         AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
                                                                                          success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
                                           {
-                                              
                                               for (NSString *lessonIDStr in JSON) {
                                                   NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
                                                   [f setNumberStyle:NSNumberFormatterDecimalStyle];
                                                   NSNumber *lessonID = [f numberFromString:lessonIDStr];
                                                   
                                                   for (Lesson *lesson in lessons) {
-                                                      if ([lesson.lessonID isEqualToNumber:lessonID])
-// a little weird
-                                                          
+                                                      if ([lesson.lessonID isEqualToNumber:lessonID]) // a little weird
                                                           lesson.serverVersion = [JSON objectForKey:lessonIDStr];
-                                                          [staleLessons addObject:lesson];
                                                   }
                                               }
                                               if (block)
-                                                  block(staleLessons);
+                                                  block();
                                           }
-                                          
                                                                                          failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
                                           {
                                               [self hudFlashError:error];
+                                              NSLog(@"updateServerVersionForLessons failed:%@", [error localizedDescription]);
                                               if (block)
-                                                  block(staleLessons);
-                                              NSLog(@"Download lessons failed:%@", [error localizedDescription]);
+                                                  block();
                                           }];
+        
         [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
+    } else {
+        if (block)
+            block();
     }
 }
 
@@ -174,7 +170,7 @@
                                                } onFailure:^(NSError *error) {
                                                    if (failureBlock)
                                                        failureBlock();
-                                               }];
+                                               } onProgress:nil];
                                           }
                                       }
                                                                                      failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
@@ -182,7 +178,6 @@
                                           if (failureBlock)
                                               failureBlock();
                                       }];
-    
     [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
@@ -465,6 +460,7 @@
 - (void)downloadAudioFileID:(NSInteger)fileID
                   onSuccess:(void(^)(NSString *filePath))onSuccess
                   onFailure:(void(^)(NSError *error))onFailure
+                  onProgress:(void(^)(NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))progress
 {
     NSString *tempFilePath;
     NSString *baseName = [NSString stringWithFormat:@"%d", fileID];
@@ -481,12 +477,14 @@
              onSuccess(tempFilePath);
          else
              onFailure(nil);
-#warning <#message#>
-//             onFailure([NSError errorWithDomain:@"net.phor.echo" code:42 userInfo:nil]);
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          onFailure(error);
      }];
-
+    
+    [HTTPop setDownloadProgressBlock:^(NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        if (progress)
+            progress(bytesRead, totalBytesRead, totalBytesExpectedToRead);
+        }];
     [self.HTTPclient enqueueHTTPRequestOperation:HTTPop];
 }
 
@@ -532,8 +530,6 @@
                                       {
                                           if (failure)
                                               failure(error);
-#warning <#message#>
-                                         // NSLog(@"Like failed:%@", [error localizedDescription]);
                                       }];
     [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }

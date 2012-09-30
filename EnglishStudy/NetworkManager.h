@@ -14,8 +14,8 @@
 
 + (NetworkManager *)sharedNetworkManager;
 
-- (void)whichLessonsAreStale:(NSArray *)lessons
-                   withBlock:(void(^)(NSArray *lessons))block;
+- (void)updateServerVersionForLessons:(NSArray *)lessons
+                   onCompletion:(void(^)())block;
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progress;
 - (void)downloadWordWithID:(NSInteger)wordID

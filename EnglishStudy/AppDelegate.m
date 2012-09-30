@@ -10,7 +10,7 @@
 #import "SHKConfiguration.h"
 #import "EchoSHKConfigurator.h"
 #import "SHKFacebook.h"
-
+#import "AFNetworking.h"
 
 @implementation AppDelegate
 
@@ -68,6 +68,8 @@
     // http://www.switchonthecode.com/tutorials/an-absolute-beginners-guide-to-iphone-development
     [_window makeKeyAndVisible];
 
+    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    
     return YES;
 }
 
