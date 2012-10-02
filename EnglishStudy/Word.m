@@ -145,6 +145,11 @@
     }
 }
 
+- (NSString *)nativeDetail
+{
+    return [self.detail objectForKey:self.languageTag];
+}
+
 - (void)setLanguageTag:(NSString *)languageTag
 {
     _languageTag = languageTag;

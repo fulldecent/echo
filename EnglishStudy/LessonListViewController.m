@@ -87,6 +87,32 @@
     return self.lessonSet.lessons.count + 2; // Lessons, "Download lessons", "Create lesson"
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (self.lessonSet.lessons.count == 0)
+        return @"Download lessons and compare the teacher's voice with your own. Using headphone will help you hear more clearly.";
+    else
+        return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (self.lessonSet.lessons.count == 0) {
+        UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"introLessons"]];
+        view.contentMode = UIViewContentModeCenter;
+        return view;
+    } else
+        return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (self.lessonSet.lessons.count == 0)
+        return 278;
+    else
+        return 0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;

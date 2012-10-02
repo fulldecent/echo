@@ -102,7 +102,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (self.practiceLessonSet.lessons.count == 0)
-        return @"Creating a new practice word will share your voice online for others to give feedback";
+        return @"Creating a new practice word will share your voice online for others to give feedback.";
     else
         return nil;
 }
@@ -111,11 +111,32 @@
 {
     if (section < self.practiceLessonSet.lessons.count) {
         if ([[self.practiceLessonSet.lessons objectAtIndex:section] words].count == 1) {
-            //return @"No replies yet. Tap share to send to friends.";
             return @"No replies yet. Try the share button?";
         }
     }
     return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (self.practiceLessonSet.lessons.count == 0) {
+        UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"introPractice"]];
+        view.contentMode = UIViewContentModeCenter;
+        return view;
+    } else
+        return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (self.practiceLessonSet.lessons.count == 0)
+        return 278;
+    else if (section < self.practiceLessonSet.lessons.count) {
+        if ([[self.practiceLessonSet.lessons objectAtIndex:section] words].count == 1) {
+            return 30;
+        }
+    }
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -267,8 +288,9 @@
         if (progress.integerValue == 1.0)
             self.navigationItem.leftBarButtonItem = self.refreshButton;
      }];
-    NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
+    //NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
+    //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
     
     self.currentLesson = nil;
 }

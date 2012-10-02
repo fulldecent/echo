@@ -13,6 +13,7 @@
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
 #import "SHK.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property (nonatomic) int currentWordIndex;
@@ -215,6 +216,49 @@
         return nil;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 0 && self.lesson.userName) {
+        CGRect footerFrame = [tableView rectForFooterInSection:section];
+        UIView *footer = [[UIView alloc] initWithFrame:footerFrame];
+
+        CGRect labelFrame = CGRectMake(40, 10, footerFrame.size.width - 60, footerFrame.size.height - 30);
+        UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];
+        label.text = self.lesson.userName;
+        // Colors and font
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont systemFontOfSize:13];
+        label.shadowColor = [UIColor colorWithWhite:0.8 alpha:0.8];
+        label.textColor = [UIColor blackColor];
+        // Automatic word wrap
+        label.lineBreakMode = UILineBreakModeWordWrap;
+        label.textAlignment = UITextAlignmentCenter;
+        label.numberOfLines = 0;
+        // Autosize
+        [label sizeToFit];
+        // Add the UILabel to the tableview
+        
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 16, 16)];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
+        [image setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+
+        
+        [footer addSubview:label];
+        [footer addSubview:image];
+
+        return footer;
+    } else
+        return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 0 && self.lesson.userName)
+        return 40;
+    else
+        return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     int retval;
@@ -271,6 +315,7 @@
             int index = (self.tableView.editing && !self.editingFromSwipe) ? indexPath.row : indexPath.row-1;
             Word *word = [self.lesson.words objectAtIndex:index];
             cell.textLabel.text = word.name;
+            cell.detailTextLabel.text = word.nativeDetail;
             if ([self.lesson.lessonCode length] == 0)
                 cell.accessoryType = UITableViewCellAccessoryNone;
         }
