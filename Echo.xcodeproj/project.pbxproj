@@ -48,6 +48,10 @@
 		7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDAA16154CAB004EE464 /* UIGlossyButton.m */; };
 		7798DE111619138C004EE464 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE0F1619138C004EE464 /* flag.png */; };
 		7798DE121619138C004EE464 /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE101619138C004EE464 /* flag@2x.png */; };
+		7798DE1516191978004EE464 /* introLessons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1316191978004EE464 /* introLessons.png */; };
+		7798DE1616191978004EE464 /* introLessons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1416191978004EE464 /* introLessons@2x.png */; };
+		7798DE1A16191F68004EE464 /* introPractice.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1916191F68004EE464 /* introPractice.png */; };
+		7798DE1E161A7314004EE464 /* none40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1D161A7314004EE464 /* none40.png */; };
 		779F86841586BBAC00EDD3BA /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */; };
 		779F86851586BBAC00EDD3BA /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */; };
 		779F86881586BFD500EDD3BA /* 37x-BigX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */; };
@@ -215,6 +219,10 @@
 		7798DDAB16154CAB004EE464 /* UIGlossyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIGlossyButton.h; path = Submodules/UIGlossyButton/UIGlossyButton/UIGlossyButton.h; sourceTree = SOURCE_ROOT; };
 		7798DE0F1619138C004EE464 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
 		7798DE101619138C004EE464 /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
+		7798DE1316191978004EE464 /* introLessons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = introLessons.png; sourceTree = "<group>"; };
+		7798DE1416191978004EE464 /* introLessons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "introLessons@2x.png"; sourceTree = "<group>"; };
+		7798DE1916191F68004EE464 /* introPractice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = introPractice.png; sourceTree = "<group>"; };
+		7798DE1D161A7314004EE464 /* none40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = none40.png; sourceTree = "<group>"; };
 		779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-BigX@2x.png"; sourceTree = "<group>"; };
@@ -365,6 +373,7 @@
 				7761D6A015E2E4DB00975F1B /* PracticeListViewController.m */,
 				7761D6A315E2E77E00975F1B /* practiceIcon.png */,
 				7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */,
+				7798DE1916191F68004EE464 /* introPractice.png */,
 			);
 			name = "Practice Mode";
 			sourceTree = "<group>";
@@ -476,6 +485,7 @@
 				77CB51E215683A6D00BBD4FC /* shuffle.png */,
 				77B51386151970B100F041D7 /* Echo-Info.plist */,
 				77B51387151970B100F041D7 /* InfoPlist.strings */,
+				7798DE1D161A7314004EE464 /* none40.png */,
 				77B5138A151970B100F041D7 /* main.m */,
 				7798DE0F1619138C004EE464 /* flag.png */,
 				7798DE101619138C004EE464 /* flag@2x.png */,
@@ -525,6 +535,8 @@
 				7729FEC215294E5900D2180E /* echo@2x.png */,
 				77A50BE2157C59BE00027CB1 /* Checkbox checked.png */,
 				77BBFE15157C3BF100511CEC /* Checkbox empty.png */,
+				7798DE1316191978004EE464 /* introLessons.png */,
+				7798DE1416191978004EE464 /* introLessons@2x.png */,
 			);
 			name = "Lesson Mode";
 			sourceTree = "<group>";
@@ -714,6 +726,10 @@
 				77B9BC45160AC28500931E92 /* Default-568h@2x.png in Resources */,
 				7798DE111619138C004EE464 /* flag.png in Resources */,
 				7798DE121619138C004EE464 /* flag@2x.png in Resources */,
+				7798DE1516191978004EE464 /* introLessons.png in Resources */,
+				7798DE1616191978004EE464 /* introLessons@2x.png in Resources */,
+				7798DE1A16191F68004EE464 /* introPractice.png in Resources */,
+				7798DE1E161A7314004EE464 /* none40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

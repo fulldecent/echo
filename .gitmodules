@@ -1,3 +1,12 @@
 [submodule "Submodules/ShareKit"]
 	path = Submodules/ShareKit
 	url = git://github.com/ShareKit/ShareKit.git
+[submodule "Submodules/FDTake"]
+	path = Submodules/FDTake
+	url = https://github.com/fulldecent/FDTake.git
+[submodule "Submodules/MBProgressHUD"]
+	path = Submodules/MBProgressHUD
+	url = https://github.com/matej/MBProgressHUD.git
+[submodule "Submodules/UIGlossyButton"]
+	path = Submodules/UIGlossyButton
+	url = https://github.com/waterlou/UIGlossyButton.git
