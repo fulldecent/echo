@@ -384,6 +384,15 @@
      }];
 }
 
+- (void)updateBadgeCount
+{
+    [self.practiceLessonSet markStaleLessonsWithCallback:^
+     {
+         NSString *badge = self.practiceLessonSet.countOfLessonsNeedingSync ? [NSString stringWithFormat:@"%d", self.practiceLessonSet.countOfLessonsNeedingSync] : nil;
+         self.navigationController.tabBarItem.badgeValue = badge;
+     }];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

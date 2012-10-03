@@ -323,6 +323,15 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
      }];
 }
 
+- (void)updateBadgeCount
+{
+    [self.lessonSet markStaleLessonsWithCallback:^
+     {
+         NSString *badge = self.lessonSet.countOfLessonsNeedingSync ? [NSString stringWithFormat:@"%d", self.lessonSet.countOfLessonsNeedingSync] : nil;
+         self.navigationController.tabBarItem.badgeValue = badge;
+     }];
+}
+
 #pragma mark - LessonViewDelegate
 
 - (void)lessonView:(LessonViewController *)controller didSaveLesson:(Lesson *)lesson

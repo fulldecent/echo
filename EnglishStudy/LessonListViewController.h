@@ -15,4 +15,5 @@
 @interface LessonListViewController : UITableViewController <GetLessonsViewControllerDelegate, LanguageSelectControllerDelegate>
 - (IBAction)reload:(UIBarButtonItem *)sender;
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name;
+- (void)updateBadgeCount;
 @end

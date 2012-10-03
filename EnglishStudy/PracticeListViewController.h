@@ -11,5 +11,5 @@
 @interface PracticeListViewController : UITableViewController
 - (IBAction)reload:(id)sender;
 - (IBAction)sendToFriendPressed:(UIButton *)sender;
-
+- (void)updateBadgeCount;
 @end
