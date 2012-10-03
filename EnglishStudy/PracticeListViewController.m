@@ -221,16 +221,29 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Lesson *lesson = [self.practiceLessonSet.lessons objectAtIndex:indexPath.section];
-    if (lesson.isShared) {
-        [self.practiceLessonSet deleteLessonAndStopSharing:lesson onSuccess:^{
+    if (indexPath.row == 0) {
+        if (lesson.isShared) {
+            [self.practiceLessonSet deleteLessonAndStopSharing:lesson onSuccess:^{
+                [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } onFailure:^(NSError *error) {
+            }];
+        } else {
+            [self.practiceLessonSet.lessons removeObjectAtIndex:indexPath.section];
+            [self.practiceLessonSet writeToDisk];
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } onFailure:^(NSError *error) {
-        }];
-    } else {
-        [self.practiceLessonSet.lessons removeObjectAtIndex:indexPath.section];
-        [self.practiceLessonSet writeToDisk];
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
+    } else {
+        NSMutableArray *words = [lesson.words mutableCopy];
+        NSUInteger index = indexPath.row;
+        [self.tableView beginUpdates];
+        [words removeObjectAtIndex:index];
+        lesson.words = [words copy];
+        lesson.version = [NSNumber numberWithInt:[lesson.serverVersion integerValue] + 1];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+        [lesson removeStaleFiles];
+        [self reload:nil];
+    }
 }
 
 #pragma mark -
@@ -346,7 +359,6 @@
     if (self.currentWordIndex == self.currentLesson.words.count)
         self.currentWordIndex = 1; // skip request word
 }
-
 
 - (IBAction)sendToFriendPressed:(UIButton *)sender {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender.superview.superview];
