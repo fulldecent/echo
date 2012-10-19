@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 - (IBAction)echoButtonPressed:(id)sender;
 - (IBAction)echoButtonReset:(id)sender;
+- (IBAction)resetButtonPressed:(UIButton *)sender;
 - (IBAction)validate;
 - (IBAction)updateName:(id)sender;
 - (IBAction)updateDetail:(id)sender;

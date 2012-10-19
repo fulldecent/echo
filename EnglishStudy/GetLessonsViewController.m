@@ -34,6 +34,7 @@
     NSMutableString *url = [[SERVER_IPHONELESSON_BASE_URL stringByAppendingPathComponent:[defaults objectForKey:@"learningLanguageTag"]] mutableCopy];
     [url appendFormat:@"?nativeLanguageTag=%@", [defaults objectForKey:@"nativeLanguageTag"]];
     [url appendFormat:@"&userCode=%@", [defaults objectForKey:@"userGUID"]];
+    [url appendFormat:@"&locale=%@", [[NSLocale preferredLanguages] objectAtIndex:0]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
 }

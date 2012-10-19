@@ -65,6 +65,14 @@
 {
     self.navigationItem.leftBarButtonItem = self.refreshButton;
     self.currentLesson = nil;
+        
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdateLessonList"];
+    if (!lastUpdateLessonList || [lastUpdateLessonList timeIntervalSinceNow] < -5*60) {
+        NSLog(@"Auto-update lesson list %f", [lastUpdateLessonList timeIntervalSinceNow]);
+        [self reload:nil];
+    }
+    
     [super viewWillAppear:YES];
 }
 
@@ -90,7 +98,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (self.lessonSet.lessons.count == 0)
-        return @"Download lessons and compare the teacher's voice with your own. Using headphone will help you hear more clearly.";
+        return @"Download lessons and compare the teacher's voice with your own. Using headphones will help you hear more clearly.";
     else
         return nil;
 }
@@ -145,7 +153,7 @@
                 }
                 NSAssert(![[self.lessonSet transferProgressForLesson:lesson] isEqualToNumber:[NSNumber numberWithInt:1]], @"cant = 1");
             } else {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"lesson"];
+                cell = [tableView dequeueReusableCellWithIdentifier:@"lessonWithIcon"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 if (lesson.name)
                     [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
@@ -166,15 +174,19 @@
                         line2 = [NSString stringWithFormat:@"%@ – not shared", [Languages nativeDescriptionForLanguage:[lesson languageTag]]];
                     }
                     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                    
+                    UIImageView *image = (UIImageView *)[cell viewWithTag:3];
+                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/api/1.0/users/%@/photo",deviceUUID]];
+                    [image setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
                 } else { // WAS CREATED BY ANOTHER USER
                     if (lesson.isUsable) {
                         if (lesson.isOlderThanServer) {
-                            line2 = [NSString stringWithFormat:@"%@ – lesson by %@ – update available",
-                                     [Languages nativeDescriptionForLanguage:[lesson languageTag]],
+                            line2 = [NSString stringWithFormat:@"%@ [update available]",
                                      lesson.userName];
                         } else {
-                            line2 = [NSString stringWithFormat:@"%@ – lesson by %@",
-                                     [Languages nativeDescriptionForLanguage:[lesson languageTag]],
+                            line2 = [NSString stringWithFormat:@"%@",
                                      lesson.userName];
                         }
                     } else {
@@ -182,6 +194,10 @@
                                  [Languages nativeDescriptionForLanguage:[lesson languageTag]]];
                         cell.accessoryType = UITableViewCellAccessoryNone;
                     }
+                    
+                    UIImageView *image = (UIImageView *)[cell viewWithTag:3];
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",lesson.userID]];
+                    [image setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
                 }
                 [(UILabel *)[cell viewWithTag:2] setText:line2];
             }
@@ -320,6 +336,10 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
          }];
          [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
          self.navigationItem.leftBarButtonItem = self.refreshButton;
+         
+         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+         [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
+         [defaults synchronize];
      }];
 }
 

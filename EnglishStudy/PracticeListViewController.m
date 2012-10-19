@@ -14,6 +14,7 @@
 #import "UIGlossyButton.h"
 #import "SHK.h"
 #import "Languages.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface PracticeListViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, WordPracticeDataSource>
 - (void)wordDetailController:(WordDetailController *)controller didSaveWord:(Word *)word;
@@ -80,6 +81,13 @@
 {
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem = self.refreshButton;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdatePracticeList"];
+    if (!lastUpdateLessonList || [lastUpdateLessonList timeIntervalSinceNow] < -5*60) {
+        [self reload:nil];
+        NSLog(@"Auto-update practice list %f", [lastUpdateLessonList timeIntervalSinceNow]);
+    }
 }
 
 - (void)viewDidUnload
@@ -180,9 +188,12 @@
         [b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
         b.tintColor = [UIColor lightGrayColor];
     } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"subtitle"];
-        cell.textLabel.text = word.name;
-        cell.detailTextLabel.text = word.userName;
+        cell = [tableView dequeueReusableCellWithIdentifier:@"lessonWithIcon"];
+        [(UILabel *)[cell viewWithTag:1] setText:word.name];
+        [(UILabel *)[cell viewWithTag:2] setText:word.userName];
+        UIImageView *image = (UIImageView *)[cell viewWithTag:3];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",word.userID]];
+        [image setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
     }
 
     return cell;
@@ -210,7 +221,10 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UITableViewCellEditingStyleDelete;
+    if (indexPath.section < self.practiceLessonSet.lessons.count)
+        return UITableViewCellEditingStyleDelete;
+    else
+        return UITableViewCellEditingStyleNone;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -298,8 +312,8 @@
      {
         NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
-        if (progress.integerValue == 1.0)
-            self.navigationItem.leftBarButtonItem = self.refreshButton;
+         if (progress.integerValue == 1.0)
+             self.navigationItem.leftBarButtonItem = self.refreshButton;
      }];
     //NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
     //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -393,6 +407,10 @@
          }];
          self.navigationItem.leftBarButtonItem = self.refreshButton;
          [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+         
+         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+         [defaults setObject:[NSDate date] forKey:@"lastUpdatePracticeList"];
+         [defaults synchronize];
      }];
 }
 

@@ -37,15 +37,25 @@
     [url appendFormat:@"?native=%@", [defaults objectForKey:@"nativeLanguageTag"]];
     [url appendFormat:@"&userCode=%@", [defaults objectForKey:@"userGUID"]];
     [url appendFormat:@"&learning=%@", [defaults objectForKey:@"learningLanguageTag"]];
+    [url appendFormat:@"&locale=%@", [[NSLocale preferredLanguages] objectAtIndex:0]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
+    
+    [defaults setObject:[NSDate date] forKey:@"lastUpdateSocial"];
+    [defaults synchronize];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
-    [self loadPage];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdateSocial"];
+    if (!lastUpdateLessonList || [lastUpdateLessonList timeIntervalSinceNow] < -15) {
+        [self loadPage];
+        NSLog(@"Auto-update social %f", [lastUpdateLessonList timeIntervalSinceNow]);
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

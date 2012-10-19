@@ -22,12 +22,10 @@
 
 @interface WordDetailController () <LanguageSelectControllerDelegate, WordDetailControllerDelegate, MBProgressHUDDelegate>
 // Outlets for UI elements
-@property (strong, nonatomic) UILabel *languageLabel;
 @property (strong, nonatomic) UILabel *wordLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
-
 @property (strong, nonatomic) NSMutableDictionary *echoRecordButtons;
-@property (strong, nonatomic) NSMutableDictionary *echoCheckboxes;
+@property (strong, nonatomic) NSMutableDictionary *resetButtons;
 
 // Model
 @property (strong, nonatomic) NSString *editingLanguageTag;
@@ -41,12 +39,11 @@
 
 @implementation WordDetailController 
 @synthesize actionButton;
-@synthesize languageLabel;
 @synthesize wordLabel;
 @synthesize detailLabel;
 @synthesize echoRecorders = _echoRecorders;
-@synthesize echoCheckboxes = _echoCheckboxes;
 @synthesize echoRecordButtons = _echoRecordButtons;
+@synthesize resetButtons = _resetButtons;
 @synthesize editingLanguageTag = _editingLanguageTag;
 @synthesize word = _word;
 @synthesize delegate = _delegate;
@@ -92,10 +89,10 @@
     return _echoRecordButtons;
 }
 
-- (NSMutableDictionary *)echoCheckboxes
+- (NSMutableDictionary *)resetButtons
 {
-    if (!_echoCheckboxes) _echoCheckboxes = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
-    return _echoCheckboxes;
+    if (!_resetButtons) _resetButtons = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
+    return _resetButtons;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -185,12 +182,9 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     UIColor *goodColor = [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
     UIColor *badColor = [UIColor redColor];
     
-    if (self.editingLanguageTag.length)
-        self.languageLabel.textColor = goodColor;
-    else {
-        self.languageLabel.textColor = badColor;
+
+    if (!self.editingLanguageTag.length)
         valid = NO;
-    }
     
     if (self.editingName.length)
         self.wordLabel.textColor = goodColor;
@@ -202,32 +196,43 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
         PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
         PHOREchoRecordButton *button = [self.echoRecordButtons objectForKey:[NSNumber numberWithInt:i]];
-        UIImageView *checkbox = [self.echoCheckboxes objectForKey:[NSNumber numberWithInt:i]];
         
         if (recorder.duration) {
             button.state = PHORRecordButtonStatePlayback;
-            [checkbox setImage:[UIImage imageNamed:@"Checkbox checked"]];
         } else {
             if (button.state != PHORRecordButtonStateRecord) // if statement prevents deadlock with observeValue:
                 button.state = PHORRecordButtonStateRecord;
-            [checkbox setImage:[UIImage imageNamed:@"Checkbox empty"]];
             valid = NO;
         }
     }
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     
     self.actionButton.enabled = valid;
 }
 
-- (IBAction)updateName:(UITextField *)sender {
+- (IBAction)updateName:(UITextField *)sender
+{
     self.editingName = sender.text;
     self.title = sender.text;
-    for (PHOREchoRecordButton *button in [self.echoRecordButtons allValues])
-        [button setTitle:sender.text forState:UIControlStateNormal];
+//    for (PHOREchoRecordButton *button in [self.echoRecordButtons allValues])
+//        [button setTitle:sender.text forState:UIControlStateNormal];
     [self validate];
 }
 
-- (IBAction)updateDetail:(UITextField *)sender {
+- (IBAction)updateDetail:(UITextField *)sender
+{
     [self.editingDetail setObject:sender.text forKey:self.editingLanguageTag];
+    [self validate];
+}
+
+- (IBAction)resetButtonPressed:(UIButton *)sender
+{
+    NSNumber *echoIndex;
+    echoIndex = [[self.resetButtons allKeysForObject:sender] objectAtIndex:0];
+    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
+    PHOREchoRecordButton *button = [self.echoRecordButtons objectForKey:echoIndex];
+    [recorder reset];
+    [button setValue:PHORRecordButtonStateRecord];
     [self validate];
 }
 
@@ -277,7 +282,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     
     //Activate the customized audio session
     [[AVAudioSession sharedInstance] setActive: YES error: &activationErr];
-
 }
 
 - (void)viewDidLoad
@@ -328,14 +332,14 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-        return 2;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) { // Language, Word, Detail
         return 2;
-    } else { // (section == 1) // Three recorders -OR- the help text
+    } else {
         return NUMBER_OF_RECORDERS;
     }
 }
@@ -358,7 +362,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) { // Word
-            //self.wordText = nil;
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             self.wordLabel = (UILabel *)[cell viewWithTag:1];
             self.wordLabel.text = @"Word";
@@ -367,7 +370,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
         } else if (indexPath.row == 1) { // Detail
-            //self.detailText = nil;
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
             self.detailLabel = (UILabel *)[cell viewWithTag:1];
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
@@ -381,37 +383,32 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         cell = [tableView dequeueReusableCellWithIdentifier:@"record"];
         UIImageView *checkbox = (UIImageView *)[cell viewWithTag:1];
         PHOREchoRecordButton *button = (PHOREchoRecordButton *)[cell viewWithTag:2];
+        UIButton *resetButton = (UIButton *)[cell viewWithTag:3];
         PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:indexPath.row]];
-        [self.echoCheckboxes setObject:checkbox forKey:[NSNumber numberWithInt:indexPath.row]];
         [self.echoRecordButtons setObject:button forKey:[NSNumber numberWithInt:indexPath.row]];
-        
-        UIGlossyButton *b = (UIGlossyButton*)button;
-        b.tintColor = [UIColor grayColor];
-        [b useWhiteLabel: YES];
-        b.backgroundOpacity = 0.7;
-        b.innerBorderWidth = 5.0f;
-        b.buttonBorderWidth = 0.0f;
-        b.buttonCornerRadius = 12.0f;
-        [b setGradientType: kUIGlossyButtonGradientTypeSolid];
-        [b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
+        [self.resetButtons setObject:resetButton forKey:[NSNumber numberWithInt:indexPath.row]];
         
         if (![self.delegate wordDetailController:self canEditWord:self.word]) {
             button.state = PHORRecordButtonStatePlaybackOnly;
             checkbox.hidden = YES;
+            
+            [(UIButton *)[cell viewWithTag:3] setHidden:YES];
         } else if (recorder.duration) {
             button.state = PHORRecordButtonStatePlayback;
             [checkbox setImage:[UIImage imageNamed:@"Checkbox checked"]];
+            
+            [(UIButton *)[cell viewWithTag:3] setEnabled:YES];
+            [(UIButton *)[cell viewWithTag:3] setImage:[UIImage imageNamed:@"Checkbox checked"] forState:UIControlStateNormal];
         } else {
             if (button.state != PHORRecordButtonStateRecord) // if statement prevents deadlock with observeValue:
                 button.state = PHORRecordButtonStateRecord;
             [checkbox setImage:[UIImage imageNamed:@"Checkbox empty"]];
+            
+            [(UIButton *)[cell viewWithTag:3] setImage:[UIImage imageNamed:@"Checkbox empty"] forState:UIControlStateNormal];
+            [(UIButton *)[cell viewWithTag:3] setEnabled:NO];
         }
         
-        if (self.word.name)
-            [button setTitle:self.word.name forState:UIControlStateNormal];
-        
-        [button addTarget:self action:@selector(echoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [button addTarget:self action:@selector(echoButtonReset:) forControlEvents:UIControlEventValueChanged];
+        [button setTitle:self.editingName forState:UIControlStateNormal];
     }
     return cell;
 }
@@ -453,6 +450,10 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    [textField resignFirstResponder];
+}
+
 #pragma mark - PHOR Echo Recorder Delegate
 
 - (void)recording:(id)recorder didFinishSuccessfully:(BOOL)success
@@ -487,7 +488,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     [networkManager uploadWord:word withFilesAtPath:NSTemporaryDirectory() inReplyToWord:self.word withProgress:^(NSNumber *PGprogress) {
         self.hud.progress = PGprogress.floatValue;
         if (PGprogress.floatValue == 1) {
-            [self.hud hide:YES];
+            [self.hud hide:YES afterDelay:0.5];
             // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
             dispatch_async(dispatch_get_main_queue(), ^{
                 [controller.navigationController popToRootViewControllerAnimated:YES];
