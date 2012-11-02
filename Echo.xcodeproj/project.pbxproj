@@ -43,7 +43,6 @@
 		7761D6A515E2E77E00975F1B /* practiceIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A315E2E77E00975F1B /* practiceIcon.png */; };
 		7761D6A615E2E77E00975F1B /* practiceIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */; };
 		777667C21569F41C0099996B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777667C11569F41C0099996B /* AudioToolbox.framework */; };
-		7798DDA616154974004EE464 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDA516154974004EE464 /* FDTakeController.m */; };
 		7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDA716154BDA004EE464 /* MBProgressHUD.m */; };
 		7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDAA16154CAB004EE464 /* UIGlossyButton.m */; };
 		7798DE111619138C004EE464 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE0F1619138C004EE464 /* flag.png */; };
@@ -52,6 +51,10 @@
 		7798DE1616191978004EE464 /* introLessons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1416191978004EE464 /* introLessons@2x.png */; };
 		7798DE1A16191F68004EE464 /* introPractice.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1916191F68004EE464 /* introPractice.png */; };
 		7798DE1E161A7314004EE464 /* none40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1D161A7314004EE464 /* none40.png */; };
+		779921E2164218DB005DFB07 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 779921D0164218DB005DFB07 /* FDTake.strings */; };
+		779921E3164218DB005DFB07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 779921D2164218DB005DFB07 /* InfoPlist.strings */; };
+		779921E7164218DB005DFB07 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779921DB164218DB005DFB07 /* FDTakeController.m */; };
+		779921ED16421F01005DFB07 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 779921EF16421F01005DFB07 /* Localizable.strings */; };
 		779F86841586BBAC00EDD3BA /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */; };
 		779F86851586BBAC00EDD3BA /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */; };
 		779F86881586BFD500EDD3BA /* 37x-BigX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */; };
@@ -159,6 +162,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		770715201641E5BD00C9A9AD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard_iPhone.storyboard"; sourceTree = "<group>"; };
+		770715221641E5BD00C9A9AD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		7729FEBD15294D1C00D2180E /* ear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ear.png; sourceTree = "<group>"; };
 		7729FEBE15294D1C00D2180E /* ear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ear@2x.png"; sourceTree = "<group>"; };
 		7729FEC115294E5900D2180E /* echo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = echo.png; sourceTree = "<group>"; };
@@ -211,8 +216,6 @@
 		7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "practiceIcon@2x.png"; sourceTree = "<group>"; };
 		777667C11569F41C0099996B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7789051816113FED00506873 /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = Submodules/ShareKit/ShareKit.xcodeproj; sourceTree = "<group>"; };
-		7798DD9F16154849004EE464 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FDTakeController.h; path = Submodules/FDTake/FDTakeExample/FDTakeController.h; sourceTree = SOURCE_ROOT; };
-		7798DDA516154974004EE464 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FDTakeController.m; path = ../../FDTakeExample/FDTakeExample/FDTakeController.m; sourceTree = "<group>"; };
 		7798DDA716154BDA004EE464 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Submodules/MBProgressHUD/MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
 		7798DDA816154BDA004EE464 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Submodules/MBProgressHUD/MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		7798DDAA16154CAB004EE464 /* UIGlossyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIGlossyButton.m; path = Submodules/UIGlossyButton/UIGlossyButton/UIGlossyButton.m; sourceTree = SOURCE_ROOT; };
@@ -223,6 +226,13 @@
 		7798DE1416191978004EE464 /* introLessons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "introLessons@2x.png"; sourceTree = "<group>"; };
 		7798DE1916191F68004EE464 /* introPractice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = introPractice.png; sourceTree = "<group>"; };
 		7798DE1D161A7314004EE464 /* none40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = none40.png; sourceTree = "<group>"; };
+		779921D1164218DB005DFB07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
+		779921D3164218DB005DFB07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		779921DA164218DB005DFB07 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
+		779921DB164218DB005DFB07 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
+		779921E1164218DB005DFB07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTake.strings"; sourceTree = "<group>"; };
+		779921EE16421F01005DFB07 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		779921F016421F05005DFB07 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-BigX@2x.png"; sourceTree = "<group>"; };
@@ -389,6 +399,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		779921CF164218DB005DFB07 /* FDTakeExample */ = {
+			isa = PBXGroup;
+			children = (
+				779921D0164218DB005DFB07 /* FDTake.strings */,
+				779921D2164218DB005DFB07 /* InfoPlist.strings */,
+				779921DA164218DB005DFB07 /* FDTakeController.h */,
+				779921DB164218DB005DFB07 /* FDTakeController.m */,
+			);
+			name = FDTakeExample;
+			path = Submodules/FDTake/FDTakeExample;
+			sourceTree = SOURCE_ROOT;
+		};
 		77A50BE4157EEB2B00027CB1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,6 +486,7 @@
 		77B51385151970B100F041D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				779921EF16421F01005DFB07 /* Localizable.strings */,
 				77B9BC44160AC28500931E92 /* Default-568h@2x.png */,
 				77F4A16715F5460700D6189B /* Default-Landscape@2x~ipad.png */,
 				77F4A16515F5460200D6189B /* Default-Landscape~ipad.png */,
@@ -555,8 +578,7 @@
 		77DDC70E156DD81F00568CDE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7798DD9F16154849004EE464 /* FDTakeController.h */,
-				7798DDA516154974004EE464 /* FDTakeController.m */,
+				779921CF164218DB005DFB07 /* FDTakeExample */,
 				7798DDA716154BDA004EE464 /* MBProgressHUD.m */,
 				7798DDA816154BDA004EE464 /* MBProgressHUD.h */,
 				7798DDAB16154CAB004EE464 /* UIGlossyButton.h */,
@@ -623,6 +645,7 @@
 			knownRegions = (
 				en,
 				de,
+				"zh-Hans",
 			);
 			mainGroup = 77B5136F151970B100F041D7;
 			productRefGroup = 77B5137B151970B100F041D7 /* Products */;
@@ -730,6 +753,9 @@
 				7798DE1616191978004EE464 /* introLessons@2x.png in Resources */,
 				7798DE1A16191F68004EE464 /* introPractice.png in Resources */,
 				7798DE1E161A7314004EE464 /* none40.png in Resources */,
+				779921E2164218DB005DFB07 /* FDTake.strings in Resources */,
+				779921E3164218DB005DFB07 /* InfoPlist.strings in Resources */,
+				779921ED16421F01005DFB07 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,9 +798,9 @@
 				774CDA5215D0B08100B14C45 /* EchoSHKConfigurator.m in Sources */,
 				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
 				7761D6A115E2E4DB00975F1B /* PracticeListViewController.m in Sources */,
-				7798DDA616154974004EE464 /* FDTakeController.m in Sources */,
 				7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */,
 				7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */,
+				779921E7164218DB005DFB07 /* FDTakeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,10 +820,37 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		779921D0164218DB005DFB07 /* FDTake.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				779921D1164218DB005DFB07 /* en */,
+				779921E1164218DB005DFB07 /* zh-Hans */,
+			);
+			name = FDTake.strings;
+			sourceTree = "<group>";
+		};
+		779921D2164218DB005DFB07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				779921D3164218DB005DFB07 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		779921EF16421F01005DFB07 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				779921EE16421F01005DFB07 /* en */,
+				779921F016421F05005DFB07 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		77B51387151970B100F041D7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				77B51388151970B100F041D7 /* en */,
+				770715221641E5BD00C9A9AD /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -806,6 +859,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				77B51391151970B100F041D7 /* en */,
+				770715201641E5BD00C9A9AD /* zh-Hans */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";

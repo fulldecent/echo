@@ -44,7 +44,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"Choose a language";
+    return NSLocalizedString(@"chooseLanguage", @"Prompt for selection of language");
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

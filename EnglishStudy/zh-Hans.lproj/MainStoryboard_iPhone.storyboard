@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="nonLocalizable" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
@@ -21,7 +21,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="LANGUAGE" id="n7v-gA-Vg3">
-                        <barButtonItem key="rightBarButtonItem" title="Language" id="RgS-xH-1Yu">
+                        <barButtonItem key="rightBarButtonItem" title="选语言" id="RgS-xH-1Yu">
                             <connections>
                                 <segue destination="BTL-qk-7lt" kind="modal" identifier="language" id="Nze-Rb-vjG"/>
                             </connections>
@@ -35,7 +35,7 @@
             </objects>
             <point key="canvasLocation" x="1732" y="-641"/>
         </scene>
-        <!--Lesson List View Controller - Lessons-->
+        <!--Lesson List View Controller - 课文-->
         <scene sceneID="JKk-st-F67">
             <objects>
                 <tableViewController id="PrM-dY-0bG" customClass="LessonListViewController" sceneMemberID="viewController">
@@ -105,7 +105,7 @@
                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Download lesson" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kHx-Nq-H59">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="下载课文" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kHx-Nq-H59">
                                             <rect key="frame" x="10" y="0.0" width="260" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -126,7 +126,7 @@
                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Create lesson" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Yh-Kv-OJP">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="做一门课" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Yh-Kv-OJP">
                                             <rect key="frame" x="10" y="0.0" width="260" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -197,7 +197,7 @@
                             <outlet property="delegate" destination="PrM-dY-0bG" id="rjH-3u-mu4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Lessons" id="n3E-Le-GIA">
+                    <navigationItem key="navigationItem" title="课文" id="n3E-Le-GIA">
                         <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="dwN-wu-5ib">
                             <connections>
                                 <action selector="reload:" destination="PrM-dY-0bG" id="zHL-kM-QdJ"/>
@@ -214,7 +214,7 @@
             </objects>
             <point key="canvasLocation" x="1131" y="533"/>
         </scene>
-        <!--Practice List View Controller - Practice-->
+        <!--Practice List View Controller - 复习-->
         <scene sceneID="LhM-Dn-IOY">
             <objects>
                 <tableViewController id="Wzb-E4-bgB" customClass="PracticeListViewController" sceneMemberID="viewController">
@@ -325,7 +325,7 @@
                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Practice a new word" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sbe-Hp-hjL">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="复习生词" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sbe-Hp-hjL">
                                             <rect key="frame" x="10" y="0.0" width="260" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -374,7 +374,7 @@
                             <outlet property="delegate" destination="Wzb-E4-bgB" id="VEK-mk-J66"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Practice" id="97D-zq-Hle">
+                    <navigationItem key="navigationItem" title="复习" id="97D-zq-Hle">
                         <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="soY-zG-apP">
                             <connections>
                                 <action selector="reload:" destination="Wzb-E4-bgB" id="Qnh-v8-4T6"/>
@@ -407,7 +407,7 @@
                                     <rect key="frame" x="10" y="1" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="Language" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M0R-9b-xwS">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="语言" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M0R-9b-xwS">
                                             <rect key="frame" x="10" y="15" width="67" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -432,7 +432,7 @@
                                     <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="Word" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iqh-Ss-yAN">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="词名" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iqh-Ss-yAN">
                                             <rect key="frame" x="10" y="15" width="67" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -720,7 +720,7 @@
                                     <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="Shared" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5qE-WX-h6D">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="已分享" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5qE-WX-h6D">
                                             <rect key="frame" x="9" y="11" width="280" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -738,7 +738,7 @@
                                     <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="Not shared" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qd2-kC-8Nd">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="还没分享" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qd2-kC-8Nd">
                                             <rect key="frame" x="9" y="11" width="280" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -746,10 +746,10 @@
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aXn-78-ON4">
-                                            <rect key="frame" x="199" y="3" width="90" height="37"/>
+                                            <rect key="frame" x="199" y="-1" width="90" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Share">
+                                            <state key="normal" title="分享">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -771,7 +771,7 @@
                                     <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Shuffle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p2y-m8-TPY">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="洗" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p2y-m8-TPY">
                                             <rect key="frame" x="45" y="0.0" width="245" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -818,7 +818,7 @@
                                     <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Add a word" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Xl-4W-htK">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="加一个词" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Xl-4W-htK">
                                             <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -1053,11 +1053,11 @@
             </objects>
             <point key="canvasLocation" x="180" y="837"/>
         </scene>
-        <!--Navigation Controller - Lessons-->
+        <!--Navigation Controller - 课文-->
         <scene sceneID="nra-Tb-mfb">
             <objects>
                 <navigationController id="E6m-xF-fPj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Lessons" image="echo.png" id="cx3-rf-jcR"/>
+                    <tabBarItem key="tabBarItem" title="课文" image="echo.png" id="cx3-rf-jcR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="RpC-xX-AJD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1072,7 +1072,7 @@
             </objects>
             <point key="canvasLocation" x="687" y="533"/>
         </scene>
-        <!--Social View Controller - Social-->
+        <!--Social View Controller - 看周边-->
         <scene sceneID="Z2S-nl-AnG">
             <objects>
                 <viewController id="K2Y-ce-bme" customClass="SocialViewController" sceneMemberID="viewController">
@@ -1088,7 +1088,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Social" id="gnT-BP-nu7">
+                    <navigationItem key="navigationItem" title="看周边" id="gnT-BP-nu7">
                         <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="orG-hd-rhy">
                             <connections>
                                 <action selector="loadPage" destination="K2Y-ce-bme" id="Wli-Al-M6l"/>
@@ -1103,11 +1103,11 @@
             </objects>
             <point key="canvasLocation" x="1221" y="1828"/>
         </scene>
-        <!--Navigation Controller - Social-->
+        <!--Navigation Controller - 看周边-->
         <scene sceneID="5fP-ek-duL">
             <objects>
                 <navigationController id="xxv-Pl-7vG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Social" image="social.png" id="g7E-cQ-q41"/>
+                    <tabBarItem key="tabBarItem" title="看周边" image="social.png" id="g7E-cQ-q41"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gjz-Zw-gbB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1142,7 +1142,7 @@
                                     <rect key="frame" x="10" y="1" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="Name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZkI-CC-fLT">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="词名" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZkI-CC-fLT">
                                             <rect key="frame" x="8" y="15" width="69" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -1196,7 +1196,7 @@
                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Add another language" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="as9-ai-pcA">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="多加一个语言的细节" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="as9-ai-pcA">
                                             <rect key="frame" x="10" y="0.0" width="260" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -1228,11 +1228,11 @@
             </objects>
             <point key="canvasLocation" x="1797" y="57"/>
         </scene>
-        <!--Navigation Controller - Practice-->
+        <!--Navigation Controller - 复习-->
         <scene sceneID="5Qs-4O-yUH">
             <objects>
                 <navigationController id="ScY-dQ-yhs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Practice" image="practiceIcon.png" id="hnJ-ZU-LOG"/>
+                    <tabBarItem key="tabBarItem" title="复习" image="practiceIcon.png" id="hnJ-ZU-LOG"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gkk-QX-eCU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1263,15 +1263,99 @@
         <image name="speaker icon.png" width="64" height="64"/>
         <image name="staron.png" width="20" height="20"/>
     </resources>
+    <classes>
+        <class className="GetLessonsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GetLessonsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="LanguageSelectController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LanguageSelectController.h"/>
+        </class>
+        <class className="LessonInformationViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LessonInformationViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="action" name="updateDetail:" candidateClass="UITextField"/>
+                <relationship kind="action" name="updateName:" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="LessonListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LessonListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="reload:" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="LessonViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LessonViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="flagPressed:"/>
+                <relationship kind="action" name="likePressed:"/>
+                <relationship kind="action" name="messagePressed:"/>
+                <relationship kind="action" name="sendToFriendPressed:"/>
+                <relationship kind="action" name="share:"/>
+            </relationships>
+        </class>
+        <class className="PHOREchoRecordButton" superclassName="UIGlossyButton">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PHOREchoRecordButton.h"/>
+        </class>
+        <class className="PracticeListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PracticeListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="reload:"/>
+                <relationship kind="action" name="sendToFriendPressed:" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="SocialViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SocialViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="loadPage"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="UIGlossyButton" superclassName="UIButton">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIGlossyButton.h"/>
+        </class>
+        <class className="WordDetailController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WordDetailController.h"/>
+            <relationships>
+                <relationship kind="action" name="echoButtonPressed:"/>
+                <relationship kind="action" name="echoButtonReset:"/>
+                <relationship kind="action" name="resetButtonPressed:" candidateClass="UIButton"/>
+                <relationship kind="action" name="save"/>
+                <relationship kind="action" name="updateDetail:"/>
+                <relationship kind="action" name="updateName:"/>
+                <relationship kind="action" name="validate"/>
+                <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="WordPracticeController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WordPracticeController.h"/>
+            <relationships>
+                <relationship kind="action" name="continueNextWorkflowStep:"/>
+                <relationship kind="action" name="echoButtonPressed"/>
+                <relationship kind="action" name="echoButtonReset:"/>
+                <relationship kind="action" name="fastForwardPressed:"/>
+                <relationship kind="action" name="resetWorkflow"/>
+                <relationship kind="action" name="trainingSpeakerPressed"/>
+                <relationship kind="outlet" name="backgroundImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="echoRecordButton" candidateClass="PHOREchoRecordButton"/>
+                <relationship kind="outlet" name="starButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="trainingSpeakerButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="workflowButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="lIt-hB-2Az"/>
-        <segue reference="IDL-UO-S25"/>
         <segue reference="Byh-mB-ny9"/>
         <segue reference="Nze-Rb-vjG"/>
+        <segue reference="lIt-hB-2Az"/>
+        <segue reference="IDL-UO-S25"/>
     </inferredMetricsTieBreakers>
 </document>

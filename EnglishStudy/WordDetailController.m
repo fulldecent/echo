@@ -364,7 +364,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         if (indexPath.row == 0) { // Word
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             self.wordLabel = (UILabel *)[cell viewWithTag:1];
-            self.wordLabel.text = @"Word";
+            // self.wordLabel.text; // Automatically set
             UITextField *textField = (UITextField *)[cell viewWithTag:2];
             textField.text = self.editingName;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];

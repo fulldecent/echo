@@ -144,9 +144,9 @@
                 [(UIProgressView *)[cell viewWithTag:3] setProgress:
                  [(NSNumber *)[self.lessonSet transferProgressForLesson:lesson] floatValue]];
                 if (lesson.isNewerThanServer)
-                    [(UILabel *)[cell viewWithTag:2] setText:@"Uploading..."];
+                    [(UILabel *)[cell viewWithTag:2] setText:NSLocalizedString(@"uploading", @"Status message, lesson is uploading to server")];
                 else if (lesson.isOlderThanServer)
-                    [(UILabel *)[cell viewWithTag:2] setText:@"Downloading..."];
+                    [(UILabel *)[cell viewWithTag:2] setText:NSLocalizedString(@"downloading", @"Status message, lesson is downloading from server")];
                 else {
                     //NSAssert(NO, @"should not have progress = 1");
                     [(UILabel *)[cell viewWithTag:2] setText:@"Transfer complete"];
