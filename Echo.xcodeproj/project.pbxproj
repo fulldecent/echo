@@ -318,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */,
 				770816051611476500A9EF6F /* libShareKit.a in Frameworks */,
 				774CDA4C15D0AF2E00B14C45 /* CoreFoundation.framework in Frameworks */,
 				774CDA4A15D0AF1E00B14C45 /* Twitter.framework in Frameworks */,
@@ -328,7 +329,6 @@
 				77D8AD24157ABF48001E2E25 /* CoreMedia.framework in Frameworks */,
 				777667C21569F41C0099996B /* AudioToolbox.framework in Frameworks */,
 				77B771AA1569ADA600E0F012 /* MessageUI.framework in Frameworks */,
-				77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */,
 				772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */,
 				77B5137F151970B100F041D7 /* UIKit.framework in Frameworks */,
 				77B51381151970B100F041D7 /* Foundation.framework in Frameworks */,
@@ -449,20 +449,20 @@
 		77B5137D151970B100F041D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				774CDA4B15D0AF2E00B14C45 /* CoreFoundation.framework */,
-				774CDA4915D0AF1E00B14C45 /* Twitter.framework */,
-				774CDA4715D0AF1700B14C45 /* CoreLocation.framework */,
-				774CDA4515D0AF0C00B14C45 /* CFNetwork.framework */,
-				774CDA4315D0AF0000B14C45 /* Security.framework */,
-				774CDA4115D0AEF800B14C45 /* SystemConfiguration.framework */,
-				77D8AD23157ABF48001E2E25 /* CoreMedia.framework */,
 				777667C11569F41C0099996B /* AudioToolbox.framework */,
+				772C822E151E26E500F255EF /* AVFoundation.framework */,
+				774CDA4515D0AF0C00B14C45 /* CFNetwork.framework */,
+				774CDA4B15D0AF2E00B14C45 /* CoreFoundation.framework */,
+				77B51382151970B100F041D7 /* CoreGraphics.framework */,
+				774CDA4715D0AF1700B14C45 /* CoreLocation.framework */,
+				77D8AD23157ABF48001E2E25 /* CoreMedia.framework */,
+				77B51380151970B100F041D7 /* Foundation.framework */,
 				77B771A91569ADA600E0F012 /* MessageUI.framework */,
 				77A1C27C151E6451006F2B69 /* QuartzCore.framework */,
-				772C822E151E26E500F255EF /* AVFoundation.framework */,
+				774CDA4315D0AF0000B14C45 /* Security.framework */,
+				774CDA4115D0AEF800B14C45 /* SystemConfiguration.framework */,
+				774CDA4915D0AF1E00B14C45 /* Twitter.framework */,
 				77B5137E151970B100F041D7 /* UIKit.framework */,
-				77B51380151970B100F041D7 /* Foundation.framework */,
-				77B51382151970B100F041D7 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

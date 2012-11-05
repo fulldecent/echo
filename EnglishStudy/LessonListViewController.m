@@ -16,6 +16,7 @@
 #import "LessonSet.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface LessonListViewController() <LessonViewDelegate, LessonInformationViewDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
@@ -59,6 +60,23 @@
 {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    /*
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor redColor] CGColor] ,(id)[[UIColor greenColor] CGColor], nil];
+    gradient.aut
+   // gradient.frame = self.backgroundView.bounds;
+   // UIView *view = [[UIView alloc] initWithFrame:self.bounds];
+   // [view.layer insertSublayer:gradient atIndex:0];
+   // self.backgroundView = view;
+
+    self.tableView.backgroundView.layer.sublayers = nil;
+    [self.tableView.backgroundView.layer insertSublayer:gradient atIndex:0];
+  
+  //  [self.tableView.backgroundView.layer insertSublayer:gradient atIndex:0];
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+     */
 }
 
 - (void)viewWillAppear:(BOOL)animated
