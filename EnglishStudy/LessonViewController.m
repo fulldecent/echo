@@ -281,11 +281,8 @@
     
     if (indexPath.section == 0 && !(self.editing && !self.editingFromSwipe)) {
         if (indexPath.row == 0) {
-            if (self.lesson.isEditable) {
-                if (self.lesson.isShared)
-                    cell = [tableView dequeueReusableCellWithIdentifier:@"shared"];
-                else
-                    cell = [tableView dequeueReusableCellWithIdentifier:@"notShared"];
+            if (self.lesson.isEditable && !self.lesson.isShared) {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"notShared"];
             } else {
                 cell = [tableView dequeueReusableCellWithIdentifier:@"header2online"];
 

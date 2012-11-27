@@ -80,7 +80,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.leftBarButtonItem = self.refreshButton;
+    //self.navigationItem.leftBarButtonItem = self.refreshButton;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdatePracticeList"];
@@ -312,8 +312,8 @@
      {
         NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
-         if (progress.integerValue == 1.0)
-             self.navigationItem.leftBarButtonItem = self.refreshButton;
+         //if (progress.integerValue == 1.0)
+             //self.navigationItem.leftBarButtonItem = self.refreshButton;
      }];
     //NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
     //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -398,14 +398,14 @@
 }
 
 - (IBAction)reload:(id)sender {
-    self.navigationItem.leftBarButtonItem = self.loadingButton;
+    //self.navigationItem.leftBarButtonItem = self.loadingButton;
     [self.practiceLessonSet markStaleLessonsWithCallback:^
      {
          [self.practiceLessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
              NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
              [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
          }];
-         self.navigationItem.leftBarButtonItem = self.refreshButton;
+         //self.navigationItem.leftBarButtonItem = self.refreshButton;
          [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
          
          NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

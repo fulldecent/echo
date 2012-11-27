@@ -47,7 +47,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    //[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -60,7 +60,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    //[self.navigationController setNavigationBarHidden:NO animated:animated];
     [super viewWillDisappear:animated];
 }
 

@@ -81,7 +81,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationItem.leftBarButtonItem = self.refreshButton;
+    //self.navigationItem.leftBarButtonItem = self.refreshButton;
     self.currentLesson = nil;
         
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -339,7 +339,7 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
 #pragma mark - Networking and internet
 
 - (IBAction)reload:(UIBarButtonItem *)sender {
-    self.navigationItem.leftBarButtonItem = self.loadingButton;
+    //self.navigationItem.leftBarButtonItem = self.loadingButton;
     [self.lessonSet markStaleLessonsWithCallback:^
      {
          NSString *badge = self.lessonSet.countOfLessonsNeedingSync ? [NSString stringWithFormat:@"%d", self.lessonSet.countOfLessonsNeedingSync] : nil;
@@ -353,7 +353,7 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
              }
          }];
          [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-         self.navigationItem.leftBarButtonItem = self.refreshButton;
+         //self.navigationItem.leftBarButtonItem = self.refreshButton;
          
          NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
