@@ -20,7 +20,7 @@
 - (void)lessonView:(LessonViewController *)controller wantsToDeleteLesson:(Lesson *)lesson;
 @end
 
-@interface LessonViewController : UITableViewController <WordPracticeDataSource, LanguageSelectControllerDelegate, UITextFieldDelegate>
+@interface LessonViewController : UITableViewController <WordPracticeDataSource, WordPracticeDelegate, LanguageSelectControllerDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) Lesson *lesson;
 @property (weak, nonatomic) id <LessonViewDelegate> delegate;
 
@@ -30,7 +30,14 @@
 - (IBAction)flagPressed:(id)sender;
 - (IBAction)share:(id)sender;
 
-#pragma mark - Word Practice Data Source
+#pragma mark - WordPracticeDataSource
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice;
+- (NSString *)currentSoundDirectoryFilePath;
+- (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice;
+
+#pragma mark - WordPracticeDelegate
 - (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice;
+- (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice;
+- (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state;
+
 @end

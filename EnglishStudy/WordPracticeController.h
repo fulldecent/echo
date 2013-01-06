@@ -16,7 +16,13 @@
 @protocol WordPracticeDataSource
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice;
 - (NSString *)currentSoundDirectoryFilePath;
+- (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice;
+@end
+
+@protocol WordPracticeDelegate
 - (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice;
+- (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice;
+- (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state;
 @end
 
 @interface WordPracticeController : UIViewController;
@@ -26,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet PHOREchoRecordButton *echoRecordButton;
 @property (strong, nonatomic) IBOutlet UIButton *workflowButton;
 @property (weak, nonatomic) id <WordPracticeDataSource> datasource;
+@property (weak, nonatomic) id <WordPracticeDelegate> delegate;
 
 - (IBAction)trainingSpeakerPressed;
 - (IBAction)echoButtonPressed;

@@ -42,6 +42,7 @@
 #define kUserID @"userID"
 #define kUserName @"userName"
 #define kFiles @"files"
+#define kCompleted @"completed"
 
 + (NSString *)makeUUID
 {
@@ -143,6 +144,7 @@
             
             newWord.userID = [packedWord objectForKey:kUserID];
             newWord.userName = [packedWord objectForKey:kUserName];
+            newWord.completed = [packedWord objectForKey:kCompleted];
             
             NSMutableArray *newFiles = [[NSMutableArray alloc] init];
             for (id file in [packedWord objectForKey:kFiles]) {
@@ -207,6 +209,8 @@
             [wordDict setObject:word.userID forKey:kUserID];
         if (word.files)
             [wordDict setObject:word.files forKey:kFiles];
+        if (word.completed)
+            [wordDict setObject:word.completed forKey:kCompleted];
         [words addObject:wordDict];
     }
     

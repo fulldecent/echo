@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSString *userID;
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSArray *files; // NSArray of NSStrings of file basenames including extensions
+@property (strong, nonatomic) NSNumber *completed;
 
 + (Word *)wordWithJSON:(NSData *)data;
 - (NSData *)JSON;

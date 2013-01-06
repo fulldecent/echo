@@ -109,6 +109,11 @@
 		77D8AD24157ABF48001E2E25 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D8AD23157ABF48001E2E25 /* CoreMedia.framework */; };
 		77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8AD2E157AE373001E2E25 /* LessonViewController.m */; };
 		77DB5F8D15A2B3880043DC79 /* GetLessonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */; };
+		77E585131699104A00866A43 /* checkon.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E5850F1699104A00866A43 /* checkon.png */; };
+		77E585141699104A00866A43 /* checkon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E585101699104A00866A43 /* checkon@2x.png */; };
+		77E58517169910B200866A43 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E58515169910B200866A43 /* check.png */; };
+		77E58518169910B200866A43 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E58516169910B200866A43 /* check@2x.png */; };
+		77E5851A169915FE00866A43 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 77E58519169915FE00866A43 /* TODO */; };
 		77E9BEF615CE037300BC567B /* like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF215CE037300BC567B /* like@2x.png */; };
 		77E9BEF715CE037300BC567B /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF315CE037300BC567B /* like.png */; };
 		77EB10C41560ACF500C00842 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = 77EB10C31560ACF500C00842 /* Next.aif */; };
@@ -309,6 +314,11 @@
 		77D8AD2E157AE373001E2E25 /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
 		77DB5F8B15A2B3880043DC79 /* GetLessonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetLessonsViewController.h; sourceTree = "<group>"; };
 		77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetLessonsViewController.m; sourceTree = "<group>"; };
+		77E5850F1699104A00866A43 /* checkon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkon.png; sourceTree = "<group>"; };
+		77E585101699104A00866A43 /* checkon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkon@2x.png"; sourceTree = "<group>"; };
+		77E58515169910B200866A43 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		77E58516169910B200866A43 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
+		77E58519169915FE00866A43 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		77E9BEF215CE037300BC567B /* like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like@2x.png"; sourceTree = "<group>"; };
 		77E9BEF315CE037300BC567B /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
 		77EB10C31560ACF500C00842 /* Next.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Next.aif; sourceTree = "<group>"; };
@@ -481,6 +491,7 @@
 		77B51384151970B100F041D7 /* Echo */ = {
 			isa = PBXGroup;
 			children = (
+				77E58519169915FE00866A43 /* TODO */,
 				77ED9D2916643D3F005D10ED /* MainViewController.h */,
 				77ED9D2A16643D3F005D10ED /* MainViewController.m */,
 				77ED9D0F1661615D005D10ED /* IntroViewController.h */,
@@ -523,6 +534,10 @@
 				77CB51E815683C2F00BBD4FC /* star.png */,
 				77B7718E15698D7100E0F012 /* staron.png */,
 				77B771A31569951800E0F012 /* staroff.png */,
+				77E58515169910B200866A43 /* check.png */,
+				77E58516169910B200866A43 /* check@2x.png */,
+				77E5850F1699104A00866A43 /* checkon.png */,
+				77E585101699104A00866A43 /* checkon@2x.png */,
 				77CB51E215683A6D00BBD4FC /* shuffle.png */,
 				77B51386151970B100F041D7 /* Echo-Info.plist */,
 				77B51387151970B100F041D7 /* InfoPlist.strings */,
@@ -775,6 +790,11 @@
 				779921E3164218DB005DFB07 /* InfoPlist.strings in Resources */,
 				779921ED16421F01005DFB07 /* Localizable.strings in Resources */,
 				77C7967216476B55001BB58E /* gradient.png in Resources */,
+				77E585131699104A00866A43 /* checkon.png in Resources */,
+				77E585141699104A00866A43 /* checkon@2x.png in Resources */,
+				77E58517169910B200866A43 /* check.png in Resources */,
+				77E58518169910B200866A43 /* check@2x.png in Resources */,
+				77E5851A169915FE00866A43 /* TODO in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

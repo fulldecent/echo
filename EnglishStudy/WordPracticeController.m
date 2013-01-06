@@ -26,7 +26,8 @@
 @synthesize backgroundImage;
 @synthesize workflowButton;
 
-@synthesize datasource = _delegate;
+@synthesize datasource = _datasource;
+@synthesize delegate = _delegate;
 @synthesize audioPlayer = _audioPlayer;
 @synthesize workflowState = _workflowState;
 @synthesize recorder = _recorder;
@@ -132,14 +133,25 @@
     }];
 }
 
+- (IBAction)checkPressed:(id)sender {
+    UIBarButtonItem *check = [self.navigationItem.rightBarButtonItems objectAtIndex:1];
+    
+    BOOL checked = ![self.datasource wordCheckedStateForWordPractice:self];
+    [self.delegate wordPractice:self setWordCheckedState:checked];
+    if (checked)
+        [check setImage:[UIImage imageNamed:@"checkon"]];
+    else
+        [check setImage:[UIImage imageNamed:@"check"]];
+}
+
 - (IBAction)fastForwardPressed:(id)sender {
     // see http://stackoverflow.com/questions/8926606/performseguewithidentifier-vs-instantiateviewcontrollerwithidentifier
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
     WordPracticeController *newWordPractice = [storyboard instantiateViewControllerWithIdentifier:@"wordPractice"];
-    [self.datasource skipToNextWordForWordPractice:self];
+    [self.delegate skipToNextWordForWordPractice:self];
     newWordPractice.datasource = self.datasource;
-    
+    newWordPractice.delegate = self.delegate;
     
     // see http://stackoverflow.com/questions/410471/how-can-i-pop-a-view-from-a-uinavigationcontroller-and-replace-it-with-another-i
                                                
@@ -307,6 +319,19 @@
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
 
+    if ([self.delegate currentWordCanBeCheckedForWordPractice:self]) {
+        // Set up two bar button items
+        UIBarButtonItem *fastForward = self.navigationItem.rightBarButtonItem;
+        UIImage *checkImage;
+        if ([self.datasource wordCheckedStateForWordPractice:self])
+            checkImage = [UIImage imageNamed:@"checkon"];
+        else
+            checkImage = [UIImage imageNamed:@"check"];
+        UIBarButtonItem *check = [[UIBarButtonItem alloc] initWithImage:checkImage landscapeImagePhone:checkImage style:UIBarButtonItemStylePlain target:self action:@selector(checkPressed:)];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:fastForward, check, nil];
+    }
+    
+    
     /*
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
 //    UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;

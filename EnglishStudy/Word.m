@@ -22,6 +22,7 @@
 @synthesize userName = _userName;
 @synthesize files = _files;
 @synthesize nativeDetail = _nativeDetail;
+@synthesize completed = _completed;
 
 #define kLanguageTag @"languageTag"
 #define kName @"name"
@@ -31,6 +32,7 @@
 #define kUserID @"userID"
 #define kUserName @"userName"
 #define kFiles @"files"
+#define kCompleted @"completed"
 
 + (Word *)wordWithJSON:(NSData *)data
 {
@@ -58,6 +60,7 @@
     retval.detail = [packed objectForKey:kDetail];
     retval.userID = [packed objectForKey:kUserID];
     retval.userName = [packed objectForKey:kUserName];
+    retval.completed = [packed objectForKey:kCompleted];
 
     NSMutableArray *newFiles = [[NSMutableArray alloc] init];
     for (id file in [packed objectForKey:kFiles]) {
@@ -91,6 +94,8 @@
         [wordDict setObject:self.userID forKey:kUserID];
     if (self.files)
         [wordDict setObject:self.files forKey:kFiles];
+    if (self.completed)
+        [wordDict setObject:self.completed forKey:kCompleted];
     
     NSError *error = nil;
     return [NSJSONSerialization dataWithJSONObject:wordDict options:0 error:&error];

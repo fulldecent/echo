@@ -167,8 +167,7 @@
     [self.tableView endUpdates];
 }
 
-#pragma mark - Word Practice Data Source
-
+#pragma mark - WordPracticeDataSource
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice
 {
     return [self.lesson.words objectAtIndex:self.currentWordIndex];
@@ -193,12 +192,32 @@
     return wordPath;
 }
 
+- (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice
+{
+    Word *word = [self.lesson.words objectAtIndex:self.currentWordIndex];
+    return [word.completed boolValue];
+}
+
+#pragma mark - WordPracticeDelegate
 - (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice
 {
     if (self.wordListIsShuffled)
         self.currentWordIndex = arc4random() % [self.lesson.words count];
     else
         self.currentWordIndex = (self.currentWordIndex + 1) % [self.lesson.words count];
+}
+
+- (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice
+{
+    return YES;
+}
+
+- (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state
+{
+    Word *word = [self.lesson.words objectAtIndex:self.currentWordIndex];
+    word.completed = [NSNumber numberWithBool:state];
+    [self.delegate lessonView:self didSaveLesson:self.lesson];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -314,6 +333,10 @@
             cell.textLabel.text = word.name;
             cell.detailTextLabel.text = word.nativeDetail;
             if ([self.lesson.lessonCode length] == 0)
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            if ([word.completed boolValue])
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            else
                 cell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
@@ -459,6 +482,7 @@
     if ([segue.destinationViewController isKindOfClass:[WordPracticeController class]]) {
         WordPracticeController *echoViewController = segue.destinationViewController;
         echoViewController.datasource = self;
+        echoViewController.delegate = self;
     } else if ([segue.destinationViewController isKindOfClass:[WordDetailController class]]) {
         WordDetailController *controller = segue.destinationViewController;
         controller.delegate = self;
