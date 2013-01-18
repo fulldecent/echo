@@ -218,6 +218,7 @@
                     [image setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
                 }
                 [(UILabel *)[cell viewWithTag:2] setText:line2];
+                [(UIProgressView *)[cell viewWithTag:4] setProgress:[lesson portionComplete].floatValue];
             }
         }
     } else if (indexPath.section == 1) {
@@ -263,9 +264,12 @@
 {
     if (indexPath.section == 0) {
         if (indexPath.row < self.lessonSet.lessons.count) {
+            return 63;
+            /*
             Lesson *lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             if ([self.lessonSet transferProgressForLesson:lesson])
                 return 63;
+            */
         }
     }
     return self.tableView.rowHeight;

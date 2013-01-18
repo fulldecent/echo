@@ -277,7 +277,7 @@ NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audio
         dispatch_semaphore_signal(semaphore);
     }];
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    dispatch_release(semaphore);
+    //dispatch_release(semaphore);
     
     if (AVAssetExportSessionStatusCompleted == exportSession.status) {
         NSLog(@"AVAssetExportSessionStatusCompleted: %@", trimmedAudioFilePath);

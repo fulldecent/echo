@@ -1,0 +1,285 @@
+
+/* Class = "IBUIViewController"; title = "Second"; ObjectID = "3"; */
+"3.title" = "Second";
+
+/* Class = "IBUILabel"; text = "and I am learning"; ObjectID = "0Cf-XQ-HbB"; */
+"0Cf-XQ-HbB.text" = "and I am learning";
+
+/* Class = "IBUINavigationItem"; title = "Home"; ObjectID = "1aV-vU-QUj"; */
+"1aV-vU-QUj.title" = "Home";
+
+/* Class = "IBUILabel"; text = "Download lesson"; ObjectID = "2Im-da-n5s"; */
+"2Im-da-n5s.text" = "Download lesson";
+
+/* Class = "IBUILabel"; text = "90%"; ObjectID = "2L7-aO-z9M"; */
+"2L7-aO-z9M.text" = "90%";
+
+/* Class = "IBUILabel"; text = "Create lesson"; ObjectID = "2rp-Nu-umG"; */
+"2rp-Nu-umG.text" = "Create lesson";
+
+/* Class = "IBUILabel"; text = "USER"; ObjectID = "5Ys-A6-OQj"; */
+"5Ys-A6-OQj.text" = "USER";
+
+/* Class = "IBUILabel"; text = "LANGTAG"; ObjectID = "5lx-Rk-RJP"; */
+"5lx-Rk-RJP.text" = "LANGTAG";
+
+/* Class = "IBUILabel"; text = "Shared"; ObjectID = "5qE-WX-h6D"; */
+"5qE-WX-h6D.text" = "Shared";
+
+/* Class = "IBUILabel"; text = "DESCRIPTION IN USER LANGUAGE"; ObjectID = "5r6-85-Eii"; */
+"5r6-85-Eii.text" = "DESCRIPTION IN USER LANGUAGE";
+
+/* Class = "IBUILabel"; text = "10 people speak Français"; ObjectID = "6yB-vT-SUN"; */
+"6yB-vT-SUN.text" = "10 people speak Français";
+
+/* Class = "IBUILabel"; text = "90%"; ObjectID = "7Xs-th-wYT"; */
+"7Xs-th-wYT.text" = "90%";
+
+/* Class = "IBUITextField"; text = "THE WORD"; ObjectID = "8U2-c6-Jst"; */
+"8U2-c6-Jst.text" = "THE WORD";
+
+/* Class = "IBUINavigationItem"; title = "Practice"; ObjectID = "97D-zq-Hle"; */
+"97D-zq-Hle.title" = "Practice";
+
+/* Class = "IBUILabel"; text = "Meet"; ObjectID = "9IY-Wh-MKE"; */
+"9IY-Wh-MKE.text" = "Meet";
+
+/* Class = "IBUILabel"; text = "Add a word"; ObjectID = "9Xl-4W-htK"; */
+"9Xl-4W-htK.text" = "Add a word";
+
+/* Class = "IBUILabel"; text = "Create lesson"; ObjectID = "9Yh-Kv-OJP"; */
+"9Yh-Kv-OJP.text" = "Create lesson";
+
+/* Class = "IBUITextField"; text = "THE DETAIL"; ObjectID = "AG1-s3-u65"; */
+"AG1-s3-u65.text" = "THE DETAIL";
+
+/* Class = "IBUIButton"; normalTitle = "other..."; ObjectID = "BaJ-cX-8lh"; */
+"BaJ-cX-8lh.normalTitle" = "other...";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "BdE-oa-kNV"; */
+"BdE-oa-kNV.text" = "Title";
+
+/* Class = "IBUILabel"; text = "USER"; ObjectID = "Bo0-TR-3uj"; */
+"Bo0-TR-3uj.text" = "USER";
+
+/* Class = "IBUILabel"; text = "PRACTICE NAME"; ObjectID = "CIg-1L-fNM"; */
+"CIg-1L-fNM.text" = "PRACTICE NAME";
+
+/* Class = "IBUILabel"; text = "WORD"; ObjectID = "CQ1-e4-PlF"; */
+"CQ1-e4-PlF.text" = "WORD";
+
+/* Class = "IBUIButton"; normalTitle = "New"; ObjectID = "Cw3-gE-1n8"; */
+"Cw3-gE-1n8.normalTitle" = "New";
+
+/* Class = "IBUILabel"; text = "PRACTICE NAME"; ObjectID = "Cyt-Zb-1zl"; */
+"Cyt-Zb-1zl.text" = "PRACTICE NAME";
+
+/* Class = "IBUIButton"; normalTitle = "中文"; ObjectID = "D4I-mw-2Ut"; */
+"D4I-mw-2Ut.normalTitle" = "中文";
+
+/* Class = "IBUIButton"; normalTitle = "Some Word"; ObjectID = "Fdd-HF-y3t"; */
+"Fdd-HF-y3t.normalTitle" = "Some Word";
+
+/* Class = "IBUILabel"; text = "USER"; ObjectID = "I6S-rN-HGi"; */
+"I6S-rN-HGi.text" = "USER";
+
+/* Class = "IBUILabel"; text = "Word"; ObjectID = "Iqh-Ss-yAN"; */
+"Iqh-Ss-yAN.text" = "Word";
+
+/* Class = "IBUINavigationItem"; title = "TITLE"; ObjectID = "KLs-ni-2vX"; */
+"KLs-ni-2vX.title" = "TITLE";
+
+/* Class = "IBUIButton"; normalTitle = "español"; ObjectID = "Kyv-pW-TbF"; */
+"Kyv-pW-TbF.normalTitle" = "español";
+
+/* Class = "IBUILabel"; text = "Language"; ObjectID = "M0R-9b-xwS"; */
+"M0R-9b-xwS.text" = "Language";
+
+/* Class = "IBUILabel"; text = "OLD"; ObjectID = "MWx-FN-lsw"; */
+"MWx-FN-lsw.text" = "OLD";
+
+/* Class = "IBUILabel"; text = "LESSON"; ObjectID = "Mka-Qh-BHc"; */
+"Mka-Qh-BHc.text" = "LESSON";
+
+/* Class = "IBUILabel"; text = "My name is"; ObjectID = "Mve-gZ-bNK"; */
+"Mve-gZ-bNK.text" = "My name is";
+
+/* Class = "IBUILabel"; text = "LANG -- lesson by USER"; ObjectID = "NSa-ME-qZX"; */
+"NSa-ME-qZX.text" = "LANG -- lesson by USER";
+
+/* Class = "IBUIButton"; normalTitle = "English"; ObjectID = "NbO-1C-hne"; */
+"NbO-1C-hne.normalTitle" = "English";
+
+/* Class = "IBUITabBarItem"; title = "Echo"; ObjectID = "NjY-9Y-8iQ"; */
+"NjY-9Y-8iQ.title" = "Echo";
+
+/* Class = "IBUILabel"; text = "LANGUAGE"; ObjectID = "Op2-6f-fMO"; */
+"Op2-6f-fMO.text" = "LANGUAGE";
+
+/* Class = "IBUILabel"; text = "Shared online"; ObjectID = "PSp-Pc-mzy"; */
+"PSp-Pc-mzy.text" = "Shared online";
+
+/* Class = "IBUILabel"; text = "LESSON NAME"; ObjectID = "QBg-fg-vbg"; */
+"QBg-fg-vbg.text" = "LESSON NAME";
+
+/* Class = "IBUILabel"; text = "2 replies"; ObjectID = "QIb-fZ-qzZ"; */
+"QIb-fZ-qzZ.text" = "2 replies";
+
+/* Class = "IBUILabel"; text = "Meet people"; ObjectID = "QkV-ov-GOm"; */
+"QkV-ov-GOm.text" = "Meet people";
+
+/* Class = "IBUILabel"; text = "DESCRIPTION IN USER LANGUAGE"; ObjectID = "RCK-mJ-ss2"; */
+"RCK-mJ-ss2.text" = "DESCRIPTION IN USER LANGUAGE";
+
+/* Class = "IBUIBarButtonItem"; title = "Language"; ObjectID = "RgS-xH-1Yu"; */
+"RgS-xH-1Yu.title" = "Language";
+
+/* Class = "IBUILabel"; text = "2 replies"; ObjectID = "ST1-3x-YUt"; */
+"ST1-3x-YUt.text" = "2 replies";
+
+/* Class = "IBUILabel"; text = "Practice a new word"; ObjectID = "Sbe-Hp-hjL"; */
+"Sbe-Hp-hjL.text" = "Practice a new word";
+
+/* Class = "IBUILabel"; text = "Detail (LANG)"; ObjectID = "So7-7a-sto"; */
+"So7-7a-sto.text" = "Detail (LANG)";
+
+/* Class = "IBUILabel"; text = "recorded DATE"; ObjectID = "YcI-hd-Wx4"; */
+"YcI-hd-Wx4.text" = "recorded DATE";
+
+/* Class = "IBUILabel"; text = "WORD"; ObjectID = "Z0v-eM-zkE"; */
+"Z0v-eM-zkE.text" = "WORD";
+
+/* Class = "IBUILabel"; text = "Name"; ObjectID = "ZkI-CC-fLT"; */
+"ZkI-CC-fLT.text" = "Name";
+
+/* Class = "IBUIButton"; normalTitle = "New"; ObjectID = "aHO-YJ-OG3"; */
+"aHO-YJ-OG3.normalTitle" = "New";
+
+/* Class = "IBUILabel"; text = "Lessons"; ObjectID = "aUo-9D-sc8"; */
+"aUo-9D-sc8.text" = "Lessons";
+
+/* Class = "IBUIButton"; normalTitle = "Share"; ObjectID = "aXn-78-ON4"; */
+"aXn-78-ON4.normalTitle" = "Share";
+
+/* Class = "IBUILabel"; text = "Add another language"; ObjectID = "as9-ai-pcA"; */
+"as9-ai-pcA.text" = "Add another language";
+
+/* Class = "IBUIButton"; normalTitle = "Some Word"; ObjectID = "bgr-20-pMw"; */
+"bgr-20-pMw.normalTitle" = "Some Word";
+
+/* Class = "IBUITabBarItem"; title = "Lessons"; ObjectID = "cx3-rf-jcR"; */
+"cx3-rf-jcR.title" = "Lessons";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "ddQ-M2-ElR"; */
+"ddQ-M2-ElR.text" = "Detail";
+
+/* Class = "IBUINavigationItem"; title = "Home"; ObjectID = "dyf-WY-0FO"; */
+"dyf-WY-0FO.title" = "Home";
+
+/* Class = "IBUILabel"; text = "WORD"; ObjectID = "e95-f3-72z"; */
+"e95-f3-72z.text" = "WORD";
+
+/* Class = "IBUITabBarItem"; title = "Social"; ObjectID = "g7E-cQ-q41"; */
+"g7E-cQ-q41.title" = "Social";
+
+/* Class = "IBUILabel"; text = "Practice"; ObjectID = "gDN-ez-kNK"; */
+"gDN-ez-kNK.text" = "Practice";
+
+/* Class = "IBUILabel"; text = "DESCRIPTION IN USER LANGUAGE"; ObjectID = "gYM-br-z9l"; */
+"gYM-br-z9l.text" = "DESCRIPTION IN USER LANGUAGE";
+
+/* Class = "IBUINavigationItem"; title = "Social"; ObjectID = "gnT-BP-nu7"; */
+"gnT-BP-nu7.title" = "Social";
+
+/* Class = "IBUILabel"; text = "Subtitle"; ObjectID = "gqU-j7-Mrr"; */
+"gqU-j7-Mrr.text" = "Subtitle";
+
+/* Class = "IBUILabel"; text = "Practice new word"; ObjectID = "gtv-cT-1OT"; */
+"gtv-cT-1OT.text" = "Practice new word";
+
+/* Class = "IBUIButton"; normalTitle = "New"; ObjectID = "h2o-5q-fvN"; */
+"h2o-5q-fvN.normalTitle" = "New";
+
+/* Class = "IBUITabBarItem"; title = "Practice"; ObjectID = "hnJ-ZU-LOG"; */
+"hnJ-ZU-LOG.title" = "Practice";
+
+/* Class = "IBUILabel"; text = "2 new lessons in Français"; ObjectID = "iNx-Dz-LgR"; */
+"iNx-Dz-LgR.text" = "2 new lessons in Français";
+
+/* Class = "IBUINavigationItem"; title = "Some Word"; ObjectID = "iPr-iF-usT"; */
+"iPr-iF-usT.title" = "Some Word";
+
+/* Class = "IBUIButton"; normalTitle = "Some Word"; ObjectID = "ige-48-HDh"; */
+"ige-48-HDh.normalTitle" = "Some Word";
+
+/* Class = "IBUILabel"; text = "2 replies"; ObjectID = "inM-VO-4aG"; */
+"inM-VO-4aG.text" = "2 replies";
+
+/* Class = "IBUITextField"; placeholder = "Detail (LANGUAGE)"; ObjectID = "jrk-2k-zGB"; */
+"jrk-2k-zGB.placeholder" = "Detail (LANGUAGE)";
+
+/* Class = "IBUILabel"; text = "Download lesson"; ObjectID = "kHx-Nq-H59"; */
+"kHx-Nq-H59.text" = "Download lesson";
+
+/* Class = "IBUILabel"; text = "uploaded 5 words"; ObjectID = "kRf-XV-CbM"; */
+"kRf-XV-CbM.text" = "uploaded 5 words";
+
+/* Class = "IBUIButton"; normalTitle = "New"; ObjectID = "lXX-xV-BXh"; */
+"lXX-xV-BXh.normalTitle" = "New";
+
+/* Class = "IBUINavigationItem"; title = "Lessons"; ObjectID = "n3E-Le-GIA"; */
+"n3E-Le-GIA.title" = "Lessons";
+
+/* Class = "IBUILabel"; text = "LESSON NAME"; ObjectID = "n7r-Sa-yeN"; */
+"n7r-Sa-yeN.text" = "LESSON NAME";
+
+/* Class = "IBUINavigationItem"; title = "LANGUAGE"; ObjectID = "n7v-gA-Vg3"; */
+"n7v-gA-Vg3.title" = "LANGUAGE";
+
+/* Class = "IBUITextField"; placeholder = "Lesson name"; ObjectID = "n8G-IP-8W4"; */
+"n8G-IP-8W4.placeholder" = "Lesson name";
+
+/* Class = "IBUIButton"; normalTitle = "New"; ObjectID = "ns2-hB-DWd"; */
+"ns2-hB-DWd.normalTitle" = "New";
+
+/* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "p2y-m8-TPY"; */
+"p2y-m8-TPY.text" = "Shuffle";
+
+/* Class = "IBUILabel"; text = "LESSON NAME"; ObjectID = "pKB-az-lE8"; */
+"pKB-az-lE8.text" = "LESSON NAME";
+
+/* Class = "IBUILabel"; text = "Not shared"; ObjectID = "qd2-kC-8Nd"; */
+"qd2-kC-8Nd.text" = "Not shared";
+
+/* Class = "IBUILabel"; text = "LESSON"; ObjectID = "rRf-Sh-H5t"; */
+"rRf-Sh-H5t.text" = "LESSON";
+
+/* Class = "IBUILabel"; text = "What's up"; ObjectID = "seb-Lr-nCh"; */
+"seb-Lr-nCh.text" = "What's up";
+
+/* Class = "IBUILabel"; text = "Inbox"; ObjectID = "sex-FG-x5r"; */
+"sex-FG-x5r.text" = "Inbox";
+
+/* Class = "IBUILabel"; text = "A WORD"; ObjectID = "uaV-Kx-UL2"; */
+"uaV-Kx-UL2.text" = "A WORD";
+
+/* Class = "IBUILabel"; text = "recorded DATE"; ObjectID = "wYB-Kk-Rhe"; */
+"wYB-Kk-Rhe.text" = "recorded DATE";
+
+/* Class = "IBUILabel"; text = "LESSON NAME"; ObjectID = "xEN-M4-PbW"; */
+"xEN-M4-PbW.text" = "LESSON NAME";
+
+/* Class = "IBUILabel"; text = "90%"; ObjectID = "yIj-Qb-Q6Y"; */
+"yIj-Qb-Q6Y.text" = "90%";
+
+/* Class = "IBUILabel"; text = "5 people using"; ObjectID = "yaF-ro-vvS"; */
+"yaF-ro-vvS.text" = "5 people using";
+
+/* Class = "IBUILabel"; text = "Favorite words"; ObjectID = "yaa-ym-CRY"; */
+"yaa-ym-CRY.text" = "Favorite words";
+
+/* Class = "IBUIButton"; normalTitle = "New"; ObjectID = "ykR-UB-bZF"; */
+"ykR-UB-bZF.normalTitle" = "New";
+
+/* Class = "IBUILabel"; text = "recorded DATE"; ObjectID = "yud-I0-ouW"; */
+"yud-I0-ouW.text" = "recorded DATE";

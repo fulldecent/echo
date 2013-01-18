@@ -3,20 +3,46 @@
 MINIMUM WORK NEEDED TO MAKE NEXT RELEASE
 ========================================
 
- - Get check boxes working
- 
+ - Switch to iOS 6 internationalization
+ - Internationalize strings in storyboard
+
 ========================================
 MINIMUM TESTING TO MAKE NEXT RELEASE
 ========================================
 
- - Upload practice word (checkbox)
- - Reply to practice
- - Listen to practice from social
- - Edit own lesson and upload
- - Download lesson
- 
+ - Lessons; track % complete
 
 
 ========================================
 STUFF TO DO LATER
 ========================================
+
+ ! User profile helper class
+   - "Edit your profile" screen (careful, this new screen is not in the Chinese subproject)
+ ! Pretty new front page
+   - Reload, update all status bars
+   - Swipe to delete
+   - Hold to edit
+   - Set badge icon
+   - Lesson progress tracker
+ ! Push notifications
+ - iOS 6
+   ! Redo internationalization
+ ? iOS forms library
+ 
+ 
+ -----------
+ identifierForVendor
+An alphanumeric string that uniquely identifies a device to the app’s vendor. (read-only)
+
+@property(nonatomic, readonly, retain) NSUUID *identifierForVendor
+Discussion
+The value of this property is the same for apps that come from the same vendor running on the same device. A different value is returned for apps on the same device that come from different vendors, and for apps on different devices regardless of vendor.
+
+Availability
+Available in iOS 6.0 and later.
+Declared In
+UIDevice.h
+----------------
+The UITableViewController class allows you to add a built-in refresh control (UIRefreshControl) to reload the table contents.
+----------------

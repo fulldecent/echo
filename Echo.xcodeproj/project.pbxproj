@@ -71,7 +71,7 @@
 		77B51389151970B100F041D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77B51387151970B100F041D7 /* InfoPlist.strings */; };
 		77B5138B151970B100F041D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138A151970B100F041D7 /* main.m */; };
 		77B5138F151970B100F041D7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138E151970B100F041D7 /* AppDelegate.m */; };
-		77B51392151970B100F041D7 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77B51390151970B100F041D7 /* MainStoryboard_iPhone.storyboard */; };
+		77B51392151970B100F041D7 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77B51390151970B100F041D7 /* MainStoryboard.storyboard */; };
 		77B51398151970B100F041D7 /* GuessingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B51397151970B100F041D7 /* GuessingViewController.m */; };
 		77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5139E151970B100F041D7 /* WordPracticeController.m */; };
 		77B513C0151A993C00F041D7 /* SoundGuessingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B513BF151A993C00F041D7 /* SoundGuessingGame.m */; };
@@ -171,8 +171,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		770715201641E5BD00C9A9AD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard_iPhone.storyboard"; sourceTree = "<group>"; };
 		770715221641E5BD00C9A9AD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		7721960F169E5F9200998B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		77219613169E604700998B69 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard.strings"; sourceTree = "<group>"; };
 		7729FEBD15294D1C00D2180E /* ear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ear.png; sourceTree = "<group>"; };
 		7729FEBE15294D1C00D2180E /* ear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ear@2x.png"; sourceTree = "<group>"; };
 		7729FEC115294E5900D2180E /* echo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = echo.png; sourceTree = "<group>"; };
@@ -265,7 +266,6 @@
 		77B5138C151970B100F041D7 /* Echo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Echo-Prefix.pch"; sourceTree = "<group>"; };
 		77B5138D151970B100F041D7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		77B5138E151970B100F041D7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		77B51391151970B100F041D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		77B51396151970B100F041D7 /* GuessingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuessingViewController.h; sourceTree = "<group>"; };
 		77B51397151970B100F041D7 /* GuessingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuessingViewController.m; sourceTree = "<group>"; };
 		77B5139D151970B100F041D7 /* WordPracticeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordPracticeController.h; sourceTree = "<group>"; };
@@ -503,7 +503,7 @@
 				77DDC70C156DD45300568CDE /* Lesson Mode */,
 				7761D6A215E2E4E000975F1B /* Practice Mode */,
 				77DDC70D156DD80300568CDE /* Social Mode */,
-				77B51390151970B100F041D7 /* MainStoryboard_iPhone.storyboard */,
+				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
 				77DDC70E156DD81F00568CDE /* Classes */,
 				77B51385151970B100F041D7 /* Supporting Files */,
 			);
@@ -679,6 +679,7 @@
 				en,
 				de,
 				"zh-Hans",
+				Base,
 			);
 			mainGroup = 77B5136F151970B100F041D7;
 			productRefGroup = 77B5137B151970B100F041D7 /* Products */;
@@ -733,7 +734,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77B51389151970B100F041D7 /* InfoPlist.strings in Resources */,
-				77B51392151970B100F041D7 /* MainStoryboard_iPhone.storyboard in Resources */,
+				77B51392151970B100F041D7 /* MainStoryboard.storyboard in Resources */,
 				7729FEBF15294D1C00D2180E /* ear.png in Resources */,
 				7729FEC015294D1C00D2180E /* ear@2x.png in Resources */,
 				7729FEC315294E5900D2180E /* echo.png in Resources */,
@@ -897,13 +898,13 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		77B51390151970B100F041D7 /* MainStoryboard_iPhone.storyboard */ = {
+		77B51390151970B100F041D7 /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				77B51391151970B100F041D7 /* en */,
-				770715201641E5BD00C9A9AD /* zh-Hans */,
+				7721960F169E5F9200998B69 /* Base */,
+				77219613169E604700998B69 /* zh-Hans */,
 			);
-			name = MainStoryboard_iPhone.storyboard;
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -928,8 +929,9 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -948,8 +950,9 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -961,16 +964,18 @@
 		77B513A7151970B100F041D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Will Entriken";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
 				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
 				PRODUCT_NAME = Echo;
+				PROVISIONING_PROFILE = "39FAC821-FF47-4A3E-9E6B-875B574EE1AE";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -979,15 +984,17 @@
 		77B513A8151970B100F041D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Will Entriken";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
 				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
 				PRODUCT_NAME = Echo;
+				PROVISIONING_PROFILE = "39FAC821-FF47-4A3E-9E6B-875B574EE1AE";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};

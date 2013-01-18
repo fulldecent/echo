@@ -28,6 +28,7 @@
 - (void)setToLesson:(Lesson *)lesson;
 - (void)removeStaleFiles;
 - (NSArray *)listOfMissingFiles; // return: [{"word":Word *,"fileID":NSNumber *},...]
+- (NSNumber *)portionComplete;
 
 - (BOOL)isOlderThanServer;
 - (BOOL)isNewerThanServer;

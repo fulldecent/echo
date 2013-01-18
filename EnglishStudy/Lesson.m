@@ -346,6 +346,16 @@
     return ([self.lessonID integerValue] > 0 && [self.lessonCode length] > 0) || [self.name isEqualToString:@"PRACTICE"];
 }
 
+- (NSNumber *)portionComplete
+{
+    int numerator = 0;
+    for (Word *word in self.words)
+        if (word.completed && word.completed.boolValue)
+            numerator++;
+    NSLog(@"lesson complete %d of %d", numerator, self.words.count);
+    return [NSNumber numberWithFloat:(float)numerator/self.words.count];    
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
