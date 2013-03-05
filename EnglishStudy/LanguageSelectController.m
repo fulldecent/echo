@@ -67,7 +67,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.delegate languageSelectController:self didSelectLanguage:[[self.languages objectAtIndex:indexPath.row] objectForKey:@"tag"] withNativeName:[[self.languages objectAtIndex:indexPath.row] objectForKey:@"nativeName"]];
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

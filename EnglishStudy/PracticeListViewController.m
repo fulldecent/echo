@@ -107,6 +107,7 @@
         return 1;
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (self.practiceLessonSet.lessons.count == 0)
@@ -114,6 +115,7 @@
     else
         return nil;
 }
+*/
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UITableWithBackgroundViewController.h"
 
-@interface PracticeListViewController : UITableViewController
+@interface PracticeListViewController : UITableWithBackgroundViewController
 - (IBAction)reload:(id)sender;
 - (IBAction)sendToFriendPressed:(UIButton *)sender;
 - (void)updateBadgeCount;

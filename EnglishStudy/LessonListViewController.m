@@ -113,6 +113,7 @@
     return self.lessonSet.lessons.count + 2; // Lessons, "Download lessons", "Create lesson"
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (self.lessonSet.lessons.count == 0)
@@ -120,6 +121,7 @@
     else
         return nil;
 }
+*/
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {

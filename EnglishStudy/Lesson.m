@@ -352,7 +352,6 @@
     for (Word *word in self.words)
         if (word.completed && word.completed.boolValue)
             numerator++;
-    NSLog(@"lesson complete %d of %d", numerator, self.words.count);
     return [NSNumber numberWithFloat:(float)numerator/self.words.count];    
 }
 

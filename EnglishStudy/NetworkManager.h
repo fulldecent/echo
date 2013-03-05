@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Lesson.h"
 #import "Word.h"
+#import "Profile.h"
 
 @interface NetworkManager : NSObject
 
@@ -41,8 +42,13 @@ enum NetworkManagerFlagReason {
          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 
 - (void)setMyUsername:(NSString *)username
-            onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
+            onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure __attribute__((deprecated));
 - (void)setMyPhoto:(UIImage *)photo
-         onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
+         onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure __attribute__((deprecated));
+- (void)syncProfile:(Profile *)profile
+         onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure; // NEED TO POSSIBLE SAVE UPDATED NAME TO PROFILE
+- (NSArray *)recommendedLessons;
+
+- (void)lessonsWithSearch:(NSString *)searchString languageTag:(NSString *)tag return:(void(^)(NSArray *retLessons))returnBlock;
 
 @end

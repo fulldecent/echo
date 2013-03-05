@@ -11,11 +11,13 @@
 #import "LessonSet.h"
 #import "LessonViewController.h"
 #import "LessonInformationViewController.h"
+#import "Profile.h"
+#import "IntroViewController.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellInbox, CellEditProfile, CellMeetPeople, CellWhatsUp} Cells;
 
-@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate>
+@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
@@ -69,6 +71,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     refreshControl.tintColor = [UIColor  blackColor];
     [refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    
+    Profile *me = [Profile currentUserProfile];
+    if (!me.username)
+        [self performSegueWithIdentifier:@"intro" sender:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -84,6 +90,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         [self reload];
     }
     [super viewWillAppear:YES];
+    [self.tableView reloadData];
 }
 
 
@@ -297,10 +304,12 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellNewPractice:
             cell = [tableView dequeueReusableCellWithIdentifier:@"newPractice"];
             return cell;
-        case CellEditProfile:
+        case CellEditProfile: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"editProfile"];
-            [(UILabel *)[cell viewWithTag:1] setText:@"Profile: Will"];
+            Profile *me = [Profile currentUserProfile];
+            [(UILabel *)[cell viewWithTag:1] setText:me.username];
             return cell;
+        }
         case CellInbox:
             cell = [tableView dequeueReusableCellWithIdentifier:@"inbox"];
             return cell;
@@ -409,6 +418,28 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     [self performSegueWithIdentifier:@"lessonInformation" sender:self];
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.row < self.lessonSet.lessons.count)
+        return UITableViewCellEditingStyleDelete;
+    else
+        return UITableViewCellEditingStyleNone;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.currentLesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
+    if (self.currentLesson.isEditable && self.currentLesson.isShared) {
+        NSString *title = @"You are deleting this lesson from your device. Would you like to continue sharing online?";
+        UIActionSheet *confirmDeleteLesson = [[UIActionSheet alloc] initWithTitle:title
+                                                                         delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Stop sharing online", @"Keep sharing online", nil];
+        [confirmDeleteLesson showFromTabBar:self.tabBarController.tabBar];
+    } else {
+        [self.lessonSet deleteLesson:[self.lessonSet.lessons objectAtIndex:indexPath.row]];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        self.currentLesson = nil;
+    }
+}
+
 #pragma mark - UIViewController
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -422,9 +453,12 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         controller.delegate = self;
         if (![segue.description isEqualToString:@"createLesson"])
             controller.lesson = self.currentLesson;
+    } else if ([segue.destinationViewController isKindOfClass:[IntroViewController class]]) {
+        IntroViewController *controller = segue.destinationViewController;
+        controller.delegate = self;
     }
 }
-
+    
 #pragma mark - LessonViewDelegate
 
 - (void)lessonView:(LessonViewController *)controller didSaveLesson:(Lesson *)lesson
@@ -451,10 +485,23 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     
 #pragma mark - LessonInformationViewDelegate
     
-    - (void)lessonInformationView:(LessonInformationViewController *)controller didSaveLesson:(Lesson *)lesson
-    {
-        [self.lessonSet addOrUpdateLesson:lesson];
-        [self.tableView reloadData];
-    }
+- (void)lessonInformationView:(LessonInformationViewController *)controller didSaveLesson:(Lesson *)lesson
+{
+    [self.lessonSet addOrUpdateLesson:lesson];
+    [self.tableView reloadData];
+}
+
+#pragma mark - IntroViewControllerDelegate
+
+- (void)introViewController:(IntroViewController *)controller gotStubLesson:(Lesson *)lesson
+{
+    [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.lessonSet syncLesson:lesson withProgress:^(Lesson *lesson, NSNumber *progress) {
+        NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
+        NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+    }];
+}
 
 @end

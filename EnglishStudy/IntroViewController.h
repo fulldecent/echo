@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "UIGlossyButton.h"
+#import "Lesson.h"
+
+@class IntroViewController;
+
+@protocol IntroViewControllerDelegate <NSObject>
+- (void)introViewController:(IntroViewController *)controller gotStubLesson:(Lesson *)lesson;
+@end
 
 @interface IntroViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITextField *nameField;
-- (IBAction)nameChanged:(UITextField *)sender;
 @property (strong, nonatomic) IBOutletCollection(UIGlossyButton) NSArray *languageButtons;
-
+@property (weak, nonatomic) id<IntroViewControllerDelegate> delegate;
+- (IBAction)nameChanged:(UITextField *)sender;
+- (IBAction)languageButtonClicked:(UIButton *)sender;
 @end

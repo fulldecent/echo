@@ -250,8 +250,8 @@
         label.shadowColor = [UIColor colorWithWhite:0.8 alpha:0.8];
         label.textColor = [UIColor blackColor];
         // Automatic word wrap
-        label.lineBreakMode = UILineBreakModeWordWrap;
-        label.textAlignment = UITextAlignmentCenter;
+        label.lineBreakMode = NSLineBreakByWordWrapping;
+        label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;
         // Autosize
         [label sizeToFit];

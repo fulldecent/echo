@@ -11,8 +11,9 @@
 #import "Lesson.h"
 #import "LanguageSelectController.h"
 #import "GetLessonsViewController.h"
+#import "UITableWithBackgroundViewController.h"
 
-@interface LessonListViewController : UITableViewController <GetLessonsViewControllerDelegate, LanguageSelectControllerDelegate>
+@interface LessonListViewController : UITableWithBackgroundViewController <GetLessonsViewControllerDelegate, LanguageSelectControllerDelegate>
 - (IBAction)reload:(UIBarButtonItem *)sender;
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name;
 - (void)updateBadgeCount;

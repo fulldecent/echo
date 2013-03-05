@@ -1,22 +1,30 @@
 
 ========================================
-MINIMUM WORK NEEDED TO MAKE NEXT RELEASE
+REMAINING TASKS FOR 1.0.8 RELEASE
 ========================================
+
+ - Switch to new home screen
+ - Remove old code
 
  - Switch to iOS 6 internationalization
  - Internationalize strings in storyboard
+ 
+ - Stop using     NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+
 
 ========================================
 MINIMUM TESTING TO MAKE NEXT RELEASE
 ========================================
 
  - Lessons; track % complete
+ - Background color
 
 
 ========================================
 STUFF TO DO LATER
 ========================================
 
+ ! Turn "Download Lesson" into an AJAX request
  ! User profile helper class
    - "Edit your profile" screen (careful, this new screen is not in the Chinese subproject)
  ! Pretty new front page
@@ -26,8 +34,6 @@ STUFF TO DO LATER
    - Set badge icon
    - Lesson progress tracker
  ! Push notifications
- - iOS 6
-   ! Redo internationalization
  ? iOS forms library
  
  
