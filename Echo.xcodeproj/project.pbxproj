@@ -32,7 +32,6 @@
 		774CDA4A15D0AF1E00B14C45 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDA4915D0AF1E00B14C45 /* Twitter.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		774CDA4C15D0AF2E00B14C45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDA4B15D0AF2E00B14C45 /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		774CDA5215D0B08100B14C45 /* EchoSHKConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDA5115D0B08100B14C45 /* EchoSHKConfigurator.m */; };
-		7761D6A115E2E4DB00975F1B /* PracticeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7761D6A015E2E4DB00975F1B /* PracticeListViewController.m */; };
 		7761D6A515E2E77E00975F1B /* practiceIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A315E2E77E00975F1B /* practiceIcon.png */; };
 		7761D6A615E2E77E00975F1B /* practiceIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */; };
 		776D2BDD16AB8C1E00EDB4DB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776D2BDC16AB8C1E00EDB4DB /* Accounts.framework */; };
@@ -55,9 +54,6 @@
 		7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDAA16154CAB004EE464 /* UIGlossyButton.m */; };
 		7798DE111619138C004EE464 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE0F1619138C004EE464 /* flag.png */; };
 		7798DE121619138C004EE464 /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE101619138C004EE464 /* flag@2x.png */; };
-		7798DE1516191978004EE464 /* introLessons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1316191978004EE464 /* introLessons.png */; };
-		7798DE1616191978004EE464 /* introLessons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1416191978004EE464 /* introLessons@2x.png */; };
-		7798DE1A16191F68004EE464 /* introPractice.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1916191F68004EE464 /* introPractice.png */; };
 		7798DE1E161A7314004EE464 /* none40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE1D161A7314004EE464 /* none40.png */; };
 		779921E2164218DB005DFB07 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 779921D0164218DB005DFB07 /* FDTake.strings */; };
 		779921E3164218DB005DFB07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 779921D2164218DB005DFB07 /* InfoPlist.strings */; };
@@ -90,7 +86,6 @@
 		77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0C157C11C900511CEC /* WordDetailController.m */; };
 		77BBFE10157C189600511CEC /* Languages.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0F157C189600511CEC /* Languages.m */; };
 		77BBFE17157C3BF100511CEC /* Checkbox empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFE15157C3BF100511CEC /* Checkbox empty.png */; };
-		77CB51AE1561FCAA00BBD4FC /* LessonListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CB51AD1561FCAA00BBD4FC /* LessonListViewController.m */; };
 		77CB51E315683A6D00BBD4FC /* shuffle.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CB51E215683A6D00BBD4FC /* shuffle.png */; };
 		77CB51E915683C2F00BBD4FC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CB51E815683C2F00BBD4FC /* star.png */; };
 		77CC932315D494E9008A3074 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CC932215D494E9008A3074 /* Default-Portrait~ipad.png */; };
@@ -206,8 +201,6 @@
 		774CDA4B15D0AF2E00B14C45 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		774CDA5015D0B08100B14C45 /* EchoSHKConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EchoSHKConfigurator.h; sourceTree = "<group>"; };
 		774CDA5115D0B08100B14C45 /* EchoSHKConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EchoSHKConfigurator.m; sourceTree = "<group>"; };
-		7761D69F15E2E4DB00975F1B /* PracticeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeListViewController.h; sourceTree = "<group>"; };
-		7761D6A015E2E4DB00975F1B /* PracticeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeListViewController.m; sourceTree = "<group>"; };
 		7761D6A315E2E77E00975F1B /* practiceIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = practiceIcon.png; sourceTree = "<group>"; };
 		7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "practiceIcon@2x.png"; sourceTree = "<group>"; };
 		776D2BDC16AB8C1E00EDB4DB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -242,9 +235,6 @@
 		7798DDAB16154CAB004EE464 /* UIGlossyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIGlossyButton.h; path = Submodules/UIGlossyButton/UIGlossyButton/UIGlossyButton.h; sourceTree = SOURCE_ROOT; };
 		7798DE0F1619138C004EE464 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
 		7798DE101619138C004EE464 /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
-		7798DE1316191978004EE464 /* introLessons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = introLessons.png; sourceTree = "<group>"; };
-		7798DE1416191978004EE464 /* introLessons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "introLessons@2x.png"; sourceTree = "<group>"; };
-		7798DE1916191F68004EE464 /* introPractice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = introPractice.png; sourceTree = "<group>"; };
 		7798DE1D161A7314004EE464 /* none40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = none40.png; sourceTree = "<group>"; };
 		779921D1164218DB005DFB07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
 		779921D3164218DB005DFB07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -290,8 +280,6 @@
 		77BBFE0E157C189600511CEC /* Languages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Languages.h; sourceTree = "<group>"; };
 		77BBFE0F157C189600511CEC /* Languages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Languages.m; sourceTree = "<group>"; };
 		77BBFE15157C3BF100511CEC /* Checkbox empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox empty.png"; sourceTree = "<group>"; };
-		77CB51AC1561FCAA00BBD4FC /* LessonListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListViewController.h; sourceTree = "<group>"; };
-		77CB51AD1561FCAA00BBD4FC /* LessonListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListViewController.m; sourceTree = "<group>"; };
 		77CB51E215683A6D00BBD4FC /* shuffle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle.png; sourceTree = "<group>"; };
 		77CB51E815683C2F00BBD4FC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		77CC931E15D4938E008A3074 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
@@ -382,11 +370,8 @@
 		7761D6A215E2E4E000975F1B /* Practice Mode */ = {
 			isa = PBXGroup;
 			children = (
-				7761D69F15E2E4DB00975F1B /* PracticeListViewController.h */,
-				7761D6A015E2E4DB00975F1B /* PracticeListViewController.m */,
 				7761D6A315E2E77E00975F1B /* practiceIcon.png */,
 				7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */,
-				7798DE1916191F68004EE464 /* introPractice.png */,
 			);
 			name = "Practice Mode";
 			sourceTree = "<group>";
@@ -579,8 +564,6 @@
 		77DDC70C156DD45300568CDE /* Lesson Mode */ = {
 			isa = PBXGroup;
 			children = (
-				77CB51AC1561FCAA00BBD4FC /* LessonListViewController.h */,
-				77CB51AD1561FCAA00BBD4FC /* LessonListViewController.m */,
 				77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */,
 				77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */,
 				77D8AD2D157AE373001E2E25 /* LessonViewController.h */,
@@ -595,8 +578,6 @@
 				7729FEC215294E5900D2180E /* echo@2x.png */,
 				77A50BE2157C59BE00027CB1 /* Checkbox checked.png */,
 				77BBFE15157C3BF100511CEC /* Checkbox empty.png */,
-				7798DE1316191978004EE464 /* introLessons.png */,
-				7798DE1416191978004EE464 /* introLessons@2x.png */,
 			);
 			name = "Lesson Mode";
 			sourceTree = "<group>";
@@ -781,9 +762,6 @@
 				77B9BC45160AC28500931E92 /* Default-568h@2x.png in Resources */,
 				7798DE111619138C004EE464 /* flag.png in Resources */,
 				7798DE121619138C004EE464 /* flag@2x.png in Resources */,
-				7798DE1516191978004EE464 /* introLessons.png in Resources */,
-				7798DE1616191978004EE464 /* introLessons@2x.png in Resources */,
-				7798DE1A16191F68004EE464 /* introPractice.png in Resources */,
 				7798DE1E161A7314004EE464 /* none40.png in Resources */,
 				779921E2164218DB005DFB07 /* FDTake.strings in Resources */,
 				779921E3164218DB005DFB07 /* InfoPlist.strings in Resources */,
@@ -814,7 +792,6 @@
 				77B5138B151970B100F041D7 /* main.m in Sources */,
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
 				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
-				77CB51AE1561FCAA00BBD4FC /* LessonListViewController.m in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
 				77D8AD15157ABE53001E2E25 /* PHOREchoRecordButton.m in Sources */,
 				77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */,
@@ -829,7 +806,6 @@
 				774CDA1A15CF05B700B14C45 /* SocialViewController.m in Sources */,
 				774CDA5215D0B08100B14C45 /* EchoSHKConfigurator.m in Sources */,
 				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
-				7761D6A115E2E4DB00975F1B /* PracticeListViewController.m in Sources */,
 				7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */,
 				7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */,
 				779921E7164218DB005DFB07 /* FDTakeController.m in Sources */,

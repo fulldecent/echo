@@ -4,6 +4,8 @@ REMAINING TASKS FOR 1.0.8 RELEASE
 ========================================
 
  - Home screen, how do I say: it is not uploading
+   - After save word, DetailWordController will upload and show share options
+
  - Home screen: download lesson (update text "5 new spanish lessons available)
    - XX new messages from other people
    - {XX, YY, ZZ} lessons are updated
