@@ -109,7 +109,8 @@
 		77D8AD22157ABF1A001E2E25 /* Record failed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 77D8AD1C157ABF1A001E2E25 /* Record failed.m4a */; };
 		77D8AD24157ABF48001E2E25 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D8AD23157ABF48001E2E25 /* CoreMedia.framework */; };
 		77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8AD2E157AE373001E2E25 /* LessonViewController.m */; };
-		77DB5F8D15A2B3880043DC79 /* GetLessonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */; };
+		77DD954016E624B000737E75 /* down_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 77DD953E16E624B000737E75 /* down_arrow.png */; };
+		77DD954116E624B000737E75 /* down_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77DD953F16E624B000737E75 /* down_arrow@2x.png */; };
 		77E585131699104A00866A43 /* checkon.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E5850F1699104A00866A43 /* checkon.png */; };
 		77E585141699104A00866A43 /* checkon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E585101699104A00866A43 /* checkon@2x.png */; };
 		77E58517169910B200866A43 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E58515169910B200866A43 /* check.png */; };
@@ -312,8 +313,8 @@
 		77D8AD23157ABF48001E2E25 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		77D8AD2D157AE373001E2E25 /* LessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewController.h; sourceTree = "<group>"; };
 		77D8AD2E157AE373001E2E25 /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
-		77DB5F8B15A2B3880043DC79 /* GetLessonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetLessonsViewController.h; sourceTree = "<group>"; };
-		77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetLessonsViewController.m; sourceTree = "<group>"; };
+		77DD953E16E624B000737E75 /* down_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down_arrow.png; sourceTree = "<group>"; };
+		77DD953F16E624B000737E75 /* down_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down_arrow@2x.png"; sourceTree = "<group>"; };
 		77E5850F1699104A00866A43 /* checkon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkon.png; sourceTree = "<group>"; };
 		77E585101699104A00866A43 /* checkon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkon@2x.png"; sourceTree = "<group>"; };
 		77E58515169910B200866A43 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
@@ -558,6 +559,8 @@
 				77B51386151970B100F041D7 /* Echo-Info.plist */,
 				77B51387151970B100F041D7 /* InfoPlist.strings */,
 				7798DE1D161A7314004EE464 /* none40.png */,
+				77DD953E16E624B000737E75 /* down_arrow.png */,
+				77DD953F16E624B000737E75 /* down_arrow@2x.png */,
 				77B5138A151970B100F041D7 /* main.m */,
 				7798DE0F1619138C004EE464 /* flag.png */,
 				7798DE101619138C004EE464 /* flag@2x.png */,
@@ -586,8 +589,6 @@
 				77B5139E151970B100F041D7 /* WordPracticeController.m */,
 				77BBFE0B157C11C900511CEC /* WordDetailController.h */,
 				77BBFE0C157C11C900511CEC /* WordDetailController.m */,
-				77DB5F8B15A2B3880043DC79 /* GetLessonsViewController.h */,
-				77DB5F8C15A2B3880043DC79 /* GetLessonsViewController.m */,
 				77BBFE08157C0DB900511CEC /* LanguageSelectController.h */,
 				77BBFE09157C0DB900511CEC /* LanguageSelectController.m */,
 				7729FEC115294E5900D2180E /* echo.png */,
@@ -798,6 +799,8 @@
 				770AA8B216C4A7D700348FB8 /* Icon-iPad.png in Resources */,
 				770AA8B316C4A7D700348FB8 /* Icon.png in Resources */,
 				770AA8B716C4ABC300348FB8 /* gradient.png in Resources */,
+				77DD954016E624B000737E75 /* down_arrow.png in Resources */,
+				77DD954116E624B000737E75 /* down_arrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,7 +825,6 @@
 				77A50BE7157EEB6500027CB1 /* Word.m in Sources */,
 				77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
-				77DB5F8D15A2B3880043DC79 /* GetLessonsViewController.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
 				774CDA1A15CF05B700B14C45 /* SocialViewController.m in Sources */,
 				774CDA5215D0B08100B14C45 /* EchoSHKConfigurator.m in Sources */,

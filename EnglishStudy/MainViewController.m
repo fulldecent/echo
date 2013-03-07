@@ -13,11 +13,12 @@
 #import "LessonInformationViewController.h"
 #import "Profile.h"
 #import "IntroViewController.h"
+#import "DownloadLessonViewController.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellInbox, CellEditProfile, CellMeetPeople, CellWhatsUp} Cells;
 
-@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate>
+@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
@@ -267,8 +268,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
             [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
-#warning Set visible only if just downloaded or just updated
-            [(UIButton *)[cell viewWithTag:6] setHidden:NO];
+            [(UIProgressView *)[cell viewWithTag:3] setProgress:[lesson.portionComplete floatValue]];
+            [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)([lesson.portionComplete floatValue]*100)]];
+            [(UIButton *)[cell viewWithTag:6] setHidden:(lesson.portionComplete.floatValue > 0)];
+            
             return cell;
         case CellLessonEditable:
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonEditable"];
@@ -277,9 +280,16 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
             [(UILabel *)[cell viewWithTag:3] setText:@"7 people using"];
             return cell;
-        case CellLessonTransfer:
+        case CellLessonTransfer: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonTransfer"];
+            lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
+            [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
+            [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
+            NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
+            [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
+            //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
             return cell;
+        }
         case CellDownloadLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
 #warning Set visible only if new downloads available
@@ -456,6 +466,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     } else if ([segue.destinationViewController isKindOfClass:[IntroViewController class]]) {
         IntroViewController *controller = segue.destinationViewController;
         controller.delegate = self;
+    } else if ([segue.destinationViewController isKindOfClass:[DownloadLessonViewController class]]) {
+        DownloadLessonViewController *controller = segue.destinationViewController;
+        controller.delegate = self;
     }
 }
     
@@ -501,6 +514,20 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
         NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+    }];
+}
+
+#pragma mark - DownloadLessonViewControllerDelegate
+
+- (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson
+{
+    [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.lessonSet syncLesson:lesson withProgress:^(Lesson *lesson, NSNumber *progress) {
+        NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
+        NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+        [controller.navigationController popViewControllerAnimated:YES];
     }];
 }
 

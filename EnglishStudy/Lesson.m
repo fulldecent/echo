@@ -34,8 +34,11 @@
 #define kDetail @"detail"
 #define kVersion @"version"
 #define kServerVersion @"serverVersion"
+#define kUpdated @"updated"
 #define kWords @"words"
 #define kSubmittedLikeVote @"submittedLikeVote"
+#define kLikes @"likes"
+#define kFlags @"flags"
 
 #define kWordID @"wordID"
 #define kWordCode @"wordCode"
@@ -108,12 +111,18 @@
         retval.version = [packed objectForKey:kVersion];
     if ([packed objectForKey:kServerVersion])
         retval.serverVersion = [packed objectForKey:kServerVersion];
+    if ([packed objectForKey:kUpdated])
+        retval.serverVersion = [packed objectForKey:kUpdated];
     if ([packed objectForKey:kUserID])
         retval.userID = [packed objectForKey:kUserID];
     if ([packed objectForKey:kUserName])
         retval.userName = [packed objectForKey:kUserName];
     if ([packed objectForKey:kSubmittedLikeVote])
         retval.submittedLikeVote = [packed objectForKey:kSubmittedLikeVote];
+    if ([packed objectForKey:kLikes])
+        retval.likes = [packed objectForKey:kLikes];
+    if ([packed objectForKey:kFlags])
+        retval.flags = [packed objectForKey:kFlags];
     NSMutableArray *words = [[NSMutableArray alloc] init];
     
     if (retval.detail) {

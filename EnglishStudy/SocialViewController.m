@@ -98,7 +98,7 @@
          {
              self.hud.progress = [PGprogress floatValue];
              if ([PGprogress floatValue] == 1.0) {
-                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
                  WordDetailController *wordDetail = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
                  //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
                  wordDetail.word = PGword;

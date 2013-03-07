@@ -10,10 +10,9 @@
 #import "WordPracticeController.h"
 #import "Lesson.h"
 #import "LanguageSelectController.h"
-#import "GetLessonsViewController.h"
 #import "UITableWithBackgroundViewController.h"
 
-@interface LessonListViewController : UITableWithBackgroundViewController <GetLessonsViewControllerDelegate, LanguageSelectControllerDelegate>
+@interface LessonListViewController : UITableWithBackgroundViewController <LanguageSelectControllerDelegate>
 - (IBAction)reload:(UIBarButtonItem *)sender;
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name;
 - (void)updateBadgeCount;

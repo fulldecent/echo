@@ -17,8 +17,9 @@
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 #import <QuartzCore/QuartzCore.h>
+#import "DownloadLessonViewController.h"
 
-@interface LessonListViewController() <LessonViewDelegate, LessonInformationViewDelegate, UIActionSheetDelegate>
+@interface LessonListViewController() <LessonViewDelegate, LessonInformationViewDelegate, UIActionSheetDelegate, DownloadLessonViewControllerDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) Lesson *currentLesson;
 @property (strong, nonatomic) UIBarButtonItem *refreshButton;
@@ -333,11 +334,11 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
         controller.delegate = self;
         if (![segue.description isEqualToString:@"createLesson"])
             controller.lesson = self.currentLesson;
-    } else if ([segue.destinationViewController isKindOfClass:[GetLessonsViewController class]]) {
-        GetLessonsViewController *controller = segue.destinationViewController;
-        controller.delegate = self;
     } else if ([segue.destinationViewController isKindOfClass:[LanguageSelectController class]]) {
         LanguageSelectController *controller = segue.destinationViewController;
+        controller.delegate = self;
+    } else if ([segue.destinationViewController isKindOfClass:[DownloadLessonViewController class]]) {
+        DownloadLessonViewController *controller = segue.destinationViewController;
         controller.delegate = self;
     }
 }
@@ -441,7 +442,7 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
 
 #pragma mark - GetLessonDelegate
 
-- (void)getLessonsController:(GetLessonsViewController *)controller gotStubLesson:(Lesson *)lesson
+- (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson
 {
     [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -449,6 +450,7 @@ delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButton
         NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
         [self reloadRowAtIndexPathWithoutAnimation:[NSIndexPath indexPathForRow:index inSection:0]];
     }];
+    [controller.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

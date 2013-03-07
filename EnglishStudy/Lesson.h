@@ -19,6 +19,8 @@
 @property (strong, nonatomic) NSArray *words;
 @property (strong, nonatomic) NSNumber *userID;
 @property (strong, nonatomic) NSString *userName;
+@property (strong, nonatomic) NSNumber *likes;
+@property (strong, nonatomic) NSNumber *flags;
 
 @property (strong, nonatomic) NSNumber *submittedLikeVote; // (BOOL)
 @property (readonly, strong, nonatomic) NSString *filePath;

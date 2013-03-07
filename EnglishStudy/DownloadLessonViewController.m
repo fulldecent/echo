@@ -11,6 +11,7 @@
 #import "Lesson.h"
 #import "NetworkManager.h"
 #import "LanguageSelectController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface DownloadLessonViewController () <LanguageSelectControllerDelegate>
 @property (strong, nonatomic) NSArray *lessons;
@@ -18,6 +19,7 @@
 @end
 
 @implementation DownloadLessonViewController
+@synthesize delegate = _delegate;
 
 - (void)populateRowsWithSearch:(NSString *)searchString languageTag:(NSString *)tag
 {
@@ -57,15 +59,43 @@
 {
     Lesson *lesson = [self.lessons objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
-    cell.textLabel.text = lesson.name;
-    cell.detailTextLabel.text = lesson.userName;
-    
-    // Configure the cell...
+    [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
+    [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:@"en"]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[lesson.serverVersion doubleValue]];
+    NSString *formattedDateString = [dateFormatter stringFromDate:date];
+    [(UILabel *)[cell viewWithTag:3] setText:formattedDateString];
+    if ([lesson.likes integerValue]) {
+        [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%@", lesson.likes]];
+        [(UIImageView *)[cell viewWithTag:7] setHidden:NO];
+    } else {
+        [(UILabel *)[cell viewWithTag:4] setText:@""];
+        [(UIImageView *)[cell viewWithTag:7] setHidden:YES];
+    }
+    if ([lesson.flags integerValue]) {
+        [(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%@", lesson.flags]];
+        [(UIImageView *)[cell viewWithTag:8] setHidden:NO];
+    } else {
+        [(UILabel *)[cell viewWithTag:5] setText:@""];
+        [(UIImageView *)[cell viewWithTag:8] setHidden:YES];
+    }
+//    [(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%@", lesson.flags]];
+    [(UILabel *)[cell viewWithTag:6] setText:lesson.userName];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png", lesson.userID]];
+    UIImage *placeholder = [UIImage imageNamed:@"none40"];
+    [(UIImageView *)[cell viewWithTag:9] setImageWithURL:url placeholderImage:placeholder];
     
     return cell;
 }
 
 #pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 69;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -76,6 +106,8 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    [self.delegate downloadLessonViewController:self gotStubLesson:[self.lessons objectAtIndex:indexPath.row]];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

@@ -108,6 +108,10 @@
 {
     self.editing = YES;
     [super viewDidLoad];
+
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
+    tempImageView.frame = self.tableView.frame;
+    self.tableView.backgroundView = tempImageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated

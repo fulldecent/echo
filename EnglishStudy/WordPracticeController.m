@@ -147,7 +147,7 @@
 - (IBAction)fastForwardPressed:(id)sender {
     // see http://stackoverflow.com/questions/8926606/performseguewithidentifier-vs-instantiateviewcontrollerwithidentifier
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     WordPracticeController *newWordPractice = [storyboard instantiateViewControllerWithIdentifier:@"wordPractice"];
     [self.delegate skipToNextWordForWordPractice:self];
     newWordPractice.datasource = self.datasource;
