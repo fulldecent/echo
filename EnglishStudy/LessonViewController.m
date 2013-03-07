@@ -114,7 +114,8 @@
     [SHK setRootViewController:self];
     
     // Display the action sheet
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+//    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+    [actionSheet showInView:self.view];
 }
 
 - (IBAction)messagePressed:(id)sender {    

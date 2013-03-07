@@ -3,8 +3,8 @@
 REMAINING TASKS FOR 1.0.8 RELEASE
 ========================================
 
+ - Home screen, how do I say: it is not uploading
  - Home screen: download lesson (update text "5 new spanish lessons available)
-   - XX new LEARNING lessons
    - XX new messages from other people
    - {XX, YY, ZZ} lessons are updated
    - Your {XX} lesson has YY current users
@@ -12,10 +12,6 @@ REMAINING TASKS FOR 1.0.8 RELEASE
  - Home screen: profile -- create this view
  - Home screen: Meet people (updated text "X new messages")
  - Remove old code
- - Switch to iOS 6 internationalization
- - Internationalize strings in storyboard
- - Stop using     NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
- - Fix bug: sharekit, try to share something -> crash
  - Various: use new background gradient
  - Push notification!
  - After practicing a word, let them share on facebook
@@ -24,10 +20,14 @@ REMAINING TASKS FOR 1.0.8 RELEASE
 STUFF TO DO AFTER 1.0.8
 ========================================
 
- ! User profile helper class
+ - Home screen: 
+   - Downloads: XX new lessons available in LANGUAGE
+ - Downloads: request a lesson
+ - Stop using     NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+ - Use iOS 6 internationalization
+   - Internationalize strings in storyboard
+
  ! Pretty new front page
-   - Reload, update all status bars
-   - Swipe to delete
    - Hold to edit
    - Set badge icon
  ! Push notifications

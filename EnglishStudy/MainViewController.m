@@ -14,18 +14,22 @@
 #import "Profile.h"
 #import "IntroViewController.h"
 #import "DownloadLessonViewController.h"
+#import "Languages.h"
+#import "WordDetailController.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellInbox, CellEditProfile, CellMeetPeople, CellWhatsUp} Cells;
 
-@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate>
+@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
+@property (strong, nonatomic) LessonSet *practiceLessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
 @end
 
 @implementation MainViewController
 @synthesize lessonSet = _lessonSet;
+@synthesize practiceLessonSet = _practiceLessonSet;
 @synthesize practiceSet = _practiceSet;
 @synthesize currentLesson = _currentLesson;
 
@@ -261,6 +265,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
 {
     UITableViewCell *cell;
     Lesson *lesson;
+    Profile *me = [Profile currentUserProfile];
 
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLesson:
@@ -292,9 +297,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         }
         case CellDownloadLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
-#warning Set visible only if new downloads available
-            [(UILabel *)[cell viewWithTag:2] setText:@"New Spanish lessons"];
+            [(UILabel *)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"New %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]]];
+#warning TODO: Set visible only if new downloads available
             [(UIButton *)[cell viewWithTag:3] setTitle:@"5" forState:UIControlStateNormal];
+            [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;
         case CellCreateLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"createLesson"];
@@ -469,9 +475,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     } else if ([segue.destinationViewController isKindOfClass:[DownloadLessonViewController class]]) {
         DownloadLessonViewController *controller = segue.destinationViewController;
         controller.delegate = self;
+    } else if ([segue.destinationViewController isKindOfClass:[WordDetailController class]]) {
+        WordDetailController *controller = segue.destinationViewController;
+        controller.delegate = self;
+        self.currentLesson = [[Lesson alloc] init];
     }
 }
-    
+
 #pragma mark - LessonViewDelegate
 
 - (void)lessonView:(LessonViewController *)controller didSaveLesson:(Lesson *)lesson
@@ -530,5 +540,44 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         [controller.navigationController popViewControllerAnimated:YES];
     }];
 }
+
+#pragma mark - WordDetailControllerDelegate
+- (void)wordDetailController:(WordDetailController *)controller didSaveWord:(Word *)word
+{
+    self.currentLesson.words = [NSArray arrayWithObject:word];
+    self.currentLesson.name = @"PRACTICE";
+    self.currentLesson.detail = [NSDictionary dictionaryWithObject:word.name forKey:word.languageTag];
+    self.currentLesson.languageTag = word.languageTag;
+    [self.practiceLessonSet.lessons addObject:self.currentLesson];
+    [self.practiceLessonSet writeToDisk];
+    [self.tableView reloadData];
+    [controller.navigationController popViewControllerAnimated:YES];
+    
+    [self.practiceLessonSet syncLesson:self.currentLesson withProgress:^(Lesson *lesson, NSNumber *progress)
+     {
+         NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
+         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
+         //if (progress.integerValue == 1.0)
+         //self.navigationItem.leftBarButtonItem = self.refreshButton;
+     }];
+    //NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
+    //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
+    
+    self.currentLesson = nil;
+}
+
+- (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
+{
+    NSString *lessonPath = self.currentLesson.filePath;
+    NSString *wordPath = [lessonPath stringByAppendingPathComponent:controller.word.wordCode];
+    return wordPath;
+}
+
+- (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word
+{
+    return YES;
+}
+
 
 @end
