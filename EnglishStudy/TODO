@@ -11,9 +11,6 @@ REMAINING TASKS FOR 1.0.8 RELEASE
  - Home screen: social -- updated this view
  - Home screen: profile -- create this view
  - Home screen: Meet people (updated text "X new messages")
- - Remove old code
- - Various: use new background gradient
- - Push notification!
  - After practicing a word, let them share on facebook
 
 ========================================
@@ -26,6 +23,7 @@ STUFF TO DO AFTER 1.0.8
  - Stop using     NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
  - Use iOS 6 internationalization
    - Internationalize strings in storyboard
+ - Remove old code and views from storyboard
 
  ! Pretty new front page
    - Hold to edit

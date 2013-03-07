@@ -476,9 +476,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         DownloadLessonViewController *controller = segue.destinationViewController;
         controller.delegate = self;
     } else if ([segue.destinationViewController isKindOfClass:[WordDetailController class]]) {
+        Profile *me = [Profile currentUserProfile];
         WordDetailController *controller = segue.destinationViewController;
         controller.delegate = self;
         self.currentLesson = [[Lesson alloc] init];
+        Word *word = [[Word alloc] init];
+        word.languageTag = me.learningLanguageTag;
+        controller.word = word;
     }
 }
 

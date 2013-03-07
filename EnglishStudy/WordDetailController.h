@@ -22,7 +22,7 @@
 
 @interface WordDetailController : UITableViewController <UITextFieldDelegate, PHOREchoRecorderDelegate>
 
-@property (strong, nonatomic) Word *word; // should not be provided for Add modes
+@property (strong, nonatomic) Word *word;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 - (IBAction)echoButtonPressed:(id)sender;
 - (IBAction)echoButtonReset:(id)sender;

@@ -341,7 +341,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) { // Language, Word, Detail
-        return 2;
+        return 3;
     } else {
         return NUMBER_OF_RECORDERS;
     }
@@ -349,6 +349,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+/*
     if (section == 0) {
         if (self.editingLanguageTag.length)
             return [@"Word in " stringByAppendingString:[Languages nativeDescriptionForLanguage:self.editingLanguageTag]];
@@ -356,6 +357,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             return @"Word";
     }
     else
+*/
         return nil;
 }
 
@@ -364,7 +366,10 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     UITableViewCell *cell;
     
     if (indexPath.section == 0) {
-        if (indexPath.row == 0) { // Word
+        if (indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"language"];
+            cell.detailTextLabel.text = [Languages nativeDescriptionForLanguage:self.editingLanguageTag];
+        } else if (indexPath.row == 1) { // Word
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             self.wordLabel = (UILabel *)[cell viewWithTag:1];
             // self.wordLabel.text; // Automatically set
@@ -372,7 +377,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             textField.text = self.editingName;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
-        } else if (indexPath.row == 1) { // Detail
+        } else if (indexPath.row == 2) { // Detail
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
             self.detailLabel = (UILabel *)[cell viewWithTag:1];
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
@@ -416,6 +421,14 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1) {
+        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundView = nil;
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
@@ -443,6 +456,9 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         [[[self.tableView cellForRowAtIndexPath:indexPath] viewWithTag:2] becomeFirstResponder];
     } 
     [self.tableView selectRowAtIndexPath:nil animated:YES scrollPosition:UITableViewScrollPositionNone];
+    if (indexPath.section == 0 && indexPath.row == 0 && [self.delegate wordDetailController:self canEditWord:self.word]) {
+        [self performSegueWithIdentifier:@"language" sender:self];        
+    }
 }
 
 #pragma mark - UI Text Field Delegate
