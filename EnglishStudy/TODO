@@ -1,35 +1,37 @@
 
 ========================================
-REMAINING TASKS FOR 1.0.8 RELEASE
+REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
 ========================================
 
- - Home screen, how do I say: it is not uploading
-   - After save word, DetailWordController will upload and show share options
-
- - Home screen: download lesson (update text "5 new spanish lessons available)
-   - XX new messages from other people
-   - {XX, YY, ZZ} lessons are updated
-   - Your {XX} lesson has YY current users
- - Home screen: social -- updated this view
- - Home screen: profile -- create this view
- - Home screen: Meet people (updated text "X new messages")
- - After practicing a word, let them share on facebook
+ - Home screen, How do I say, save word
+   MainViewController should handle upload and show share options
+   http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
+ - Home screen, Meet people: recreate this view using AJAX and native UITableView
+ - Home screen, My profile: create this view
+ - Home screen: refresh needs more data
+   - Meet people: XXX New messages (feedback from How do I say & send message to author)
+ - At bottom of lesson: "create this lesson in NATIVELANGUAGE"
+ - View a lesson
+   - Thumb up / flag next to icon
+   - Share next to lesson name
+ - Check the the UI works in Chinese
+ - Download lesson: at the bottom add "Request a lesson" to send email
 
 ========================================
 STUFF TO DO AFTER 1.0.8
 ========================================
 
- - Home screen: 
-   - Downloads: XX new lessons available in LANGUAGE
- - Downloads: request a lesson
+ - Home screen: refresh needs more data
+   - Download lessons: XX new lessons available in LANGUAGE
+   - Lesson you have created: XXX current users
  - Stop using     NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
- - Use iOS 6 internationalization
-   - Internationalize strings in storyboard
- - Remove old code and views from storyboard
-
- ! Pretty new front page
+ - Home screen other stuff
    - Hold to edit
-   - Set badge icon
+   - Set some screen badge icon after refresh
  ! Push notifications
  ? iOS forms library
+ - Custom URL, and allow opening lessons directly from learnwithecho.com
+ - Add link to rate app 
+   http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
+ - Make English lesson http://www.wyrdplay.org/chaos-poem.html
  

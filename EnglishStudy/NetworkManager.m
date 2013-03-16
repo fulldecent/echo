@@ -48,7 +48,61 @@
     [self.HTTPclient registerHTTPOperationClass:[AFJSONRequestOperation class]];
     return self;
 }
-    
+
+- (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
+           andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion
+{
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
+    NSMutableArray *lessonIDsToCheck = [[NSMutableArray alloc] init];
+    NSMutableArray *lessonIDTimestamps = [[NSMutableArray alloc] init];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    for (Lesson *lesson in lessonSet.lessons) {
+        if ([lesson.lessonID integerValue] != 0) { // Didn't finish uploading
+            [lessonIDsToCheck addObject:lesson.lessonID];
+            [lessonIDTimestamps addObject:lesson.version];
+        }
+    }
+
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/whatsNew", deviceUUID];
+    NSMutableURLRequest *request = [self.HTTPclient multipartFormRequestWithMethod:@"POST"
+                                                                              path:relativeRequestPath
+                                                                        parameters:nil
+                                                         constructingBodyWithBlock:^(id <AFMultipartFormData>formData)
+                                    {
+                                        NSData *lessonIDsJSON = [NSJSONSerialization dataWithJSONObject:lessonIDsToCheck options:0 error:nil];
+                                        NSData *timestampsJSON = [NSJSONSerialization dataWithJSONObject:lessonIDTimestamps options:0 error:nil];
+                                        if ([defaults objectForKey:@"lastLessonSeen"])
+                                            [formData appendPartWithFormData:[[(NSNumber *)[defaults objectForKey:@"lastLessonSeen"] stringValue] dataUsingEncoding:NSUTF8StringEncoding] name:@"lastLessonSeen"];
+                                        if ([defaults objectForKey:@"lastMessageSeen"])
+                                            [formData appendPartWithFormData:[[(NSNumber *)[defaults objectForKey:@"lastMessageSeen"] stringValue] dataUsingEncoding:NSUTF8StringEncoding] name:@"lastLessonSeen"];
+                                        [formData appendPartWithFormData:lessonIDsJSON name:@"lessonIDs"];
+                                        [formData appendPartWithFormData:timestampsJSON name:@"timestamps"];
+                                    }];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          for (NSString *lessonIDStr in [JSON objectForKey:@"updatedLessons"]) {
+                                              NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                                              [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                              NSNumber *lessonID = [f numberFromString:lessonIDStr];
+                                              
+                                              for (Lesson *lesson in lessonSet.lessons) {
+                                                  if ([lesson.lessonID isEqualToNumber:lessonID]) // a little weird
+                                                      lesson.serverVersion = [JSON objectForKey:lessonIDStr];
+                                              }
+                                          }
+                                          if (completion)
+                                              completion([JSON objectForKey:@"newLessons"], [JSON objectForKey:@"unreadMessages"]);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          [self hudFlashError:error];
+                                          NSLog(@"updateServerVersionForLessons failed:%@", [error localizedDescription]);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
+}
+
 - (void)updateServerVersionForLessons:(NSArray *)lessons
                    onCompletion:(void(^)())block
 {
@@ -814,7 +868,7 @@
                                                                                      success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
                                       {
                                           NSMutableArray *lessons = [NSMutableArray array];
-                                          for (id item in (NSDictionary *)JSON) {
+                                          for (id item in (NSArray *)JSON) {
                                               NSData *data = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
                                               [lessons addObject:[Lesson lessonWithJSON:data]];
                                           }

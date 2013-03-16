@@ -16,22 +16,24 @@
 #import "DownloadLessonViewController.h"
 #import "Languages.h"
 #import "WordDetailController.h"
+#import "MBProgressHUD.h"
+#import "NetworkManager.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellInbox, CellEditProfile, CellMeetPeople, CellWhatsUp} Cells;
 
 @interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
-@property (strong, nonatomic) LessonSet *practiceLessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
+@property (strong, nonatomic) MBProgressHUD *hud;
 @end
 
 @implementation MainViewController
 @synthesize lessonSet = _lessonSet;
-@synthesize practiceLessonSet = _practiceLessonSet;
 @synthesize practiceSet = _practiceSet;
 @synthesize currentLesson = _currentLesson;
+@synthesize hud = _hud;
 
 - (LessonSet *)lessonSet
 {
@@ -46,6 +48,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
 }
 
 - (IBAction)reload {
+    /*
     [self.lessonSet markStaleLessonsWithCallback:^
      {
          [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
@@ -60,6 +63,21 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
          [defaults synchronize];
          [self.refreshControl endRefreshing];
      }];
+     */
+    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+    [networkManager updateServerVersionsInLessonSet:self.lessonSet
+                       andSeeWhatsNewWithCompletion:^(NSNumber *newLessonCount, NSNumber *unreadMessageCount)
+     {
+         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+         [defaults setObject:newLessonCount forKey:@"newLessonCount"];
+         [defaults setObject:unreadMessageCount forKey:@"unreadMessageCount"];
+         [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
+         [defaults synchronize];
+         [self.tableView reloadData];
+         [self.refreshControl endRefreshing];
+#warning Use animation instead of reloadData?
+     }
+    ];
 }
 
 #pragma mark - UITableViewController
@@ -84,6 +102,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"parent viewWillAppear start");
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     
@@ -96,17 +115,21 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     }
     [super viewWillAppear:YES];
     [self.tableView reloadData];
+    NSLog(@"parent viewWillAppear returning");
 }
 
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"parent viewDidAppear start");
+    [super viewDidAppear:animated];
+    NSLog(@"parent viewDidAppear returning");
+}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [super viewWillDisappear:animated];
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -266,6 +289,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     UITableViewCell *cell;
     Lesson *lesson;
     Profile *me = [Profile currentUserProfile];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLesson:
@@ -298,9 +322,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellDownloadLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
             [(UILabel *)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"New %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]]];
-#warning TODO: Set visible only if new downloads available
-            [(UIButton *)[cell viewWithTag:3] setTitle:@"5" forState:UIControlStateNormal];
-            [(UIButton *)[cell viewWithTag:3] setHidden:YES];
+            if ([(NSNumber *)[defaults objectForKey:@"newLessonCount"] integerValue]) {
+                [(UIButton *)[cell viewWithTag:3] setHidden:NO];
+                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"newLessonCount"] stringValue] forState:UIControlStateNormal];
+            } else
+                [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;
         case CellCreateLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"createLesson"];
@@ -329,11 +355,14 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellInbox:
             cell = [tableView dequeueReusableCellWithIdentifier:@"inbox"];
             return cell;
-        case CellMeetPeople:
+        case CellMeetPeople:            
             cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
             [(UILabel *)[cell viewWithTag:2] setText:@"New messages"];
-#warning Set visible only if just downloaded or just updated
-            [(UIButton *)[cell viewWithTag:3] setTitle:@"1" forState:UIControlStateNormal];
+            if ([(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] integerValue]) {
+                [(UIButton *)[cell viewWithTag:3] setHidden:NO];
+                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] stringValue] forState:UIControlStateNormal];
+            } else
+                [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;
         case CellWhatsUp:
             cell = [tableView dequeueReusableCellWithIdentifier:@"whatsUp"];
@@ -552,30 +581,32 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     self.currentLesson.name = @"PRACTICE";
     self.currentLesson.detail = [NSDictionary dictionaryWithObject:word.name forKey:word.languageTag];
     self.currentLesson.languageTag = word.languageTag;
-    [self.practiceLessonSet.lessons addObject:self.currentLesson];
-    [self.practiceLessonSet writeToDisk];
-    [self.tableView reloadData];
-    [controller.navigationController popViewControllerAnimated:YES];
+//    self.practiceLessonSet = [[LessonSet alloc] init];
+    [self.practiceSet.lessons addObject:self.currentLesson];
+    [self.practiceSet writeToDisk];
+//    [controller.navigationController popViewControllerAnimated:YES];
+
+    self.hud = [MBProgressHUD showHUDAddedTo:controller.view animated:YES];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.labelText = @"Sending...";
     
-    [self.practiceLessonSet syncLesson:self.currentLesson withProgress:^(Lesson *lesson, NSNumber *progress)
+    [self.practiceSet syncLesson:self.currentLesson withProgress:^(Lesson *lesson, NSNumber *progress)
      {
-         NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:lesson];
-         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
-         //if (progress.integerValue == 1.0)
-         //self.navigationItem.leftBarButtonItem = self.refreshButton;
+         self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+         self.hud.progress = progress.floatValue;
+         NSLog(@"How do I say upload progress %@", progress);
+         if (progress.floatValue == 1.0) {
+             [controller.navigationController popToRootViewControllerAnimated:YES];
+             NSLog(@"calling popToRootViewControllerAnimated");
+         }
      }];
-    //NSUInteger index = [self.practiceLessonSet.lessons indexOfObject:self.currentLesson];
-    //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView reloadData];
-    
     self.currentLesson = nil;
 }
 
 - (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
 {
     NSString *lessonPath = self.currentLesson.filePath;
-    NSString *wordPath = [lessonPath stringByAppendingPathComponent:controller.word.wordCode];
-    return wordPath;
+    return [lessonPath stringByAppendingPathComponent:controller.word.wordCode];
 }
 
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word

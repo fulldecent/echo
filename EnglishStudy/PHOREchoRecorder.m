@@ -138,7 +138,7 @@
 - (void) followUpOnRecording 
 {    
     if (!self.isRecordingInProgress) return;
-NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audioRecorder.recording?@"YES":@"NO");
+//NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audioRecorder.recording?@"YES":@"NO");
     if (!self.audioRecorder.recording) { // Timed out
         [self stopRecordingAndKeepResult:NO];
         
@@ -178,7 +178,7 @@ NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audio
             self.speakingBeginTime = 0;
     }
     
-    NSLog(@"levels: peak %f, current %f, avg %f, begin %f", peak, currentLevel, runningTotal, self.speakingBeginTime);
+//    NSLog(@"levels: peak %f, current %f, avg %f, begin %f", peak, currentLevel, runningTotal, self.speakingBeginTime);
 }
 
 - (void) stopRecordingAndKeepResult:(BOOL)save
@@ -312,7 +312,7 @@ NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audio
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-    if (self.isRecordingInProgress = YES)
+    if (self.isRecordingInProgress)
         [self performSelector:@selector(actuallyRecord) withObject:self afterDelay:PLAYBACK_BUFFER_SIZE]; // wait for buffer to clear
 }
 

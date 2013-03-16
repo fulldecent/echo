@@ -24,6 +24,7 @@
 
 @property (strong, nonatomic) Word *word;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *actionButton;
+@property (weak, nonatomic) id <WordDetailControllerDelegate> delegate;
 - (IBAction)echoButtonPressed:(id)sender;
 - (IBAction)echoButtonReset:(id)sender;
 - (IBAction)resetButtonPressed:(UIButton *)sender;
@@ -31,5 +32,5 @@
 - (IBAction)updateName:(id)sender;
 - (IBAction)updateDetail:(id)sender;
 - (IBAction)save;
-@property (weak, nonatomic) id <WordDetailControllerDelegate> delegate;
+- (void)uploadWordAsNewPracticeLesson;
 @end

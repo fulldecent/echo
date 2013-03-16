@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LessonSet.h"
 #import "Lesson.h"
 #import "Word.h"
 #import "Profile.h"
@@ -15,6 +16,8 @@
 
 + (NetworkManager *)sharedNetworkManager;
 
+- (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
+           andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion;
 - (void)updateServerVersionForLessons:(NSArray *)lessons
                    onCompletion:(void(^)())block;
 - (void)syncLessons:(NSArray *)lessons

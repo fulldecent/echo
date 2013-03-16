@@ -12,7 +12,7 @@
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
 
-@interface IntroViewController() <MBProgressHUDDelegate, LanguageSelectControllerDelegate>
+@interface IntroViewController() <MBProgressHUDDelegate, LanguageSelectControllerDelegate, UITextFieldDelegate>
 - (void)saveName:(NSString *)name andLanguageWithTag:(NSString *)tag;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @end

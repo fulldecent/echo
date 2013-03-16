@@ -319,9 +319,18 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    NSLog(@"child viewWillDisappear start");
     for (PHOREchoRecorder *recorder in [self.echoRecorders allValues])
         [recorder removeObserver:self forKeyPath:@"microphoneLevel"];
     [super viewWillDisappear:animated];
+    NSLog(@"child viewWillDisappear returning");
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"child viewDidDisappear start");
+    [super viewDidDisappear:animated];
+    NSLog(@"child viewDidDisappear returning");    
 }
 
 - (void)viewDidUnload
@@ -329,6 +338,17 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     self.actionButton = nil;
     self.echoRecorders = nil;
     [super viewDidUnload];
+}
+
+- (void)uploadWordAsNewPracticeLesson
+{
+    Lesson *lesson = [[Lesson alloc] init];
+    lesson.name = @"PRACTICE";
+    lesson.detail = [NSDictionary dictionaryWithObject:self.word.name forKey:self.word.languageTag];
+    lesson.languageTag = self.word.languageTag;
+    __block MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.delegate = self;
+    hud.labelText = @"Sharing practice word";
 }
 
 #pragma mark - Table View Data Source
@@ -459,6 +479,13 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     if (indexPath.section == 0 && indexPath.row == 0 && [self.delegate wordDetailController:self canEditWord:self.word]) {
         [self performSegueWithIdentifier:@"language" sender:self];        
     }
+}
+
+#pragma mark - ScrollView
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES]; // fucking nice
 }
 
 #pragma mark - UI Text Field Delegate
