@@ -4,18 +4,24 @@ REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
 ========================================
 
  - Home screen, How do I say, save word
-   MainViewController should handle upload and show share options
+   Add share buttons
    http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
- - Home screen, My profile: create this view
  - Home screen: refresh needs more data
    - Meet people: XXX New messages (feedback from How do I say & send message to author)
- - At bottom of lesson: "create this lesson in NATIVELANGUAGE"
  - View a lesson
    - Thumb up / flag next to icon
    - Share next to lesson name
  - Check the the UI works in Chinese
  - Download lesson: at the bottom add "Request a lesson" to send email
  - Pick some automatic lessons to download
+ - Record sentences, not just words
+
+========================================
+ANNOUNCEMENT FOR 1.0.8
+ - New user interface, now looks more like Draw Something
+ - Easier to update your profile
+ - More lessons
+========================================
 
 ========================================
 STUFF TO DO AFTER 1.0.8
@@ -29,9 +35,10 @@ STUFF TO DO AFTER 1.0.8
    - Hold to edit
    - Set some screen badge icon after refresh
  ! Push notifications
+ - At bottom of lesson: "create this lesson in NATIVELANGUAGE"
  ? iOS forms library
  - Custom URL, and allow opening lessons directly from learnwithecho.com
  - Add link to rate app 
    http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Make English lesson http://www.wyrdplay.org/chaos-poem.html
- - Record sentences, not just words
+ - Do tableviews everywhere like in MainViewController

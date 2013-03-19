@@ -397,7 +397,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             textField.text = self.editingName;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
-        } else if (indexPath.row == 2) { // Detail
+        } else /*if (indexPath.row == 2)*/ { // Detail
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
             self.detailLabel = (UILabel *)[cell viewWithTag:1];
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
@@ -407,7 +407,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             textField.delegate = self;
         }
         
-    } else if (indexPath.section == 1) {
+    } else /*if (indexPath.section == 1)*/ {
         cell = [tableView dequeueReusableCellWithIdentifier:@"record"];
         UIImageView *checkbox = (UIImageView *)[cell viewWithTag:1];
         PHOREchoRecordButton *button = (PHOREchoRecordButton *)[cell viewWithTag:2];

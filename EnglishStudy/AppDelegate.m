@@ -35,11 +35,27 @@
     return [self handleOpenURL:url];
 }
 
+void uncaughtExceptionHandler(NSException *exception) {
+    NSLog(@"CRASH: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+    // Internal error reporting
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+#warning REMOVE THIS FOR RELEASE!!!!!!!!!!!!!!!!
+    
     DefaultSHKConfigurator *configurator = [[EchoSHKConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
-
+    
+    // Deprecate 1.0.8, for upgrade
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"learningLanguageTag"];
+    [defaults removeObjectForKey:@"nativeLanguageTag"];
+    [defaults removeObjectForKey:@"lastUpdatePracticeList"];
+    [defaults synchronize];
+    
     // http://www.switchonthecode.com/tutorials/an-absolute-beginners-guide-to-iphone-development
     [_window makeKeyAndVisible];
 

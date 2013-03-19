@@ -106,7 +106,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     
-    self.currentLesson = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdateLessonList"];
     if (!lastUpdateLessonList || [lastUpdateLessonList timeIntervalSinceNow] < -5*60) {
@@ -157,6 +156,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
                 return CellCreateLesson;
             break;
         case SectionPractice:
+/*
             if (indexPath.row < self.practiceSet.lessons.count) {
                 Lesson *lesson = [self.practiceSet.lessons objectAtIndex:indexPath.row];
                 if ([self.lessonSet transferProgressForLesson:lesson])
@@ -168,6 +168,15 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             } else if (indexPath.row == self.practiceSet.lessons.count+1) {
                 return CellMeetPeople;
             } else if (indexPath.row == self.practiceSet.lessons.count+2) {
+                return CellEditProfile;
+            }
+            break;
+ */
+            if (indexPath.row == 0) {
+                return CellNewPractice;
+            } else if (indexPath.row == 1) {
+                return CellMeetPeople;
+            } else if (indexPath.row == 2) {
                 return CellEditProfile;
             }
             break;
@@ -278,7 +287,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case SectionLessons:
             return self.lessonSet.lessons.count+2;
         case SectionPractice:
-            return self.practiceSet.lessons.count+3;
+//            return self.practiceSet.lessons.count+3;
+            return 3;
         default:
             return 0;
     }
@@ -339,7 +349,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
 #warning Set visible only if just downloaded or just updated
             [(UIButton *)[cell viewWithTag:3] setTitle:@"5" forState:UIControlStateNormal];
             return cell;
-            return cell;
         case CellPracticeTransfer:
             cell = [tableView dequeueReusableCellWithIdentifier:@"practiceTransfer"];
             return cell;
@@ -369,6 +378,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             cell = [tableView dequeueReusableCellWithIdentifier:@"whatsUp"];
             return cell;
     }
+    assert (0);
 }
 
 
@@ -497,7 +507,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     } else if ([segue.destinationViewController isKindOfClass:[LessonInformationViewController class]]) {
         LessonInformationViewController *controller = segue.destinationViewController;
         controller.delegate = self;
-        if (![segue.description isEqualToString:@"createLesson"])
+        if ([segue.description isEqualToString:@"createLesson"])
+            controller.lesson = nil;
+        else
             controller.lesson = self.currentLesson;
     } else if ([segue.destinationViewController isKindOfClass:[IntroViewController class]]) {
         IntroViewController *controller = segue.destinationViewController;
@@ -582,10 +594,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     self.currentLesson.name = @"PRACTICE";
     self.currentLesson.detail = [NSDictionary dictionaryWithObject:word.name forKey:word.languageTag];
     self.currentLesson.languageTag = word.languageTag;
-//    self.practiceLessonSet = [[LessonSet alloc] init];
-    [self.practiceSet.lessons addObject:self.currentLesson];
-    [self.practiceSet writeToDisk];
-//    [controller.navigationController popViewControllerAnimated:YES];
+//    [self.practiceSet.lessons addObject:self.currentLesson];
+    self.practiceSet.lessons = [NSArray arrayWithObject:self.currentLesson];
+//    [self.practiceSet writeToDisk];
 
     self.hud = [MBProgressHUD showHUDAddedTo:controller.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
@@ -595,13 +606,20 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
      {
          self.hud.mode = MBProgressHUDModeAnnularDeterminate;
          self.hud.progress = progress.floatValue;
-         NSLog(@"How do I say upload progress %@", progress);
+         NSLog(@"How do I say: upload progress %@", progress);
          if (progress.floatValue == 1.0) {
-             [controller.navigationController popToRootViewControllerAnimated:YES];
-             NSLog(@"calling popToRootViewControllerAnimated");
+//             [controller.navigationController popToRootViewControllerAnimated:YES];
+             
+             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+             WordDetailController *newController = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
+             newController.delegate = self;
+             newController.word = [[(Lesson *)[self.practiceSet.lessons objectAtIndex:0] words] objectAtIndex:0];
+             [controller.navigationController popViewControllerAnimated:NO];
+             [self.navigationController pushViewController:newController animated:YES];
+             NSLog(@"saved practice word");
          }
      }];
-    self.currentLesson = nil;
+  //  self.currentLesson = nil;
 }
 
 - (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
@@ -612,8 +630,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
 
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word
 {
-    return YES;
+    return !word.name; // edit new, virgin word
 }
-
 
 @end
