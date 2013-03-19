@@ -12,8 +12,12 @@
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *usercode;
 @property (strong, nonatomic) NSString *learningLanguageTag;
+@property (strong, nonatomic) NSString *nativeLanguageTag;
+@property (strong, nonatomic) NSString *location;
+@property (strong, nonatomic) UIImage *photo;
 
 + (Profile *)currentUserProfile;
 - (void)syncOnlineOnSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)syncToDisk;
+- (NSNumber *)profileCompleteness;
 @end

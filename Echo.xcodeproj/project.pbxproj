@@ -86,6 +86,11 @@
 		77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0C157C11C900511CEC /* WordDetailController.m */; };
 		77BBFE10157C189600511CEC /* Languages.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0F157C189600511CEC /* Languages.m */; };
 		77BBFE17157C3BF100511CEC /* Checkbox empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFE15157C3BF100511CEC /* Checkbox empty.png */; };
+		77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C7042D16F52FF400C3A13A /* ProfileViewController.m */; };
+		77C7043316F533C200C3A13A /* checkin.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C7043116F533C200C3A13A /* checkin.png */; };
+		77C7043416F533C200C3A13A /* checkin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C7043216F533C200C3A13A /* checkin@2x.png */; };
+		77C7043716F5366000C3A13A /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C7043516F5366000C3A13A /* camera.png */; };
+		77C7043816F5366000C3A13A /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C7043616F5366000C3A13A /* camera@2x.png */; };
 		77CB51E315683A6D00BBD4FC /* shuffle.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CB51E215683A6D00BBD4FC /* shuffle.png */; };
 		77CB51E915683C2F00BBD4FC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CB51E815683C2F00BBD4FC /* star.png */; };
 		77CC932315D494E9008A3074 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CC932215D494E9008A3074 /* Default-Portrait~ipad.png */; };
@@ -280,6 +285,12 @@
 		77BBFE0E157C189600511CEC /* Languages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Languages.h; sourceTree = "<group>"; };
 		77BBFE0F157C189600511CEC /* Languages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Languages.m; sourceTree = "<group>"; };
 		77BBFE15157C3BF100511CEC /* Checkbox empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox empty.png"; sourceTree = "<group>"; };
+		77C7042C16F52FF400C3A13A /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		77C7042D16F52FF400C3A13A /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		77C7043116F533C200C3A13A /* checkin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkin.png; sourceTree = "<group>"; };
+		77C7043216F533C200C3A13A /* checkin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkin@2x.png"; sourceTree = "<group>"; };
+		77C7043516F5366000C3A13A /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		77C7043616F5366000C3A13A /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
 		77CB51E215683A6D00BBD4FC /* shuffle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle.png; sourceTree = "<group>"; };
 		77CB51E815683C2F00BBD4FC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		77CC931E15D4938E008A3074 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
@@ -332,6 +343,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				774CDA4815D0AF1700B14C45 /* CoreLocation.framework in Frameworks */,
 				776D2BE416AB8D9300EDB4DB /* MobileCoreServices.framework in Frameworks */,
 				774CDA4215D0AEF800B14C45 /* SystemConfiguration.framework in Frameworks */,
 				776D2BE616AB8DA500EDB4DB /* libsqlite3.dylib in Frameworks */,
@@ -342,7 +354,6 @@
 				770816051611476500A9EF6F /* libShareKit.a in Frameworks */,
 				774CDA4C15D0AF2E00B14C45 /* CoreFoundation.framework in Frameworks */,
 				774CDA4A15D0AF1E00B14C45 /* Twitter.framework in Frameworks */,
-				774CDA4815D0AF1700B14C45 /* CoreLocation.framework in Frameworks */,
 				774CDA4615D0AF0C00B14C45 /* CFNetwork.framework in Frameworks */,
 				774CDA4415D0AF0000B14C45 /* Security.framework in Frameworks */,
 				77D8AD24157ABF48001E2E25 /* CoreMedia.framework in Frameworks */,
@@ -499,6 +510,8 @@
 				77ED9D101661615D005D10ED /* IntroViewController.m */,
 				77EC14C316C9B10700D5B4C0 /* DownloadLessonViewController.h */,
 				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
+				77C7042C16F52FF400C3A13A /* ProfileViewController.h */,
+				77C7042D16F52FF400C3A13A /* ProfileViewController.m */,
 				77ED9D08165C9094005D10ED /* UITableWithBackgroundViewController.h */,
 				77ED9D09165C9094005D10ED /* UITableWithBackgroundViewController.m */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
@@ -557,6 +570,10 @@
 				774CDA1E15D080F100B14C45 /* share@2x.png */,
 				77B5138C151970B100F041D7 /* Echo-Prefix.pch */,
 				77BBFDFA157BDC4500511CEC /* Languages.plist */,
+				77C7043116F533C200C3A13A /* checkin.png */,
+				77C7043216F533C200C3A13A /* checkin@2x.png */,
+				77C7043516F5366000C3A13A /* camera.png */,
+				77C7043616F5366000C3A13A /* camera@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -779,6 +796,10 @@
 				770AA8B716C4ABC300348FB8 /* gradient.png in Resources */,
 				77DD954016E624B000737E75 /* down_arrow.png in Resources */,
 				77DD954116E624B000737E75 /* down_arrow@2x.png in Resources */,
+				77C7043316F533C200C3A13A /* checkin.png in Resources */,
+				77C7043416F533C200C3A13A /* checkin@2x.png in Resources */,
+				77C7043716F5366000C3A13A /* camera.png in Resources */,
+				77C7043816F5366000C3A13A /* camera@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,6 +844,7 @@
 				776D2C1916ABAC4300EDB4DB /* UIImageView+AFNetworking.m in Sources */,
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
 				77FB0F6D16E296440000D4F5 /* Profile.m in Sources */,
+				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

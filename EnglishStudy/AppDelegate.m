@@ -37,31 +37,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
-    BOOL needToSync = NO;
-    if (!deviceUUID) {
-        CFUUIDRef theUUID = CFUUIDCreate(NULL);
-        CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-        CFRelease(theUUID);
-        deviceUUID = (__bridge_transfer NSString *)string;
-        [defaults setObject:deviceUUID forKey:@"userGUID"];
-        needToSync = YES;
-    }
-    
-    if (![defaults objectForKey:@"learningLanguageTag"]) {
-        [defaults setObject:@"en" forKey:@"learningLanguageTag"];
-        needToSync = YES;
-    }
-    
-    if (![defaults objectForKey:@"nativeLanguageTag"]) {
-        [defaults setObject:@"en" forKey:@"nativeLanguageTag"];
-        needToSync = YES;
-    }
-    
-    if (needToSync)
-        [defaults synchronize];
-    
     DefaultSHKConfigurator *configurator = [[EchoSHKConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
 
@@ -69,7 +44,7 @@
     [_window makeKeyAndVisible];
 
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
-    
+
     return YES;
 }
 

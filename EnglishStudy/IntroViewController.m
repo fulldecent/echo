@@ -68,8 +68,7 @@
          
          [self.hud hide:YES];
          [self dismissViewControllerAnimated:YES completion:nil];
-     } onFailure:^(NSError *error)
-     {
+     } onFailure:^(NSError *error) {
          [self.hud hide:YES];
          self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
          self.hud.delegate = self;

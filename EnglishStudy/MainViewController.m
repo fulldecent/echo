@@ -346,12 +346,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellNewPractice:
             cell = [tableView dequeueReusableCellWithIdentifier:@"newPractice"];
             return cell;
-        case CellEditProfile: {
+        case CellEditProfile:
             cell = [tableView dequeueReusableCellWithIdentifier:@"editProfile"];
-            Profile *me = [Profile currentUserProfile];
             [(UILabel *)[cell viewWithTag:1] setText:me.username];
+            [(UIImageView *)[cell viewWithTag:2] setImage:me.photo];
+            [(UIProgressView *)[cell viewWithTag:3] setProgress:me.profileCompleteness.floatValue];
+            [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)(me.profileCompleteness.floatValue*100)]];
             return cell;
-        }
         case CellInbox:
             cell = [tableView dequeueReusableCellWithIdentifier:@"inbox"];
             return cell;

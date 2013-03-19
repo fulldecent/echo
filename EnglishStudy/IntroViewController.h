@@ -14,6 +14,7 @@
 
 @protocol IntroViewControllerDelegate <NSObject>
 - (void)introViewController:(IntroViewController *)controller gotStubLesson:(Lesson *)lesson;
+#warning reuse downloadviewcontrollerdelegate
 @end
 
 @interface IntroViewController : UIViewController

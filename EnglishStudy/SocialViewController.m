@@ -32,15 +32,16 @@
 - (void)loadPage
 {
     self.webView.delegate = self;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    Profile *me = [Profile currentUserProfile];
     NSMutableString *url = [[SERVER_ECHO_API_URL stringByAppendingPathComponent:@"iPhone/social"] mutableCopy];
-    [url appendFormat:@"?native=%@", [defaults objectForKey:@"nativeLanguageTag"]];
-    [url appendFormat:@"&userCode=%@", [defaults objectForKey:@"userGUID"]];
-    [url appendFormat:@"&learning=%@", [defaults objectForKey:@"learningLanguageTag"]];
+    [url appendFormat:@"?native=%@", me.nativeLanguageTag];
+    [url appendFormat:@"&userCode=%@", me.usercode];
+    [url appendFormat:@"&learning=%@", me.learningLanguageTag];
     [url appendFormat:@"&locale=%@", [[NSLocale preferredLanguages] objectAtIndex:0]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastUpdateSocial"];
     [defaults synchronize];
 }

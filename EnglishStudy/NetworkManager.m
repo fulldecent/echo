@@ -106,9 +106,8 @@
 - (void)updateServerVersionForLessons:(NSArray *)lessons
                    onCompletion:(void(^)())block
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
-    
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSMutableArray *lessonIDsToCheck = [[NSMutableArray alloc] init];
     NSMutableArray *lessonIDTimestamps = [[NSMutableArray alloc] init];
 
@@ -242,8 +241,8 @@
          onFailure:(void(^)())failureBlock
 {
     // Transfer parameters and statistics
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     
     // Transfer parameters
     NSString *relativeRequestPath = [NSString stringWithFormat:@"words/%@/reply?userGUID=%@", practiceWord.wordID, deviceUUID];
@@ -287,8 +286,8 @@
         withProgress:(void(^)(Lesson *lesson, NSNumber *lessonID, NSNumber *progress))block
 {
     // Transfer parameters and statistics
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     
     if (block)
         block(lesson, lesson.lessonID, [NSNumber numberWithInt:0]);
@@ -371,8 +370,8 @@
     NSString *audioPath = [wordPath stringByAppendingPathComponent:[word.files objectAtIndex:[fileNumber integerValue]]];
     NSData *audioFileData = [NSData dataWithContentsOfFile:audioPath];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/lessons/%@/words/%@/files/%@",
                                      deviceUUID, lesson.lessonCode, word.wordCode, [word.files objectAtIndex:[fileNumber integerValue]]];
     
@@ -407,8 +406,8 @@
 - (void)downloadLesson:(Lesson *)lesson
           withProgress:(void(^)(Lesson *lesson, NSNumber *progress))block
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     
     __block NSNumber *progress = [NSNumber numberWithInt:0];
     __block NSNumber *totalProgress = [NSNumber numberWithInt:1];
@@ -473,8 +472,8 @@
                     onSuccess:(void(^)())onSuccess
                     onFailure:(void(^)(NSError *error))onFailure
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     
     NSString *relativeRequestPath;
     NSString *wordPath;
@@ -547,8 +546,8 @@
 - (void)flagLesson:(Lesson *)lesson withReason:(enum NetworkManagerFlagReason)reason
          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *flagString = [NSString stringWithFormat:@"%d", reason];
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/flag/%@?flag=%@", deviceUUID, lesson.lessonID, flagString];
     
@@ -570,8 +569,8 @@
 
 - (void)likeLesson:(Lesson *)lesson withState:(NSNumber *)like onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *likeString = [like boolValue] ? @"yes" : @"no";
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/like/%@?like=%@", deviceUUID, lesson.lessonID, likeString];
 
@@ -592,8 +591,8 @@
 
 - (void)sendLesson:(Lesson *)lesson authorAMessage:(NSString *)message onSuccess:(void (^)())success onFailure:(void (^)(NSError *))failure
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/messageLessonAuthor/%@", deviceUUID, lesson.lessonID];
     
     NSMutableURLRequest *request = [self.HTTPclient multipartFormRequestWithMethod:@"POST"
@@ -623,8 +622,8 @@
 - (void)deleteLesson:(Lesson *)lesson
            onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"lessons/%@", lesson.lessonID];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:deviceUUID forKey:@"userCode"];
@@ -656,8 +655,8 @@
 - (void)setMyUsername:(NSString *)username
             onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/setUsername", deviceUUID];
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:username,@"username", nil];
     
@@ -777,8 +776,8 @@
 - (void)setMyPhoto:(UIImage *)photo
             onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/setPhoto", deviceUUID];
 
     self.hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
@@ -823,11 +822,31 @@
     Profile *me = [Profile currentUserProfile];
     NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@", deviceUUID];
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:me.username,@"username",
-                                                                        me.learningLanguageTag,@"learningLanguageTag",
-                                                                        nil];
-    
-    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:relativeRequestPath parameters:params];
+    NSMutableURLRequest *request = [self.HTTPclient multipartFormRequestWithMethod:@"POST"
+                                                                              path:relativeRequestPath
+                                                                        parameters:nil
+                                                         constructingBodyWithBlock:^(id <AFMultipartFormData>formData)
+                                    {
+                                        [formData appendPartWithFormData:[me.username dataUsingEncoding:NSUTF8StringEncoding]
+                                                                    name:@"username"];
+                                        if (me.learningLanguageTag)
+                                            [formData appendPartWithFormData:[me.learningLanguageTag dataUsingEncoding:NSUTF8StringEncoding]
+                                                                        name:@"learningLanguageTag"];
+                                        if (me.nativeLanguageTag)
+                                            [formData appendPartWithFormData:[me.nativeLanguageTag dataUsingEncoding:NSUTF8StringEncoding]
+                                                                        name:@"nativeLanguageTag"];
+                                        if (me.location)
+                                            [formData appendPartWithFormData:[me.location dataUsingEncoding:NSUTF8StringEncoding]
+                                                                        name:@"location"];
+                                        if (me.photo) {
+                                            UIImage *thumbnail = [NetworkManager imageWithImage:me.photo scaledToSizeWithSameAspectRatio:CGSizeMake(100, 100)];
+                                            NSData *JPEGdata = UIImageJPEGRepresentation(thumbnail, 0.8);
+                                            [formData appendPartWithFileData:JPEGdata
+                                                                        name:@"photo"
+                                                                    fileName:@"myPhoto.jpg"
+                                                                    mimeType:@"image/jpg"];
+                                        }
+                                    }];
     AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
                                                                                      success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
                                       {
@@ -856,8 +875,8 @@
 
 - (void)lessonsWithSearch:(NSString *)searchString languageTag:(NSString *)tag return:(void(^)(NSArray *retLessons))returnBlock
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *deviceUUID = [defaults objectForKey:@"userGUID"];
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceUUID = me.usercode;
     
     // Transfer parameters
     NSString *relativeRequestPath = [NSString stringWithFormat:@"lessons/%@/?search=%@&userCode=%@", tag, searchString, deviceUUID];
