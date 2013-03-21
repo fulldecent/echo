@@ -1828,6 +1828,7 @@
             <relationships>
                 <relationship kind="action" name="checkIn:"/>
                 <relationship kind="action" name="choosePhoto:"/>
+                <relationship kind="action" name="labelIsCallingLanguageSelect:" candidateClass="UILabel"/>
                 <relationship kind="action" name="save:"/>
                 <relationship kind="outlet" name="learningLang" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="location" candidateClass="UITextField"/>

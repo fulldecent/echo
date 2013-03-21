@@ -187,7 +187,7 @@
      {
          NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
          NSArray *recommendedLessons = networkManager.recommendedLessons;
-         NSLog(@"%@", recommendedLessons);
+         NSLog(@"got recommended lessons %@", recommendedLessons);
          
          for (NSString *lessonJSON in recommendedLessons) {
 #warning abstract me! / there is a copy/paste somewhere else too

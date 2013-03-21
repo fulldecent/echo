@@ -14,6 +14,7 @@
 #import "Profile.h"
 #import "IntroViewController.h"
 #import "DownloadLessonViewController.h"
+#import "ProfileViewController.h"
 #import "Languages.h"
 #import "WordDetailController.h"
 #import "MBProgressHUD.h"
@@ -506,6 +507,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         controller.delegate = self;
     } else if ([segue.destinationViewController isKindOfClass:[DownloadLessonViewController class]]) {
         DownloadLessonViewController *controller = segue.destinationViewController;
+        controller.delegate = self;
+    } else if ([segue.destinationViewController isKindOfClass:[ProfileViewController class]]) {
+        ProfileViewController *controller = segue.destinationViewController;
         controller.delegate = self;
     } else if ([segue.destinationViewController isKindOfClass:[WordDetailController class]]) {
         Profile *me = [Profile currentUserProfile];

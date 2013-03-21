@@ -501,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				77E58519169915FE00866A43 /* TODO */,
+				77C936A416FBAD8A00F1A482 /* New Group */,
 				77ED9D2916643D3F005D10ED /* MainViewController.h */,
 				77ED9D2A16643D3F005D10ED /* MainViewController.m */,
 				77ED9D0F1661615D005D10ED /* IntroViewController.h */,
@@ -572,6 +573,13 @@
 				77C7043616F5366000C3A13A /* camera@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		77C936A416FBAD8A00F1A482 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 		77DDC70C156DD45300568CDE /* Lesson Mode */ = {
