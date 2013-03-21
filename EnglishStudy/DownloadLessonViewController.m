@@ -12,8 +12,9 @@
 #import "NetworkManager.h"
 #import "LanguageSelectController.h"
 #import "UIImageView+AFNetworking.h"
+#import <MessageUI/MessageUI.h>
 
-@interface DownloadLessonViewController () <LanguageSelectControllerDelegate>
+@interface DownloadLessonViewController () <LanguageSelectControllerDelegate, MFMailComposeViewControllerDelegate>
 @property (strong, nonatomic) NSArray *lessons;
 - (void)populateRowsWithSearch:(NSString *)searchString languageTag:(NSString *)tag;
 @end
@@ -52,11 +53,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.lessons.count;
+    return self.lessons.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == self.lessons.count) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
+        return cell;
+    }
+    
     Lesson *lesson = [self.lessons objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
     [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
@@ -94,20 +100,27 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 69;
+    if (indexPath.row < self.lessons.count)
+        return 69;
+    else
+        return tableView.rowHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-    [self.delegate downloadLessonViewController:self gotStubLesson:[self.lessons objectAtIndex:indexPath.row]];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (indexPath.row < self.lessons.count) {
+        [self.delegate downloadLessonViewController:self gotStubLesson:[self.lessons objectAtIndex:indexPath.row]];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        if ([MFMailComposeViewController canSendMail]) {
+            MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+            picker.mailComposeDelegate = self;
+            [picker setSubject:[NSString stringWithFormat:@"Lessons/%@", self.navigationItem.rightBarButtonItem.title]];
+            [picker setToRecipients:[NSArray arrayWithObject:@"echo@phor.net"]];
+            [picker setMessageBody:@"I have a greate idea for a lesson..." isHTML:NO];
+            [self presentViewController:picker animated:YES completion:nil];
+        }
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -122,6 +135,13 @@
 {
     [self populateRowsWithSearch:@"" languageTag:tag];
     self.navigationItem.rightBarButtonItem.title = tag;
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
