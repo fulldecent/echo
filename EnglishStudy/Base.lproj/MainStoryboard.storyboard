@@ -1038,7 +1038,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="AWB-5a-wmN" kind="push" identifier="lessonInformation" id="cjs-Y6-M9H"/>
+                                    <segue destination="AWB-5a-wmN" kind="push" identifier="createLesson" id="cjs-Y6-M9H"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="practice" id="OtH-qR-zlU">
@@ -1828,7 +1828,6 @@
             <relationships>
                 <relationship kind="action" name="checkIn:"/>
                 <relationship kind="action" name="choosePhoto:"/>
-                <relationship kind="action" name="labelIsCallingLanguageSelect:" candidateClass="UILabel"/>
                 <relationship kind="action" name="save:"/>
                 <relationship kind="outlet" name="learningLang" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="location" candidateClass="UITextField"/>

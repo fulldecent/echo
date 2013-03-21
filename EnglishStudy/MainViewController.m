@@ -498,9 +498,12 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     } else if ([segue.destinationViewController isKindOfClass:[LessonInformationViewController class]]) {
         LessonInformationViewController *controller = segue.destinationViewController;
         controller.delegate = self;
-        if ([segue.description isEqualToString:@"createLesson"])
-            controller.lesson = nil;
-        else
+        if ([segue.identifier isEqualToString:@"createLesson"]) {
+            Profile *me = [Profile currentUserProfile];
+            Lesson *lesson = [[Lesson alloc] init];
+            lesson.languageTag = me.nativeLanguageTag;
+            controller.lesson = lesson;
+        } else
             controller.lesson = self.currentLesson;
     } else if ([segue.destinationViewController isKindOfClass:[IntroViewController class]]) {
         IntroViewController *controller = segue.destinationViewController;

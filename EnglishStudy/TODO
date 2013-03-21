@@ -7,10 +7,9 @@ REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
    Add share buttons
    http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
  - Home screen: refresh needs more data
-   - Meet people: XXX New messages (feedback from How do I say & send message to author)
+   - Meet people: XXX New messages (feedback from How do I say & send message to author), XXX new LANG lessons
  - Record sentences, not just words
  - Update screenshots
- - Create lesson -- default to native language
 
 ========================================
 ANNOUNCEMENT FOR 1.0.8
@@ -29,6 +28,7 @@ STUFF TO DO AFTER 1.0.8
  - Home screen: refresh needs more data
    - Download lessons: XX new lessons available in LANGUAGE
    - Lesson you have created: XXX current users
+   - X new people have viewed your profile
  - Social view / AJAX make a real iPhone experience
  - View a lesson
    - Thumb up / flag next to icon
@@ -44,3 +44,5 @@ STUFF TO DO AFTER 1.0.8
    http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Make English lesson http://www.wyrdplay.org/chaos-poem.html
  - Do tableviews everywhere like in MainViewController
+ - LessonInformationController -> make language work like in the How do I say view
+
