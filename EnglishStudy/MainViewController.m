@@ -20,7 +20,7 @@
 #import "NetworkManager.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
-typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellInbox, CellEditProfile, CellMeetPeople, CellWhatsUp} Cells;
+typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
 
 @interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
@@ -211,12 +211,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellCreateLesson:
         case CellDownloadLesson:
         case CellEditProfile:
-        case CellInbox:
         case CellMeetPeople:
         case CellNewPractice:
         case CellPractice:
         case CellPracticeTransfer:
-        case CellWhatsUp:
             return 44;
     }
 }
@@ -362,10 +360,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             [(UIProgressView *)[cell viewWithTag:3] setProgress:me.profileCompleteness.floatValue];
             [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)(me.profileCompleteness.floatValue*100)]];
             return cell;
-        case CellInbox:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"inbox"];
-            return cell;
-        case CellMeetPeople:            
+        case CellMeetPeople:
             cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
             [(UILabel *)[cell viewWithTag:2] setText:@"New messages"];
             if ([(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] integerValue]) {
@@ -373,9 +368,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
                 [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] stringValue] forState:UIControlStateNormal];
             } else
                 [(UIButton *)[cell viewWithTag:3] setHidden:YES];
-            return cell;
-        case CellWhatsUp:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"whatsUp"];
             return cell;
     }
     assert (0);
@@ -461,9 +453,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellPracticeTransfer:
         case CellNewPractice:
         case CellEditProfile:
-        case CellInbox:
         case CellMeetPeople:
-        case CellWhatsUp:
             break;
     }
 }

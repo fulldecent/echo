@@ -8,13 +8,10 @@ REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
    http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
  - Home screen: refresh needs more data
    - Meet people: XXX New messages (feedback from How do I say & send message to author)
- - View a lesson
-   - Thumb up / flag next to icon
-   - Share next to lesson name
- - Check the the UI works in Chinese
  - Pick some automatic lessons to download
  - Record sentences, not just words
  - Update screenshots
+ - Create lesson -- default to native language
 
 ========================================
 ANNOUNCEMENT FOR 1.0.8
@@ -27,10 +24,14 @@ ANNOUNCEMENT FOR 1.0.8
 STUFF TO DO AFTER 1.0.8
 ========================================
 
+ - Check the the UI works in Chinese
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
  - Home screen: refresh needs more data
    - Download lessons: XX new lessons available in LANGUAGE
    - Lesson you have created: XXX current users
+ - View a lesson
+   - Thumb up / flag next to icon
+   - Share next to lesson name
  - Home screen other stuff
    - Hold to edit
    - Set some screen badge icon after refresh
