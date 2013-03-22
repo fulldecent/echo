@@ -6,8 +6,6 @@ REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
  - Home screen, How do I say, save word
    Add share buttons
    http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
- - Home screen: refresh needs more data
-   - Meet people: XXX New messages (feedback from How do I say & send message to author), XXX new LANG lessons
  - Record sentences, not just words
  - Update screenshots
 
@@ -23,6 +21,7 @@ ANNOUNCEMENT FOR 1.0.8
 STUFF TO DO AFTER 1.0.8
 ========================================
 
+ - Home screen: Profile cell - if 100% change appearance
  - Check the the UI works in Chinese
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
  - Home screen: refresh needs more data
