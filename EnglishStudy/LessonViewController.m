@@ -7,7 +7,6 @@
 //
 
 #import "LessonViewController.h"
-#import "Word.h"
 #import "WordDetailController.h"
 #import "Languages.h"
 #import "NetworkManager.h"
@@ -172,7 +171,7 @@
         self.title = self.lesson.name;
     }
     
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]  withRowAnimation:YES];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]  withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [self.tableView endUpdates];
 }

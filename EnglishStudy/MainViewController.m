@@ -155,7 +155,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
                 return CellDownloadLesson;
             else
                 return CellCreateLesson;
-            break;
         case SectionPractice:
 /*
             if (indexPath.row < self.practiceSet.lessons.count) {
@@ -218,6 +217,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case CellPracticeTransfer:
             return 44;
     }
+    assert (0); return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -371,7 +371,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
                 [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;
     }
-    assert (0);
+    assert (0); return 0;
 }
 
 
@@ -479,6 +479,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         NSString *title = @"You are deleting this lesson from your device. Would you like to continue sharing online?";
         UIActionSheet *confirmDeleteLesson = [[UIActionSheet alloc] initWithTitle:title
                                                                          delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Stop sharing online", @"Keep sharing online", nil];
+#warning NEED TO CONFORM TO UIACTIONSHEET DELEGATE HERE
         [confirmDeleteLesson showFromTabBar:self.tabBarController.tabBar];
     } else {
         [self.lessonSet deleteLesson:[self.lessonSet.lessons objectAtIndex:indexPath.row]];
@@ -611,8 +612,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
              WordDetailController *newController = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
              newController.delegate = self;
              newController.word = [[(Lesson *)[self.practiceSet.lessons objectAtIndex:0] words] objectAtIndex:0];
-             [controller.navigationController popViewControllerAnimated:NO];
-             [self.navigationController pushViewController:newController animated:YES];
+
+             // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [controller.navigationController popViewControllerAnimated:NO];
+                 [self.navigationController pushViewController:newController animated:YES];
+             });
+             
              NSLog(@"saved practice word");
          }
      }];

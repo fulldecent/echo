@@ -3,24 +3,36 @@
 REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
 ========================================
 
- - Home screen, How do I say, save word
-   Add share buttons
+ - How do I say is crashing
    http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
- - Record sentences, not just words
- - Update screenshots
+ - Test kickstart
+ - Test creating and deleting a lesson
 
 ========================================
+RELEASE PROCESS
+ - Increment version
+ - Update screenshots
+ - git submodule update --recursive
+ - XCode Analyze, AppCode Analyze
+ - Build, Upload, Tag
+
 ANNOUNCEMENT FOR 1.0.8
  - New welcome screen with kickstart
  - New user interface, now looks more like Draw Something
  - Easier to update your profile
  - More lessons
+ - Drop support for iOS 5 and below to improve internationalization
+ - Inbox feature added to Meet People section
 ========================================
 
 ========================================
 STUFF TO DO AFTER 1.0.8
 ========================================
 
+ - Take advantage of AFFormURLParameterEncoding
+ - Home screen, How do I say, save word
+   Add share buttons
+ - Record sentences, not just words
  - Home screen: Profile cell - if 100% change appearance
  - Check the the UI works in Chinese
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
@@ -44,4 +56,22 @@ STUFF TO DO AFTER 1.0.8
  - Make English lesson http://www.wyrdplay.org/chaos-poem.html
  - Do tableviews everywhere like in MainViewController
  - LessonInformationController -> make language work like in the How do I say view
+ - Cool shit like this
+    NSDictionary *test = @{ @"key" : @"test value" };
+    NSString *value = test[@"key"];
+    NSLog(@"value is: %@", value);
+
+ - Use this in the profile editor
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (string.length == 0)
+        return YES;
+    if (textField.text.length > 20)
+        return NO;
+    
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]+$" options:0 error:nil];
+    return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
+}
 

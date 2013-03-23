@@ -203,7 +203,7 @@
     self.isRecordingInProgress = NO;
     [self.audioRecorder stop];
     self.microphoneLevel = [NSNumber numberWithFloat:0];
-    self.duration = 0;
+    self.duration = nil;
     [self.delegate recording:self didFinishSuccessfully:NO];
 }
 

@@ -8,8 +8,6 @@
 
 #import "WordPracticeController.h"
 #import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioServices.h>
-#import "UIGlossyButton.h"
 #import "PHOREchoRecorder.h"
 
 @interface WordPracticeController () <PHOREchoRecorderDelegate>
@@ -20,7 +18,6 @@
 @end
 
 @implementation WordPracticeController
-@synthesize starButton;
 @synthesize trainingSpeakerButton;
 @synthesize echoRecordButton;
 @synthesize backgroundImage;
@@ -353,15 +350,6 @@
     [[AVAudioSession sharedInstance] setActive: YES error: &activationErr];
     
     [self performSelector:@selector(trainingSpeakerPressed) withObject:self afterDelay:0.5];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [self setBackgroundImage:nil];
-    [self setWorkflowButton:nil];
-    [self setStarButton:nil];
-    self.recorder = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -34,7 +34,6 @@
 
 - (BOOL)isOlderThanServer;
 - (BOOL)isNewerThanServer;
-- (BOOL)isUsable;
 - (BOOL)isEditable;
 - (BOOL)isShared;
 

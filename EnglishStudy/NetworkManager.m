@@ -7,13 +7,10 @@
 //
 
 #import "NetworkManager.h"
-#import "Lesson.h"
-#import "Word.h"
 #import "MBProgressHUD.h"
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
-#import "FDTakeController.h"
 
 #define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/1.0/"
 
@@ -42,8 +39,9 @@
 {
     self = [super init];
     self.HTTPclient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
+    [self.HTTPclient setParameterEncoding:AFFormURLParameterEncoding];
     // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-    self.HTTPclient.parameterEncoding = AFJSONParameterEncoding;
+//    self.HTTPclient.parameterEncoding = AFJSONParameterEncoding;
 //	[self.HTTPclient setDefaultHeader:@"Accept" value:@"application/json"];
     [self.HTTPclient registerHTTPOperationClass:[AFJSONRequestOperation class]];
     return self;
@@ -268,6 +266,8 @@
                                       }
                                                                                      failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
                                       {
+                                          if (failureBlock)
+                                              failureBlock();
                                           [self hudFlashError:error];
                                           NSLog(@"Upload word error:%@", [error localizedDescription]);
                                       }];
@@ -651,36 +651,6 @@
     [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
-- (void)setMyUsername:(NSString *)username
-            onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
-{
-    Profile *me = [Profile currentUserProfile];
-    NSString *deviceUUID = me.usercode;
-    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/setUsername", deviceUUID];
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:username,@"username", nil];
-    
-    self.hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
-    self.hud.delegate = self;
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-    
-    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:relativeRequestPath parameters:params];
-    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
-                                      {
-                                          [self hudHide];
-                                          if (success)
-                                              success();
-                                      }
-                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                      {
-                                          [self hudFlashError:error];
-                                          NSLog(@"Set username failed:%@", [error localizedDescription]);
-                                          if (failure)
-                                              failure(error);
-                                      }];
-    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
-}
-
 // http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
 {
@@ -772,52 +742,7 @@
     return newImage; 
 }
 
-- (void)setMyPhoto:(UIImage *)photo
-            onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
-{
-    Profile *me = [Profile currentUserProfile];
-    NSString *deviceUUID = me.usercode;
-    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/setPhoto", deviceUUID];
-
-    self.hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
-    self.hud.delegate = self;
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-    
-    UIImage *thumbnail = [NetworkManager imageWithImage:photo scaledToSizeWithSameAspectRatio:CGSizeMake(100, 100)];
-    
-    NSData *JPEGdata = UIImageJPEGRepresentation(thumbnail, 0.8);
-    
-    NSMutableURLRequest *request = [self.HTTPclient multipartFormRequestWithMethod:@"POST"
-                                                                              path:relativeRequestPath
-                                                                        parameters:nil
-                                                         constructingBodyWithBlock:^(id <AFMultipartFormData>formData)
-                                    {
-                                        [formData appendPartWithFileData:JPEGdata
-                                                                    name:@"photo"
-                                                                fileName:@"myPhoto.jpg"
-                                                                mimeType:@"image/jpg"];
-                                    }
-                                    ];
-
-    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
-                                      {
-                                          [self hudHide];
-                                          if (success)
-                                              success();
-                                      }
-                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                      {
-                                          [self hudFlashError:error];
-                                          NSLog(@"Set username failed:%@", [error localizedDescription]);
-                                          if (failure)
-                                              failure(error);
-                                      }];
-    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
-}
-
-- (void)syncProfile:(Profile *)profile onSuccess:(void (^)())success onFailure:(void (^)(NSError *))failure
-{
+- (void)syncCurrentUserProfileOnSuccess:(void (^)())success onFailure:(void (^)(NSError *))failure {
     Profile *me = [Profile currentUserProfile];
     NSString *deviceUUID = me.usercode;
     NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@", deviceUUID];
@@ -870,6 +795,36 @@
 - (NSArray *)recommendedLessons
 {
     return _recommendedLessonsTmp;
+}
+
+- (void)markEventWithIDAsRead:(NSNumber *)eventID onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure
+{
+    Profile *me = [Profile currentUserProfile];
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/markEventAsRead", me.usercode];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setObject:eventID forKey:@"id"];
+
+    self.hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
+    self.hud.delegate = self;
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.labelText = @"Marking as read";
+    
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:relativeRequestPath parameters:params];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          [self hudHide];
+                                          if (success)
+                                              success();
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          [self hudFlashError:error];
+                                          if (failure)
+                                              failure(error);
+                                          NSLog(@"Mark read failed:%@", [error localizedDescription]);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)lessonsWithSearch:(NSString *)searchString languageTag:(NSString *)tag return:(void(^)(NSArray *retLessons))returnBlock

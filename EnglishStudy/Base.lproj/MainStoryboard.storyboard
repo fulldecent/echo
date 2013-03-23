@@ -1264,7 +1264,7 @@
             </objects>
             <point key="canvasLocation" x="-330" y="2144"/>
         </scene>
-        <!--Social View Controller - Social-->
+        <!--Social View Controller - Meet people-->
         <scene sceneID="Z2S-nl-AnG">
             <objects>
                 <viewController id="K2Y-ce-bme" customClass="SocialViewController" sceneMemberID="viewController">
@@ -1280,7 +1280,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Social" id="gnT-BP-nu7"/>
+                    <navigationItem key="navigationItem" title="Meet people" id="gnT-BP-nu7"/>
                     <connections>
                         <outlet property="webView" destination="Rmn-5j-Btv" id="ZAg-DH-jlp"/>
                     </connections>
@@ -1873,7 +1873,6 @@
                 <relationship kind="action" name="trainingSpeakerPressed"/>
                 <relationship kind="outlet" name="backgroundImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="echoRecordButton" candidateClass="PHOREchoRecordButton"/>
-                <relationship kind="outlet" name="starButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="trainingSpeakerButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="workflowButton" candidateClass="UIButton"/>
             </relationships>

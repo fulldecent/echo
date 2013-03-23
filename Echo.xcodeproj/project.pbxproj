@@ -119,7 +119,6 @@
 		77E9BEF715CE037300BC567B /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF315CE037300BC567B /* like.png */; };
 		77EB10C41560ACF500C00842 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = 77EB10C31560ACF500C00842 /* Next.aif */; };
 		77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */; };
-		77ED9D0A165C9094005D10ED /* UITableWithBackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D09165C9094005D10ED /* UITableWithBackgroundViewController.m */; };
 		77ED9D111661615D005D10ED /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D101661615D005D10ED /* IntroViewController.m */; };
 		77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D2A16643D3F005D10ED /* MainViewController.m */; };
 		77F4A16615F5460200D6189B /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F4A16515F5460200D6189B /* Default-Landscape~ipad.png */; };
@@ -321,8 +320,6 @@
 		77EB10C31560ACF500C00842 /* Next.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Next.aif; sourceTree = "<group>"; };
 		77EC14C316C9B10700D5B4C0 /* DownloadLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadLessonViewController.h; sourceTree = "<group>"; };
 		77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadLessonViewController.m; sourceTree = "<group>"; };
-		77ED9D08165C9094005D10ED /* UITableWithBackgroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableWithBackgroundViewController.h; sourceTree = "<group>"; };
-		77ED9D09165C9094005D10ED /* UITableWithBackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableWithBackgroundViewController.m; sourceTree = "<group>"; };
 		77ED9D0F1661615D005D10ED /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
 		77ED9D101661615D005D10ED /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 		77ED9D2916643D3F005D10ED /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -509,8 +506,6 @@
 				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
 				77C7042C16F52FF400C3A13A /* ProfileViewController.h */,
 				77C7042D16F52FF400C3A13A /* ProfileViewController.m */,
-				77ED9D08165C9094005D10ED /* UITableWithBackgroundViewController.h */,
-				77ED9D09165C9094005D10ED /* UITableWithBackgroundViewController.m */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson Mode */,
 				7761D6A215E2E4E000975F1B /* Practice Mode */,
@@ -825,7 +820,6 @@
 				7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */,
 				7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */,
 				779921E7164218DB005DFB07 /* FDTakeController.m in Sources */,
-				77ED9D0A165C9094005D10ED /* UITableWithBackgroundViewController.m in Sources */,
 				77ED9D111661615D005D10ED /* IntroViewController.m in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
 				776D2C1116ABAC4300EDB4DB /* AFHTTPClient.m in Sources */,

@@ -43,15 +43,10 @@ enum NetworkManagerFlagReason {
          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)deleteLesson:(Lesson *)lesson
          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
-
-- (void)setMyUsername:(NSString *)username
-            onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure __attribute__((deprecated));
-- (void)setMyPhoto:(UIImage *)photo
-         onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure __attribute__((deprecated));
-- (void)syncProfile:(Profile *)profile
-         onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure; // NEED TO POSSIBLE SAVE UPDATED NAME TO PROFILE
+- (void)syncCurrentUserProfileOnSuccess:(void (^)())success onFailure:(void (^)(NSError *))failure; // NEED TO POSSIBLE SAVE UPDATED NAME TO PROFILE
 - (NSArray *)recommendedLessons;
 
+- (void)markEventWithIDAsRead:(NSNumber *)eventID onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)lessonsWithSearch:(NSString *)searchString languageTag:(NSString *)tag return:(void(^)(NSArray *retLessons))returnBlock;
 
 @end

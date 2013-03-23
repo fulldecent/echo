@@ -32,5 +32,4 @@
 - (IBAction)updateName:(id)sender;
 - (IBAction)updateDetail:(id)sender;
 - (IBAction)save;
-- (void)uploadWordAsNewPracticeLesson;
 @end

@@ -101,11 +101,6 @@
 	// Do any additional setup after loading the view.
 }
 
-- (void)viewDidUnload {
-    [self setNameField:nil];
-    [self setLanguageButtons:nil];
-    [super viewDidUnload];
-}
 - (IBAction)nameChanged:(UITextField *)sender {
     NSLog(@"%@", sender.text);
     for (UIButton *button in self.languageButtons)

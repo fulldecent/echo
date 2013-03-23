@@ -9,11 +9,7 @@
 #import "WordDetailController.h"
 #import "Languages.h"
 #import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioServices.h>
-#import "Word.h"
-#import "Lesson.h"
 #import "PHOREchoRecordButton.h"
-#import "PHOREchoRecorder.h"
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
@@ -331,13 +327,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     NSLog(@"child viewDidDisappear start");
     [super viewDidDisappear:animated];
     NSLog(@"child viewDidDisappear returning");    
-}
-
-- (void)viewDidUnload
-{
-    self.actionButton = nil;
-    self.echoRecorders = nil;
-    [super viewDidUnload];
 }
 
 - (void)uploadWordAsNewPracticeLesson

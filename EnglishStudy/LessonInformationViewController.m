@@ -8,7 +8,6 @@
 
 #import "LessonInformationViewController.h"
 #import "LessonViewController.h"
-#import "Word.h"
 #import "Languages.h"
 
 @interface LessonInformationViewController() <LanguageSelectControllerDelegate>

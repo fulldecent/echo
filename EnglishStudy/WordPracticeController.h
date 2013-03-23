@@ -26,7 +26,6 @@
 @end
 
 @interface WordPracticeController : UIViewController;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *starButton;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIButton *trainingSpeakerButton;
 @property (strong, nonatomic) IBOutlet PHOREchoRecordButton *echoRecordButton;
