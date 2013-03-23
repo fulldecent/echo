@@ -203,11 +203,11 @@
 {
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager setMyPhoto:photo
-                        onSuccess:^
+                     onSuccess:^
      {
          [self loadPage];
      }
-                        onFailure:^(NSError *error) {}];
+                     onFailure:^(NSError *error) {}];
 }
 
 #pragma mark - MBProgressHUDDelegate

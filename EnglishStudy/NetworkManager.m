@@ -397,7 +397,6 @@
     [operation setCompletionBlock:^{
         if (onSuccess)
             onSuccess();
-        NSLog(@"%@", operation.responseString); //Gives a very scary warning
     }];
     
     [self.HTTPclient enqueueHTTPRequestOperation:operation];

@@ -39,10 +39,4 @@
     return retval;
 }
 
-+ (NSString *)userInterfaceLanguage
-{
-    return @"en";
-#warning FOR V2.0 -- allow localized UIs
-}
-
 @end

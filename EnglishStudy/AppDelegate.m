@@ -35,16 +35,17 @@
     return [self handleOpenURL:url];
 }
 
-void uncaughtExceptionHandler(NSException *exception) {
+/*
+ void uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"CRASH: %@", exception);
     NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
     // Internal error reporting
 }
+*/
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-#warning REMOVE THIS FOR RELEASE!!!!!!!!!!!!!!!!
+//    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
     DefaultSHKConfigurator *configurator = [[EchoSHKConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
