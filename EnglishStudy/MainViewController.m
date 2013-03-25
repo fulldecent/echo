@@ -21,9 +21,9 @@
 #import "NetworkManager.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
-typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
+typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
 
-@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate>
+@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
@@ -77,6 +77,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
          [self.tableView reloadData];
          [self.refreshControl endRefreshing];
 #warning Use animation instead of reloadData?
+         [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
+             NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
+             NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
+             [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+         }];
      }
     ];
 }
@@ -145,8 +150,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         case SectionLessons:
             if (indexPath.row < self.lessonSet.lessons.count) {
                 Lesson *lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-                if ([self.lessonSet transferProgressForLesson:lesson])
-                    return CellLessonTransfer;
+                if ([self.lessonSet transferProgressForLesson:lesson] && lesson.isOlderThanServer)
+                    return CellLessonDownload;
+                else if ([self.lessonSet transferProgressForLesson:lesson])
+                    return CellLessonUpload;
                 else if (lesson.isEditable)
                     return CellLessonEditable;
                 else
@@ -206,7 +213,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLesson:
         case CellLessonEditable:
-        case CellLessonTransfer:
+        case CellLessonDownload:
+        case CellLessonUpload:
             return 65;
         case CellCreateLesson:
         case CellDownloadLesson:
@@ -316,10 +324,24 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
             [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
-            [(UILabel *)[cell viewWithTag:3] setText:@"7 people using"];
+            if (lesson.isShared)
+//TODO: make this "X people now using"
+                [(UILabel *)[cell viewWithTag:3] setText:@"Shared online"];
+            else
+                [(UILabel *)[cell viewWithTag:3] setText:@"Not yet shared online"];
             return cell;
-        case CellLessonTransfer: {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"lessonTransfer"];
+        case CellLessonDownload: {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"lessonDownload"];
+            lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
+            [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
+            [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
+            NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
+            [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
+            //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
+            return cell;
+        }
+        case CellLessonUpload: {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"lessonUpload"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
             [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
@@ -330,7 +352,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         }
         case CellDownloadLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
-            [(UILabel *)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"New %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]]];
+//TODO: number of new lessons
+            [(UILabel *)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"Get %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]]];
             if ([(NSNumber *)[defaults objectForKey:@"newLessonCount"] integerValue]) {
                 [(UIButton *)[cell viewWithTag:3] setHidden:NO];
                 [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"newLessonCount"] stringValue] forState:UIControlStateNormal];
@@ -358,12 +381,21 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             cell = [tableView dequeueReusableCellWithIdentifier:@"editProfile"];
             [(UILabel *)[cell viewWithTag:1] setText:me.username];
             [(UIImageView *)[cell viewWithTag:2] setImage:me.photo];
-            [(UIProgressView *)[cell viewWithTag:3] setProgress:me.profileCompleteness.floatValue];
-            [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)(me.profileCompleteness.floatValue*100)]];
+            if (me.profileCompleteness.floatValue < 1) {
+                [(UIProgressView *)[cell viewWithTag:3] setProgress:me.profileCompleteness.floatValue];
+                [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)(me.profileCompleteness.floatValue*100)]];
+                [(UILabel *)[cell viewWithTag:5] setHidden:YES];
+            } else {
+                [(UIProgressView *)[cell viewWithTag:3] setHidden:YES];
+                [(UILabel *)[cell viewWithTag:4] setHidden:YES];
+                [(UILabel *)[cell viewWithTag:5] setHidden:NO];
+                [(UILabel *)[cell viewWithTag:5] setText:@"Profile updated"];
+            }
             return cell;
         case CellMeetPeople:
             cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
-            [(UILabel *)[cell viewWithTag:2] setText:@"New messages"];
+//TODO: number of messsages
+            [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
             if ([(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] integerValue]) {
                 [(UIButton *)[cell viewWithTag:3] setHidden:NO];
                 [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] stringValue] forState:UIControlStateNormal];
@@ -447,7 +479,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
             self.currentLesson = lesson;
             [self performSegueWithIdentifier:@"lesson" sender:self];
             break;
-        case CellLessonTransfer:
+        case CellLessonDownload:
+        case CellLessonUpload:
         case CellDownloadLesson:
         case CellCreateLesson:
         case CellPractice:
@@ -480,7 +513,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
         UIActionSheet *confirmDeleteLesson = [[UIActionSheet alloc] initWithTitle:title
                                                                          delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Stop sharing online", @"Keep sharing online", nil];
 #warning NEED TO CONFORM TO UIACTIONSHEET DELEGATE HERE
-        [confirmDeleteLesson showFromTabBar:self.tabBarController.tabBar];
+        [confirmDeleteLesson showInView:self.view];
     } else {
         [self.lessonSet deleteLesson:[self.lessonSet.lessons objectAtIndex:indexPath.row]];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -534,22 +567,45 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonTransfer, CellDownloadLe
     [self.tableView reloadData];
 }
 
-/*
 - (void)lessonView:(LessonViewController *)controller wantsToUploadLesson:(Lesson *)lesson
 {
     [self.lessonSet syncLesson:lesson withProgress:^(Lesson *lesson, NSNumber *progress) {
         NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
-        [self reloadRowAtIndexPathWithoutAnimation:[NSIndexPath indexPathForRow:index inSection:0]];
+        NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
     }];
 }
- */
 
 - (void)lessonView:(LessonViewController *)controller wantsToDeleteLesson:(Lesson *)lesson
 {
     [self.lessonSet deleteLesson:lesson];
     [self.tableView reloadData];
 }
-    
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    Lesson *lesson = self.currentLesson;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.lessonSet.lessons indexOfObject:lesson] inSection:0];
+    if (buttonIndex == 0) { // Stop sharing
+        [self.lessonSet deleteLessonAndStopSharing:lesson
+                                         onSuccess:^
+         {
+             [self.lessonSet deleteLesson:lesson];
+             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+         }
+                                         onFailure:^(NSError *error)
+         {
+             
+         }];
+    } else if (buttonIndex == 1) { // Keep sharing
+        [self.lessonSet deleteLesson:lesson];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    self.currentLesson = nil;
+}
+
 #pragma mark - LessonInformationViewDelegate
     
 - (void)lessonInformationView:(LessonInformationViewController *)controller didSaveLesson:(Lesson *)lesson

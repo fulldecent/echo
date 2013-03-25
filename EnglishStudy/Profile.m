@@ -63,8 +63,9 @@
 - (void)syncToDisk{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *userProfile = [NSMutableDictionary dictionary];
-    [userProfile setObject:self.username forKey:@"username"];
     [userProfile setObject:self.usercode forKey:@"usercode"];
+    if (self.username)
+        [userProfile setObject:self.username forKey:@"username"];
     if (self.learningLanguageTag)
         [userProfile setObject:self.learningLanguageTag forKey:@"learningLanguageTag"];
     if (self.nativeLanguageTag)

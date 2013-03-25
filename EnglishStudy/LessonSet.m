@@ -66,6 +66,20 @@
      }];
 }
 
+- (void)syncStaleLessonsWithProgress:(void (^)(Lesson *lesson, NSNumber *progress))progress // Syncs the ones that are stale
+{
+    NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
+    for (Lesson *lesson in self.lessons) {
+        if (lesson.isEditable && !lesson.isShared)
+            continue; // local only, no need to compare to server
+        else if (lesson.isNewerThanServer || lesson.isOlderThanServer)
+            [staleLessons addObject:lesson];
+    }
+    
+    for (Lesson *lesson in staleLessons)
+        [self syncLesson:lesson withProgress:progress];
+}
+
 - (NSNumber *)transferProgressForLesson:(Lesson *)lesson // nil or 0.0 to 1.0
 {
     return [self.lessonTransferProgress objectForKey:[NSValue valueWithNonretainedObject:lesson]];

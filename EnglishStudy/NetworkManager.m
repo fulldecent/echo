@@ -58,7 +58,10 @@
     for (Lesson *lesson in lessonSet.lessons) {
         if ([lesson.lessonID integerValue] != 0) { // Didn't finish uploading
             [lessonIDsToCheck addObject:lesson.lessonID];
-            [lessonIDTimestamps addObject:lesson.version];
+            if (lesson.version)
+                [lessonIDTimestamps addObject:lesson.version];
+            else
+                [lessonIDTimestamps addObject:[NSNumber numberWithInt:0]];
         }
     }
 
@@ -627,13 +630,14 @@
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:deviceUUID forKey:@"userCode"];
     [params setObject:lesson.lessonCode forKey:@"lessonCode"];
+    [params setObject:@"delete" forKey:@"action"];
     
     self.hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     self.hud.delegate = self;
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Deleting from server";
     
-    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"DELETE" path:relativeRequestPath parameters:params];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:relativeRequestPath parameters:params];
     AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
                                                                                      success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
                                       {

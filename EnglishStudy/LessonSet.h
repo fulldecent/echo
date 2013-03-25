@@ -16,6 +16,7 @@
 + (LessonSet *)lessonSetWithName:(NSString *)name;
 - (void)writeToDisk;
 - (void)syncLesson:(Lesson *)lesson withProgress:(void (^)(Lesson *lesson, NSNumber *progress))progress; // Lessons should not be opened while syncing
+- (void)syncStaleLessonsWithProgress:(void (^)(Lesson *lesson, NSNumber *progress))progress;
 
 - (NSNumber *)transferProgressForLesson:(Lesson *)lesson; // nil or 0.0 to 1.0
 - (void)deleteLesson:(Lesson *)lesson;
