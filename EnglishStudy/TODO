@@ -1,13 +1,3 @@
-
-========================================
-REMAINING TASKS FOR 1.0.8 RELEASE - ABSOLUTELY REQUIRED
-========================================
-
- - How do I say is crashing
-   http://stackoverflow.com/questions/15452763/huge-delay-between-viewwilldisappear-and-viewdiddisappear
- - Test kickstart
- - Test creating and deleting a lesson
-
 ========================================
 RELEASE PROCESS
  - Increment version
@@ -29,6 +19,7 @@ ANNOUNCEMENT FOR 1.0.8
 STUFF TO DO AFTER 1.0.8
 ========================================
 
+ - After How do I say or reply, flash HUD after successful transfer
  - Take advantage of AFFormURLParameterEncoding
  - Home screen, How do I say, save word
    Add share buttons
@@ -74,4 +65,4 @@ STUFF TO DO AFTER 1.0.8
     NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]+$" options:0 error:nil];
     return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
 }
-
+ - Help screen like http://imgur.com/RToxQiC
