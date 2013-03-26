@@ -18,8 +18,6 @@
 
 - (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
            andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion;
-- (void)updateServerVersionForLessons:(NSArray *)lessons
-                   onCompletion:(void(^)())block;
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progress;
 - (void)downloadWordWithID:(NSInteger)wordID
