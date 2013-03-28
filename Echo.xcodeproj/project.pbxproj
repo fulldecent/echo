@@ -50,6 +50,10 @@
 		776D2C1816ABAC4300EDB4DB /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 776D2C0E16ABAC4300EDB4DB /* AFXMLRequestOperation.m */; };
 		776D2C1916ABAC4300EDB4DB /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 776D2C1016ABAC4300EDB4DB /* UIImageView+AFNetworking.m */; };
 		777667C21569F41C0099996B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777667C11569F41C0099996B /* AudioToolbox.framework */; };
+		777FFAF61703DFDD004E03F3 /* share2.png in Resources */ = {isa = PBXBuildFile; fileRef = 777FFAF41703DFDD004E03F3 /* share2.png */; };
+		777FFAF71703DFDD004E03F3 /* share2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 777FFAF51703DFDD004E03F3 /* share2@2x.png */; };
+		777FFB001703E235004E03F3 /* share3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 777FFAFE1703E234004E03F3 /* share3@2x.png */; };
+		777FFB011703E235004E03F3 /* share3.png in Resources */ = {isa = PBXBuildFile; fileRef = 777FFAFF1703E234004E03F3 /* share3.png */; };
 		7798DDA916154BDA004EE464 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDA716154BDA004EE464 /* MBProgressHUD.m */; };
 		7798DDAC16154CAB004EE464 /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7798DDAA16154CAB004EE464 /* UIGlossyButton.m */; };
 		7798DE111619138C004EE464 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 7798DE0F1619138C004EE464 /* flag.png */; };
@@ -233,6 +237,10 @@
 		776D2C0F16ABAC4300EDB4DB /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		776D2C1016ABAC4300EDB4DB /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		777667C11569F41C0099996B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		777FFAF41703DFDD004E03F3 /* share2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share2.png; sourceTree = "<group>"; };
+		777FFAF51703DFDD004E03F3 /* share2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share2@2x.png"; sourceTree = "<group>"; };
+		777FFAFE1703E234004E03F3 /* share3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share3@2x.png"; sourceTree = "<group>"; };
+		777FFAFF1703E234004E03F3 /* share3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share3.png; sourceTree = "<group>"; };
 		7789051816113FED00506873 /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = Submodules/ShareKit/ShareKit.xcodeproj; sourceTree = "<group>"; };
 		7798DDA716154BDA004EE464 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Submodules/MBProgressHUD/MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
 		7798DDA816154BDA004EE464 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Submodules/MBProgressHUD/MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
@@ -565,6 +573,10 @@
 				774CDA1C15D080F100B14C45 /* message@2x.png */,
 				774CDA1D15D080F100B14C45 /* share.png */,
 				774CDA1E15D080F100B14C45 /* share@2x.png */,
+				777FFAF41703DFDD004E03F3 /* share2.png */,
+				777FFAF51703DFDD004E03F3 /* share2@2x.png */,
+				777FFAFE1703E234004E03F3 /* share3@2x.png */,
+				777FFAFF1703E234004E03F3 /* share3.png */,
 				77B5138C151970B100F041D7 /* Echo-Prefix.pch */,
 				77BBFDFA157BDC4500511CEC /* Languages.plist */,
 				77C7043116F533C200C3A13A /* checkin.png */,
@@ -798,6 +810,10 @@
 				77C7043816F5366000C3A13A /* camera@2x.png in Resources */,
 				77E1E25F16FFCB990022BF4D /* up_arrow.png in Resources */,
 				77E1E26016FFCB990022BF4D /* up_arrow@2x.png in Resources */,
+				777FFAF61703DFDD004E03F3 /* share2.png in Resources */,
+				777FFAF71703DFDD004E03F3 /* share2@2x.png in Resources */,
+				777FFB001703E235004E03F3 /* share3@2x.png in Resources */,
+				777FFB011703E235004E03F3 /* share3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

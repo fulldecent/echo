@@ -6,52 +6,27 @@ RELEASE PROCESS
  - XCode Analyze, AppCode Analyze
  - Build, Upload, Tag
 
-ANNOUNCEMENT FOR 1.0.8
- - New welcome screen with kickstart
- - New user interface, now looks more like Draw Something
- - Easier to update your profile
- - More lessons
- - Drop support for iOS 5 and below to improve internationalization
- - Inbox feature added to Meet People section
+ANNOUNCEMENT FOR 1.0.9
+ - Updated lesson screen
 ========================================
 
 ========================================
 STUFF TO DO AFTER 1.0.8
 ========================================
-
- - After How do I say or reply, flash HUD after successful transfer
- - Take advantage of AFFormURLParameterEncoding
- - Home screen, How do I say, save word
-   Add share buttons
+ ! Push notifications / replies to How do I say
+ - How do I say
+   - After save (or a reply to How do I say) flash HUD showing successful transfer
+   - After save, show share buttons
  - Record sentences, not just words
- - Home screen: Profile cell - if 100% change appearance
- - Check the the UI works in Chinese
- - Home screen, Meet people: recreate this view using AJAX and native UITableView
- - Home screen: refresh needs more data
-   - Download lessons: XX new lessons available in LANGUAGE
-   - Lesson you have created: XXX current users
-   - X new people have viewed your profile
- - Social view / AJAX make a real iPhone experience
- - View a lesson
-   - Thumb up / flag next to icon
-   - Share next to lesson name
- - Home screen other stuff
-   - Hold to edit
-   - Set some screen badge icon after refresh
- ! Push notifications
+ - Home screen: refresh XX new lessons available in LANGUAGE
+ - Home screen: refresh your lesson has XX current users
+ - Home screen: XX new lessons available in English
+ - Home screen: XX new people have viewed your profile
+ - Home screen: Hold to edit
+ - Set badge icon after refresh
  - At bottom of lesson: "create this lesson in NATIVELANGUAGE"
- ? iOS forms library
  - Custom URL, and allow opening lessons directly from learnwithecho.com
- - Add link to rate app 
-   http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
- - Make English lesson http://www.wyrdplay.org/chaos-poem.html
- - Do tableviews everywhere like in MainViewController
  - LessonInformationController -> make language work like in the How do I say view
- - Cool shit like this
-    NSDictionary *test = @{ @"key" : @"test value" };
-    NSString *value = test[@"key"];
-    NSLog(@"value is: %@", value);
-
  - Use this in the profile editor
 #pragma mark - UITextFieldDelegate
 
@@ -66,3 +41,14 @@ STUFF TO DO AFTER 1.0.8
     return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
 }
  - Help screen like http://imgur.com/RToxQiC
+   - Add link to rate app
+     http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
+ - Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
+ - Check the UI works in Chinese
+
+========================================
+STUFF TO DO AFTER LOTS OF PEOPLE USING
+========================================
+ - Home screen, Meet people: recreate this view using AJAX and native UITableView
+
+

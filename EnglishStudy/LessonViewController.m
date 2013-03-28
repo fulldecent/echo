@@ -92,7 +92,7 @@
                                      destructiveButtonTitle:nil
                                           otherButtonTitles:@"Inappropriate title", @"Inaccurate content", @"Poor quality", nil];
     self.actionSheet.tag = 0;
-    [self.actionSheet showFromTabBar:self.tabBarController.tabBar];
+    [self.actionSheet showInView:self.view];
 }
 
 - (IBAction)sendToFriendPressed:(id)sender {
@@ -233,7 +233,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -244,6 +244,7 @@
         return nil;
 }
 
+/*
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 0 && self.lesson.userName) {
@@ -278,14 +279,7 @@
     } else
         return nil;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (section == 0 && self.lesson.userName)
-        return 40;
-    else
-        return 0;
-}
+ */
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -295,11 +289,16 @@
             return 0;
         else
             return 1;
-    } else {    
+    } else if (section ==1) {
         retval = [self.lesson.words count];
         if (retval || (self.tableView.editing && !self.editingFromSwipe))
             retval++;
         return retval;
+    } else {
+        if (self.editing)
+            return 0;
+        else
+            return 1;
     }
 }
 
@@ -330,7 +329,7 @@
                     [(UIGlossyButton *)[cell viewWithTag:3] setTintColor:[UIColor greenColor]];
             }
         }
-    } else {
+    } else if (indexPath.section == 1) {
         if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
             cell = [tableView dequeueReusableCellWithIdentifier:@"shuffle"];
         else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe))
@@ -348,6 +347,25 @@
             else
                 cell.accessoryType = UITableViewCellAccessoryNone;
         }
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
+        cell.textLabel.text = self.lesson.userName;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
+//        cell.imageView.frame = CGRectMake(50, 0, 40, 40);
+        [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+        
+        UIGlossyButton *button = [[UIGlossyButton alloc] initWithFrame:CGRectMake(0, 0, 42, 38)];
+        [button setImage:[UIImage imageNamed:@"message"] forState:UIControlStateNormal];
+        button.tintColor = [UIColor greenColor];
+        button.backgroundOpacity = 1;
+        button.innerBorderWidth = 2.0f;
+        button.buttonBorderWidth = 0.0f;
+        button.buttonCornerRadius = 10.0f;
+        [button setGradientType: kUIGlossyButtonGradientTypeSolid];
+        [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
+        button.tintColor = [UIColor lightGrayColor];
+        [button addTarget:self action:@selector(messagePressed:) forControlEvents:UIControlEventTouchUpInside];
+        cell.accessoryView = button;
     }
     
     return cell;
