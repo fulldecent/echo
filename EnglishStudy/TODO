@@ -20,10 +20,8 @@ STUFF TO DO AFTER 1.0.8
  - Record sentences, not just words
  - Home screen: refresh XX new lessons available in LANGUAGE
  - Home screen: refresh your lesson has XX current users
- - Home screen: XX new lessons available in English
- - Home screen: XX new people have viewed your profile
+ - Home screen: refresh XX new people have viewed your profile
  - Home screen: Hold to edit
- - Set badge icon after refresh
  - At bottom of lesson: "create this lesson in NATIVELANGUAGE"
  - Custom URL, and allow opening lessons directly from learnwithecho.com
  - LessonInformationController -> make language work like in the How do I say view

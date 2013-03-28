@@ -49,22 +49,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 }
 
 - (IBAction)reload {
-    /*
-    [self.lessonSet markStaleLessonsWithCallback:^
-     {
-         [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
-             NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
-      //       [self reloadRowAtIndexPathWithoutAnimation:[NSIndexPath indexPathForRow:index inSection:0]];
-         }];
-         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-         //self.navigationItem.leftBarButtonItem = self.refreshButton;
-         
-         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-         [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
-         [defaults synchronize];
-         [self.refreshControl endRefreshing];
-     }];
-     */
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager updateServerVersionsInLessonSet:self.lessonSet
                        andSeeWhatsNewWithCompletion:^(NSNumber *newLessonCount, NSNumber *unreadMessageCount)
@@ -75,8 +59,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
          [defaults synchronize];
          [self.tableView reloadData];
-         [self.refreshControl endRefreshing];
 #warning Use animation instead of reloadData?
+         [self.refreshControl endRefreshing];
+         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadMessageCount intValue]];
          [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
              NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
              NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
@@ -398,7 +383,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
             if ([(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] integerValue]) {
                 [(UIButton *)[cell viewWithTag:3] setHidden:NO];
-                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] stringValue] forState:UIControlStateNormal];
+                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] description] forState:UIControlStateNormal];
             } else
                 [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;
