@@ -533,10 +533,10 @@
 		77B51385151970B100F041D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				77429F4115D4A1DE0017834F /* Backgrounds */,
 				77B9BC44160AC28500931E92 /* Default-568h@2x.png */,
 				77F4A16715F5460700D6189B /* Default-Landscape@2x~ipad.png */,
 				77F4A16515F5460200D6189B /* Default-Landscape~ipad.png */,
-				77429F4115D4A1DE0017834F /* Backgrounds */,
 				77CC932415D49610008A3074 /* Default-Portrait@2x~ipad.png */,
 				77CC932215D494E9008A3074 /* Default-Portrait~ipad.png */,
 				77CC932015D4940D008A3074 /* Default@2x.png */,
@@ -969,7 +969,6 @@
 		77B513A7151970B100F041D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Will Entriken (LZSQ9DS457)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
 				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
@@ -980,7 +979,6 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Echo;
-				PROVISIONING_PROFILE = "026B90E6-7CE4-4F13-9CFA-EA33B9D5ED31";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -989,7 +987,6 @@
 		77B513A8151970B100F041D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Will Entriken";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
 				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
@@ -999,7 +996,6 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Echo;
-				PROVISIONING_PROFILE = "39FAC821-FF47-4A3E-9E6B-875B574EE1AE";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};

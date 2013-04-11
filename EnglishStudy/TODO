@@ -4,19 +4,24 @@ RELEASE PROCESS
  - Update screenshots
  - git submodule update --recursive
  - XCode Analyze, AppCode Analyze
- - Build, Upload, Tag
+ - Build, Tag, Upload
+ - Create tokens with Tokens app
+ - Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
 
 ANNOUNCEMENT FOR 1.0.9
  - Updated lesson screen
+ - Shows new messages and badge icon
 ========================================
 
 ========================================
 STUFF TO DO AFTER 1.0.8
 ========================================
  ! Push notifications / replies to How do I say
- - How do I say
-   - After save (or a reply to How do I say) flash HUD showing successful transfer
-   - After save, show share buttons
+ 
+ 
+ - How do I say: show share buttons after save
+ - Practice against a received word
+ - How do I say: flash HUD showing successful transfer
  - Record sentences, not just words
  - Home screen: refresh XX new lessons available in LANGUAGE
  - Home screen: refresh your lesson has XX current users

@@ -93,7 +93,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"parent viewWillAppear start");
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     
@@ -105,14 +104,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     }
     [super viewWillAppear:YES];
     [self.tableView reloadData];
-    NSLog(@"parent viewWillAppear returning");
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    NSLog(@"parent viewDidAppear start");
-    [super viewDidAppear:animated];
-    NSLog(@"parent viewDidAppear returning");
 }
 
 - (void)viewWillDisappear:(BOOL)animated

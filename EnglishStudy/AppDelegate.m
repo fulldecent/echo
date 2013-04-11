@@ -11,6 +11,7 @@
 #import "EchoSHKConfigurator.h"
 #import "SHKFacebook.h"
 #import "AFNetworking.h"
+#import "Profile.h"
 
 @implementation AppDelegate
 
@@ -62,8 +63,29 @@
 
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 
+    // Let the device know we want to receive push notifications
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+
     return YES;
 }
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    Profile *me = [Profile currentUserProfile];
+    NSString *deviceTokenTrimmed = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    deviceTokenTrimmed = [deviceTokenTrimmed stringByReplacingOccurrencesOfString:@" " withString:@""];
+    me.deviceToken = deviceTokenTrimmed;
+    [me syncToDisk];
+    
+	NSLog(@"My token is: %@", deviceTokenTrimmed);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

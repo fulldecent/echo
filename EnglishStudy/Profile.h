@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSString *nativeLanguageTag;
 @property (strong, nonatomic) NSString *location;
 @property (strong, nonatomic) UIImage *photo;
+@property (strong, nonatomic) NSString *deviceToken;
 
 + (Profile *)currentUserProfile;
 - (void)syncOnlineOnSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;

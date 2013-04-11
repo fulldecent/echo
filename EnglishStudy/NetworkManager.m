@@ -703,6 +703,9 @@
                                         if (me.location)
                                             [formData appendPartWithFormData:[me.location dataUsingEncoding:NSUTF8StringEncoding]
                                                                         name:@"location"];
+                                        if (me.deviceToken)
+                                            [formData appendPartWithFormData:[me.deviceToken dataUsingEncoding:NSUTF8StringEncoding]
+                                                                        name:@"deviceToken"];
                                         if (me.photo) {
                                             UIImage *thumbnail = [NetworkManager imageWithImage:me.photo scaledToSizeWithSameAspectRatio:CGSizeMake(100, 100)];
                                             NSData *JPEGdata = UIImageJPEGRepresentation(thumbnail, 0.8);

@@ -16,6 +16,7 @@
 @synthesize nativeLanguageTag = _nativeLanguageTag;
 @synthesize location = _location;
 @synthesize photo = _photo;
+@synthesize deviceToken = _deviceToken;
 
 + (Profile *)currentUserProfile
 {
@@ -48,6 +49,8 @@
     sharedInstance.location = [userProfile objectForKey:@"location"];
     if ([userProfile objectForKey:@"photo"])
         sharedInstance.photo = [UIImage imageWithData:[userProfile objectForKey:@"photo"]];
+    if ([userProfile objectForKey:@"deviceToken"])
+        sharedInstance.deviceToken = [userProfile objectForKey:@"deviceToken"];
     if (needToSync)
         [sharedInstance syncToDisk];
     return sharedInstance;
@@ -74,6 +77,8 @@
         [userProfile setObject:self.location forKey:@"location"];
     if (self.photo)
         [userProfile setObject:UIImagePNGRepresentation(self.photo) forKey:@"photo"];
+    if (self.deviceToken)
+        [userProfile setObject:self.deviceToken forKey:@"deviceToken"];
     [defaults setObject:userProfile forKey:@"userProfile"];
     [defaults synchronize];
 }
