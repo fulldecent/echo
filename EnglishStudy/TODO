@@ -7,51 +7,39 @@ RELEASE PROCESS
  - Build, Tag, Upload
  - Create tokens with Tokens app
  - Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
-
-ANNOUNCEMENT FOR 1.0.9
- - Updated lesson screen
- - Shows new messages and badge icon
+ - Check the UI works in Chinese
 ========================================
 
 ========================================
-STUFF TO DO AFTER 1.0.8
+1.0.10 Changelog
 ========================================
- ! Push notifications / replies to How do I say
- 
- 
+ * Updated new user page
+
+
+========================================
+STUFF TO DO NOW
+========================================
+ ! Push notification after replies to How do I say
+ ! Show local language translation of words, allow edit & publish of local translation
+ ! Show word detail inside word screen
+ ! Add "record this lesson in NATIVELANGUAGE"
+
+========================================
+STUFF TO DO LATER
+========================================
  - How do I say: show share buttons after save
+ - Capture user IP address on register / update
  - Practice against a received word
  - How do I say: flash HUD showing successful transfer
- - Record sentences, not just words
  - Home screen: refresh XX new lessons available in LANGUAGE
  - Home screen: refresh your lesson has XX current users
  - Home screen: refresh XX new people have viewed your profile
- - Home screen: Hold to edit
- - At bottom of lesson: "create this lesson in NATIVELANGUAGE"
- - Custom URL, and allow opening lessons directly from learnwithecho.com
- - LessonInformationController -> make language work like in the How do I say view
- - Use this in the profile editor
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if (string.length == 0)
-        return YES;
-    if (textField.text.length > 20)
-        return NO;
-    
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]+$" options:0 error:nil];
-    return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
-}
+ - Record sentences, not just words
+ - Custom URL, and allow opening lessons directly from learnwithecho.com website
+  - LessonInformationController -> make language work like in the How do I say view
  - Help screen like http://imgur.com/RToxQiC
    - Add link to rate app
      http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
- - Check the UI works in Chinese
-
-========================================
-STUFF TO DO AFTER LOTS OF PEOPLE USING
-========================================
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
-
 

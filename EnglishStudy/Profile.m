@@ -35,10 +35,13 @@
         userProfile = [NSMutableDictionary dictionary];
     sharedInstance.username = [userProfile objectForKey:@"username"];
     sharedInstance.usercode = [userProfile objectForKey:@"usercode"];
-    if (!sharedInstance.usercode) {
+    if (!sharedInstance.usercode) { // deprecate 1.0.8, clean up backwards compatible
         sharedInstance.usercode = [defaults objectForKey:@"userGUID"];
-        [defaults removeObjectForKey:@"userGUID"]; // deprecate 1.0.8, clean up backwards compatible
         needToSync = YES;
+    }
+    if ([defaults objectForKey:@"userGUID"]) { // deprecate 1.0.8, clean up backwards compatible
+        [defaults removeObjectForKey:@"userGUID"];
+        [defaults synchronize];
     }
     if (!sharedInstance.usercode) {
         sharedInstance.usercode = [[[UIDevice currentDevice] identifierForVendor] UUIDString];

@@ -115,6 +115,17 @@
 
 #pragma mark - UITextFieldDelegate
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (string.length == 0)
+        return YES;
+    if (textField.text.length > 16)
+        return NO;
+    
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]+$" options:0 error:nil];
+    return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];

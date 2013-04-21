@@ -519,7 +519,7 @@
 				77C7042C16F52FF400C3A13A /* ProfileViewController.h */,
 				77C7042D16F52FF400C3A13A /* ProfileViewController.m */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
-				77DDC70C156DD45300568CDE /* Lesson Mode */,
+				77DDC70C156DD45300568CDE /* Lesson UI */,
 				7761D6A215E2E4E000975F1B /* Practice Mode */,
 				77DDC70D156DD80300568CDE /* Social Mode */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
@@ -587,7 +587,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		77DDC70C156DD45300568CDE /* Lesson Mode */ = {
+		77DDC70C156DD45300568CDE /* Lesson UI */ = {
 			isa = PBXGroup;
 			children = (
 				77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */,
@@ -605,7 +605,7 @@
 				77A50BE2157C59BE00027CB1 /* Checkbox checked.png */,
 				77BBFE15157C3BF100511CEC /* Checkbox empty.png */,
 			);
-			name = "Lesson Mode";
+			name = "Lesson UI";
 			sourceTree = "<group>";
 		};
 		77DDC70D156DD80300568CDE /* Social Mode */ = {
