@@ -10,12 +10,14 @@
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
 #import "WordDetailController.h"
+#import "WordPracticeController.h"
 #import "AFNetworking.h"
 
-@interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate>
+@interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate, WordPracticeDataSource, WordPracticeDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) NSString *updatedUserName;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
+@property (strong, nonatomic) Word *currentWord;
 @end
 
 @implementation SocialViewController
@@ -119,11 +121,11 @@
              self.hud.progress = [PGprogress floatValue];
              if ([PGprogress floatValue] == 1.0) {
                  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                 WordDetailController *wordDetail = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
-                 //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
-                 wordDetail.word = PGword;
-                 wordDetail.delegate = self;
-                 [self.navigationController pushViewController:wordDetail animated:YES];
+                 WordPracticeController *controller = (WordPracticeController *)[storyboard instantiateViewControllerWithIdentifier:@"wordPractice"];
+                 self.currentWord = PGword;
+                 controller.datasource = self;
+                 controller.delegate = self;
+                 [self.navigationController pushViewController:controller animated:YES];
                  [self.hud hide:YES];
              }
          } onFailure:^{
@@ -202,6 +204,41 @@
 - (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
 {
     return NSTemporaryDirectory();
+}
+
+#pragma mark - WordPracticeViewController
+
+- (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice
+{
+    return self.currentWord;
+}
+
+- (NSString *)currentSoundDirectoryFilePath
+{
+    return NSTemporaryDirectory();
+}
+
+- (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice
+{
+    return false;
+}
+
+- (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice
+{
+}
+
+- (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice
+{
+    return false;
+}
+
+- (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state
+{
+}
+
+- (BOOL)wordPracticeShouldShowNextButton:(WordPracticeController *)wordPractice;
+{
+    return false;
 }
 
 @end

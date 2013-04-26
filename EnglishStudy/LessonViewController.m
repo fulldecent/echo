@@ -14,6 +14,9 @@
 #import "SHK.h"
 #import "UIImageView+AFNetworking.h"
 
+typedef enum {SectionActions, SectionWords, SectionByline, SectionCount} Sections;
+typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline} Cells;
+
 @interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property (nonatomic) int currentWordIndex;
 @property (nonatomic) BOOL wordListIsShuffled;
@@ -31,6 +34,7 @@
 @synthesize hud = _hud;
 @synthesize actionSheet = _actionSheet;
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,6 +44,7 @@
     self.tableView.backgroundView = tempImageView;
 }
 
+//TODO: should be a datasource
 - (void)setLesson:(Lesson *)lesson
 {
     if ([lesson.lessonCode length]) {
@@ -144,34 +149,34 @@
         return;
     
     [self.tableView beginUpdates];
-    NSArray *shuffleRow = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]];
-    NSArray *addRow = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[self.lesson.words count] inSection:1]];
+    NSArray *shuffleRow = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:SectionWords]];
+    NSArray *addRow = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[self.lesson.words count] inSection:SectionWords]];
     
     if (!self.editingFromSwipe) {
-    if (editing) {
-        if ([self.lesson.words count])
-            [self.tableView deleteRowsAtIndexPaths:shuffleRow withRowAnimation:UITableViewRowAnimationAutomatic];        
-        [self.tableView insertRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.navigationItem setHidesBackButton:YES animated:YES];
-    } else {
-        [self.tableView deleteRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationAutomatic];        
-        if ([self.lesson.words count])
-            [self.tableView insertRowsAtIndexPaths:shuffleRow withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.navigationItem setHidesBackButton:NO animated:YES];
-    }
+        if (editing) {
+            if ([self.lesson.words count])
+                [self.tableView deleteRowsAtIndexPaths:shuffleRow withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.navigationItem setHidesBackButton:YES animated:YES];
+        } else {
+            [self.tableView deleteRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationAutomatic];
+            if ([self.lesson.words count])
+                [self.tableView insertRowsAtIndexPaths:shuffleRow withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.navigationItem setHidesBackButton:NO animated:YES];
+        }
     }
 
     [super setEditing:editing animated:animated];
     [self.tableView setEditing:editing animated:animated];
 
     if (!self.editingFromSwipe) {
-    if (!editing) {
-        self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
-        [self.delegate lessonView:self didSaveLesson:self.lesson];
-        self.title = self.lesson.name;
-    }
-    
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]  withRowAnimation:UITableViewRowAnimationAutomatic];
+        if (!editing) {
+            self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+            [self.delegate lessonView:self didSaveLesson:self.lesson];
+            self.title = self.lesson.name;
+        }
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionByline] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [self.tableView endUpdates];
 }
@@ -221,19 +226,47 @@
     return YES;
 }
 
+- (BOOL)wordPracticeShouldShowNextButton:(WordPracticeController *)wordPractice;
+{
+    return YES;
+}
+
 - (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state
 {
     Word *word = [self.lesson.words objectAtIndex:self.currentWordIndex];
     word.completed = [NSNumber numberWithBool:state];
     [self.delegate lessonView:self didSaveLesson:self.lesson];
-    [self.tableView reloadData];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentWordIndex+1 inSection:SectionWords];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table view data source
 
+- (Cells)cellTypeForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case SectionActions:
+            if (self.lesson.isEditable)
+                return self.lesson.isShared ? CellShared : CellNotShared;
+            else
+                return CellActions;
+        case SectionWords:
+            if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
+                return CellShuffle;
+            else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe))
+                return CellAddWord;
+            else
+                return CellWord;
+        case SectionByline:
+            return CellAuthorByline;
+    }
+    assert (0);
+    return 0;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return SectionCount;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -244,158 +277,95 @@
         return nil;
 }
 
-/*
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if (section == 0 && self.lesson.userName) {
-        CGRect footerFrame = [tableView rectForFooterInSection:section];
-        UIView *footer = [[UIView alloc] initWithFrame:footerFrame];
-
-        CGRect labelFrame = CGRectMake(40, 10, footerFrame.size.width - 60, footerFrame.size.height - 30);
-        UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];
-        label.text = self.lesson.userName;
-        // Colors and font
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:13];
-        label.shadowColor = [UIColor colorWithWhite:0.8 alpha:0.8];
-        label.textColor = [UIColor blackColor];
-        // Automatic word wrap
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.numberOfLines = 0;
-        // Autosize
-        [label sizeToFit];
-        // Add the UILabel to the tableview
-        
-        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 16, 16)];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
-        [image setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
-
-        
-        [footer addSubview:label];
-        [footer addSubview:image];
-
-        return footer;
-    } else
-        return nil;
-}
- */
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int retval;
-    if (section == 0) {
-        if (self.editing && !self.editingFromSwipe)
-            return 0;
-        else
-            return 1;
-    } else if (section ==1) {
-        retval = [self.lesson.words count];
-        if (retval || (self.tableView.editing && !self.editingFromSwipe))
-            retval++;
-        return retval;
-    } else {
-        if (self.editing)
-            return 0;
-        else
-            return 1;
+    switch (section) {
+        case SectionActions:
+            return (self.editing && !self.editingFromSwipe) ? 0 : 1;
+        case SectionWords:
+            if ([self.lesson.words count] || (self.tableView.editing && !self.editingFromSwipe))
+                return [self.lesson.words count] + 1; // add or shuffle button
+            else
+                return [self.lesson.words count];
+        case SectionByline:
+            return self.lesson.isEditable ? 0 : 1;
     }
+    assert(0);
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    
-    if (indexPath.section == 0 && !(self.editing && !self.editingFromSwipe)) {
-        if (indexPath.row == 0) {
-            if (self.lesson.isEditable && !self.lesson.isShared) {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"notShared"];
-            } else {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"header2online"];
-
-                for(int i=1; i<=4; i++) {
-                    UIGlossyButton *b = (UIGlossyButton*) [cell viewWithTag: i];
-                    b.tintColor = [UIColor greenColor];
-                    b.backgroundOpacity = 1;
-                    b.innerBorderWidth = 2.0f;
-                    b.buttonBorderWidth = 0.0f;
-                    b.buttonCornerRadius = 10.0f;
-                    [b setGradientType: kUIGlossyButtonGradientTypeSolid];
-                    [b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-                    b.tintColor = [UIColor lightGrayColor];
-                }
-                
-                if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
-                    [(UIGlossyButton *)[cell viewWithTag:3] setTintColor:[UIColor greenColor]];
-            }
-        }
-    } else if (indexPath.section == 1) {
-        if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
-            cell = [tableView dequeueReusableCellWithIdentifier:@"shuffle"];
-        else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe))
-            cell = [tableView dequeueReusableCellWithIdentifier:@"add"];
-        else { // A normal word in the lesson
+    Word *word;
+    int index;
+    switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+        case CellNotShared:
+            return [tableView dequeueReusableCellWithIdentifier:@"notShared"];
+        case CellShared:
+            return [tableView dequeueReusableCellWithIdentifier:@"shared"];
+        case CellActions:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"header2online"];
+            if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
+                [(UIGlossyButton *)[cell viewWithTag:3] setTintColor:[UIColor greenColor]];
+            return cell;
+        case CellAddWord:
+            return [tableView dequeueReusableCellWithIdentifier:@"add"];
+        case CellShuffle:
+            return [tableView dequeueReusableCellWithIdentifier:@"shuffle"];
+        case CellWord:
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
-            int index = (self.tableView.editing && !self.editingFromSwipe) ? indexPath.row : indexPath.row-1;
-            Word *word = [self.lesson.words objectAtIndex:index];
+            index = (self.tableView.editing && !self.editingFromSwipe) ? indexPath.row : indexPath.row-1;
+            word = [self.lesson.words objectAtIndex:index];
             cell.textLabel.text = word.name;
             cell.detailTextLabel.text = word.nativeDetail;
-            if ([self.lesson.lessonCode length] == 0)
+            if (self.lesson.isEditable)
                 cell.accessoryType = UITableViewCellAccessoryNone;
-            if ([word.completed boolValue])
+            else if ([word.completed boolValue])
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             else
                 cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-    } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
-        cell.textLabel.text = self.lesson.userName;
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
-//        cell.imageView.frame = CGRectMake(50, 0, 40, 40);
-        [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
-        
-        UIGlossyButton *button = [[UIGlossyButton alloc] initWithFrame:CGRectMake(0, 0, 42, 38)];
-        [button setImage:[UIImage imageNamed:@"message"] forState:UIControlStateNormal];
-        button.tintColor = [UIColor greenColor];
-        button.backgroundOpacity = 1;
-        button.innerBorderWidth = 2.0f;
-        button.buttonBorderWidth = 0.0f;
-        button.buttonCornerRadius = 10.0f;
-        [button setGradientType: kUIGlossyButtonGradientTypeSolid];
-        [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-        button.tintColor = [UIColor lightGrayColor];
-        [button addTarget:self action:@selector(messagePressed:) forControlEvents:UIControlEventTouchUpInside];
-        cell.accessoryView = button;
+            return cell;
+        case CellAuthorByline:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
+            cell.textLabel.text = self.lesson.userName;
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
+            [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            UIGlossyButton *button = [[UIGlossyButton alloc] initWithFrame:CGRectMake(0, 0, 42, 38)];
+            [button setImage:[UIImage imageNamed:@"message"] forState:UIControlStateNormal];
+            button.tintColor = [UIColor greenColor];
+            button.backgroundOpacity = 1;
+            button.innerBorderWidth = 2.0f;
+            button.buttonBorderWidth = 0.0f;
+            button.buttonCornerRadius = 10.0f;
+            [button setGradientType: kUIGlossyButtonGradientTypeSolid];
+            [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
+            button.tintColor = [UIColor lightGrayColor];
+            [button addTarget:self action:@selector(messagePressed:) forControlEvents:UIControlEventTouchUpInside];
+            cell.accessoryView = button;
+            return cell;
     }
-    
-    return cell;
+    assert(0); return 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == SectionActions)
         cell.backgroundColor = [UIColor colorWithHue:0.63 saturation:0.1 brightness:0.97 alpha:1];
-    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section != SectionWords)
         return NO;
-    else {
-        if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe)) {
-            return NO;
-        } else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe)) {
-            return NO;
-        } else { // A normal word in the lesson
-            return YES;
-        }
-    }
+    return self.lesson.isEditable && [self cellTypeForRowAtIndexPath:indexPath] == CellWord;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
 {
-    if (proposedDestinationIndexPath.section == 1 && proposedDestinationIndexPath.row < [self.lesson.words count])
+    if (proposedDestinationIndexPath.section != sourceIndexPath.section)
+        return sourceIndexPath;
+    if (proposedDestinationIndexPath.row < self.lesson.words.count)
         return proposedDestinationIndexPath;
     else
         return sourceIndexPath;
@@ -412,9 +382,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == SectionWords) {
         if (editingStyle == UITableViewCellEditingStyleInsert) {
-            self.currentWordIndex = indexPath.row;
+            self.currentWordIndex = self.lesson.words.count;
             [self performSegueWithIdentifier:@"editWord" sender:self];
         } else if (editingStyle == UITableViewCellEditingStyleDelete) {
             NSMutableArray *words = [self.lesson.words mutableCopy];
@@ -424,7 +394,7 @@
             self.lesson.words = [words copy];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             if (![words count])
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:SectionWords]] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
             [self.lesson removeStaleFiles];
         }
@@ -447,51 +417,41 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section != SectionWords)
         return nil;
-    } else {
-        if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe)) {
-            return indexPath;
-        } else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe)) {
-            return indexPath;
-        } else if (self.tableView.editing && !self.editingFromSwipe) { // A normal word in the lesson
-            return nil;
-        } else {
-            return indexPath;
-        }
-    }
+    return (self.tableView.editing && !self.editingFromSwipe) ? nil : indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
-        if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe)) {
+    switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+        case CellShuffle:
             self.wordListIsShuffled = YES;
             [self skipToNextWordForWordPractice:nil];
             [self performSegueWithIdentifier:@"echoWord" sender:self];
-        } else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe)) {
+            break;
+        case CellAddWord:
             [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:indexPath];
-        } else { // A normal word in the lesson
+            break;
+        case CellWord:
             self.currentWordIndex = indexPath.row - 1;
-            self.wordListIsShuffled = NO; 
+            self.wordListIsShuffled = NO;
             [self performSegueWithIdentifier:@"echoWord" sender:self];
-        }
+        default:
+            break;
     }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (!self.lesson.isEditable)
         return UITableViewCellEditingStyleNone;
-    } else if (indexPath.section == 1 && (self.editing && !self.editingFromSwipe)) {
-        if (indexPath.row == [self.lesson.words count])
+    switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+        case CellAddWord:
             return UITableViewCellEditingStyleInsert;
-        else
+        case CellWord:
             return UITableViewCellEditingStyleDelete;
-    } else /* if (indexPath.section == 1 && !self.editing) */ {
-        if (indexPath.row == 0) 
+        default:
             return UITableViewCellEditingStyleNone;
-        else 
-            return UITableViewCellEditingStyleDelete;
     }
 }
 
@@ -507,9 +467,9 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.destinationViewController isKindOfClass:[WordPracticeController class]]) {
-        WordPracticeController *echoViewController = segue.destinationViewController;
-        echoViewController.datasource = self;
-        echoViewController.delegate = self;
+        WordPracticeController *controller = segue.destinationViewController;
+        controller.datasource = self;
+        controller.delegate = self;
     } else if ([segue.destinationViewController isKindOfClass:[WordDetailController class]]) {
         WordDetailController *controller = segue.destinationViewController;
         controller.delegate = self;
@@ -523,24 +483,20 @@
     }
 }
 
-#pragma mark - Translate View Controller Delegate
+#pragma mark - wordDetailController Delegate
 
 - (void)wordDetailController:(WordDetailController *)controller didSaveWord:(Word *)word 
 {
-    if (self.editing && self.currentWordIndex == [self.lesson.words count]) { // new word
+    // PRECONDITION: self.tableView.editing && !self.editingFromSwipe
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.currentWordIndex inSection:SectionWords];
+    if (self.currentWordIndex == self.lesson.words.count) {
         self.lesson.words = [self.lesson.words arrayByAddingObject:word];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.currentWordIndex inSection:1]]
-                              withRowAnimation:UITableViewRowAnimationAutomatic];
-    } else if ((self.editing && !self.editingFromSwipe)) { // existing row
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else {
         NSMutableArray *words = [self.lesson.words mutableCopy];
         [words replaceObjectAtIndex:self.currentWordIndex withObject:word];
         self.lesson.words = [words copy];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.currentWordIndex inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    } else /* !self.editing */ {
-        NSMutableArray *words = [self.lesson.words mutableCopy];
-        [words replaceObjectAtIndex:self.currentWordIndex withObject:word];
-        self.lesson.words = [words copy];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.currentWordIndex+1 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonView:self didSaveLesson:self.lesson];
@@ -557,16 +513,6 @@
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word
 {
     return YES;
-}
-
-#pragma mark - PHORLanguagesViewControllerDelegate
-
-- (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name
-{
-    NSMutableDictionary *dict = [self.lesson.detail mutableCopy];
-    [dict setObject:[NSString string] forKey:tag];
-    self.lesson.detail = [dict copy];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - UI Text Field Delegate

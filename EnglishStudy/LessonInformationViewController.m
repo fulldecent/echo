@@ -9,6 +9,7 @@
 #import "LessonInformationViewController.h"
 #import "LessonViewController.h"
 #import "Languages.h"
+#import "LanguageSelectController.h"
 
 @interface LessonInformationViewController() <LanguageSelectControllerDelegate>
 @property (strong, nonatomic) NSString *editingLanguageTag;
@@ -67,7 +68,7 @@
     self.lesson.detail = self.editingDetail;
     self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonInformationView:self didSaveLesson:self.lesson];
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)validate {

@@ -272,9 +272,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case SectionPractice:
 //            return self.practiceSet.lessons.count+3;
             return 3;
-        default:
-            return 0;
     }
+    assert(0);
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -588,6 +588,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     [self.lessonSet addOrUpdateLesson:lesson];
     [self.tableView reloadData];
+    self.currentLesson = lesson;
+    [self.navigationController popToRootViewControllerAnimated:NO];
+//    controller pop
+    [self performSegueWithIdentifier:@"lesson" sender:self];
 }
 
 #pragma mark - IntroViewControllerDelegate

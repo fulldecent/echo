@@ -10,7 +10,6 @@
 #import "WordPracticeController.h"
 #import "Lesson.h"
 #import "Word.h"
-#import "LanguageSelectController.h"
 
 @class LessonViewController;
 
@@ -20,7 +19,7 @@
 - (void)lessonView:(LessonViewController *)controller wantsToDeleteLesson:(Lesson *)lesson;
 @end
 
-@interface LessonViewController : UITableViewController <WordPracticeDataSource, WordPracticeDelegate, LanguageSelectControllerDelegate, UITextFieldDelegate>
+@interface LessonViewController : UITableViewController <WordPracticeDataSource, WordPracticeDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) Lesson *lesson;
 @property (weak, nonatomic) id <LessonViewDelegate> delegate;
 

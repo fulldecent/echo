@@ -14,10 +14,11 @@ RELEASE PROCESS
 1.0.10 Changelog
 ========================================
  * Updated new user page
+ * Fix crash when editing lessons
 
 
 ========================================
-STUFF TO DO NOW
+FOCUS
 ========================================
  ! Push notification after replies to How do I say
  ! Show local language translation of words, allow edit & publish of local translation
@@ -27,6 +28,7 @@ STUFF TO DO NOW
 ========================================
 STUFF TO DO LATER
 ========================================
+ - Badges and acheivements for completing tasks
  - How do I say: show share buttons after save
  - Capture user IP address on register / update
  - Practice against a received word

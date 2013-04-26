@@ -316,18 +316,21 @@
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
 
-    if ([self.delegate currentWordCanBeCheckedForWordPractice:self]) {
-        // Set up two bar button items
+    NSMutableArray *rightBarButtonItems = [[NSMutableArray alloc] init];
+    if ([self.delegate wordPracticeShouldShowNextButton:self]) {
         UIBarButtonItem *fastForward = self.navigationItem.rightBarButtonItem;
+        [rightBarButtonItems addObject:fastForward];
+    }
+    if ([self.delegate currentWordCanBeCheckedForWordPractice:self]) {
         UIImage *checkImage;
         if ([self.datasource wordCheckedStateForWordPractice:self])
             checkImage = [UIImage imageNamed:@"checkon"];
         else
             checkImage = [UIImage imageNamed:@"check"];
         UIBarButtonItem *check = [[UIBarButtonItem alloc] initWithImage:checkImage landscapeImagePhone:checkImage style:UIBarButtonItemStylePlain target:self action:@selector(checkPressed:)];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:fastForward, check, nil];
+        [rightBarButtonItems addObject:check];
     }
-    
+    self.navigationItem.rightBarButtonItems = rightBarButtonItems;
     
     /*
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];

@@ -22,6 +22,7 @@
 @protocol WordPracticeDelegate
 - (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice;
 - (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice;
+- (BOOL)wordPracticeShouldShowNextButton:(WordPracticeController *)wordPractice;
 - (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state;
 @end
 

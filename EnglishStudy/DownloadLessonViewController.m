@@ -115,9 +115,9 @@
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
             picker.mailComposeDelegate = self;
-            [picker setSubject:[NSString stringWithFormat:@"Lessons/%@", self.navigationItem.rightBarButtonItem.title]];
+            [picker setSubject:[NSString stringWithFormat:@"Idea for Echo lesson/%@", self.navigationItem.rightBarButtonItem.title]];
             [picker setToRecipients:[NSArray arrayWithObject:@"echo@phor.net"]];
-            [picker setMessageBody:@"I have a greate idea for a lesson..." isHTML:NO];
+            [picker setMessageBody:@"(TYPE YOUR IDEA IN HERE)" isHTML:NO];
             [self presentViewController:picker animated:YES completion:nil];
         }
     }

@@ -67,6 +67,7 @@
          }         
          
          [self.hud hide:YES];
+         [me syncToDisk];
          [self dismissViewControllerAnimated:YES completion:nil];
      } onFailure:^(NSError *error) {
          [self.hud hide:YES];
@@ -102,7 +103,6 @@
 }
 
 - (IBAction)nameChanged:(UITextField *)sender {
-    NSLog(@"%@", sender.text);
     for (UIButton *button in self.languageButtons)
         button.enabled = sender.text.length > 0;
 }
