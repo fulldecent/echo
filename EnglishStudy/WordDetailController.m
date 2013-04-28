@@ -171,14 +171,13 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     self.word.detail = self.editingDetail;
     [self.delegate wordDetailController:self didSaveWord:self.word];
 }
-                                                  
+
 - (IBAction)validate
 {
     BOOL valid = YES;
     UIColor *goodColor = [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
     UIColor *badColor = [UIColor redColor];
     
-
     if (!self.editingLanguageTag.length)
         valid = NO;
     

@@ -590,10 +590,10 @@
 		77DDC70C156DD45300568CDE /* Lesson UI */ = {
 			isa = PBXGroup;
 			children = (
-				77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */,
-				77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */,
 				77D8AD2D157AE373001E2E25 /* LessonViewController.h */,
 				77D8AD2E157AE373001E2E25 /* LessonViewController.m */,
+				77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */,
+				77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */,
 				77B5139D151970B100F041D7 /* WordPracticeController.h */,
 				77B5139E151970B100F041D7 /* WordPracticeController.m */,
 				77BBFE0B157C11C900511CEC /* WordDetailController.h */,

@@ -11,24 +11,29 @@ RELEASE PROCESS
 ========================================
 
 ========================================
-1.0.10 Changelog
+1.x.x Changelog
 ========================================
- * Updated new user page
- * Fix crash when editing lessons
-
+ * Update word practice screen
+ * Update original "create a lesson" view
 
 ========================================
 FOCUS
 ========================================
- ! Push notification after replies to How do I say
- ! Show local language translation of words, allow edit & publish of local translation
- ! Show word detail inside word screen
- ! Add "record this lesson in NATIVELANGUAGE"
+ ! Add "help translate this lesson to your language" view
+ ! Save this in the database homehow
+ ! Lesson downloads should get this extra information (break api?)
+ ! After user has translated allow them to record that lesson as well
+ ! Update word practice screen for multi-lingual (show lesson lang and cur user lang)
+ ! "Editing" a translated lesson that has been recorded will dissociate it from other translations?
 
 ========================================
 STUFF TO DO LATER
 ========================================
- - Badges and acheivements for completing tasks
+ ! Push notification after replies to How do I say
+ ! Badges and acheivements for completing tasks
+     - Upload a photo, Download 5 lessons, Share a lesson on facebook, Contribute a lesson, Translate a lesson, Send a message to author, practice a word, reply to a practice, have your lesson downloaded by 10 people
+     - Silver-level badge items are handled locally and reported to server
+     - Gold-level are calculated by server (your lesson downloaded by 10 people)
  - How do I say: show share buttons after save
  - Capture user IP address on register / update
  - Practice against a received word

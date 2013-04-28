@@ -15,7 +15,7 @@
 #import "UIImageView+AFNetworking.h"
 
 typedef enum {SectionActions, SectionWords, SectionByline, SectionCount} Sections;
-typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline} Cells;
+typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction} Cells;
 
 @interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property (nonatomic) int currentWordIndex;
@@ -48,12 +48,18 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 - (void)setLesson:(Lesson *)lesson
 {
     if ([lesson.lessonCode length]) {
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
-        if (lesson.words.count == 0) {
+        NSMutableArray *buttons = [[NSMutableArray alloc] init];
+//        [buttons addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share3"] style:UIBarButtonItemStyleBordered target:self action:@selector(sendToFriendPressed:)]];
+        [buttons addObject:self.editButtonItem];
+        [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendToFriendPressed:)]];
+        self.navigationItem.rightBarButtonItems = buttons;
+        if (lesson.words.count == 0)
             self.editing = YES;
-        }
     } else {
-        self.navigationItem.rightBarButtonItem = nil;
+        NSMutableArray *buttons = [[NSMutableArray alloc] init];
+        [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendToFriendPressed:)]];
+        self.navigationItem.rightBarButtonItems = buttons;
+//        self.navigationItem.rightBarButtonItem = nil;
     }
     _lesson = lesson;
 }
@@ -65,29 +71,29 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     
     NSNumber *newState = [NSNumber numberWithBool:!self.lesson.submittedLikeVote || [self.lesson.submittedLikeVote boolValue] == NO];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        [networkManager likeLesson:self.lesson withState:newState onSuccess:^
-         {
-             self.lesson.submittedLikeVote = newState;
-             [self.hud hide:YES];
-             [self.delegate lessonView:self didSaveLesson:self.lesson];
-             [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]
-                                   withRowAnimation:UITableViewRowAnimationNone];
-         } onFailure:^(NSError *error)
-         {
-             [self.hud hide:YES];
-             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-             self.hud.delegate = self;
-             self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-             view.text = error.localizedDescription;
-             view.font = self.hud.labelFont;
-             view.textColor = [UIColor whiteColor];
-             view.backgroundColor = [UIColor clearColor];
-             [view sizeToFit];
-             self.hud.customView = view;
-             self.hud.mode = MBProgressHUDModeCustomView;
-             [self.hud hide:YES afterDelay:1.5];
-         }];
+    [networkManager likeLesson:self.lesson withState:newState onSuccess:^
+     {
+         self.lesson.submittedLikeVote = newState;
+         [self.hud hide:YES];
+         [self.delegate lessonView:self didSaveLesson:self.lesson];
+         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
+         
+     } onFailure:^(NSError *error)
+     {
+         [self.hud hide:YES];
+         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+         self.hud.delegate = self;
+         self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
+         UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+         view.text = error.localizedDescription;
+         view.font = self.hud.labelFont;
+         view.textColor = [UIColor whiteColor];
+         view.backgroundColor = [UIColor clearColor];
+         [view sizeToFit];
+         self.hud.customView = view;
+         self.hud.mode = MBProgressHUDModeCustomView;
+         [self.hud hide:YES afterDelay:1.5];
+     }];
 }
 
 - (IBAction)flagPressed:(id)sender {
@@ -101,7 +107,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 }
 
 - (IBAction)sendToFriendPressed:(id)sender {
-        
+    
     // Create the item to share (in this example, a url)
     NSString *urlString = [NSString stringWithFormat:@"http://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
     NSURL *url = [NSURL URLWithString:urlString];
@@ -246,10 +252,14 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 {
     switch (indexPath.section) {
         case SectionActions:
-            if (self.lesson.isEditable)
-                return self.lesson.isShared ? CellShared : CellNotShared;
-            else
-                return CellActions;
+            if (indexPath.row == 0) {
+                if (self.lesson.isEditable)
+                    return self.lesson.isShared ? CellShared : CellNotShared;
+                else
+                    return CellAuthorByline;
+            } else {
+                return CellTranslateAction;
+            }
         case SectionWords:
             if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
                 return CellShuffle;
@@ -281,14 +291,14 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 {
     switch (section) {
         case SectionActions:
-            return (self.editing && !self.editingFromSwipe) ? 0 : 1;
+            return (self.editing && !self.editingFromSwipe) ? 0 : 2;
         case SectionWords:
             if ([self.lesson.words count] || (self.tableView.editing && !self.editingFromSwipe))
                 return [self.lesson.words count] + 1; // add or shuffle button
             else
                 return [self.lesson.words count];
         case SectionByline:
-            return self.lesson.isEditable ? 0 : 1;
+            return 0;
     }
     assert(0);
     return 0;
@@ -299,6 +309,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     UITableViewCell *cell;
     Word *word;
     int index;
+    Profile *me = [Profile currentUserProfile];
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellNotShared:
             return [tableView dequeueReusableCellWithIdentifier:@"notShared"];
@@ -326,24 +337,20 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
             else
                 cell.accessoryType = UITableViewCellAccessoryNone;
             return cell;
-        case CellAuthorByline:
+        case CellAuthorByline: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
-            cell.textLabel.text = self.lesson.userName;
+            [(UILabel *)[cell viewWithTag:1] setText:self.lesson.userName];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
-            [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
-            UIGlossyButton *button = [[UIGlossyButton alloc] initWithFrame:CGRectMake(0, 0, 42, 38)];
-            [button setImage:[UIImage imageNamed:@"message"] forState:UIControlStateNormal];
-            button.tintColor = [UIColor greenColor];
-            button.backgroundOpacity = 1;
-            button.innerBorderWidth = 2.0f;
-            button.buttonBorderWidth = 0.0f;
-            button.buttonCornerRadius = 10.0f;
-            [button setGradientType: kUIGlossyButtonGradientTypeSolid];
-            [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-            button.tintColor = [UIColor lightGrayColor];
-            [button addTarget:self action:@selector(messagePressed:) forControlEvents:UIControlEventTouchUpInside];
-            cell.accessoryView = button;
-            return cell;
+            [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
+                [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
+            return cell;}
+        case CellTranslateAction: 
+            cell = [tableView dequeueReusableCellWithIdentifier:@"translateAction"];
+            cell.textLabel.text = [NSString stringWithFormat:@"Contribute %@ translation", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]];
+            return cell; 
+        case CellTranslatorByline: 
+            assert(0);
     }
     assert(0); return 0;
 }

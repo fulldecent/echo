@@ -590,7 +590,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [self.tableView reloadData];
     self.currentLesson = lesson;
     [self.navigationController popToRootViewControllerAnimated:NO];
-//    controller pop
     [self performSegueWithIdentifier:@"lesson" sender:self];
 }
 

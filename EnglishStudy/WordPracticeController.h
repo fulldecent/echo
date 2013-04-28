@@ -31,6 +31,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *trainingSpeakerButton;
 @property (strong, nonatomic) IBOutlet PHOREchoRecordButton *echoRecordButton;
 @property (strong, nonatomic) IBOutlet UIButton *workflowButton;
+@property (strong, nonatomic) IBOutlet UITextView *wordDetail;
 @property (weak, nonatomic) id <WordPracticeDataSource> datasource;
 @property (weak, nonatomic) id <WordPracticeDelegate> delegate;
 

@@ -19,6 +19,14 @@
 @property (strong, nonatomic) Lesson *lesson;
 @property (weak, nonatomic) id <LessonInformationViewDelegate> delegate;
 
+@property (strong, nonatomic) IBOutlet UILabel *languageName;
+@property (strong, nonatomic) IBOutlet UILabel *lessonLabel;
+@property (strong, nonatomic) IBOutlet UITextField *lessonName;
+@property (strong, nonatomic) IBOutlet UILabel *detailLabel;
+@property (strong, nonatomic) IBOutlet UITextField *detailText;
+
+
+
 - (IBAction)updateName:(UITextField *)sender;
 - (IBAction)updateDetail:(UITextField *)sender;
 - (IBAction)save:(id)sender;

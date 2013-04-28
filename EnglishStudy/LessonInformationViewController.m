@@ -41,7 +41,6 @@
 {
     if (!_editingDetail) {
         _editingDetail = [[NSMutableDictionary alloc] init];
-        [_editingDetail setObject:@"" forKey:@"en"];
     }
     
     return _editingDetail;
@@ -53,12 +52,8 @@
 }
 
 - (IBAction)updateDetail:(UITextField *)sender {
-    id cellView = [sender superview];
-    UITableViewCell *cell = (UITableViewCell *)[cellView superview];
-    UITableView *tableView = (UITableView *)[cell superview];
-    NSIndexPath *indexPath = [tableView indexPathForCell:cell];
-    NSString *languageTag = [[Languages sortedListOfLanguages:self.editingDetail.allKeys] objectAtIndex:indexPath.row];
-    [self.editingDetail setObject:sender.text forKey:languageTag];
+    self.editingDetail = [[NSMutableDictionary alloc] init];
+    [self.editingDetail setObject:sender.text forKey:self.editingLanguageTag];
     [self validate];
 }
 
@@ -68,45 +63,35 @@
     self.lesson.detail = self.editingDetail;
     self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonInformationView:self didSaveLesson:self.lesson];
-//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)validate {
     BOOL valid = YES;
+    UIColor *goodColor = [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
+    UIColor *badColor = [UIColor redColor];
 
-    UILabel *lessonLabel = (UILabel *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]] viewWithTag:1];
-    if (self.editingName.length == 0) {
+    if (!self.editingLanguageTag.length)
         valid = NO;
-        lessonLabel.textColor = [UIColor redColor];
-    } else {
-        lessonLabel.textColor = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
-    }
-
-    NSUInteger enIndex = [[Languages sortedListOfLanguages:[self.editingDetail allKeys]] indexOfObject:@"en"];
-    UILabel *enDetail = (UILabel *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:enIndex inSection:1]] viewWithTag:1];
-    if ([(NSString *)[self.editingDetail objectForKey:@"en"] length] == 0) {
+    if (self.editingName.length)
+        self.lessonLabel.textColor = goodColor;
+    else {
+        self.lessonLabel.textColor = badColor;
         valid = NO;
-        enDetail.textColor = [UIColor redColor];
-    } else {
-        enDetail.textColor = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     }
-    
-    NSUInteger nativeIndex = [[Languages sortedListOfLanguages:[self.editingDetail allKeys]] indexOfObject:self.editingLanguageTag];
-    UILabel *nativeDetail = (UILabel *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:nativeIndex inSection:1]] viewWithTag:1];
-    if ([(NSString *)[self.editingDetail objectForKey:self.editingLanguageTag] length] == 0) {
+    if ([[self.editingDetail objectForKey:self.editingLanguageTag] length])
+        self.detailLabel.textColor = goodColor;
+    else {
+        self.detailLabel.textColor = badColor;
         valid = NO;
-        nativeDetail.textColor = [UIColor redColor];
-    } else {
-        nativeDetail.textColor = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     }
-
+    self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
+//    [self.tableView reloadData];
     self.navigationItem.rightBarButtonItem.enabled = valid;
     self.title = self.editingName;
 }
 
 - (void)viewDidLoad
 {
-    self.editing = YES;
     [super viewDidLoad];
 
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
@@ -116,6 +101,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.languageName.text = [Languages nativeDescriptionForLanguage:self.editingLanguageTag];
+    self.lessonName.text = self.editingName;
+    self.detailText.text = [self.editingDetail objectForKey:self.editingLanguageTag];
     [super viewWillAppear:animated];
     [self validate];
 }
@@ -126,102 +114,19 @@
     if (!self.editingLanguageTag) {
         [self performSegueWithIdentifier:@"language" sender:self];
     }
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 2;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        if (self.editingLanguageTag.length)
-            return [@"Lesson in " stringByAppendingString:[Languages nativeDescriptionForLanguage:self.editingLanguageTag]];
-        else
-            return @"Lesson";
-    }
-    else
-        return @"Detail by language";
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (section == 0)
-        return 1;
-    else
-        return [self.editingDetail count] + 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-    
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
-        UITextField *field = (UITextField *)[cell viewWithTag:2];
-        field.text = self.editingName;
-        field.delegate = self;
-    } else if (indexPath.row < self.editingDetail.count) {
-        NSString *languageTag = [[Languages sortedListOfLanguages:self.editingDetail.allKeys] objectAtIndex:indexPath.row];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
-        UILabel *view1 = (UILabel *)[cell viewWithTag:1];
-        view1.text = languageTag;
-        UITextField *view2 = (UITextField *)[cell viewWithTag:2];
-        view2.text = [self.editingDetail objectForKey:languageTag];
-        view2.placeholder = [NSString stringWithFormat:@"Detail in %@", [Languages nativeDescriptionForLanguage:languageTag]];
-        view2.delegate = self;
-    } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"addDetails"];
-    }
-    
-    return cell;
+    [self.lessonName becomeFirstResponder];
 }
 
 #pragma mark - Table view delegate
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 1 && indexPath.row == self.editingDetail.count)
-        return indexPath;
-    else
-        return nil;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && indexPath.row == self.editingDetail.count)
-        [self performSegueWithIdentifier:@"language" sender:self];
-    else {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        [(UITextField *)[cell viewWithTag:1] becomeFirstResponder];
+    if (indexPath.section == 0 && indexPath.row != 0) {
+        [[[self.tableView cellForRowAtIndexPath:indexPath] viewWithTag:2] becomeFirstResponder];
     }
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return UITableViewCellEditingStyleNone;
-    } else if (indexPath.row == self.editingDetail.count) {
-        return UITableViewCellEditingStyleInsert;
-    } else {
-        NSString *language = [[Languages sortedListOfLanguages:self.editingDetail.allKeys] objectAtIndex:indexPath.row];
-        if ([language isEqualToString:@"en"] || [language isEqualToString:self.editingLanguageTag])
-            return UITableViewCellEditingStyleNone;
-        else
-            return UITableViewCellEditingStyleDelete;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleInsert) {
+    [self.tableView selectRowAtIndexPath:nil animated:YES scrollPosition:UITableViewScrollPositionNone];
+    if (indexPath.section == 0 && indexPath.row == 0) {
         [self performSegueWithIdentifier:@"language" sender:self];
-    } else {
-        NSString *languageTag = [[Languages sortedListOfLanguages:self.editingDetail.allKeys] objectAtIndex:indexPath.row];
-        [self.editingDetail removeObjectForKey:languageTag];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 
@@ -239,16 +144,9 @@
 
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name
 {
-    if (!self.editingLanguageTag) { // language select was to set lesson language
-        self.editingLanguageTag = tag;
-        [self.editingDetail setObject:@"" forKey:tag];
-        [self.tableView reloadData];
-    } else {
-        [self.editingDetail setObject:[NSString string] forKey:tag];
-        [self.tableView reloadData];
-        
-        //[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
+    self.editingLanguageTag = tag;
+    [self updateDetail:self.detailText];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UI Text Field Delegate
@@ -267,6 +165,5 @@
         return YES;
     }
 }
-
 
 @end

@@ -9,6 +9,8 @@
 #import "WordPracticeController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "PHOREchoRecorder.h"
+#import <QuartzCore/QuartzCore.h>
+
 
 @interface WordPracticeController () <PHOREchoRecorderDelegate>
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
@@ -316,6 +318,14 @@
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
 
+    self.wordDetail.text = self.word.nativeDetail;
+    CALayer *textLayer = ((CALayer *)[self.wordDetail.layer.sublayers objectAtIndex:0]);
+    textLayer.shadowColor = [UIColor whiteColor].CGColor;
+    textLayer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+    textLayer.shadowOpacity = 1.0f;
+    textLayer.shadowRadius = 4.0f;
+
+    
     NSMutableArray *rightBarButtonItems = [[NSMutableArray alloc] init];
     if ([self.delegate wordPracticeShouldShowNextButton:self]) {
         UIBarButtonItem *fastForward = self.navigationItem.rightBarButtonItem;
