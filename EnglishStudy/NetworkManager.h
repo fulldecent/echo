@@ -12,26 +12,110 @@
 #import "Word.h"
 #import "Profile.h"
 
+enum NetworkManagerFlagReason {
+    NetworkManagerFlagReasonInappropriateTitle,
+    NetworkManagerFlagReasonInaccurateContent,
+    NetworkManagerFlagReasonPoorQuality
+};
+
 @interface NetworkManager : NSObject
 
 + (NetworkManager *)sharedNetworkManager;
 
-- (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
-           andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion;
+- (void)getAudioWithID:(NSNumber *)id
+withProgress:(void(^)(NSString *localFilePath, NSNumber *progress))progressBlock
+onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)deleteLessonWithID:(NSNumber *)id
+onSuccess:(void(^)())successBlock
+onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)getLessonWithID:(NSNumber *)id asPreviewOnly:(BOOL)preview
+onSuccess:(void(^)(Lesson *lesson))successBlock
+onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)searchLessonsWithLangTag:(NSString *)langTag andSearhText:(NSString *)searchText
+                       onSuccess:(void(^)(NSArray *lessonPreviews))successBlock
+                       onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)postLesson:(Lesson *)lesson
+         onSuccess:(void(^)())successBlock
+         onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)id
+onSuccess:(void(^)())successBlock
+onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)putAudioFileAtPath:(NSString *)filePath forLesson:(Lesson *)lesson withWord:(Word *)word usingCode:(NSString *)code
+              withProgress:(void(^)(NSNumber *progress))progressBlock
+                 onFailure:(void(^)(NSError *error))failureBlock;
+
+- (NSURL *)getPhotoURLForUserWithID:(NSNumber *)id;
+
+- (void)postUserProfile:(Profile *)profile
+              onSuccess:(void(^)())successBlock
+              onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessodID messagesSinceID:(NSNumber *)messageID
+                   onSuccess:(void(^)(NSDictionary *lessonsIDsWithNewServerVersions,
+                                      NSNumber *numNewLessons,
+                                      NSNumber *numNewMessages))successBlock
+                   onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)doLikeLesson:(Lesson *)lesson
+           onSuccess:(void(^)())successBlock
+           onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)doUnlikeLesson:(Lesson *)lesson
+             onSuccess:(void(^)())successBlock
+             onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)doFlagLesson:(Lesson *)lesson withReason:(enum NetworkManagerFlagReason)flagReason
+           onSuccess:(void(^)())successBlock
+           onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)getWordWithID:(NSNumber *)id
+onSuccess:(void(^)(Word *word))successBlock
+onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)deleteWordWithID:(NSNumber *)id
+onSuccess:(void(^)())successBlock
+onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)postWord:(Word *)word AsPracticeWithFilesPaths:(NSArray *)filePaths
+    withProgress:(void(^)(NSNumber *progress))progressBlock
+       onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)postWord:(Word *)word withFilesPaths:(NSArray *)filePaths asReplyToWordWithID:(NSNumber *)id
+    withProgress:(void(^)(NSNumber *progress))progressBlock
+    onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)deleteEventWithID:(NSNumber *)id
+                onSuccess:(void(^)())successBlock
+                onFailure:(void(^)(NSError *error))failureBlock;
+
+- (void)postFeedback:(NSString *)feedback toAuthorOfLessonWithID:(NSNumber *)id
+           onSuccess:(void(^)())successBlock
+           onFailure:(void(^)(NSError *error))failureBlock;
+
+/* HIGHER ORDER FUNCTIONS */
+
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progress;
+- (NSArray *)recommendedLessons;
+
+
+/*
+OLD CODE
+
+- (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
+           andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion;
 - (void)downloadWordWithID:(NSInteger)wordID
               withProgress:(void(^)(Word *PGword, NSNumber *PGprogress))progressBlock
                  onFailure:(void(^)())failureBlock;
 - (void)uploadWord:(Word *)word withFilesAtPath:(NSString *)filePath inReplyToWord:(Word *)practiceWord
       withProgress:(void(^)(NSNumber *PGprogress))progressBlock
          onFailure:(void(^)())failureBlock;
-
-enum NetworkManagerFlagReason {
-    NetworkManagerFlagReasonInappropriateTitle,
-    NetworkManagerFlagReasonInaccurateContent,
-    NetworkManagerFlagReasonPoorQuality
-};
 
 - (void)flagLesson:(Lesson *)lesson withReason:(enum NetworkManagerFlagReason)reason
          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
@@ -42,9 +126,10 @@ enum NetworkManagerFlagReason {
 - (void)deleteLesson:(Lesson *)lesson
          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)syncCurrentUserProfileOnSuccess:(void (^)())success onFailure:(void (^)(NSError *))failure; // NEED TO POSSIBLE SAVE UPDATED NAME TO PROFILE
-- (NSArray *)recommendedLessons;
 
-- (void)markEventWithIDAsRead:(NSNumber *)eventID onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
+- (void)texmarkEventWithIDAsRead:(NSNumber *)eventID onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)lessonsWithSearch:(NSString *)searchString languageTag:(NSString *)tag return:(void(^)(NSArray *retLessons))returnBlock;
 
+*/
+ 
 @end

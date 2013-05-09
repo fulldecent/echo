@@ -12,7 +12,7 @@
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
 
-#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/1.0/"
+#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0/"
 
 @interface NetworkManager() <MBProgressHUDDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -41,11 +41,180 @@
     self.HTTPclient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
     [self.HTTPclient setParameterEncoding:AFFormURLParameterEncoding];
     // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-//    self.HTTPclient.parameterEncoding = AFJSONParameterEncoding;
-//	[self.HTTPclient setDefaultHeader:@"Accept" value:@"application/json"];
+    //    self.HTTPclient.parameterEncoding = AFJSONParameterEncoding;
+    //	[self.HTTPclient setDefaultHeader:@"Accept" value:@"application/json"];
     [self.HTTPclient registerHTTPOperationClass:[AFJSONRequestOperation class]];
     return self;
 }
+
+// V2.0 API ///////////////////////////////////////////////////////
+
+ //      GET     audio/200.caf
+ //      DELETE  lessons/172[.json]
+ //      GET     lessons/175.json[?preview=yes]
+ //      GET     lessons/fr/[?search=bonjour]
+ //      POST    lessons/
+ //      PUT     lessons/175/translations/fr
+ //      PUT     lessons/LESSONCODE/words/WORDCODE/files/FILECODE[.m4a]
+ //      GET     users/172.png
+ //      POST    users/
+ //      GET     users/me/updates?lastLessonSeen=172&lastMessageSeen=229&lessonIDs[]=170&lessonIDs=171&lessonTimestamps[]=1635666&...
+ //      PUT     users/me/likesLessons/175
+ //      DELETE  users/me/likesLessons/175
+ //      PUT     users/me/flagsLessons/175
+ //      GET     words/166.json
+ //      DELETE  words/[practice/]166[.json]
+ //      POST    words/practice/
+ //      POST    words/practice/225/replies/
+ //      DELETE  events/125[.json]
+ //      POST    events/feedbackLesson/125/
+
+ // NOT SURE HOW TO IMPLEMENT THESE
+ //      GET     events/eventsTargetingMe/
+ //      GET     events/eventsIMayBeInterestedIn/[?some type of query here, probably just paging]
+ //      GET     users/172.json
+
+- (void)getAudioWithID:(NSNumber *)id
+          withProgress:(void(^)(NSString *localFilePath, NSNumber *progress))progressBlock
+             onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)deleteLessonWithID:(NSNumber *)id
+                 onSuccess:(void(^)())successBlock
+                 onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)getLessonWithID:(NSNumber *)id asPreviewOnly:(BOOL)preview
+              onSuccess:(void(^)(Lesson *lesson))successBlock
+              onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)searchLessonsWithLangTag:(NSString *)langTag andSearhText:(NSString *)searchText
+                       onSuccess:(void(^)(NSArray *lessonPreviews))successBlock
+                       onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)postLesson:(Lesson *)lesson
+         onSuccess:(void(^)())successBlock
+         onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)id
+             onSuccess:(void(^)())successBlock
+             onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)putAudioFileAtPath:(NSString *)filePath forLesson:(Lesson *)lesson withWord:(Word *)word usingCode:(NSString *)code
+              withProgress:(void(^)(NSNumber *progress))progressBlock
+                 onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (NSURL *)getPhotoURLForUserWithID:(NSNumber *)id
+{
+    //TODO: do this
+    return [NSURL URLWithString:@"A URL"];
+}
+
+- (void)postUserProfile:(Profile *)profile
+              onSuccess:(void(^)())successBlock
+              onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessodID messagesSinceID:(NSNumber *)messageID
+                   onSuccess:(void(^)(NSDictionary *lessonsIDsWithNewServerVersions,
+                                      NSNumber *numNewLessons,
+                                      NSNumber *numNewMessages))successBlock
+                   onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)doLikeLesson:(Lesson *)lesson
+           onSuccess:(void(^)())successBlock
+           onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)doUnlikeLesson:(Lesson *)lesson
+             onSuccess:(void(^)())successBlock
+             onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)doFlagLesson:(Lesson *)lesson withReason:(enum NetworkManagerFlagReason)flagReason
+           onSuccess:(void(^)())successBlock
+           onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)getWordWithID:(NSNumber *)id
+            onSuccess:(void(^)(Word *word))successBlock
+            onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)deleteWordWithID:(NSNumber *)id
+               onSuccess:(void(^)())successBlock
+               onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)postWord:(Word *)word AsPracticeWithFilesPaths:(NSArray *)filePaths
+    withProgress:(void(^)(NSNumber *progress))progressBlock
+       onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)postWord:(Word *)word withFilesPaths:(NSArray *)filePaths asReplyToWordWithID:(NSNumber *)id
+    withProgress:(void(^)(NSNumber *progress))progressBlock
+       onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)deleteEventWithID:(NSNumber *)id
+                onSuccess:(void(^)())successBlock
+                onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+- (void)postFeedback:(NSString *)feedback toAuthorOfLessonWithID:(NSNumber *)id
+           onSuccess:(void(^)())successBlock
+           onFailure:(void(^)(NSError *error))failureBlock
+{
+    //TODO: do this
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////
+
+
 
 - (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
            andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion
@@ -104,10 +273,7 @@
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))block
 {
-#warning FOR V1.1 Use some type of queue here rather than madness
-    
     for (Lesson *lessonToSync in lessons) {
-        
         // Which direction is this motherfucter syncing?
         if ([[lessonToSync listOfMissingFiles] count] || lessonToSync.isOlderThanServer)
             [self downloadLesson:lessonToSync withProgress:^(Lesson *lesson, NSNumber *progress)

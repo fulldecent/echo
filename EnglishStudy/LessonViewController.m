@@ -13,11 +13,12 @@
 #import "MBProgressHUD.h"
 #import "SHK.h"
 #import "UIImageView+AFNetworking.h"
+#import "TranslateLessonViewController.h"
 
 typedef enum {SectionActions, SectionWords, SectionByline, SectionCount} Sections;
 typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction} Cells;
 
-@interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate, TranslateLessonDataSource>
 @property (nonatomic) int currentWordIndex;
 @property (nonatomic) BOOL wordListIsShuffled;
 @property (nonatomic) BOOL editingFromSwipe;
@@ -347,8 +348,9 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
             return cell;}
         case CellTranslateAction: 
             cell = [tableView dequeueReusableCellWithIdentifier:@"translateAction"];
-            cell.textLabel.text = [NSString stringWithFormat:@"Contribute %@ translation", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]];
-            return cell; 
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ subtitles", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Help improve translation"];
+            return cell;
         case CellTranslatorByline: 
             assert(0);
     }
@@ -424,9 +426,14 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section != SectionWords)
-        return nil;
-    return (self.tableView.editing && !self.editingFromSwipe) ? nil : indexPath;
+    if (self.editing) return nil;
+    switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+        case CellTranslateAction:
+        case CellWord:
+            return indexPath;
+        default:
+            return nil;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -487,6 +494,10 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
             word.languageTag = self.lesson.languageTag;
             controller.word = word;
         }
+    } else if ([segue.destinationViewController isKindOfClass:[TranslateLessonViewController class]])
+    {
+        TranslateLessonViewController *controller = segue.destinationViewController;
+        controller.datasource = self;
     }
 }
 
@@ -615,5 +626,11 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     }
 }
 
+#pragma mark - TranslateLessonDatasource
+
+- (Lesson *)lessonToTranslateForTranslateLessonView:(TranslateLessonViewController *)controller
+{
+    return self.lesson;
+}
 
 @end

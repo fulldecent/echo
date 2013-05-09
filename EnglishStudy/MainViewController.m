@@ -21,7 +21,7 @@
 #import "NetworkManager.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
-typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellPractice, CellPracticeTransfer, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
+typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
 
 @interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
@@ -50,25 +50,28 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (IBAction)reload {
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager updateServerVersionsInLessonSet:self.lessonSet
-                       andSeeWhatsNewWithCompletion:^(NSNumber *newLessonCount, NSNumber *unreadMessageCount)
-     {
+    [networkManager getUpdatesForLessons:self.lessonSet.lessons
+                       newLessonsSinceID:[NSNumber numberWithInt:0]
+                         messagesSinceID:[NSNumber numberWithInt:0]
+                               onSuccess:
+     ^(NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages) {
+         [self.lessonSet setServerVersionsForLessonsWithIDs:lessonsIDsWithNewServerVersions];
          NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-         [defaults setObject:newLessonCount forKey:@"newLessonCount"];
-         [defaults setObject:unreadMessageCount forKey:@"unreadMessageCount"];
+         [defaults setObject:numNewLessons forKey:@"numNewLessons"];
+         [defaults setObject:numNewMessages forKey:@"numNewMessages"];
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
-         [defaults synchronize];
-         [self.tableView reloadData];
-#warning Use animation instead of reloadData?
+         [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
          [self.refreshControl endRefreshing];
-         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadMessageCount intValue]];
+         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[numNewMessages intValue]];
          [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
              NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
              NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
              [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
          }];
      }
-    ];
+                               onFailure:
+     ^{
+     }];
 }
 
 #pragma mark - UITableViewController
@@ -139,22 +142,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             else
                 return CellCreateLesson;
         case SectionPractice:
-/*
-            if (indexPath.row < self.practiceSet.lessons.count) {
-                Lesson *lesson = [self.practiceSet.lessons objectAtIndex:indexPath.row];
-                if ([self.lessonSet transferProgressForLesson:lesson])
-                    return CellPracticeTransfer;
-                else
-                    return CellPractice;
-            } else if (indexPath.row == self.practiceSet.lessons.count) {
-                return CellNewPractice;
-            } else if (indexPath.row == self.practiceSet.lessons.count+1) {
-                return CellMeetPeople;
-            } else if (indexPath.row == self.practiceSet.lessons.count+2) {
-                return CellEditProfile;
-            }
-            break;
- */
             if (indexPath.row == 0) {
                 return CellNewPractice;
             } else if (indexPath.row == 1) {
@@ -197,8 +184,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case CellEditProfile:
         case CellMeetPeople:
         case CellNewPractice:
-        case CellPractice:
-        case CellPracticeTransfer:
             return 44;
     }
     assert (0); return 0;
@@ -339,17 +324,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case CellCreateLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"createLesson"];
             return cell;
-        case CellPractice:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"practice"];
-            lesson = [self.practiceSet.lessons objectAtIndex:indexPath.row];
-            [(UILabel *)[cell viewWithTag:1] setText:[lesson.detail objectForKey:lesson.languageTag]];
-            [(UILabel *)[cell viewWithTag:2] setText:@"New replies"];
-#warning Set visible only if just downloaded or just updated
-            [(UIButton *)[cell viewWithTag:3] setTitle:@"5" forState:UIControlStateNormal];
-            return cell;
-        case CellPracticeTransfer:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"practiceTransfer"];
-            return cell;
         case CellNewPractice:
             cell = [tableView dequeueReusableCellWithIdentifier:@"newPractice"];
             return cell;
@@ -459,8 +433,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case CellLessonUpload:
         case CellDownloadLesson:
         case CellCreateLesson:
-        case CellPractice:
-        case CellPracticeTransfer:
         case CellNewPractice:
         case CellEditProfile:
         case CellMeetPeople:

@@ -18,11 +18,13 @@
 @property (strong, nonatomic) NSDictionary *detail;
 @property (strong, nonatomic) NSString *userID;
 @property (strong, nonatomic) NSString *userName;
-@property (strong, nonatomic) NSArray *files; // NSArray of NSStrings of file basenames including extensions
+@property (strong, nonatomic) NSArray *files; // [Audio, ...]
+
+// client side data
 @property (strong, nonatomic) NSNumber *completed;
 
 + (Word *)wordWithJSON:(NSData *)data;
 - (NSData *)JSON;
-- (NSArray *)listOfMissingFiles; // return: [NSNumber *,...]
+- (NSArray *)listOfMissingFiles; // [Audio, ...]
 
 @end

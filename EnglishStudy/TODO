@@ -2,6 +2,7 @@
 RELEASE PROCESS
  - Increment version
  - Update screenshots
+ - git submodule foreach --recursive git fetch
  - git submodule update --recursive
  - XCode Analyze, AppCode Analyze
  - Build, Tag, Upload
@@ -15,25 +16,30 @@ RELEASE PROCESS
 ========================================
  * Update word practice screen
  * Update original "create a lesson" view
+ * Switch to v2.0 API
 
 ========================================
 FOCUS
 ========================================
  ! Add "help translate this lesson to your language" view
- ! Save this in the database homehow
+ ! Save this in the database somehow
  ! Lesson downloads should get this extra information (break api?)
  ! After user has translated allow them to record that lesson as well
  ! Update word practice screen for multi-lingual (show lesson lang and cur user lang)
  ! "Editing" a translated lesson that has been recorded will dissociate it from other translations?
+ ! Ensure "download lessons" page looks right if lesson does not have english detail
+ - Update lesson screen, show translation if it exists, show Google otherwise, don't allow translate from EN to EN
+ ! Push notification after replies to How do I say
+ - Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
 
 ========================================
 STUFF TO DO LATER
 ========================================
- ! Push notification after replies to How do I say
  ! Badges and acheivements for completing tasks
      - Upload a photo, Download 5 lessons, Share a lesson on facebook, Contribute a lesson, Translate a lesson, Send a message to author, practice a word, reply to a practice, have your lesson downloaded by 10 people
      - Silver-level badge items are handled locally and reported to server
      - Gold-level are calculated by server (your lesson downloaded by 10 people)
+ - Filter only relevant stuff on WHAT UP screen
  - How do I say: show share buttons after save
  - Capture user IP address on register / update
  - Practice against a received word
@@ -47,6 +53,5 @@ STUFF TO DO LATER
  - Help screen like http://imgur.com/RToxQiC
    - Add link to rate app
      http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
- - Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
-
+. Your "use case" should be, there's a 22 year old college student living in the dorms. How will this software get him laid?

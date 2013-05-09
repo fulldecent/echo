@@ -197,24 +197,8 @@
          NSLog(@"got recommended lessons %@", recommendedLessons);
          
          for (NSString *lessonJSON in recommendedLessons) {
-#warning abstract me! / there is a copy/paste somewhere else too
-             NSData *data = [lessonJSON dataUsingEncoding:NSUTF8StringEncoding];
-             NSDictionary *packed = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-             
-             Lesson *lesson = [[Lesson alloc] init];
-             lesson.lessonID = [packed objectForKey:@"lessonID"];
-             lesson.languageTag = [packed objectForKey:@"languageTag"];
-             lesson.name = [packed objectForKey:@"name"];
-             lesson.detail = [packed objectForKey:@"detail"];
-             lesson.userID = [packed objectForKey:@"userID"];
-             lesson.userName = [packed objectForKey:@"userName"];
-             lesson.serverVersion = [packed objectForKey:@"updated"];
-             if ([[packed objectForKey:@"lessonCode"] length])
-                 lesson.lessonCode = [packed objectForKey:@"lessonCode"];
-             else
-                 lesson.lessonCode = [NSString string];
-             
-             [self.delegate downloadLessonViewController:self gotStubLesson:lesson];
+             Lesson *recommendedLessonStub = [Lesson lessonWithJSON:[lessonJSON dataUsingEncoding:NSUTF8StringEncoding]];
+             [self.delegate downloadLessonViewController:self gotStubLesson:recommendedLessonStub];
          }
          
          [self.hud hide:YES];

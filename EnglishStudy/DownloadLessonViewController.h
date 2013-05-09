@@ -12,7 +12,7 @@
 @class DownloadLessonViewController;
 
 @protocol DownloadLessonViewControllerDelegate <NSObject>
-- (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson;
+- (void)downloadLessonViewController:(UIViewController *)controller gotStubLesson:(Lesson *)lesson;
 @end
 
 @interface DownloadLessonViewController : UITableViewController

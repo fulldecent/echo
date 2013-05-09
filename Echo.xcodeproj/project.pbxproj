@@ -13,6 +13,7 @@
 		770AA8B216C4A7D700348FB8 /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 770AA8AE16C4A7D700348FB8 /* Icon-iPad.png */; };
 		770AA8B316C4A7D700348FB8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 770AA8AF16C4A7D700348FB8 /* Icon.png */; };
 		770AA8B716C4ABC300348FB8 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 770AA8B616C4ABC300348FB8 /* gradient.png */; };
+		772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772210B4172DD3B60096B23A /* TranslateLessonViewController.m */; };
 		7729FEC315294E5900D2180E /* echo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEC115294E5900D2180E /* echo.png */; };
 		7729FEC415294E5900D2180E /* echo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEC215294E5900D2180E /* echo@2x.png */; };
 		772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772C822E151E26E500F255EF /* AVFoundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -34,6 +35,7 @@
 		774CDA5215D0B08100B14C45 /* EchoSHKConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDA5115D0B08100B14C45 /* EchoSHKConfigurator.m */; };
 		7761D6A515E2E77E00975F1B /* practiceIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A315E2E77E00975F1B /* practiceIcon.png */; };
 		7761D6A615E2E77E00975F1B /* practiceIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */; };
+		7769F474173B3B2300BB06D7 /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 7769F473173B3B2300BB06D7 /* Audio.m */; };
 		776D2BDD16AB8C1E00EDB4DB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776D2BDC16AB8C1E00EDB4DB /* Accounts.framework */; };
 		776D2BDE16AB8D2700EDB4DB /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7789052816113FED00506873 /* ShareKit.bundle */; };
 		776D2BE016AB8D4F00EDB4DB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776D2BDF16AB8D4F00EDB4DB /* AdSupport.framework */; };
@@ -187,6 +189,8 @@
 		770AA8B616C4ABC300348FB8 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		7721960F169E5F9200998B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		77219613169E604700998B69 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard.strings"; sourceTree = "<group>"; };
+		772210B3172DD3B60096B23A /* TranslateLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslateLessonViewController.h; sourceTree = "<group>"; };
+		772210B4172DD3B60096B23A /* TranslateLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TranslateLessonViewController.m; sourceTree = "<group>"; };
 		7729FEC115294E5900D2180E /* echo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = echo.png; sourceTree = "<group>"; };
 		7729FEC215294E5900D2180E /* echo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "echo@2x.png"; sourceTree = "<group>"; };
 		772C822E151E26E500F255EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -212,6 +216,8 @@
 		774CDA5115D0B08100B14C45 /* EchoSHKConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EchoSHKConfigurator.m; sourceTree = "<group>"; };
 		7761D6A315E2E77E00975F1B /* practiceIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = practiceIcon.png; sourceTree = "<group>"; };
 		7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "practiceIcon@2x.png"; sourceTree = "<group>"; };
+		7769F472173B3B2300BB06D7 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Audio.h; sourceTree = "<group>"; };
+		7769F473173B3B2300BB06D7 /* Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Audio.m; sourceTree = "<group>"; };
 		776D2BDC16AB8C1E00EDB4DB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		776D2BDF16AB8D4F00EDB4DB /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		776D2BE116AB8D6900EDB4DB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -446,6 +452,8 @@
 		77A50BE4157EEB2B00027CB1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7769F472173B3B2300BB06D7 /* Audio.h */,
+				7769F473173B3B2300BB06D7 /* Audio.m */,
 				77A50BE5157EEB6500027CB1 /* Word.h */,
 				77A50BE6157EEB6500027CB1 /* Word.m */,
 				77A50BE8157EF1B800027CB1 /* Lesson.h */,
@@ -594,6 +602,8 @@
 				77D8AD2E157AE373001E2E25 /* LessonViewController.m */,
 				77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */,
 				77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */,
+				772210B3172DD3B60096B23A /* TranslateLessonViewController.h */,
+				772210B4172DD3B60096B23A /* TranslateLessonViewController.m */,
 				77B5139D151970B100F041D7 /* WordPracticeController.h */,
 				77B5139E151970B100F041D7 /* WordPracticeController.m */,
 				77BBFE0B157C11C900511CEC /* WordDetailController.h */,
@@ -858,6 +868,8 @@
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
 				77FB0F6D16E296440000D4F5 /* Profile.m in Sources */,
 				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
+				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
+				7769F474173B3B2300BB06D7 /* Audio.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

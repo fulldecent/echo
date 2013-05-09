@@ -22,6 +22,8 @@
 @interface LessonViewController : UITableViewController <WordPracticeDataSource, WordPracticeDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) Lesson *lesson;
 @property (weak, nonatomic) id <LessonViewDelegate> delegate;
+@property (strong, nonatomic) IBOutlet UITextField *lessonLabel;
+@property (strong, nonatomic) IBOutlet UITextField *detailLabel;
 
 - (IBAction)sendToFriendPressed:(id)sender;
 - (IBAction)messagePressed:(id)sender;
