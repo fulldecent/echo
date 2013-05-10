@@ -63,7 +63,7 @@
 {
     NSAssert(self.usercode, @"Can only sync current user's profile");
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager syncCurrentUserProfileOnSuccess:success onFailure:failure];
+    [networkManager postUserProfile:self onSuccess:success onFailure:failure];
 }
 
 - (void)syncToDisk{

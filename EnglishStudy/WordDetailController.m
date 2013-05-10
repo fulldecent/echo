@@ -519,7 +519,8 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     self.hud.delegate = self;
                 
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager uploadWord:word withFilesAtPath:NSTemporaryDirectory() inReplyToWord:self.word withProgress:^(NSNumber *PGprogress) {
+    [networkManager postWord:word withFilesInPath:NSTemporaryDirectory() asReplyToWordWithID:self.word.wordID withProgress:^(NSNumber *PGprogress)
+     {
         self.hud.progress = PGprogress.floatValue;
         if (PGprogress.floatValue == 1) {
             [self.hud hide:YES afterDelay:0.5];
@@ -528,7 +529,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
                 [controller.navigationController popToRootViewControllerAnimated:YES];
             });
         }
-    } onFailure:^{
+    } onFailure:^(NSError *error){
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
         self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];

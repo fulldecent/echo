@@ -23,7 +23,7 @@
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
 
-@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, IntroViewControllerDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate>
+@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
@@ -53,8 +53,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [networkManager getUpdatesForLessons:self.lessonSet.lessons
                        newLessonsSinceID:[NSNumber numberWithInt:0]
                          messagesSinceID:[NSNumber numberWithInt:0]
-                               onSuccess:
-     ^(NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages) {
+                               onSuccess:^
+     (NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages)
+     {
+
          [self.lessonSet setServerVersionsForLessonsWithIDs:lessonsIDsWithNewServerVersions];
          NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
          [defaults setObject:numNewLessons forKey:@"numNewLessons"];
@@ -62,15 +64,16 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
          [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
          [self.refreshControl endRefreshing];
-         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[numNewMessages intValue]];
-         [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress) {
+         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[numNewMessages intValue]];         
+         [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
              NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
              NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
              [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
          }];
      }
-                               onFailure:
-     ^{
+                               onFailure:^
+     (NSError *error) {
+                                   
      }];
 }
 
@@ -274,7 +277,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell = [tableView dequeueReusableCellWithIdentifier:@"lesson"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
+            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
             [(UIProgressView *)[cell viewWithTag:3] setProgress:[lesson.portionComplete floatValue]];
             [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)([lesson.portionComplete floatValue]*100)]];
             [(UIButton *)[cell viewWithTag:6] setHidden:(lesson.portionComplete.floatValue > 0)];
@@ -284,7 +287,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonEditable"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
+            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
             if (lesson.isShared)
 //TODO: make this "X people now using"
                 [(UILabel *)[cell viewWithTag:3] setText:@"Shared online"];
@@ -295,7 +298,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonDownload"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
+            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
             [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
             //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
@@ -305,7 +308,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonUpload"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:lesson.languageTag]];
+            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
             [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
             //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
@@ -460,7 +463,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         NSString *title = @"You are deleting this lesson from your device. Would you like to continue sharing online?";
         UIActionSheet *confirmDeleteLesson = [[UIActionSheet alloc] initWithTitle:title
                                                                          delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Stop sharing online", @"Keep sharing online", nil];
-#warning NEED TO CONFORM TO UIACTIONSHEET DELEGATE HERE
         [confirmDeleteLesson showInView:self.view];
     } else {
         [self.lessonSet deleteLesson:[self.lessonSet.lessons objectAtIndex:indexPath.row]];
@@ -517,7 +519,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)lessonView:(LessonViewController *)controller wantsToUploadLesson:(Lesson *)lesson
 {
-    [self.lessonSet syncLesson:lesson withProgress:^(Lesson *lesson, NSNumber *progress) {
+    [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
         NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
         NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
@@ -565,71 +567,49 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [self performSegueWithIdentifier:@"lesson" sender:self];
 }
 
-#pragma mark - IntroViewControllerDelegate
-
-- (void)introViewController:(IntroViewController *)controller gotStubLesson:(Lesson *)lesson
-{
-    [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.lessonSet syncLesson:lesson withProgress:^(Lesson *lesson, NSNumber *progress) {
-        NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
-        NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-    }];
-}
-
 #pragma mark - DownloadLessonViewControllerDelegate
 
 - (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson
 {
     [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.lessonSet syncLesson:lesson withProgress:^(Lesson *lesson, NSNumber *progress) {
+    [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
         NSUInteger index = [self.lessonSet.lessons indexOfObject:lesson];
         NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-        [controller.navigationController popViewControllerAnimated:YES];
     }];
 }
 
 #pragma mark - WordDetailControllerDelegate
 - (void)wordDetailController:(WordDetailController *)controller didSaveWord:(Word *)word
 {
-    self.currentLesson.words = [NSArray arrayWithObject:word];
-    self.currentLesson.name = @"PRACTICE";
-    self.currentLesson.detail = [NSDictionary dictionaryWithObject:word.name forKey:word.languageTag];
-    self.currentLesson.languageTag = word.languageTag;
-//    [self.practiceSet.lessons addObject:self.currentLesson];
-    self.practiceSet.lessons = [NSArray arrayWithObject:self.currentLesson];
-//    [self.practiceSet writeToDisk];
-
     self.hud = [MBProgressHUD showHUDAddedTo:controller.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
-    
-    [self.practiceSet syncLesson:self.currentLesson withProgress:^(Lesson *lesson, NSNumber *progress)
+
+    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+    [networkManager postWord:word AsPracticeWithFilesInPath:NSTemporaryDirectory() withProgress:^(NSNumber *progress)
      {
          self.hud.mode = MBProgressHUDModeAnnularDeterminate;
          self.hud.progress = progress.floatValue;
          NSLog(@"How do I say: upload progress %@", progress);
          if (progress.floatValue == 1.0) {
-//             [controller.navigationController popToRootViewControllerAnimated:YES];
-             
              UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
              WordDetailController *newController = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
              newController.delegate = self;
              newController.word = [[(Lesson *)[self.practiceSet.lessons objectAtIndex:0] words] objectAtIndex:0];
-
+             
              // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
              dispatch_async(dispatch_get_main_queue(), ^{
                  [controller.navigationController popViewControllerAnimated:NO];
                  [self.navigationController pushViewController:newController animated:YES];
-             });
-             
+             });             
              NSLog(@"saved practice word");
          }
+     } onFailure:^(NSError *error)
+     {
+         
      }];
-  //  self.currentLesson = nil;
 }
 
 - (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller

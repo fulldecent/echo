@@ -63,7 +63,7 @@
              else
                  lesson.lessonCode = [NSString string];
 
-             [self.delegate introViewController:self gotStubLesson:lesson];
+             [self.delegate downloadLessonViewController:self gotStubLesson:lesson];
          }         
          
          [self.hud hide:YES];

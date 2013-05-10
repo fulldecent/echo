@@ -318,7 +318,7 @@
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
 
-    self.wordDetail.text = self.word.nativeDetail;
+    self.wordDetail.text = self.word.detail;
     CALayer *textLayer = ((CALayer *)[self.wordDetail.layer.sublayers objectAtIndex:0]);
     textLayer.shadowColor = [UIColor whiteColor].CGColor;
     textLayer.shadowOffset = CGSizeMake(5.0f, 5.0f);

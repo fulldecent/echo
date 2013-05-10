@@ -12,4 +12,10 @@
 @synthesize fileID = _fileID;
 @synthesize fileCode = _fileCode;
 @synthesize filePath = _filePath;
+
+- (BOOL)fileExistsOnDisk
+{
+    return self.filePath;
+}
+
 @end

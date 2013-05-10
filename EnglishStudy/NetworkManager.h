@@ -82,11 +82,11 @@ onFailure:(void(^)(NSError *error))failureBlock;
 onSuccess:(void(^)())successBlock
 onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)postWord:(Word *)word AsPracticeWithFilesPaths:(NSArray *)filePaths
+- (void)postWord:(Word *)word AsPracticeWithFilesInPath:(NSString *)filePath
     withProgress:(void(^)(NSNumber *progress))progressBlock
        onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)postWord:(Word *)word withFilesPaths:(NSArray *)filePaths asReplyToWordWithID:(NSNumber *)id
+- (void)postWord:(Word *)word withFilesInPath:(NSString *)filePath asReplyToWordWithID:(NSNumber *)id
     withProgress:(void(^)(NSNumber *progress))progressBlock
     onFailure:(void(^)(NSError *error))failureBlock;
 

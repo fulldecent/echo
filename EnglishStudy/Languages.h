@@ -11,5 +11,5 @@
 @interface Languages : NSObject
 + (NSArray *)languages;
 + (NSString *)nativeDescriptionForLanguage:(NSString *)langTag;
-+ (NSArray *)sortedListOfLanguages:(NSArray *)langTags;
+//+ (NSArray *)sortedListOfLanguages:(NSArray *)langTags;
 @end

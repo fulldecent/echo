@@ -69,26 +69,6 @@
     return _words;
 }
 
-- (NSDictionary *)detail
-{
-    if (!_detail) _detail = [NSDictionary dictionary];
-    return _detail;
-}
-
-- (void)setLanguageTag:(NSString *)languageTag
-{
-    _languageTag = languageTag;
-    
-    NSMutableDictionary *detail = [[NSMutableDictionary alloc] init];
-    [detail setObject:@"" forKey:_languageTag];
-    [detail setObject:@"" forKey:@"en"];
-    for (NSString *lang in self.detail) {
-        if ([(NSString *)[self.detail objectForKey:lang] length] > 0)
-            [detail setObject:[self.detail objectForKey:lang] forKey:lang];
-    }
-    self.detail = detail;
-}
-
 + (Lesson *)lessonWithJSON:(NSData *)data
 {
     NSError *error = nil;
@@ -120,9 +100,9 @@
     if ([packed objectForKey:kSubmittedLikeVote])
         retval.submittedLikeVote = [packed objectForKey:kSubmittedLikeVote];
     if ([packed objectForKey:kLikes])
-        retval.likes = [packed objectForKey:kLikes];
+        retval.numLikes = [packed objectForKey:kLikes];
     if ([packed objectForKey:kFlags])
-        retval.flags = [packed objectForKey:kFlags];
+        retval.numFlags = [packed objectForKey:kFlags];
     NSMutableArray *words = [[NSMutableArray alloc] init];
     
     if (retval.detail) {

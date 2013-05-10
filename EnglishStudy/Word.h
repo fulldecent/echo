@@ -7,15 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Lesson.h"
 
 @interface Word : NSObject <NSCopying>
 @property (strong, nonatomic) NSNumber *wordID;
 @property (strong, nonatomic) NSString *wordCode;
 @property (strong, nonatomic) NSString *languageTag;
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *nativeDetail;
-@property (strong, nonatomic) NSDictionary *detail;
+@property (strong, nonatomic) NSString *detail;
 @property (strong, nonatomic) NSString *userID;
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSArray *files; // [Audio, ...]

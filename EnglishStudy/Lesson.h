@@ -13,14 +13,16 @@
 @property (strong, nonatomic) NSString *lessonCode;
 @property (strong, nonatomic) NSString *languageTag;
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSDictionary *detail;
+@property (strong, nonatomic) NSString *detail;
 @property (strong, nonatomic) NSNumber *version;
 @property (strong, nonatomic) NSNumber *serverVersion;
 @property (strong, nonatomic) NSArray *words;
 @property (strong, nonatomic) NSNumber *userID;
 @property (strong, nonatomic) NSString *userName;
-@property (strong, nonatomic) NSNumber *likes;
-@property (strong, nonatomic) NSNumber *flags;
+@property (strong, nonatomic) NSNumber *numLikes;
+@property (strong, nonatomic) NSNumber *numFlags;
+@property (strong, nonatomic) NSNumber *numUsers;
+@property (strong, nonatomic) NSDictionary *translations; // {"en":Lesson *,...}
 
 @property (strong, nonatomic) NSNumber *submittedLikeVote; // (BOOL)
 @property (readonly, strong, nonatomic) NSString *filePath;
@@ -29,7 +31,7 @@
 - (NSData *)JSON;
 - (void)setToLesson:(Lesson *)lesson;
 - (void)removeStaleFiles;
-- (NSArray *)listOfMissingFiles; // return: [{"word":Word *,"fileID":NSNumber *},...]
+- (NSArray *)listOfMissingFiles; // return: [{"word":Word *,"audio":Audio *},...]
 - (NSNumber *)portionComplete;
 
 - (BOOL)isOlderThanServer;

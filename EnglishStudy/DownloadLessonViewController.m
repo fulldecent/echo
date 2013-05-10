@@ -26,10 +26,12 @@
 {
     NSLog(@"search String is %@ and lang is %@",searchString, tag);
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager lessonsWithSearch:searchString languageTag:tag return:^(NSArray *retLessons) {
-        self.lessons = retLessons;
-        [self.tableView reloadData];
-    }];
+    [networkManager searchLessonsWithLangTag:tag andSearhText:searchString onSuccess:^(NSArray *lessonPreviews)
+     {
+         self.lessons = lessonPreviews;
+         [self.tableView reloadData];
+     } onFailure:^(NSError *error) {
+     }];
 }
 
 - (void)viewDidLoad
@@ -66,22 +68,22 @@
     Lesson *lesson = [self.lessons objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
     [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-    [(UILabel *)[cell viewWithTag:2] setText:[lesson.detail objectForKey:@"en"]];
+    [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[lesson.serverVersion doubleValue]];
     NSString *formattedDateString = [dateFormatter stringFromDate:date];
     [(UILabel *)[cell viewWithTag:3] setText:formattedDateString];
-    if ([lesson.likes integerValue]) {
-        [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%@", lesson.likes]];
+    if ([lesson.numLikes integerValue]) {
+        [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%@", lesson.numLikes]];
         [(UIImageView *)[cell viewWithTag:7] setHidden:NO];
     } else {
         [(UILabel *)[cell viewWithTag:4] setText:@""];
         [(UIImageView *)[cell viewWithTag:7] setHidden:YES];
     }
-    if ([lesson.flags integerValue]) {
-        [(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%@", lesson.flags]];
+    if ([lesson.numFlags integerValue]) {
+        [(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%@", lesson.numFlags]];
         [(UIImageView *)[cell viewWithTag:8] setHidden:NO];
     } else {
         [(UILabel *)[cell viewWithTag:5] setText:@""];

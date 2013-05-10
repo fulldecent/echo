@@ -3,7 +3,7 @@ RELEASE PROCESS
  - Increment version
  - Update screenshots
  - git submodule foreach --recursive git fetch
- - git submodule update --recursive
+ - git submodule update --recursive --merge
  - XCode Analyze, AppCode Analyze
  - Build, Tag, Upload
  - Create tokens with Tokens app
@@ -21,6 +21,7 @@ RELEASE PROCESS
 ========================================
 FOCUS
 ========================================
+!!!Update model and JSON functions
  ! Add "help translate this lesson to your language" view
  ! Save this in the database somehow
  ! Lesson downloads should get this extra information (break api?)
@@ -55,3 +56,4 @@ STUFF TO DO LATER
      http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
 . Your "use case" should be, there's a 22 year old college student living in the dorms. How will this software get him laid?
+ - Use imageoptim on image assets

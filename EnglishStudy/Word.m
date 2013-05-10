@@ -7,6 +7,7 @@
 //
 
 #import "Word.h"
+#import "Audio.h"
 
 @interface Word()
 + (NSString *)makeUUID;
@@ -21,7 +22,6 @@
 @synthesize userID = _userID;
 @synthesize userName = _userName;
 @synthesize files = _files;
-@synthesize nativeDetail = _nativeDetail;
 @synthesize completed = _completed;
 
 #define kLanguageTag @"languageTag"
@@ -103,16 +103,12 @@
 
 - (NSArray *)listOfMissingFiles
 {
-#warning this is only partially implemented, it fails if self.files includes Codes
     NSMutableArray *retval = [[NSMutableArray alloc] init];
-    for (NSString *str in self.files) {
-        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-        [f setNumberStyle:NSNumberFormatterDecimalStyle];
-        [retval addObject:[f numberFromString:str]];
-    }
+    for (Audio *file in self.files)
+        if (!file.fileExistsOnDisk)
+            [retval addObject:file];
     return self.files;
 }
-
 
 + (NSString *)makeUUID
 {
@@ -136,32 +132,6 @@
     return _files;
 }
 
-- (void)setNativeDetail:(NSString *)nativeDetail
-{
-    _nativeDetail = nativeDetail;
-    if (nativeDetail && _languageTag) {
-        if (_detail) {
-            NSMutableDictionary *tmp = [_detail mutableCopy];
-            [tmp setObject:nativeDetail forKey:self.languageTag];
-            _detail = tmp;
-        } else {
-            _detail = [NSDictionary dictionaryWithObject:nativeDetail forKey:self.languageTag];
-        }
-    }
-}
-
-- (NSString *)nativeDetail
-{
-    return [self.detail objectForKey:self.languageTag];
-}
-
-- (void)setLanguageTag:(NSString *)languageTag
-{
-    _languageTag = languageTag;
-    [self setNativeDetail:_nativeDetail];
-}
-
-
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
@@ -171,7 +141,6 @@
     copy.name = [self.name copy];
     copy.detail = [self.detail copy];
     copy.languageTag = [self.languageTag copy]; // order is important here
-    copy.nativeDetail = [self.nativeDetail copy];
     copy.files = [[NSArray alloc] initWithArray:self.files copyItems:YES];
     return copy;
 }

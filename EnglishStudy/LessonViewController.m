@@ -70,31 +70,54 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
     
-    NSNumber *newState = [NSNumber numberWithBool:!self.lesson.submittedLikeVote || [self.lesson.submittedLikeVote boolValue] == NO];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager likeLesson:self.lesson withState:newState onSuccess:^
-     {
-         self.lesson.submittedLikeVote = newState;
-         [self.hud hide:YES];
-         [self.delegate lessonView:self didSaveLesson:self.lesson];
-         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
-         
-     } onFailure:^(NSError *error)
-     {
-         [self.hud hide:YES];
-         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-         self.hud.delegate = self;
-         self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-         UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-         view.text = error.localizedDescription;
-         view.font = self.hud.labelFont;
-         view.textColor = [UIColor whiteColor];
-         view.backgroundColor = [UIColor clearColor];
-         [view sizeToFit];
-         self.hud.customView = view;
-         self.hud.mode = MBProgressHUDModeCustomView;
-         [self.hud hide:YES afterDelay:1.5];
-     }];
+    if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue]) {
+        [networkManager doUnlikeLesson:self.lesson onSuccess:^
+         {
+             self.lesson.submittedLikeVote = nil;
+             [self.hud hide:YES];
+             [self.delegate lessonView:self didSaveLesson:self.lesson];
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
+         } onFailure:^(NSError *error)
+         {
+             [self.hud hide:YES];
+             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+             self.hud.delegate = self;
+             self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
+             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+             view.text = error.localizedDescription;
+             view.font = self.hud.labelFont;
+             view.textColor = [UIColor whiteColor];
+             view.backgroundColor = [UIColor clearColor];
+             [view sizeToFit];
+             self.hud.customView = view;
+             self.hud.mode = MBProgressHUDModeCustomView;
+             [self.hud hide:YES afterDelay:1.5];
+         }];
+    } else {
+        [networkManager doLikeLesson:self.lesson onSuccess:^
+         {
+             self.lesson.submittedLikeVote = [NSNumber numberWithBool:YES];
+             [self.hud hide:YES];
+             [self.delegate lessonView:self didSaveLesson:self.lesson];
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
+         } onFailure:^(NSError *error)
+         {
+             [self.hud hide:YES];
+             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+             self.hud.delegate = self;
+             self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
+             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+             view.text = error.localizedDescription;
+             view.font = self.hud.labelFont;
+             view.textColor = [UIColor whiteColor];
+             view.backgroundColor = [UIColor clearColor];
+             [view sizeToFit];
+             self.hud.customView = view;
+             self.hud.mode = MBProgressHUDModeCustomView;
+             [self.hud hide:YES afterDelay:1.5];
+         }];
+    }
 }
 
 - (IBAction)flagPressed:(id)sender {
@@ -283,7 +306,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
-        return [self.lesson.detail objectForKey:self.lesson.languageTag];
+        return self.lesson.detail;
     else
         return nil;
 }
@@ -330,7 +353,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
             index = (self.tableView.editing && !self.editingFromSwipe) ? indexPath.row : indexPath.row-1;
             word = [self.lesson.words objectAtIndex:index];
             cell.textLabel.text = word.name;
-            cell.detailTextLabel.text = word.nativeDetail;
+            cell.detailTextLabel.text = word.detail;
             if (self.lesson.isEditable)
                 cell.accessoryType = UITableViewCellAccessoryNone;
             else if ([word.completed boolValue])
@@ -560,7 +583,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     self.hud.labelText = @"Sending...";
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager flagLesson:self.lesson withReason:buttonIndex onSuccess:^
+    [networkManager doFlagLesson:self.lesson withReason:buttonIndex onSuccess:^
      {
          [self.hud hide:YES];
          [self.delegate lessonView:self wantsToDeleteLesson:self.lesson];
@@ -594,8 +617,8 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSString *message = [alertView textFieldAtIndex:0].text;
-        [networkManager sendLesson:self.lesson authorAMessage:message
-                         onSuccess:^
+        [networkManager postFeedback:message toAuthorOfLessonWithID:self.lesson.lessonID
+                           onSuccess:^
          {
              [self.hud hide:YES];
          } onFailure:^(NSError *error) {
@@ -631,6 +654,13 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 - (Lesson *)lessonToTranslateForTranslateLessonView:(TranslateLessonViewController *)controller
 {
     return self.lesson;
+}
+
+#pragma mark - TranslateLessonDelegate
+
+- (void)translateLessonView:(TranslateLessonViewController *)controller didTranslate:(Lesson *)lesson into:(Lesson *)newLesson withLanguageTag:(NSString *)tag
+{
+//TODO
 }
 
 @end

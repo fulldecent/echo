@@ -76,6 +76,7 @@
                                                          options:kNilOptions error:&error];
     }
     
+/*
     if ([actionType isEqualToString:@"downloadPractice"]) {
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
@@ -142,10 +143,10 @@
              self.hud.mode = MBProgressHUDModeCustomView;
              [self.hud hide:YES afterDelay:3];
          }];
-    } else if ([actionType isEqualToString:@"markEventAsRead"]) {
+    } else */ if ([actionType isEqualToString:@"markEventAsRead"]) {
         NSNumber *eventID = [JSON objectForKey:@"id"];
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        [networkManager markEventWithIDAsRead:eventID onSuccess:nil onFailure:nil];
+        [networkManager deleteEventWithID:eventID onSuccess:nil onFailure:nil];
     }
     return NO;
 }
