@@ -9,6 +9,8 @@
 #import "Lesson.h"
 #import "Word.h"
 #import "Languages.h"
+#import "Audio.h"
+#import "Profile.h"
 
 @interface Lesson() 
 + (NSString *)makeUUID;
@@ -46,6 +48,9 @@
 #define kUserName @"userName"
 #define kFiles @"files"
 #define kCompleted @"completed"
+
+#define kFileID @"fileID"
+#define kFileCode @"fileCode"
 
 + (NSString *)makeUUID
 {
@@ -85,8 +90,13 @@
         retval.languageTag = [packed objectForKey:kLanguageTag];
     if ([packed objectForKey:kName])
         retval.name = [packed objectForKey:kName];
-    if ([packed objectForKey:kDetail])
-        retval.detail = [packed objectForKey:kDetail];
+    if ([packed objectForKey:kDetail]) {
+        if ([[packed objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) {
+            if ([(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag])
+                retval.detail = [(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag];
+        } else
+            retval.detail = [packed objectForKey:kDetail];
+    }
     if ([packed objectForKey:kVersion])
         retval.version = [packed objectForKey:kVersion];
     if ([packed objectForKey:kServerVersion])
@@ -105,16 +115,10 @@
         retval.numFlags = [packed objectForKey:kFlags];
     NSMutableArray *words = [[NSMutableArray alloc] init];
     
-    if (retval.detail) {
-        for (id detail in retval.detail)
-            if (![detail isKindOfClass:[NSString class]])
-                return nil;
-    }
-    
     if ([retval.words isKindOfClass:[NSArray class]]) {
         for (id packedWord in [packed objectForKey:kWords]) {
-            
             Word *newWord = [[Word alloc] init];
+            newWord.lesson = retval;
             newWord.wordID = [packedWord objectForKey:kWordID];
             if ([packedWord objectForKey:kWordCode])
                 newWord.wordCode = [packedWord objectForKey:kWordCode];
@@ -122,30 +126,33 @@
                 newWord.wordCode = [NSString string];
             newWord.languageTag = [packedWord objectForKey:kLanguageTag];
             newWord.name = [packedWord objectForKey:kName];
-            newWord.detail = [packedWord objectForKey:kDetail];
-            if (newWord.detail) {
-                for (id str in newWord.detail)
-                    if (![str isKindOfClass:[NSString class]]) {
-                        NSLog(@"Malformed word detail %@ with class %@", str, [str class]);
-                        return nil;
-                    }
+            if ([packedWord objectForKey:kDetail]) {
+                if ([[packedWord objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) {
+                    if ([(NSDictionary *)[packedWord objectForKey:kDetail] objectForKey:retval.languageTag])
+                        newWord.detail = [(NSDictionary *)[packedWord objectForKey:kDetail] objectForKey:retval.languageTag];
+                } else
+                    newWord.detail = [packedWord objectForKey:kDetail];
             }
-            
             newWord.userID = [packedWord objectForKey:kUserID];
             newWord.userName = [packedWord objectForKey:kUserName];
             newWord.completed = [packedWord objectForKey:kCompleted];
             
             NSMutableArray *newFiles = [[NSMutableArray alloc] init];
-            for (id file in [packedWord objectForKey:kFiles]) {
-                if ([file isKindOfClass:[NSString class]])
-                    [newFiles addObject:file];
-                else if ([file isKindOfClass:[NSNumber class]])
-                    [newFiles addObject:[NSString stringWithFormat:@"%d", [(NSNumber *)file integerValue]]];
-                else
-                    NSLog(@"Malformed word file %@ with class %@", file, [file class]);                    
+            for (id packedFile in [packedWord objectForKey:kFiles]) {
+                Audio *file = [[Audio alloc] init];
+                file.word = newWord;
+                if ([packedFile isKindOfClass:[NSString class]]) // backwards compatability
+                    file.fileCode = packedFile;
+                else if ([packedFile isKindOfClass:[NSNumber class]]) // backwards compatability
+                    file.fileID = [NSString stringWithFormat:@"%d", [(NSNumber *)packedFile integerValue]];
+                else if ([packedFile isKindOfClass:[NSDictionary class]]) {
+                    file.fileID = [packedFile objectForKey:@"fileID"];
+                    file.fileCode = [packedFile objectForKey:@"fileCode"];
+                } else
+                    NSLog(@"Malformed word file %@ with class %@", file, [file class]);
+                [newFiles addObject:file];
             }
             newWord.files = newFiles;
-            
             [words addObject:newWord];
         }
     }
@@ -196,9 +203,17 @@
             [wordDict setObject:word.userName forKey:kUserName];
         if (word.userID)
             [wordDict setObject:word.userID forKey:kUserID];
-        if (word.files)
-            [wordDict setObject:word.files forKey:kFiles];
-        if (word.completed)
+        NSMutableArray *files = [[NSMutableArray alloc] init];
+        for (Audio *file in word.files) {
+            NSMutableDictionary *fileDict = [[NSMutableDictionary alloc] init];
+            if (file.fileID)
+                [fileDict setObject:file.fileID forKey:kFileID];
+            if (file.fileCode)
+                [fileDict setObject:file.fileCode forKey:kFileCode];
+            [files addObject:fileDict];
+        }
+        [wordDict setObject:files forKey:kFiles];
+        if (word.completed && word.completed.boolValue)
             [wordDict setObject:word.completed forKey:kCompleted];
         [words addObject:wordDict];
     }
@@ -213,10 +228,10 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
-    if ([self.lessonCode length] > 0)
-        return [documentsPath stringByAppendingPathComponent:self.lessonCode];
-    else
+    if (self.lessonID.intValue)
         return [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [self.lessonID integerValue]]];
+    else
+        return [documentsPath stringByAppendingPathComponent:self.lessonCode];
 }
 
 - (void)setToLesson:(Lesson *)lesson
@@ -245,6 +260,9 @@
         self.submittedLikeVote = lesson.submittedLikeVote;
     if (lesson.words)
         self.words = lesson.words;
+    for (Word *word in lesson.words) {
+        word.lesson = self;
+    }
 }
 
 - (void)removeStaleFiles
@@ -255,59 +273,49 @@
         NSString *wordPath = [self.filePath stringByAppendingPathComponent:wordOnDisk];
         BOOL willKeepWord = NO;
         for (Word *word in self.words) {
-            NSString *wordPath;
-            if (word.wordCode) {
-                if ([wordOnDisk isEqualToString:word.wordCode]) {
-                    willKeepWord = YES;
-                    wordPath = [self.filePath stringByAppendingPathComponent:word.wordCode];
-                }
-            } else {
-                if ([wordOnDisk isEqualToString:[NSString stringWithFormat:@"%d", [word.wordID integerValue]]]) {
-                    willKeepWord = YES;
-                    wordPath = [self.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [word.wordID integerValue]]];
-                }
+            if ([word.filePath isEqualToString:wordPath]) {
+                willKeepWord = YES;
+                break;
             }
             if (willKeepWord) {
                 for (NSString *fileOnDisk in [fileManager contentsOfDirectoryAtPath:wordPath error:nil]) {
                     NSString *filePath = [wordPath stringByAppendingPathComponent:fileOnDisk];
-                    if (![word.files containsObject:fileOnDisk])
-                    {
+                    BOOL willKeepFile = NO;
+                    for (Audio *audio in word.files) {
+                        if ([audio.filePath isEqualToString:filePath]) {
+                            willKeepFile = YES;
+                            break;
+                        }
+                    }
+                    if (!willKeepFile) {
                         if ([fileManager removeItemAtPath:filePath error:&error] == NO) {
                             NSLog(@"removeItemAtPath %@ error:%@", filePath, error);
                         }
                     }
                 }
-                break;
             }
         }
         if (!willKeepWord) {
             if ([fileManager removeItemAtPath:wordPath error:&error] == NO) {
                 NSLog(@"removeItemAtPath %@ error:%@", wordPath, error);
             }
-
         }
     }
 }
 
-- (NSArray *)listOfMissingFiles // return: [{"word":Word *,"fileID":NSNumber *},...]
+- (NSArray *)listOfMissingFiles // return: [{"word":Word *,"audio":Audio *},...]
 {
-    NSMutableArray *missingFiles = [[NSMutableArray alloc] init];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSMutableArray *retval = [[NSMutableArray alloc] init];
     for (Word *word in self.words) {
-        NSString *wordPath;
-        if ([word.wordCode length])
-            wordPath = [self.filePath stringByAppendingPathComponent:word.wordCode];
-        else
-            wordPath = [self.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [word.wordID integerValue]]];
-        for (NSString *file in word.files) {
-            NSString *filePath = [wordPath stringByAppendingPathComponent:file];
-            if (![fileManager fileExistsAtPath:filePath]) {
-                NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:word, @"word", file, @"fileID", nil];
-                [missingFiles addObject:dict];
-            }
+        NSArray *wordMissingFiles = [word listOfMissingFiles];
+        for (Audio *file in wordMissingFiles) {
+            NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+            [entry setObject:file forKey:@"audio"];
+            [entry setObject:word forKey:@"word"];
+            [retval addObject:entry];
         }
     }
-    return missingFiles;
+    return retval;
 }
 
 - (BOOL)isOlderThanServer
@@ -327,7 +335,8 @@
 
 - (BOOL)isEditable
 {
-    return [self.lessonCode length] > 0;
+    Profile *me = [Profile currentUserProfile];
+    return self.userID == me.userID;
 }
 
 - (BOOL)isShared
@@ -344,6 +353,14 @@
     return [NSNumber numberWithFloat:(float)numerator/self.words.count];    
 }
 
+- (Word *)wordWithCode:(NSString *)wordCode
+{
+    for (Word *word in self.words)
+        if ([word.wordCode isEqualToString:wordCode])
+            return word;
+    return nil;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
@@ -353,7 +370,7 @@
     Lesson *copy = [[Lesson alloc] init];
     copy.languageTag = [self.languageTag copy];
     copy.name = [self.name copy];
-    copy.detail = [[NSDictionary alloc] initWithDictionary:self.detail copyItems:YES];
+    copy.detail = self.detail;
     copy.version = [self.version copy];
     copy.serverVersion = [self.serverVersion copy];
     copy.words = [[NSArray alloc] initWithArray:self.words copyItems:YES];

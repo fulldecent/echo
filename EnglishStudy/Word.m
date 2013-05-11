@@ -8,6 +8,7 @@
 
 #import "Word.h"
 #import "Audio.h"
+#import "Lesson.h"
 
 @interface Word()
 + (NSString *)makeUUID;
@@ -130,6 +131,22 @@
     if (!_files)
         _files = [NSArray array];
     return _files;
+}
+
+- (Audio *)fileWithCode:(NSString *)fileCode
+{
+    for (Audio *file in self.files)
+        if ([file.fileCode isEqualToString:fileCode])
+            return file;
+    return nil;
+}
+
+- (NSString *)filePath
+{
+    if (self.wordID)
+        return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [self.wordID integerValue]]];
+    else
+        return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.wordCode]];
 }
 
 #pragma mark - NSCopying

@@ -10,6 +10,7 @@
 #import "NetworkManager.h"
 
 @implementation Profile
+@synthesize userID = _userID;
 @synthesize username = _username;
 @synthesize usercode = _usercode;
 @synthesize learningLanguageTag = _languageTag;

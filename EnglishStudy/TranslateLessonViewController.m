@@ -48,7 +48,6 @@
 
 - (void)save
 {
-    nnn
 }
 
 #pragma mark - Table view data source
@@ -80,8 +79,8 @@
             textField.placeholder = self.originalLesson.name;
             textField.text = self.translatedLesson.name;
         } else if (indexPath.section == 0 && indexPath.row == 2) {
-            textField.placeholder = [self.originalLesson.detail objectForKey:self.originalLesson.languageTag];
-            textField.text = [self.translatedLesson.detail objectForKey:self.translatedLesson.languageTag];
+            textField.placeholder = self.originalLesson.detail;
+            textField.text = self.translatedLesson.detail;
         } else {
             textField.placeholder = [(Word *)[self.originalLesson.words objectAtIndex:indexPath.row] name];
             textField.text = [(Word *)[self.translatedLesson.words objectAtIndex:indexPath.row] name];
@@ -117,7 +116,7 @@
     BOOL valid = YES;
     if (!self.translatedLesson.name.length)
         valid = NO;
-    if (![[self.translatedLesson.detail objectForKey:self.translatedLesson.languageTag] length])
+    if (!self.translatedLesson.detail)
         valid = NO;
     for (Word *word in self.translatedLesson.words)
         if (!word.name.length)

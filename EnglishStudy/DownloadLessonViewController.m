@@ -31,6 +31,7 @@
          self.lessons = lessonPreviews;
          [self.tableView reloadData];
      } onFailure:^(NSError *error) {
+         [NetworkManager hudFlashError:error];
      }];
 }
 
@@ -60,12 +61,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == self.lessons.count) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
-        return cell;
-    }
+    if (indexPath.row == self.lessons.count)
+        return [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
     
     Lesson *lesson = [self.lessons objectAtIndex:indexPath.row];
+    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
     [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
     [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
@@ -89,11 +89,10 @@
         [(UILabel *)[cell viewWithTag:5] setText:@""];
         [(UIImageView *)[cell viewWithTag:8] setHidden:YES];
     }
-//    [(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%@", lesson.flags]];
     [(UILabel *)[cell viewWithTag:6] setText:lesson.userName];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png", lesson.userID]];
     UIImage *placeholder = [UIImage imageNamed:@"none40"];
-    [(UIImageView *)[cell viewWithTag:9] setImageWithURL:url placeholderImage:placeholder];
+    NSURL *userPhoto = [networkManager photoURLForUserWithID:lesson.userID];
+    [(UIImageView *)[cell viewWithTag:9] setImageWithURL:userPhoto placeholderImage:placeholder];
     
     return cell;
 }
@@ -112,7 +111,6 @@
 {
     if (indexPath.row < self.lessons.count) {
         [self.delegate downloadLessonViewController:self gotStubLesson:[self.lessons objectAtIndex:indexPath.row]];
-        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];

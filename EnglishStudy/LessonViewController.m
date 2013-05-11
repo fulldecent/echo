@@ -80,19 +80,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
              [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
          } onFailure:^(NSError *error)
          {
-             [self.hud hide:YES];
-             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-             self.hud.delegate = self;
-             self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-             view.text = error.localizedDescription;
-             view.font = self.hud.labelFont;
-             view.textColor = [UIColor whiteColor];
-             view.backgroundColor = [UIColor clearColor];
-             [view sizeToFit];
-             self.hud.customView = view;
-             self.hud.mode = MBProgressHUDModeCustomView;
-             [self.hud hide:YES afterDelay:1.5];
+             [NetworkManager hudFlashError:error];
          }];
     } else {
         [networkManager doLikeLesson:self.lesson onSuccess:^
@@ -103,19 +91,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
              [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
          } onFailure:^(NSError *error)
          {
-             [self.hud hide:YES];
-             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-             self.hud.delegate = self;
-             self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-             view.text = error.localizedDescription;
-             view.font = self.hud.labelFont;
-             view.textColor = [UIColor whiteColor];
-             view.backgroundColor = [UIColor clearColor];
-             [view sizeToFit];
-             self.hud.customView = view;
-             self.hud.mode = MBProgressHUDModeCustomView;
-             [self.hud hide:YES afterDelay:1.5];
+             [NetworkManager hudFlashError:error];
          }];
     }
 }
@@ -515,6 +491,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
         } else {
             Word *word = [[Word alloc] init];
             word.languageTag = self.lesson.languageTag;
+            word.lesson = self.lesson;
             controller.word = word;
         }
     } else if ([segue.destinationViewController isKindOfClass:[TranslateLessonViewController class]])
@@ -590,19 +567,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
          [self.navigationController popViewControllerAnimated:YES];
      } onFailure:^(NSError *error)
      {
-         [self.hud hide:YES];
-         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-         self.hud.delegate = self;
-         self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-         UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-         view.text = error.localizedDescription;
-         view.font = self.hud.labelFont;
-         view.textColor = [UIColor whiteColor];
-         view.backgroundColor = [UIColor clearColor];
-         [view sizeToFit];
-         self.hud.customView = view;
-         self.hud.mode = MBProgressHUDModeCustomView;
-         [self.hud hide:YES afterDelay:1.5];
+         [NetworkManager hudFlashError:error];
      }];
 }
 
@@ -622,20 +587,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
          {
              [self.hud hide:YES];
          } onFailure:^(NSError *error) {
-             NSLog(@"Send message failure");
-             [self.hud hide:YES];
-             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-             self.hud.delegate = self;
-             self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-             view.text = error.localizedDescription;
-             view.font = self.hud.labelFont;
-             view.textColor = [UIColor whiteColor];
-             view.backgroundColor = [UIColor clearColor];
-             [view sizeToFit];
-             self.hud.customView = view;
-             self.hud.mode = MBProgressHUDModeCustomView;
-             [self.hud hide:YES afterDelay:1.5];
+             [NetworkManager hudFlashError:error];
          }];
     };
 }

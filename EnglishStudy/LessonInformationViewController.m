@@ -14,7 +14,7 @@
 @interface LessonInformationViewController() <LanguageSelectControllerDelegate>
 @property (strong, nonatomic) NSString *editingLanguageTag;
 @property (strong, nonatomic) NSString *editingName;
-@property (strong, nonatomic) NSMutableDictionary *editingDetail;
+@property (strong, nonatomic) NSString *editingDetail;
 @end
 
 @implementation LessonInformationViewController
@@ -37,23 +37,13 @@
     self.editingDetail = [lesson.detail mutableCopy];
 }
 
-- (NSMutableDictionary *)editingDetail
-{
-    if (!_editingDetail) {
-        _editingDetail = [[NSMutableDictionary alloc] init];
-    }
-    
-    return _editingDetail;
-}
-
 - (IBAction)updateName:(UITextField *)sender {
     self.editingName = sender.text;
     [self validate];
 }
 
 - (IBAction)updateDetail:(UITextField *)sender {
-    self.editingDetail = [[NSMutableDictionary alloc] init];
-    [self.editingDetail setObject:sender.text forKey:self.editingLanguageTag];
+    self.editingDetail = sender.text;
     [self validate];
 }
 
@@ -78,7 +68,7 @@
         self.lessonLabel.textColor = badColor;
         valid = NO;
     }
-    if ([[self.editingDetail objectForKey:self.editingLanguageTag] length])
+    if (self.editingDetail.length)
         self.detailLabel.textColor = goodColor;
     else {
         self.detailLabel.textColor = badColor;
@@ -103,7 +93,7 @@
 {
     self.languageName.text = [Languages nativeDescriptionForLanguage:self.editingLanguageTag];
     self.lessonName.text = self.editingName;
-    self.detailText.text = [self.editingDetail objectForKey:self.editingLanguageTag];
+    self.detailText.text = self.editingDetail;
     [super viewWillAppear:animated];
     [self validate];
 }

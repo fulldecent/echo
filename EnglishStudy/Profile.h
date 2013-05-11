@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Profile : NSObject
+@property (strong, nonatomic) NSNumber *userID;
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *usercode;
 @property (strong, nonatomic) NSString *learningLanguageTag;

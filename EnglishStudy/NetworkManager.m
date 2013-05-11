@@ -11,6 +11,7 @@
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
+#import "Audio.h"
 
 #define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0/"
 
@@ -35,16 +36,18 @@
     return sharedInstance;
 }
 
-- (id)init
+- (AFHTTPClient *)HTTPclient
 {
-    self = [super init];
-    self.HTTPclient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
-    [self.HTTPclient setParameterEncoding:AFFormURLParameterEncoding];
-    // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-    //    self.HTTPclient.parameterEncoding = AFJSONParameterEncoding;
-    //	[self.HTTPclient setDefaultHeader:@"Accept" value:@"application/json"];
-    [self.HTTPclient registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    return self;
+    if (!_HTTPclient) {
+        Profile *me = [Profile currentUserProfile];
+        _HTTPclient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
+        _HTTPclient.parameterEncoding = AFJSONParameterEncoding;
+        // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+        //[_HTTPclient setDefaultHeader:@"Accept" value:@"application/json"];
+        [_HTTPclient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+        [_HTTPclient setAuthorizationHeaderWithUsername:@"xx" password:me.usercode];
+    }
+    return _HTTPclient;
 }
 
 // V2.0 API ///////////////////////////////////////////////////////
@@ -74,42 +77,117 @@
  //      GET     events/eventsIMayBeInterestedIn/[?some type of query here, probably just paging]
  //      GET     users/172.json
 
-- (void)getAudioWithID:(NSNumber *)id
-          withProgress:(void(^)(NSString *localFilePath, NSNumber *progress))progressBlock
+- (void)getAudioWithID:(NSNumber *)audioID
+          withProgress:(void(^)(NSData *audio, NSNumber *progress))progressBlock
              onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativePath =[NSString stringWithFormat:@"audio/%@.caf", audioID];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"GET" path:relativePath parameters:nil];
+    AFHTTPRequestOperation *HTTPop = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [HTTPop setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         if (progressBlock)
+             progressBlock((NSData *)responseObject, [NSNumber numberWithInt:1]);
+     }
+                                  failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         if (failureBlock)
+             failureBlock(error);
+     }];
+    [HTTPop setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead)
+     {
+         NSNumber *ratio;
+         if (totalBytesExpectedToRead == 0) ratio = [NSNumber numberWithInt:1];
+         else ratio = [NSNumber numberWithInt:totalBytesRead / totalBytesExpectedToRead];
+         if (progressBlock)
+             progressBlock(nil, ratio);
+     }];
+    [self.HTTPclient enqueueHTTPRequestOperation:HTTPop];
 }
 
-- (void)deleteLessonWithID:(NSNumber *)id
+- (void)deleteLessonWithID:(NSNumber *)lessonID
                  onSuccess:(void(^)())successBlock
                  onFailure:(void(^)(NSError *error))failureBlock
 {
     //TODO: do this
 }
 
-- (void)getLessonWithID:(NSNumber *)id asPreviewOnly:(BOOL)preview
+- (void)getLessonWithID:(NSNumber *)lessonID asPreviewOnly:(BOOL)preview
               onSuccess:(void(^)(Lesson *lesson))successBlock
               onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativePath;
+    if (preview)
+        relativePath = [NSString stringWithFormat:@"lessons/%@.json?preview=yes", lessonID];
+    else
+        relativePath = [NSString stringWithFormat:@"lessons/%@.json", lessonID];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"GET" path:relativePath parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          NSData *data = [NSJSONSerialization dataWithJSONObject:JSON options:nil error:nil];
+                                          Lesson *lesson = [Lesson lessonWithJSON:data];
+                                          if (successBlock)
+                                              successBlock(lesson);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)searchLessonsWithLangTag:(NSString *)langTag andSearhText:(NSString *)searchText
                        onSuccess:(void(^)(NSArray *lessonPreviews))successBlock
                        onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"lessons/%@/?search=%@", langTag, searchText];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"GET"
+                                                                 path:relativeRequestPath
+                                                           parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          NSMutableArray *lessons = [NSMutableArray array];
+                                          for (id item in (NSArray *)JSON) {
+                                              NSData *data = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
+                                              [lessons addObject:[Lesson lessonWithJSON:data]];
+                                          }
+                                          if (successBlock)
+                                              successBlock(lessons);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)postLesson:(Lesson *)lesson
-         onSuccess:(void(^)())successBlock
+         onSuccess:(void(^)(NSNumber *newLessonID, NSNumber *newServerVersion, NSArray *neededWordAndFileCodes))successBlock
          onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:@"lessons/" parameters:nil];
+    request.HTTPBody = [lesson JSON];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock([JSON objectForKey:@"lessonID"],
+                                                           [JSON objectForKey:@"updated"],
+                                                           [JSON objectForKey:@"neededFiles"]); 
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
-- (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)id
+- (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)lessonID
              onSuccess:(void(^)())successBlock
              onFailure:(void(^)(NSError *error))failureBlock
 {
@@ -123,10 +201,10 @@
     //TODO: do this
 }
 
-- (NSURL *)getPhotoURLForUserWithID:(NSNumber *)id
+- (NSURL *)photoURLForUserWithID:(NSNumber *)userID
 {
-    //TODO: do this
-    return [NSURL URLWithString:@"A URL"];
+    NSString *relativeURL = [NSString stringWithFormat:@"users/%@.png", userID];
+    return [NSURL URLWithString:relativeURL relativeToURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
 }
 
 - (void)postUserProfile:(Profile *)profile
@@ -136,13 +214,46 @@
     //TODO: do this
 }
 
-- (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessodID messagesSinceID:(NSNumber *)messageID
+- (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessonID messagesSinceID:(NSNumber *)messageID
                    onSuccess:(void(^)(NSDictionary *lessonsIDsWithNewServerVersions,
                                       NSNumber *numNewLessons,
                                       NSNumber *numNewMessages))successBlock
                    onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSMutableArray *lessonIDsToCheck = [[NSMutableArray alloc] init];
+    NSMutableArray *lessonTimestampsToCheck = [[NSMutableArray alloc] init];
+    for (Lesson *lesson in lessons) {
+        if (!lesson.isShared)
+            continue;
+        [lessonIDsToCheck addObject:lesson.lessonID];
+        [lessonTimestampsToCheck addObject:lesson.serverVersion];
+    }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *requestParams = [[NSMutableDictionary alloc] init];
+    [requestParams setObject:lessonIDsToCheck forKey:@"lessonIDs"];
+    [requestParams setObject:lessonTimestampsToCheck forKey:@"lessonTimestamps"];
+    if ([defaults objectForKey:@"lastLessonSeen"])
+        [requestParams setObject:[defaults objectForKey:@"lastLessonSeen"] forKey:@"lastLessonSeen"];
+    if ([defaults objectForKey:@"lastMessageSeen"])
+        [requestParams setObject:[defaults objectForKey:@"lastMessageSeen"] forKey:@"lastMessageSeen"];
+    NSString *relativeRequestPath = @"users/me/updates";
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"GET" path:relativeRequestPath parameters:requestParams];
+    
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock([JSON objectForKey:@"updatedLessons"],
+                                                           [JSON objectForKey:@"newLessons"],
+                                                           [JSON objectForKey:@"unreadMessages"]);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)doLikeLesson:(Lesson *)lesson
@@ -166,14 +277,14 @@
     //TODO: do this
 }
 
-- (void)getWordWithID:(NSNumber *)id
+- (void)getWordWithID:(NSNumber *)wordID
             onSuccess:(void(^)(Word *word))successBlock
             onFailure:(void(^)(NSError *error))failureBlock
 {
     //TODO: do this
 }
 
-- (void)deleteWordWithID:(NSNumber *)id
+- (void)deleteWordWithID:(NSNumber *)wordID
                onSuccess:(void(^)())successBlock
                onFailure:(void(^)(NSError *error))failureBlock
 {
@@ -187,116 +298,132 @@
     //TODO: do this
 }
 
-- (void)postWord:(Word *)word withFilesInPath:(NSString *)filePath asReplyToWordWithID:(NSNumber *)id
+- (void)postWord:(Word *)word withFilesInPath:(NSString *)filePath asReplyToWordWithID:(NSNumber *)wordID
     withProgress:(void(^)(NSNumber *progress))progressBlock
        onFailure:(void(^)(NSError *error))failureBlock
 {
     //TODO: do this
 }
 
-- (void)deleteEventWithID:(NSNumber *)id
+- (void)deleteEventWithID:(NSNumber *)eventID
                 onSuccess:(void(^)())successBlock
                 onFailure:(void(^)(NSError *error))failureBlock
 {
     //TODO: do this
 }
 
-- (void)postFeedback:(NSString *)feedback toAuthorOfLessonWithID:(NSNumber *)id
+- (void)postFeedback:(NSString *)feedback toAuthorOfLessonWithID:(NSNumber *)lessonID
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock
 {
     //TODO: do this
 }
 
-
-
-
-
-///////////////////////////////////////////////////////////////////
-
-
-
-- (void)updateServerVersionsInLessonSet:(LessonSet *)lessonSet
-           andSeeWhatsNewWithCompletion:(void(^)(NSNumber *newLessonCount, NSNumber *unreadMessageCount))completion
-{
-    Profile *me = [Profile currentUserProfile];
-    NSString *deviceUUID = me.usercode;
-    NSMutableArray *lessonIDsToCheck = [[NSMutableArray alloc] init];
-    NSMutableArray *lessonIDTimestamps = [[NSMutableArray alloc] init];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    for (Lesson *lesson in lessonSet.lessons) {
-        if ([lesson.lessonID integerValue] != 0) { // Didn't finish uploading
-            [lessonIDsToCheck addObject:lesson.lessonID];
-            if (lesson.version)
-                [lessonIDTimestamps addObject:lesson.version];
-            else
-                [lessonIDTimestamps addObject:[NSNumber numberWithInt:0]];
-        }
-    }
-    
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    NSData *lessonIDsJSON = [NSJSONSerialization dataWithJSONObject:lessonIDsToCheck options:0 error:nil];
-    NSData *timestampsJSON = [NSJSONSerialization dataWithJSONObject:lessonIDTimestamps options:0 error:nil];
-    if ([defaults objectForKey:@"lastLessonSeen"])
-        [params setObject:[defaults objectForKey:@"lastLessonSeen"] forKey:@"lastLessonSeen"];
-    if ([defaults objectForKey:@"lastMessageSeen"])
-        [params setObject:[defaults objectForKey:@"lastMessageSeen"] forKey:@"lastMessageSeen"];
-    [params setObject:[[NSString alloc] initWithData:lessonIDsJSON encoding:NSUTF8StringEncoding] forKey:@"lessonIDs"];
-    [params setObject:[[NSString alloc] initWithData:timestampsJSON encoding:NSUTF8StringEncoding] forKey:@"timestamps"];
-    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/%@/whatsNew", deviceUUID];
-    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:relativeRequestPath parameters:params];
-
-    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
-                                      {
-                                          for (NSString *lessonIDStr in [JSON objectForKey:@"updatedLessons"]) {
-                                              NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-                                              [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                                              NSNumber *lessonID = [f numberFromString:lessonIDStr];
-                                              
-                                              for (Lesson *lesson in lessonSet.lessons) {
-                                                  if ([lesson.lessonID isEqualToNumber:lessonID]) // a little weird
-                                                      lesson.serverVersion = [JSON objectForKey:lessonIDStr];
-                                              }
-                                          }
-                                          if (completion)
-                                              completion([JSON objectForKey:@"newLessons"], [JSON objectForKey:@"unreadMessages"]);
-                                      }
-                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                      {
-                                          [self hudFlashError:error];
-                                          NSLog(@"updateServerVersionForLessons failed:%@", [error localizedDescription]);
-                                      }];
-    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
-}
+////////////////////////////////////////////////
 
 - (void)syncLessons:(NSArray *)lessons
-       withProgress:(void(^)(Lesson *lesson, NSNumber *progress))block
+       withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progressBlock
 {
     for (Lesson *lessonToSync in lessons) {
         // Which direction is this motherfucter syncing?
         if ([[lessonToSync listOfMissingFiles] count] || lessonToSync.isOlderThanServer)
-            [self downloadLesson:lessonToSync withProgress:^(Lesson *lesson, NSNumber *progress)
-             {
-                 if (block)
-                     block(lesson, progress);
-             }];
-        else if (lessonToSync.isEditable && lessonToSync.isNewerThanServer) {
-            [self uploadLesson:lessonToSync withProgress:^(Lesson *lesson, NSNumber *lessonID, NSNumber *progress)
-            {
-                if (![lessonToSync.lessonID isEqualToNumber:lessonID])
-                    lesson.lessonID = lessonID;
-                if (block)
-                    block(lesson, progress);
-            }];
-        }
+            [self pullLessonWithFiles:lessonToSync withProgress:progressBlock onFailure:nil];
+        else if (lessonToSync.isEditable && lessonToSync.isNewerThanServer)
+            [self pushLessonWithFiles:lessonToSync withProgress:progressBlock onFailure:nil];
         else {
             NSLog(@"No which way for this lesson to sync: %@", lessonToSync);
-            if (block)
-                block(lessonToSync, [NSNumber numberWithInt:1]);
+            if (progressBlock)
+                progressBlock(lessonToSync, [NSNumber numberWithInt:1]);
         }
     }
 }
+
+- (void)pullLessonWithFiles:(Lesson *)lessonToSync
+         withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progressBlock
+            onFailure:(void(^)(NSError *error))failureBlock
+{
+    [self getLessonWithID:lessonToSync.lessonID asPreviewOnly:NO onSuccess:^(Lesson *retreivedLesson)
+     {
+         [lessonToSync setToLesson:retreivedLesson];
+         NSMutableArray *neededAudios = [[NSMutableArray alloc] init];
+         for (NSDictionary *audioAndWord in [lessonToSync listOfMissingFiles])
+             [neededAudios addObject:[audioAndWord objectForKey:@"audio"]];         
+         __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
+         __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededAudios count]+1];
+         
+         if ([neededAudios count] == 0)
+             lessonToSync.version = retreivedLesson.serverVersion;
+         if (progressBlock)
+             progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+         
+         for (Audio *file in neededAudios) {
+             [self getAudioWithID:[file fileID] withProgress:^(NSData *audio, NSNumber *fileProgress)
+              {
+                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                      NSFileManager *fileManager = [NSFileManager defaultManager];
+                      NSString *dirname = [file.filePath stringByDeletingLastPathComponent];
+                      [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
+                      [audio writeToFile:file.filePath atomically:YES];
+                      
+                      lessonProgress = [NSNumber numberWithInt:[lessonProgress integerValue]+1];
+                      if ([lessonProgress isEqualToNumber:totalLessonProgress])
+                          lessonToSync.version = retreivedLesson.serverVersion;
+                      if (progressBlock)
+                          progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+                      //TODO: Could do even more accurate progress reporting if we wanted
+                  }
+              } onFailure:^(NSError *error) {
+              }];
+         }
+     } onFailure:^(NSError *error) {
+         if (failureBlock) failureBlock(error);
+     }];
+}
+
+// Side effect: will set the lesson ID if it is null and will update serverversion
+- (void)pushLessonWithFiles:(Lesson *)lessonToSync
+         withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progressBlock
+            onFailure:(void(^)(NSError *error))failureBlock
+{
+    [self postLesson:lessonToSync onSuccess:^(NSNumber *newLessonID, NSNumber *newServerVersion, NSArray *neededWordAndFileCodes)
+     {
+         __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
+         __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededWordAndFileCodes count]+1];
+         if ([neededWordAndFileCodes count] == 0)
+             lessonToSync.version = lessonToSync.serverVersion = newServerVersion;
+         if (progressBlock)
+             progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+
+         for (NSDictionary *wordAndFileCode in neededWordAndFileCodes) {
+             Word *word = [lessonToSync wordWithCode:[wordAndFileCode objectForKey:@"wordCode"]];
+             Audio *file = [word fileWithCode:[wordAndFileCode objectForKey:@"fileCode"]];
+
+             [self putAudioFileAtPath:file.filePath
+                            forLesson:lessonToSync
+                             withWord:word
+                            usingCode:file.fileCode
+                         withProgress:^(NSNumber *fileProgress)
+              {
+                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                      lessonProgress = [NSNumber numberWithInt:[lessonProgress integerValue]+1];
+                      if ([lessonProgress isEqualToNumber:totalLessonProgress])
+                          lessonToSync.version = lessonToSync.serverVersion = newServerVersion;
+                      if (progressBlock)
+                          progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+                      //TODO: Could do even more accurate progress reporting if we wanted
+                  }
+              } onFailure:^(NSError *error)
+              {
+              }];
+         }
+     } onFailure:^(NSError *error) {
+         if (failureBlock) failureBlock(error);
+     }];
+}
+
+///////OLD STUFF////////////////////////////////////////////////////////////
+////////////////////////////////////////
+
 
 - (void)downloadWordWithID:(NSInteger)wordID
             withProgress:(void(^)(Word *PGword, NSNumber *PGprogress))progressBlock
@@ -1000,5 +1127,28 @@
 {
     self.hud = nil;
 }
+
+#pragma mark - FUCKYOU UI code seperation
+
++ (void)hudFlashError:(NSError *)error
+{
+    static MBProgressHUD *sharedHUD;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedHUD = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
+        sharedHUD.mode = MBProgressHUDModeCustomView;
+    });
+    [sharedHUD hide:NO];
+    [sharedHUD show:YES];
+    UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    view.text = error.localizedDescription;
+    view.font = sharedHUD.labelFont;
+    view.textColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor clearColor];
+    [view sizeToFit];
+    sharedHUD.customView = view;
+    [sharedHUD hide:YES afterDelay:1.5];
+}
+
 
 @end

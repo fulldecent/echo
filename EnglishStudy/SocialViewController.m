@@ -97,6 +97,7 @@
                  [self.hud hide:YES];
              }
          } onFailure:^{
+             [NetworkManager hudFlashError:...
              [self.hud hide:YES];
              self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
              self.hud.delegate = self;

@@ -22,15 +22,15 @@ enum NetworkManagerFlagReason {
 
 + (NetworkManager *)sharedNetworkManager;
 
-- (void)getAudioWithID:(NSNumber *)id
-withProgress:(void(^)(NSString *localFilePath, NSNumber *progress))progressBlock
+- (void)getAudioWithID:(NSNumber *)audioID
+withProgress:(void(^)(NSData *audio, NSNumber *progress))progressBlock
 onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)deleteLessonWithID:(NSNumber *)id
+- (void)deleteLessonWithID:(NSNumber *)lessonID
 onSuccess:(void(^)())successBlock
 onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)getLessonWithID:(NSNumber *)id asPreviewOnly:(BOOL)preview
+- (void)getLessonWithID:(NSNumber *)lessonID asPreviewOnly:(BOOL)preview
 onSuccess:(void(^)(Lesson *lesson))successBlock
 onFailure:(void(^)(NSError *error))failureBlock;
 
@@ -39,7 +39,7 @@ onFailure:(void(^)(NSError *error))failureBlock;
                        onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)postLesson:(Lesson *)lesson
-         onSuccess:(void(^)())successBlock
+         onSuccess:(void(^)(NSNumber *newLessonID, NSNumber *newServerVersion, NSArray *neededWordAndFileCodes))successBlock
          onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)id
@@ -50,13 +50,13 @@ onFailure:(void(^)(NSError *error))failureBlock;
               withProgress:(void(^)(NSNumber *progress))progressBlock
                  onFailure:(void(^)(NSError *error))failureBlock;
 
-- (NSURL *)getPhotoURLForUserWithID:(NSNumber *)id;
+- (NSURL *)photoURLForUserWithID:(NSNumber *)userID;
 
 - (void)postUserProfile:(Profile *)profile
               onSuccess:(void(^)())successBlock
               onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessodID messagesSinceID:(NSNumber *)messageID
+- (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessonID messagesSinceID:(NSNumber *)messageID
                    onSuccess:(void(^)(NSDictionary *lessonsIDsWithNewServerVersions,
                                       NSNumber *numNewLessons,
                                       NSNumber *numNewMessages))successBlock
@@ -74,11 +74,11 @@ onFailure:(void(^)(NSError *error))failureBlock;
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)getWordWithID:(NSNumber *)id
+- (void)getWordWithID:(NSNumber *)wordID
 onSuccess:(void(^)(Word *word))successBlock
 onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)deleteWordWithID:(NSNumber *)id
+- (void)deleteWordWithID:(NSNumber *)wordID
 onSuccess:(void(^)())successBlock
 onFailure:(void(^)(NSError *error))failureBlock;
 
@@ -86,15 +86,15 @@ onFailure:(void(^)(NSError *error))failureBlock;
     withProgress:(void(^)(NSNumber *progress))progressBlock
        onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)postWord:(Word *)word withFilesInPath:(NSString *)filePath asReplyToWordWithID:(NSNumber *)id
+- (void)postWord:(Word *)word withFilesInPath:(NSString *)filePath asReplyToWordWithID:(NSNumber *)wordID
     withProgress:(void(^)(NSNumber *progress))progressBlock
     onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)deleteEventWithID:(NSNumber *)id
+- (void)deleteEventWithID:(NSNumber *)eventID
                 onSuccess:(void(^)())successBlock
                 onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)postFeedback:(NSString *)feedback toAuthorOfLessonWithID:(NSNumber *)id
+- (void)postFeedback:(NSString *)feedback toAuthorOfLessonWithID:(NSNumber *)lessonID
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock;
 
@@ -131,5 +131,6 @@ OLD CODE
 - (void)lessonsWithSearch:(NSString *)searchString languageTag:(NSString *)tag return:(void(^)(NSArray *retLessons))returnBlock;
 
 */
- 
++ (void)hudFlashError:(NSError *)error;
+
 @end

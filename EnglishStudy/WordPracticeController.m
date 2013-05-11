@@ -1,4 +1,4 @@
-//
+    //
 //  PHORSecondViewController.m
 //  EnglishStudy
 //
@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "PHOREchoRecorder.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Audio.h"
 
 
 @interface WordPracticeController () <PHOREchoRecorderDelegate>
@@ -52,9 +53,16 @@
     bounceAnimation.autoreverses = YES;
     bounceAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [self.trainingSpeakerButton.layer addAnimation:bounceAnimation forKey:@"bounce"];
+  
+    if (!self.word.files.count) {
+        [self.navigationController popViewControllerAnimated:NO];
+        return;
+    }
     
     int index = arc4random() % [self.word.files count];
-    NSString *filePath = [[self.datasource currentSoundDirectoryFilePath] stringByAppendingPathComponent:[self.word.files objectAtIndex:index]];
+    Audio *chosenAudio = [self.word.files objectAtIndex:index];
+    NSString *filePath = [chosenAudio filePath];
+//    NSString *filePath = [[self.datasource currentSoundDirectoryFilePath] stringByAppendingPathComponent:[self.word.files objectAtIndex:index]];
     NSURL *url = [NSURL fileURLWithPath:filePath];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.audioPlayer.pan = -0.5;

@@ -13,6 +13,7 @@
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
+#import "Audio.h"
 
 #define NUMBER_OF_RECORDERS 3
 
@@ -26,7 +27,7 @@
 // Model
 @property (strong, nonatomic) NSString *editingLanguageTag;
 @property (strong, nonatomic) NSString *editingName;
-@property (strong, nonatomic) NSMutableDictionary *editingDetail;
+@property (strong, nonatomic) NSString *editingDetail;
 @property (strong, nonatomic) NSMutableDictionary *echoRecorders;
 
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -71,12 +72,6 @@
 {
     if (!_echoRecorders) _echoRecorders = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
     return _echoRecorders;
-}
-
-- (NSMutableDictionary *)editingDetail
-{
-    if (!_editingDetail) _editingDetail = [[NSMutableDictionary alloc] init];
-    return _editingDetail;
 }
 
 - (NSMutableDictionary *)echoRecordButtons
@@ -140,35 +135,33 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSMutableArray *files = [[NSMutableArray alloc] initWithCapacity:NUMBER_OF_RECORDERS];
+    self.word.languageTag = self.editingLanguageTag;
+    self.word.name = self.editingName;
+    self.word.detail = self.editingDetail;
     for (int i=0; i<[self.echoRecorders count]; i++) {
         PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
+        Audio *audio;
+        if (self.word.files.count > i)
+            audio = [self.word.files objectAtIndex:i];
+        else {
+            audio = [[Audio alloc] init];
+            audio.word = self.word;
+        }
         if (recorder.audioWasModified) {
-            if ([self.word.files count]) {
-                NSString *oldFileBaseName = [self.word.files objectAtIndex:i];
-                NSString *oldFilePath = [[self.delegate wordDetailControllerSoundDirectoryFilePath:self] stringByAppendingPathComponent:oldFileBaseName];
-                [fileManager removeItemAtPath:oldFilePath error:nil];
-            }
-            
-            NSString *temporaryFilePath = [recorder getAudioDataFilePath];
-            NSString *permanentFileName = [[WordDetailController makeUUID] stringByAppendingPathExtension:[temporaryFilePath pathExtension]];
-            NSString *soundDirectoryFilePath = [self.delegate wordDetailControllerSoundDirectoryFilePath:self];
-            NSString *permanentFilePath = [soundDirectoryFilePath stringByAppendingPathComponent:permanentFileName];
-            [fileManager createDirectoryAtPath:soundDirectoryFilePath withIntermediateDirectories:YES attributes:nil error:nil];
+            [fileManager removeItemAtPath:audio.filePath error:nil];
+            [fileManager createDirectoryAtPath:self.word.filePath withIntermediateDirectories:YES attributes:nil error:nil];
             NSError *error = nil;
-            [fileManager copyItemAtURL:[NSURL fileURLWithPath:temporaryFilePath]
-                                 toURL:[NSURL fileURLWithPath:permanentFilePath]
-                                 error:&error];
+            [fileManager moveItemAtPath:[recorder getAudioDataFilePath]
+                                 toPath:audio.filePath
+                                  error:&error];
             if (error)
                 NSLog(@"Word file copy error: %@", [error localizedDescription]);
-            [files addObject:permanentFileName];
+            [files addObject:audio];
         } else {
             [files addObject:[self.word.files objectAtIndex:i]];
         }
     }
     self.word.files = [files copy];
-    self.word.languageTag = self.editingLanguageTag;
-    self.word.name = self.editingName;
-    self.word.detail = self.editingDetail;
     [self.delegate wordDetailController:self didSaveWord:self.word];
 }
 
@@ -216,7 +209,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (IBAction)updateDetail:(UITextField *)sender
 {
-    [self.editingDetail setObject:sender.text forKey:self.editingLanguageTag];
+    self.editingDetail = sender.text;
     [self validate];
 }
 
@@ -390,7 +383,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             self.detailLabel = (UILabel *)[cell viewWithTag:1];
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
             UITextField *textField = (UITextField *)[cell viewWithTag:2];
-            textField.text = [self.editingDetail objectForKey:self.editingLanguageTag];
+            textField.text = self.editingDetail;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
         }
@@ -530,10 +523,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             });
         }
     } onFailure:^(NSError *error){
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.hud.delegate = self;
-        self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-        [self.hud hide:YES];
+        [NetworkManager hudFlashError:error];
     }];
 }
 

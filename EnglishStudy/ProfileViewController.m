@@ -206,19 +206,7 @@
          [self.navigationController popViewControllerAnimated:YES];
      } onFailure:^(NSError *error)
      {
-         [self.hud hide:YES];
-         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-         self.hud.delegate = self;
-         self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-         UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-         view.text = error.localizedDescription;
-         view.font = self.hud.labelFont;
-         view.textColor = [UIColor whiteColor];
-         view.backgroundColor = [UIColor clearColor];
-         [view sizeToFit];
-         self.hud.customView = view;
-         self.hud.mode = MBProgressHUDModeCustomView;
-         [self.hud hide:YES afterDelay:1.5];
+         [NetworkManager hudFlashError:error];
      }];
 }
 

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class Word;
+
 @interface Lesson : NSObject <NSCopying>
 @property (strong, nonatomic) NSNumber *lessonID;
 @property (strong, nonatomic) NSString *lessonCode;
@@ -33,6 +35,7 @@
 - (void)removeStaleFiles;
 - (NSArray *)listOfMissingFiles; // return: [{"word":Word *,"audio":Audio *},...]
 - (NSNumber *)portionComplete;
+- (Word *)wordWithCode:(NSString *)wordCode;
 
 - (BOOL)isOlderThanServer;
 - (BOOL)isNewerThanServer;

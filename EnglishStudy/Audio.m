@@ -11,11 +11,34 @@
 @implementation Audio
 @synthesize fileID = _fileID;
 @synthesize fileCode = _fileCode;
-@synthesize filePath = _filePath;
+
++ (NSString *)makeUUID
+{
+    CFUUIDRef theUUID = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+    CFRelease(theUUID);
+    return (__bridge_transfer NSString *)string;
+}
+
+- (NSString *)fileCode
+{
+    if (!_fileCode)
+        _fileCode = [Audio makeUUID];
+    return _fileCode;
+}
+
+- (NSString *)filePath
+{
+    if (self.fileID.intValue)
+        return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [self.fileID integerValue]]];
+    else
+        return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.fileCode]];
+}
 
 - (BOOL)fileExistsOnDisk
 {
-    return self.filePath;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    return [fileManager fileExistsAtPath:self.filePath];
 }
 
 @end

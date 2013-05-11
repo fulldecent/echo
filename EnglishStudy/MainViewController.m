@@ -73,7 +73,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
      }
                                onFailure:^
      (NSError *error) {
-                                   
+         [self.refreshControl endRefreshing];
+         [NetworkManager hudFlashError:error];
      }];
 }
 
@@ -547,7 +548,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          }
                                          onFailure:^(NSError *error)
          {
-             
+             [NetworkManager hudFlashError:error];
          }];
     } else if (buttonIndex == 1) { // Keep sharing
         [self.lessonSet deleteLesson:lesson];
@@ -578,6 +579,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
     }];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - WordDetailControllerDelegate
@@ -608,7 +610,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          }
      } onFailure:^(NSError *error)
      {
-         
+         [NetworkManager hudFlashError:error];
      }];
 }
 
