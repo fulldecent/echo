@@ -18,4 +18,5 @@
 
 @interface TranslateLessonViewController : UITableViewController
 @property (weak, nonatomic) id<TranslateLessonDataSource> datasource;
+- (IBAction)save:(id)sender;
 @end

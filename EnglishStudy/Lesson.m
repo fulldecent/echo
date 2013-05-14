@@ -336,7 +336,7 @@
 - (BOOL)isEditable
 {
     Profile *me = [Profile currentUserProfile];
-    return self.userID == me.userID;
+    return me.userID && [self.userID isEqualToNumber:me.userID];
 }
 
 - (BOOL)isShared

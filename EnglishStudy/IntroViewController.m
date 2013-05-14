@@ -40,36 +40,15 @@
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
     
-    [me syncOnlineOnSuccess:^
+    [me syncOnlineOnSuccess:^(NSArray *recommendedLessons)
      {
-         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-         NSArray *recommendedLessons = networkManager.recommendedLessons;
-         NSLog(@"%@", recommendedLessons);
-         
-         for (NSString *lessonJSON in recommendedLessons) {
-             NSData *data = [lessonJSON dataUsingEncoding:NSUTF8StringEncoding];
-             NSDictionary *packed = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-             
-             Lesson *lesson = [[Lesson alloc] init];
-             lesson.lessonID = [packed objectForKey:@"lessonID"];
-             lesson.languageTag = [packed objectForKey:@"languageTag"];
-             lesson.name = [packed objectForKey:@"name"];
-             lesson.detail = [packed objectForKey:@"detail"];
-             lesson.userID = [packed objectForKey:@"userID"];
-             lesson.userName = [packed objectForKey:@"userName"];
-             lesson.serverVersion = [packed objectForKey:@"updated"];
-             if ([[packed objectForKey:@"lessonCode"] length])
-                 lesson.lessonCode = [packed objectForKey:@"lessonCode"];
-             else
-                 lesson.lessonCode = [NSString string];
-
+         for (Lesson *lesson in recommendedLessons)
              [self.delegate downloadLessonViewController:self gotStubLesson:lesson];
-         }         
-         
          [self.hud hide:YES];
          [me syncToDisk];
-         [self dismissViewControllerAnimated:YES completion:nil];
+         [self.navigationController popViewControllerAnimated:YES];
      } onFailure:^(NSError *error) {
+         [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
 }

@@ -190,22 +190,15 @@
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
     
-    [me syncOnlineOnSuccess:^
+    [me syncOnlineOnSuccess:^(NSArray *recommendedLessons)
      {
-         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-         NSArray *recommendedLessons = networkManager.recommendedLessons;
-         NSLog(@"got recommended lessons %@", recommendedLessons);
-         
-         for (NSString *lessonJSON in recommendedLessons) {
-             Lesson *recommendedLessonStub = [Lesson lessonWithJSON:[lessonJSON dataUsingEncoding:NSUTF8StringEncoding]];
-             [self.delegate downloadLessonViewController:self gotStubLesson:recommendedLessonStub];
-         }
-         
+         for (Lesson *lesson in recommendedLessons) 
+             [self.delegate downloadLessonViewController:self gotStubLesson:lesson];
          [self.hud hide:YES];
          [me syncToDisk];
          [self.navigationController popViewControllerAnimated:YES];
-     } onFailure:^(NSError *error)
-     {
+     } onFailure:^(NSError *error) {
+         [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
 }

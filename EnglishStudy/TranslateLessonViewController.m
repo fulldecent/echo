@@ -46,8 +46,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)save
+- (IBAction)save:(id)sender
 {
+    [self.datasource translateLessonView:self didTranslate:self.originalLesson into:self.translatedLesson withLanguageTag:self.translatedLesson.languageTag];
 }
 
 #pragma mark - Table view data source
@@ -102,7 +103,7 @@
     if (indexPath.section == 0 && indexPath.row == 1)
         self.translatedLesson.name = sender.text;
     else if (indexPath.section == 0 && indexPath.row == 2)
-        [self.translatedLesson.detail setValue:sender.text forKey:self.translatedLesson.languageTag];
+        self.translatedLesson.detail = sender.text;
     else
         [(Word *)[self.translatedLesson.words objectAtIndex:indexPath.row] setName:sender.text];
     if (sender.text.length)
@@ -116,7 +117,7 @@
     BOOL valid = YES;
     if (!self.translatedLesson.name.length)
         valid = NO;
-    if (!self.translatedLesson.detail)
+    if (!self.translatedLesson.detail.length)
         valid = NO;
     for (Word *word in self.translatedLesson.words)
         if (!word.name.length)

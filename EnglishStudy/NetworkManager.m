@@ -12,6 +12,7 @@
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
 #import "Audio.h"
+#import "NSData+Base64.h" // from some submodule
 
 #define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0/"
 
@@ -109,7 +110,20 @@
                  onSuccess:(void(^)())successBlock
                  onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativePath =[NSString stringWithFormat:@"lessons/%d", lessonID.intValue];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"DELETE" path:relativePath parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock();
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)getLessonWithID:(NSNumber *)lessonID asPreviewOnly:(BOOL)preview
@@ -188,10 +202,27 @@
 }
 
 - (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)lessonID
-             onSuccess:(void(^)())successBlock
+             onSuccess:(void(^)(NSNumber *translationLessonID, NSNumber *translationVersion))successBlock
              onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativePath = [NSString stringWithFormat:@"lessons/%d/translations/%@",
+                              lessonID.intValue,
+                              langTag];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"PUT" path:relativePath parameters:nil];
+    request.HTTPBody = [translation JSON];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock([JSON objectForKey:@"lessonID"],
+                                                           [JSON objectForKey:@"updated"]);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)putAudioFileAtPath:(NSString *)filePath forLesson:(Lesson *)lesson withWord:(Word *)word usingCode:(NSString *)code
@@ -208,10 +239,45 @@
 }
 
 - (void)postUserProfile:(Profile *)profile
-              onSuccess:(void(^)())successBlock
+              onSuccess:(void(^)(NSString *username, NSNumber *userID, NSArray *recommendedLessons))successBlock
               onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    Profile *me = [Profile currentUserProfile];
+    NSMutableDictionary *requestData = [[NSMutableDictionary alloc] init];
+    [requestData setObject:me.username forKey:@"username"];
+    [requestData setObject:me.usercode forKey:@"userCode"];
+    if (me.learningLanguageTag)
+        [requestData setObject:me.learningLanguageTag forKey:@"learningLanguageTag"];
+    if (me.nativeLanguageTag)
+        [requestData setObject:me.nativeLanguageTag forKey:@"nativeLanguageTag"];
+    if (me.location)
+        [requestData setObject:me.location forKey:@"location"];
+    if (me.deviceToken)
+        [requestData setObject:me.deviceToken forKey:@"deviceToken"];
+    if (me.photo) {
+        UIImage *thumbnail = [NetworkManager imageWithImage:me.photo scaledToSizeWithSameAspectRatio:CGSizeMake(100, 100)];
+        NSData *JPEGdata = UIImageJPEGRepresentation(thumbnail, 0.8);
+        [requestData setObject:[JPEGdata base64EncodedString] forKey:@"photo"];
+    }
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:@"users/" parameters:nil];
+    NSData *requestDataJSON = [NSJSONSerialization dataWithJSONObject:requestData options:0 error:nil];
+    request.HTTPBody = requestDataJSON;
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+     {
+         NSString *username = [(NSDictionary *)JSON objectForKey:@"username"];
+         NSNumber *userID = [(NSDictionary *)JSON objectForKey:@"userID"];
+         NSMutableArray *recommendedLessons = [[NSMutableArray alloc] init];
+         for (id lessonJSONDecoded in [(NSDictionary *)JSON objectForKey:@"recommendedLessons"]) {
+             NSData *lessonJSON = [NSJSONSerialization dataWithJSONObject:lessonJSONDecoded options:0 error:nil];
+             [recommendedLessons addObject:[Lesson lessonWithJSON:lessonJSON]];
+         }
+         if (successBlock)
+             successBlock(username, userID, recommendedLessons);
+     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+         if (failureBlock)
+             failureBlock(error);
+     }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessonID messagesSinceID:(NSNumber *)messageID
@@ -260,21 +326,62 @@
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/me/likesLessons/%d", lesson.lessonID.intValue];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"PUT" path:relativeRequestPath parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock();
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)doUnlikeLesson:(Lesson *)lesson
              onSuccess:(void(^)())successBlock
              onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/me/likesLessons/%d", lesson.lessonID.intValue];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"DELETE" path:relativeRequestPath parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock();
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)doFlagLesson:(Lesson *)lesson withReason:(enum NetworkManagerFlagReason)flagReason
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"users/me/flagsLessons/%d", lesson.lessonID.intValue];
+    NSString *flagString = [NSString stringWithFormat:@"%d", flagReason];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"PUT" path:relativeRequestPath parameters:nil];
+    request.HTTPBody = [flagString dataUsingEncoding:NSUTF8StringEncoding];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock();
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)getWordWithID:(NSNumber *)wordID
@@ -316,7 +423,21 @@
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSString *relativeRequestPath = [NSString stringWithFormat:@"events/feedbackLesson/%d/", lessonID.intValue];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"POST" path:relativeRequestPath parameters:nil];
+    request.HTTPBody = [feedback dataUsingEncoding:NSUTF8StringEncoding];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock();
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 ////////////////////////////////////////////////

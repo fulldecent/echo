@@ -866,7 +866,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="ILf-s9-9nh">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="j8k-cA-0dx"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="j8k-cA-0dx">
+                            <connections>
+                                <action selector="save:" destination="ptW-40-0t4" id="dyC-kL-Qan"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6zi-oF-LZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2225,6 +2229,9 @@
         </class>
         <class className="TranslateLessonViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TranslateLessonViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+            </relationships>
         </class>
         <class className="UIGlossyButton" superclassName="UIButton">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UIGlossyButton.h"/>
@@ -2268,8 +2275,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="kuh-V1-luU"/>
         <segue reference="1s3-fI-s44"/>
-        <segue reference="jUY-ww-Eh5"/>
+        <segue reference="kuh-V1-luU"/>
+        <segue reference="FBg-62-yCI"/>
     </inferredMetricsTieBreakers>
 </document>

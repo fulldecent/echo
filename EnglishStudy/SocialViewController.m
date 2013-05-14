@@ -26,7 +26,7 @@
 @synthesize hud = _hud;
 @synthesize actionSheet = _actionSheet;
 
-#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/1.0"
+#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0"
 
 - (void)loadPage
 {

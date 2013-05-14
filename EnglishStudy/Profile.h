@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSString *deviceToken;
 
 + (Profile *)currentUserProfile;
-- (void)syncOnlineOnSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
+- (void)syncOnlineOnSuccess:(void(^)(NSArray *recommendedLessons))success onFailure:(void(^)(NSError *error))failure;
 - (void)syncToDisk;
 - (NSNumber *)profileCompleteness;
 @end

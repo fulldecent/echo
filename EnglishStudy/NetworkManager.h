@@ -43,8 +43,8 @@ onFailure:(void(^)(NSError *error))failureBlock;
          onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)id
-onSuccess:(void(^)())successBlock
-onFailure:(void(^)(NSError *error))failureBlock;
+             onSuccess:(void(^)(NSNumber *translationLessonID, NSNumber *translationVersion))successBlock
+             onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)putAudioFileAtPath:(NSString *)filePath forLesson:(Lesson *)lesson withWord:(Word *)word usingCode:(NSString *)code
               withProgress:(void(^)(NSNumber *progress))progressBlock
@@ -53,7 +53,7 @@ onFailure:(void(^)(NSError *error))failureBlock;
 - (NSURL *)photoURLForUserWithID:(NSNumber *)userID;
 
 - (void)postUserProfile:(Profile *)profile
-              onSuccess:(void(^)())successBlock
+              onSuccess:(void(^)(NSString *username, NSNumber *userID, NSArray *recommendedLessons))successBlock
               onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)getUpdatesForLessons:(NSArray *)lessons newLessonsSinceID:(NSNumber *)lessonID messagesSinceID:(NSNumber *)messageID

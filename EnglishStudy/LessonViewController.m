@@ -75,22 +75,28 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
         [networkManager doUnlikeLesson:self.lesson onSuccess:^
          {
              self.lesson.submittedLikeVote = nil;
+             self.hud.mode = MBProgressHUDModeDeterminate;
+             self.hud.progress = 1;
              [self.hud hide:YES];
              [self.delegate lessonView:self didSaveLesson:self.lesson];
              [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
          } onFailure:^(NSError *error)
          {
+             [self.hud hide:NO];
              [NetworkManager hudFlashError:error];
          }];
     } else {
         [networkManager doLikeLesson:self.lesson onSuccess:^
          {
              self.lesson.submittedLikeVote = [NSNumber numberWithBool:YES];
+             self.hud.mode = MBProgressHUDModeDeterminate;
+             self.hud.progress = 1;
              [self.hud hide:YES];
              [self.delegate lessonView:self didSaveLesson:self.lesson];
              [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
          } onFailure:^(NSError *error)
          {
+             [self.hud hide:NO];
              [NetworkManager hudFlashError:error];
          }];
     }
@@ -562,11 +568,14 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager doFlagLesson:self.lesson withReason:buttonIndex onSuccess:^
      {
+         self.hud.mode = MBProgressHUDModeDeterminate;
+         self.hud.progress = 1;
          [self.hud hide:YES];
          [self.delegate lessonView:self wantsToDeleteLesson:self.lesson];
          [self.navigationController popViewControllerAnimated:YES];
      } onFailure:^(NSError *error)
      {
+         [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
 }
@@ -585,8 +594,11 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
         [networkManager postFeedback:message toAuthorOfLessonWithID:self.lesson.lessonID
                            onSuccess:^
          {
+             self.hud.mode = MBProgressHUDModeDeterminate;
+             self.hud.progress = 1;
              [self.hud hide:YES];
          } onFailure:^(NSError *error) {
+             [self.hud hide:YES];
              [NetworkManager hudFlashError:error];
          }];
     };
@@ -608,11 +620,27 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     return self.lesson;
 }
 
-#pragma mark - TranslateLessonDelegate
-
 - (void)translateLessonView:(TranslateLessonViewController *)controller didTranslate:(Lesson *)lesson into:(Lesson *)newLesson withLanguageTag:(NSString *)tag
 {
-//TODO
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.labelText = @"Sending...";
+    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+    [networkManager putTranslation:newLesson asLangTag:tag versionOfLessonWithID:lesson.lessonID onSuccess:^(NSNumber *translationLessonID, NSNumber *translationVersion)
+     {
+         self.hud.mode = MBProgressHUDModeDeterminate;
+         self.hud.progress = 1;
+         [self.hud hide:YES];
+         newLesson.version = newLesson.serverVersion = translationVersion;
+         newLesson.lessonID = translationLessonID;
+         NSMutableDictionary *translations = [lesson.translations mutableCopy];
+         [translations setObject:newLesson forKey:tag];
+         lesson.translations = translations;
+         [self.navigationController popToViewController:self animated:YES];
+     } onFailure:^(NSError *error) {
+         [self.hud hide:NO];
+         [NetworkManager hudFlashError:error];
+     }];
 }
 
 @end

@@ -36,6 +36,7 @@
         userProfile = [NSMutableDictionary dictionary];
     sharedInstance.username = [userProfile objectForKey:@"username"];
     sharedInstance.usercode = [userProfile objectForKey:@"usercode"];
+    sharedInstance.userID = [userProfile objectForKey:@"userID"];
     if (!sharedInstance.usercode) { // deprecate 1.0.8, clean up backwards compatible
         sharedInstance.usercode = [defaults objectForKey:@"userGUID"];
         needToSync = YES;
@@ -60,11 +61,21 @@
     return sharedInstance;
 }
 
-- (void)syncOnlineOnSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure
+- (void)syncOnlineOnSuccess:(void(^)(NSArray *recommendedLessons))success onFailure:(void(^)(NSError *error))failure
 {
     NSAssert(self.usercode, @"Can only sync current user's profile");
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager postUserProfile:self onSuccess:success onFailure:failure];
+    [networkManager postUserProfile:self onSuccess:^(NSString *username, NSNumber *userID, NSArray *recommendedLessons)
+     {
+         self.username = username;
+         self.userID = userID;
+         [self syncToDisk];
+         if (success)
+             success(recommendedLessons);
+     } onFailure:^(NSError *error) {
+         if (failure)
+             failure(error);
+     }];
 }
 
 - (void)syncToDisk{
@@ -81,6 +92,8 @@
         [userProfile setObject:self.location forKey:@"location"];
     if (self.photo)
         [userProfile setObject:UIImagePNGRepresentation(self.photo) forKey:@"photo"];
+    if (self.userID)
+        [userProfile setObject:self.userID forKey:@"userID"];
     if (self.deviceToken)
         [userProfile setObject:self.deviceToken forKey:@"deviceToken"];
     [defaults setObject:userProfile forKey:@"userProfile"];
