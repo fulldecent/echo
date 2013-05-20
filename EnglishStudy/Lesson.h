@@ -29,17 +29,21 @@
 @property (strong, nonatomic) NSNumber *submittedLikeVote; // (BOOL)
 @property (readonly, strong, nonatomic) NSString *filePath;
 
-+ (Lesson *)lessonWithJSON:(NSData *)data;
-- (NSData *)JSON;
 - (void)setToLesson:(Lesson *)lesson;
 - (void)removeStaleFiles;
 - (NSArray *)listOfMissingFiles; // return: [{"word":Word *,"audio":Audio *},...]
 - (NSNumber *)portionComplete;
 - (Word *)wordWithCode:(NSString *)wordCode;
+- (Word *)wordWithCode:(NSString *)wordCode translatedTo:(NSString *)langTag;
 
 - (BOOL)isOlderThanServer;
 - (BOOL)isNewerThanServer;
-- (BOOL)isEditable;
+- (BOOL)isByCurrentUser;
 - (BOOL)isShared;
+
++ (Lesson *)lessonWithDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)toDictionary;
++ (Lesson *)lessonWithJSON:(NSData *)data;
+- (NSData *)JSON;
 
 @end

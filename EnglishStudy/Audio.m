@@ -40,5 +40,4 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     return [fileManager fileExistsAtPath:self.filePath];
 }
-
 @end

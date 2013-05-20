@@ -50,7 +50,7 @@
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
-        if (lesson.isEditable && !lesson.isShared)
+        if (![lesson.version intValue])
             continue; // local only, no need to compare to server
         else if (lesson.isNewerThanServer || lesson.isOlderThanServer) {
             [staleLessons addObject:lesson];
@@ -135,7 +135,7 @@
 {
     NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
-        if (lesson.isEditable && !lesson.isShared)
+        if (![lesson.version integerValue])
             continue; // local only, no need to compare to server
         else if (lesson.isNewerThanServer || lesson.isOlderThanServer)
             [staleLessons addObject:lesson];

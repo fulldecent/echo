@@ -111,6 +111,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.section == 0 && indexPath.row != 0) {
         [[[self.tableView cellForRowAtIndexPath:indexPath] viewWithTag:2] becomeFirstResponder];
     }
@@ -118,6 +119,7 @@
     if (indexPath.section == 0 && indexPath.row == 0) {
         [self performSegueWithIdentifier:@"language" sender:self];
     }
+    
 }
 
 #pragma mark - UIViewController

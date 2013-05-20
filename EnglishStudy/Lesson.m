@@ -41,6 +41,7 @@
 #define kSubmittedLikeVote @"submittedLikeVote"
 #define kLikes @"likes"
 #define kFlags @"flags"
+#define kTranslations @"translations"
 
 #define kWordID @"wordID"
 #define kWordCode @"wordCode"
@@ -72,156 +73,6 @@
     if (!_words)
         _words = [NSArray array];
     return _words;
-}
-
-+ (Lesson *)lessonWithJSON:(NSData *)data
-{
-    NSError *error = nil;
-    NSDictionary *packed = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    
-    Lesson *retval = [[Lesson alloc] init];
-    if ([packed objectForKey:kLessonID])
-        retval.lessonID = [packed objectForKey:kLessonID];
-    if ([packed objectForKey:kLessonCode])
-        retval.lessonCode = [packed objectForKey:kLessonCode];
-    else
-        retval.lessonCode = [NSString string];
-    if ([packed objectForKey:kLanguageTag])
-        retval.languageTag = [packed objectForKey:kLanguageTag];
-    if ([packed objectForKey:kName])
-        retval.name = [packed objectForKey:kName];
-    if ([packed objectForKey:kDetail]) {
-        if ([[packed objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) {
-            if ([(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag])
-                retval.detail = [(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag];
-        } else
-            retval.detail = [packed objectForKey:kDetail];
-    }
-    if ([packed objectForKey:kVersion])
-        retval.version = [packed objectForKey:kVersion];
-    if ([packed objectForKey:kServerVersion])
-        retval.serverVersion = [packed objectForKey:kServerVersion];
-    if ([packed objectForKey:kUpdated])
-        retval.serverVersion = [packed objectForKey:kUpdated];
-    if ([packed objectForKey:kUserID])
-        retval.userID = [packed objectForKey:kUserID];
-    if ([packed objectForKey:kUserName])
-        retval.userName = [packed objectForKey:kUserName];
-    if ([packed objectForKey:kSubmittedLikeVote])
-        retval.submittedLikeVote = [packed objectForKey:kSubmittedLikeVote];
-    if ([packed objectForKey:kLikes])
-        retval.numLikes = [packed objectForKey:kLikes];
-    if ([packed objectForKey:kFlags])
-        retval.numFlags = [packed objectForKey:kFlags];
-    NSMutableArray *words = [[NSMutableArray alloc] init];
-    
-    if ([retval.words isKindOfClass:[NSArray class]]) {
-        for (id packedWord in [packed objectForKey:kWords]) {
-            Word *newWord = [[Word alloc] init];
-            newWord.lesson = retval;
-            newWord.wordID = [packedWord objectForKey:kWordID];
-            if ([packedWord objectForKey:kWordCode])
-                newWord.wordCode = [packedWord objectForKey:kWordCode];
-            else
-                newWord.wordCode = [NSString string];
-            newWord.languageTag = [packedWord objectForKey:kLanguageTag];
-            newWord.name = [packedWord objectForKey:kName];
-            if ([packedWord objectForKey:kDetail]) {
-                if ([[packedWord objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) {
-                    if ([(NSDictionary *)[packedWord objectForKey:kDetail] objectForKey:retval.languageTag])
-                        newWord.detail = [(NSDictionary *)[packedWord objectForKey:kDetail] objectForKey:retval.languageTag];
-                } else
-                    newWord.detail = [packedWord objectForKey:kDetail];
-            }
-            newWord.userID = [packedWord objectForKey:kUserID];
-            newWord.userName = [packedWord objectForKey:kUserName];
-            newWord.completed = [packedWord objectForKey:kCompleted];
-            
-            NSMutableArray *newFiles = [[NSMutableArray alloc] init];
-            for (id packedFile in [packedWord objectForKey:kFiles]) {
-                Audio *file = [[Audio alloc] init];
-                file.word = newWord;
-                if ([packedFile isKindOfClass:[NSString class]]) // backwards compatability
-                    file.fileCode = packedFile;
-                else if ([packedFile isKindOfClass:[NSNumber class]]) // backwards compatability
-                    file.fileID = [NSString stringWithFormat:@"%d", [(NSNumber *)packedFile integerValue]];
-                else if ([packedFile isKindOfClass:[NSDictionary class]]) {
-                    file.fileID = [packedFile objectForKey:@"fileID"];
-                    file.fileCode = [packedFile objectForKey:@"fileCode"];
-                } else
-                    NSLog(@"Malformed word file %@ with class %@", file, [file class]);
-                [newFiles addObject:file];
-            }
-            newWord.files = newFiles;
-            [words addObject:newWord];
-        }
-    }
-    retval.words = words;
-
-    return retval;
-}
-
--(NSData *)JSON 
-{
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    
-    if (self.lessonID)
-        [dict setObject:self.lessonID forKey:kLessonID];
-    if (self.lessonCode)
-        [dict setObject:self.lessonCode forKey:kLessonCode];
-    if (self.languageTag)
-        [dict setObject:self.languageTag forKey:kLanguageTag];
-    if (self.name)
-        [dict setObject:self.name forKey:kName];
-    if (self.detail)
-        [dict setObject:self.detail forKey:kDetail];
-    if (self.version)
-        [dict setObject:self.version forKey:kVersion];
-    if (self.serverVersion)
-        [dict setObject:self.serverVersion forKey:kServerVersion];
-    if (self.userID)
-        [dict setObject:self.userID forKey:kUserID];
-    if (self.userName)
-        [dict setObject:self.userName forKey:kUserName];
-    if (self.submittedLikeVote && [self.submittedLikeVote boolValue])
-        [dict setObject:self.submittedLikeVote forKey:kSubmittedLikeVote];
-    
-    NSMutableArray *words = [[NSMutableArray alloc] init];
-    for (Word *word in self.words) {
-        NSMutableDictionary *wordDict = [[NSMutableDictionary alloc] init];
-        if (word.wordID)
-            [wordDict setObject:word.wordID forKey:kWordID];
-        if (word.wordCode)
-            [wordDict setObject:word.wordCode forKey:kWordCode];
-        if (word.languageTag)
-            [wordDict setObject:word.languageTag forKey:kLanguageTag];
-        if (word.name)
-            [wordDict setObject:word.name forKey:kName];
-        if (word.detail)
-            [wordDict setObject:word.detail forKey:kDetail];
-        if (word.userName)
-            [wordDict setObject:word.userName forKey:kUserName];
-        if (word.userID)
-            [wordDict setObject:word.userID forKey:kUserID];
-        NSMutableArray *files = [[NSMutableArray alloc] init];
-        for (Audio *file in word.files) {
-            NSMutableDictionary *fileDict = [[NSMutableDictionary alloc] init];
-            if (file.fileID)
-                [fileDict setObject:file.fileID forKey:kFileID];
-            if (file.fileCode)
-                [fileDict setObject:file.fileCode forKey:kFileCode];
-            [files addObject:fileDict];
-        }
-        [wordDict setObject:files forKey:kFiles];
-        if (word.completed && word.completed.boolValue)
-            [wordDict setObject:word.completed forKey:kCompleted];
-        [words addObject:wordDict];
-    }
-    
-    [dict setObject:words forKey:kWords];
-
-    NSError *error = nil;
-    return [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
 }
 
 - (NSString *)filePath
@@ -263,6 +114,8 @@
     for (Word *word in lesson.words) {
         word.lesson = self;
     }
+    if (lesson.translations)
+        self.translations = lesson.translations;
 }
 
 - (void)removeStaleFiles
@@ -333,7 +186,7 @@
     return [self.lessonCode length] > 0 || [self.version integerValue] > 0;
 }
 
-- (BOOL)isEditable
+- (BOOL)isByCurrentUser
 {
     Profile *me = [Profile currentUserProfile];
     return me.userID && [self.userID isEqualToNumber:me.userID];
@@ -341,7 +194,7 @@
 
 - (BOOL)isShared
 {
-    return ([self.lessonID integerValue] > 0 && [self.lessonCode length] > 0) || [self.name isEqualToString:@"PRACTICE"];
+    return [self.lessonID integerValue] || [self.version integerValue];
 }
 
 - (NSNumber *)portionComplete
@@ -359,6 +212,12 @@
         if ([word.wordCode isEqualToString:wordCode])
             return word;
     return nil;
+}
+
+- (Word *)wordWithCode:(NSString *)wordCode translatedTo:(NSString *)langTag
+{
+    Lesson *translation = [self.translations objectForKey:langTag];
+    return [translation wordWithCode:wordCode];    
 }
 
 #pragma mark - NSCopying
@@ -384,5 +243,116 @@
 -(NSString *) description {
     return [NSString stringWithFormat:@"ID: %d; code: %@; name: %@", [self.lessonID integerValue], self.lessonCode, self.name];
 }
+
++ (Lesson *)lessonWithDictionary:(NSDictionary *)packed
+{
+    Lesson *retval = [[Lesson alloc] init];
+    if ([packed objectForKey:kLessonID])
+        retval.lessonID = [packed objectForKey:kLessonID];
+    if ([packed objectForKey:kLessonCode])
+        retval.lessonCode = [packed objectForKey:kLessonCode];
+    else
+        retval.lessonCode = [NSString string];
+    if ([packed objectForKey:kLanguageTag])
+        retval.languageTag = [packed objectForKey:kLanguageTag];
+    if ([packed objectForKey:kName])
+        retval.name = [packed objectForKey:kName];
+    if ([packed objectForKey:kDetail]) {
+        // Backwards compatibility from version <= 1.0.9
+        if ([[packed objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) {
+            if ([(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag])
+                retval.detail = [(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag];
+        } else
+            retval.detail = [packed objectForKey:kDetail];
+    }
+    if ([packed objectForKey:kVersion])
+        retval.version = [packed objectForKey:kVersion];
+    if ([packed objectForKey:kServerVersion])
+        retval.serverVersion = [packed objectForKey:kServerVersion];
+    if ([packed objectForKey:kUpdated])
+        retval.serverVersion = [packed objectForKey:kUpdated];
+    if ([packed objectForKey:kUserID])
+        retval.userID = [packed objectForKey:kUserID];
+    if ([packed objectForKey:kUserName])
+        retval.userName = [packed objectForKey:kUserName];
+    if ([packed objectForKey:kSubmittedLikeVote])
+        retval.submittedLikeVote = [packed objectForKey:kSubmittedLikeVote];
+    if ([packed objectForKey:kLikes])
+        retval.numLikes = [packed objectForKey:kLikes];
+    if ([packed objectForKey:kFlags])
+        retval.numFlags = [packed objectForKey:kFlags];
+    NSMutableArray *words = [[NSMutableArray alloc] init];
+    if ([[packed objectForKey:kWords] isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *packedWord in [packed objectForKey:kWords]) {
+            Word *newWord = [Word wordWithDictionary:packedWord];
+            newWord.lesson = retval;
+            [words addObject:newWord];
+        }
+    }
+    retval.words = words;
+    NSMutableDictionary *translatedLessons = [[NSMutableDictionary alloc] init];
+    if ([[packed objectForKey:kTranslations] isKindOfClass:[NSDictionary class]]) {
+        for (NSString *langTag in [packed objectForKey:kTranslations]) {
+            NSDictionary *packedTranslation = [[packed objectForKey:kTranslations] objectForKey:langTag];
+            Lesson *newTranslation = [Lesson lessonWithDictionary:packedTranslation];
+            [translatedLessons setObject:newTranslation forKey:langTag];
+        }
+    }
+    retval.translations = translatedLessons;
+    return retval;
+}
+
+- (NSDictionary *)toDictionary
+{
+    NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
+    if (self.lessonID)
+        [retval setObject:self.lessonID forKey:kLessonID];
+    if (self.lessonCode)
+        [retval setObject:self.lessonCode forKey:kLessonCode];
+    if (self.languageTag)
+        [retval setObject:self.languageTag forKey:kLanguageTag];
+    if (self.name)
+        [retval setObject:self.name forKey:kName];
+    if (self.detail)
+        [retval setObject:self.detail forKey:kDetail];
+    if (self.version)
+        [retval setObject:self.version forKey:kVersion];
+    if (self.serverVersion)
+        [retval setObject:self.serverVersion forKey:kServerVersion];
+    if (self.userID)
+        [retval setObject:self.userID forKey:kUserID];
+    if (self.userName)
+        [retval setObject:self.userName forKey:kUserName];
+    if (self.submittedLikeVote && [self.submittedLikeVote boolValue])
+        [retval setObject:self.submittedLikeVote forKey:kSubmittedLikeVote];
+    NSMutableArray *packedWords = [[NSMutableArray alloc] init];
+    for (Word *word in self.words) {
+        NSDictionary *packedWord = [word toDictionary];
+        [packedWords addObject:packedWord];
+    }
+    [retval setObject:packedWords forKey:kWords];
+    if (self.translations.count) {
+        NSMutableDictionary *packedTranslations = [[NSMutableDictionary alloc] init];
+        for (NSString *langTag in self.translations) {
+            Lesson *translation = [self.translations objectForKey:langTag];
+            NSDictionary *packedTranslation = [translation toDictionary];
+            [packedTranslations setObject:packedTranslation forKey:langTag];
+        }
+        [retval setObject:packedTranslations forKey:kTranslations];
+    }
+    return retval;
+}
+
++ (Lesson *)lessonWithJSON:(NSData *)data
+{
+    NSDictionary *packed = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return [Lesson lessonWithDictionary:packed];
+}
+
+- (NSData *)JSON
+{
+    return [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:nil];
+}
+
 
 @end

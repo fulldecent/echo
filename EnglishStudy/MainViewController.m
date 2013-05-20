@@ -137,7 +137,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                     return CellLessonDownload;
                 else if ([self.lessonSet transferProgressForLesson:lesson])
                     return CellLessonUpload;
-                else if (lesson.isEditable)
+                else if (lesson.isByCurrentUser)
                     return CellLessonEditable;
                 else
                     return CellLesson;
@@ -282,7 +282,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             [(UIProgressView *)[cell viewWithTag:3] setProgress:[lesson.portionComplete floatValue]];
             [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)([lesson.portionComplete floatValue]*100)]];
             [(UIButton *)[cell viewWithTag:6] setHidden:(lesson.portionComplete.floatValue > 0)];
-            
+            if (me.nativeLanguageTag) {
+                Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
+                if (translatedLesson.name)
+                    [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.detail];
+            }
             return cell;
         case CellLessonEditable:
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonEditable"];
@@ -303,6 +307,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
             [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
             //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
+            if (me.nativeLanguageTag) {
+                Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
+                if (translatedLesson.name)
+                    [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.detail];
+            }
             return cell;
         }
         case CellLessonUpload: {
@@ -313,6 +322,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
             [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
             //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
+            if (me.nativeLanguageTag) {
+                Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
+                if (translatedLesson.name)
+                    [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.detail];
+            }
             return cell;
         }
         case CellDownloadLesson:
@@ -460,7 +474,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.currentLesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-    if (self.currentLesson.isEditable && self.currentLesson.isShared) {
+    if (self.currentLesson.isByCurrentUser && self.currentLesson.isShared) {
         NSString *title = @"You are deleting this lesson from your device. Would you like to continue sharing online?";
         UIActionSheet *confirmDeleteLesson = [[UIActionSheet alloc] initWithTitle:title
                                                                          delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Stop sharing online", @"Keep sharing online", nil];
@@ -487,6 +501,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             Profile *me = [Profile currentUserProfile];
             Lesson *lesson = [[Lesson alloc] init];
             lesson.languageTag = me.nativeLanguageTag;
+            lesson.userID = me.userID;
+            lesson.userName = me.username;
             controller.lesson = lesson;
         } else
             controller.lesson = self.currentLesson;
@@ -525,6 +541,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
     }];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)lessonView:(LessonViewController *)controller wantsToDeleteLesson:(Lesson *)lesson

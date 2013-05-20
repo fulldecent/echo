@@ -16,7 +16,7 @@
 #import "TranslateLessonViewController.h"
 
 typedef enum {SectionActions, SectionWords, SectionByline, SectionCount} Sections;
-typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction} Cells;
+typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction, CellEditTranslation} Cells;
 
 @interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate, TranslateLessonDataSource>
 @property (nonatomic) int currentWordIndex;
@@ -35,7 +35,6 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 @synthesize hud = _hud;
 @synthesize actionSheet = _actionSheet;
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,20 +47,14 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 //TODO: should be a datasource
 - (void)setLesson:(Lesson *)lesson
 {
-    if ([lesson.lessonCode length]) {
-        NSMutableArray *buttons = [[NSMutableArray alloc] init];
-//        [buttons addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share3"] style:UIBarButtonItemStyleBordered target:self action:@selector(sendToFriendPressed:)]];
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    if (lesson.isByCurrentUser) {
         [buttons addObject:self.editButtonItem];
-        [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendToFriendPressed:)]];
-        self.navigationItem.rightBarButtonItems = buttons;
         if (lesson.words.count == 0)
             self.editing = YES;
-    } else {
-        NSMutableArray *buttons = [[NSMutableArray alloc] init];
-        [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendToFriendPressed:)]];
-        self.navigationItem.rightBarButtonItems = buttons;
-//        self.navigationItem.rightBarButtonItem = nil;
     }
+    [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendToFriendPressed:)]];
+    self.navigationItem.rightBarButtonItems = buttons;
     _lesson = lesson;
 }
 
@@ -135,7 +128,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 }
 
 - (IBAction)messagePressed:(id)sender {    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Send a message to the lesson author"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Send feedback"
                                                         message:nil
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
@@ -145,9 +138,9 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     [alertView show];
 }
 
-- (IBAction)share:(id)sender {
+- (IBAction)sharePressed:(id)sender {
+    self.lesson.version = [NSNumber numberWithInt:1];
     [self.delegate lessonView:self wantsToUploadLesson:self.lesson];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -183,7 +176,8 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 
     if (!self.editingFromSwipe) {
         if (!editing) {
-            self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+            if ([self.lesson.version intValue])
+                self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
             [self.delegate lessonView:self didSaveLesson:self.lesson];
             self.title = self.lesson.name;
         }
@@ -259,12 +253,19 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
     switch (indexPath.section) {
         case SectionActions:
             if (indexPath.row == 0) {
-                if (self.lesson.isEditable)
+                if ([self.lesson isByCurrentUser])
                     return self.lesson.isShared ? CellShared : CellNotShared;
                 else
                     return CellAuthorByline;
             } else {
-                return CellTranslateAction;
+                Profile *me = [Profile currentUserProfile];
+                Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+                if (!translation)
+                    return CellTranslateAction;
+                else if (translation && !translation.isByCurrentUser)
+                    return CellTranslatorByline;
+                else // (translation && translation.isEditable)
+                    return CellEditTranslation;
             }
         case SectionWords:
             if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
@@ -295,9 +296,14 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    Profile *me = [Profile currentUserProfile];
     switch (section) {
         case SectionActions:
-            return (self.editing && !self.editingFromSwipe) ? 0 : 2;
+            if (self.editing && !self.editingFromSwipe)
+                return 0;
+            else if (me.nativeLanguageTag)
+                return 2;
+            else return 1;
         case SectionWords:
             if ([self.lesson.words count] || (self.tableView.editing && !self.editingFromSwipe))
                 return [self.lesson.words count] + 1; // add or shuffle button
@@ -321,28 +327,30 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
             return [tableView dequeueReusableCellWithIdentifier:@"notShared"];
         case CellShared:
             return [tableView dequeueReusableCellWithIdentifier:@"shared"];
-        case CellActions:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"header2online"];
-            if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
-                [(UIGlossyButton *)[cell viewWithTag:3] setTintColor:[UIColor greenColor]];
-            return cell;
         case CellAddWord:
             return [tableView dequeueReusableCellWithIdentifier:@"add"];
         case CellShuffle:
             return [tableView dequeueReusableCellWithIdentifier:@"shuffle"];
-        case CellWord:
+        case CellWord: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             index = (self.tableView.editing && !self.editingFromSwipe) ? indexPath.row : indexPath.row-1;
             word = [self.lesson.words objectAtIndex:index];
             cell.textLabel.text = word.name;
             cell.detailTextLabel.text = word.detail;
-            if (self.lesson.isEditable)
+            if (me.nativeLanguageTag) {
+                Word *translatedWord = [self.lesson wordWithCode:word.wordCode translatedTo:me.nativeLanguageTag];
+                if (translatedWord.name)
+                    cell.detailTextLabel.text = translatedWord.name;
+            }
+
+            if (self.lesson.isByCurrentUser)
                 cell.accessoryType = UITableViewCellAccessoryNone;
             else if ([word.completed boolValue])
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             else
                 cell.accessoryType = UITableViewCellAccessoryNone;
             return cell;
+        }
         case CellAuthorByline: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
             [(UILabel *)[cell viewWithTag:1] setText:self.lesson.userName];
@@ -350,14 +358,27 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
             [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
             if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
                 [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
-            return cell;}
-        case CellTranslateAction: 
+            return cell;
+        }
+        case CellTranslateAction:
             cell = [tableView dequeueReusableCellWithIdentifier:@"translateAction"];
             cell.textLabel.text = [NSString stringWithFormat:@"%@ subtitles", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"Help improve translation"];
             return cell;
-        case CellTranslatorByline: 
-            assert(0);
+        case CellEditTranslation:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"editTranslation"];
+            [(UILabel *)[cell viewWithTag:1] setText:[NSString stringWithFormat:@"You translated this lesson to %@", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]]];
+            return cell;
+        case CellTranslatorByline: {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"translator"];
+            Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+            [(UILabel *)[cell viewWithTag:1] setText:translation.userName];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
+            [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            if (translation.submittedLikeVote && [translation.submittedLikeVote boolValue])
+            [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
+            return cell;
+        }
     }
     assert(0); return 0;
 }
@@ -372,7 +393,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 {
     if (indexPath.section != SectionWords)
         return NO;
-    return self.lesson.isEditable && [self cellTypeForRowAtIndexPath:indexPath] == CellWord;
+    return self.lesson.isByCurrentUser && [self cellTypeForRowAtIndexPath:indexPath] == CellWord;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
@@ -431,13 +452,24 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.editing) return nil;
-    switch ([self cellTypeForRowAtIndexPath:indexPath]) {
-        case CellTranslateAction:
-        case CellWord:
-            return indexPath;
-        default:
-            return nil;
+    if (self.editing) {
+        switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+            case CellAddWord:
+                return indexPath;
+            default:
+                return nil;
+        }
+    } else {
+        switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+            case CellTranslateAction:
+            case CellEditTranslation:
+            case CellWord:
+            case CellShuffle:
+            case CellAddWord:
+                return indexPath;
+            default:
+                return nil;
+        }
     }
 }
 
@@ -462,7 +494,7 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!self.lesson.isEditable)
+    if (!self.lesson.isByCurrentUser)
         return UITableViewCellEditingStyleNone;
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellAddWord:
@@ -522,7 +554,8 @@ typedef enum {CellActions, CellShared, CellNotShared, CellShuffle, CellWord, Cel
         self.lesson.words = [words copy];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+    if ([self.lesson.version intValue])
+        self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonView:self didSaveLesson:self.lesson];
     [controller.navigationController popViewControllerAnimated:YES];
 }

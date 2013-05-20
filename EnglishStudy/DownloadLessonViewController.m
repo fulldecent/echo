@@ -64,6 +64,7 @@
     if (indexPath.row == self.lessons.count)
         return [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
     
+    Profile *me = [Profile currentUserProfile];
     Lesson *lesson = [self.lessons objectAtIndex:indexPath.row];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
@@ -94,6 +95,11 @@
     NSURL *userPhoto = [networkManager photoURLForUserWithID:lesson.userID];
     [(UIImageView *)[cell viewWithTag:9] setImageWithURL:userPhoto placeholderImage:placeholder];
     
+    if (me.nativeLanguageTag) {
+        Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
+        if (translatedLesson.name)
+            [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.name];
+    }
     return cell;
 }
 

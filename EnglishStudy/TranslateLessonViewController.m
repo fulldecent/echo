@@ -12,6 +12,7 @@
 #import "Languages.h"
 #import "Word.h"
 #import "NetworkManager.h"
+#import "Lesson.h"
 
 @interface TranslateLessonViewController () <LanguageSelectControllerDelegate, UITextFieldDelegate>
 @property Lesson *originalLesson;
@@ -28,13 +29,22 @@
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
+    Profile *me = [Profile currentUserProfile];
     self.originalLesson = [self.datasource lessonToTranslateForTranslateLessonView:self];
     self.translatedLesson = [[Lesson alloc] init];
-    Profile *me = [Profile currentUserProfile];
+    [self.translatedLesson setToLesson:[self.originalLesson.translations objectForKey:me.nativeLanguageTag]];
     self.translatedLesson.languageTag = me.nativeLanguageTag;
+    self.translatedLesson.lessonCode = self.originalLesson.lessonCode;
+    self.translatedLesson.userID = me.userID;
+    self.translatedLesson.userName = me.username;
     NSMutableArray *words = [[NSMutableArray alloc] init];
     for (Word *word in self.originalLesson.words) {
-        [words addObject:[[Word alloc] init]];
+        Word *translatedWord = [self.originalLesson wordWithCode:word.wordCode translatedTo:self.translatedLesson.languageTag];
+        if (!translatedWord) {
+            translatedWord = [[Word alloc] init];
+            translatedWord.wordCode = word.wordCode;
+        }
+        [words addObject:translatedWord];
     }
     self.translatedLesson.words = words;
     [self validate];

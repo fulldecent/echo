@@ -35,72 +35,8 @@
 #define kFiles @"files"
 #define kCompleted @"completed"
 
-+ (Word *)wordWithJSON:(NSData *)data
-{
-    NSError *error = nil;
-    NSDictionary *packed = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    Word *retval = [[Word alloc] init];
-    if (![packed isKindOfClass:[NSDictionary class]]) {
-        NSLog(@"Initialize Word: poor JSON");
-        return nil;
-    }
-    
-    retval.wordID = [packed objectForKey:kWordID];
-    if ([packed objectForKey:kWordCode])
-        retval.wordCode = [packed objectForKey:kWordCode];
-    else
-        retval.wordCode = [NSString string];
-    retval.languageTag = [packed objectForKey:kLanguageTag];
-    retval.name = [packed objectForKey:kName];
-    for (id str in [packed objectForKey:kDetail]) {
-        if (![str isKindOfClass:[NSString class]]) {
-            NSLog(@"Word detail error with class %@", [str class]);
-            return nil;
-        }
-    }
-    retval.detail = [packed objectForKey:kDetail];
-    retval.userID = [packed objectForKey:kUserID];
-    retval.userName = [packed objectForKey:kUserName];
-    retval.completed = [packed objectForKey:kCompleted];
-
-    NSMutableArray *newFiles = [[NSMutableArray alloc] init];
-    for (id file in [packed objectForKey:kFiles]) {
-        if ([file isKindOfClass:[NSString class]])
-            [newFiles addObject:file];
-        else if ([file isKindOfClass:[NSNumber class]])
-            [newFiles addObject:[NSString stringWithFormat:@"%d", [(NSNumber *)file integerValue]]];
-        else
-            NSLog(@"Malformed word file %@ with class %@", file, [file class]);
-    }
-    retval.files = newFiles;
-    return retval;
-}
-
--(NSData *)JSON
-{
-    NSMutableDictionary *wordDict = [[NSMutableDictionary alloc] init];
-    if (self.wordID)
-        [wordDict setObject:self.wordID forKey:kWordID];
-    if (self.wordCode)
-        [wordDict setObject:self.wordCode forKey:kWordCode];
-    if (self.languageTag)
-        [wordDict setObject:self.languageTag forKey:kLanguageTag];
-    if (self.name)
-        [wordDict setObject:self.name forKey:kName];
-    if (self.detail)
-        [wordDict setObject:self.detail forKey:kDetail];
-    if (self.userName)
-        [wordDict setObject:self.userName forKey:kUserName];
-    if (self.userID)
-        [wordDict setObject:self.userID forKey:kUserID];
-    if (self.files)
-        [wordDict setObject:self.files forKey:kFiles];
-    if (self.completed)
-        [wordDict setObject:self.completed forKey:kCompleted];
-    
-    NSError *error = nil;
-    return [NSJSONSerialization dataWithJSONObject:wordDict options:0 error:&error];
-}
+#define kFileID @"fileID"
+#define kFileCode @"fileCode"
 
 - (NSArray *)listOfMissingFiles
 {
@@ -149,17 +85,85 @@
         return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.wordCode]];
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone
++ (Word *)wordWithDictionary:(NSDictionary *)packed
 {
-    Word *copy = [[Word alloc] init];
-    copy.wordCode = [self.wordCode copy];
-    copy.name = [self.name copy];
-    copy.detail = [self.detail copy];
-    copy.languageTag = [self.languageTag copy]; // order is important here
-    copy.files = [[NSArray alloc] initWithArray:self.files copyItems:YES];
-    return copy;
+    Word *retval = [[Word alloc] init];
+    NSAssert([packed isKindOfClass:[NSDictionary class]], @"trying to deserialize Word from something other than a dictionary");
+    retval.wordID = [packed objectForKey:kWordID];
+    if ([packed objectForKey:kWordCode])
+        retval.wordCode = [packed objectForKey:kWordCode];
+    else
+        retval.wordCode = [NSString string];
+    retval.languageTag = [packed objectForKey:kLanguageTag];
+    retval.name = [packed objectForKey:kName];
+    if ([[packed objectForKey:kDetail] isKindOfClass:[NSString class]])
+        retval.detail = [packed objectForKey:kDetail];
+    else if ([[packed objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) // Backwards compatibility <= 1.0.9
+        retval.detail = [(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag];
+    retval.userID = [packed objectForKey:kUserID];
+    retval.userName = [packed objectForKey:kUserName];
+    retval.completed = [packed objectForKey:kCompleted];
+    
+    NSMutableArray *newFiles = [[NSMutableArray alloc] init];
+    for (id packedFile in [packed objectForKey:kFiles]) {
+        Audio *file = [[Audio alloc] init];
+        file.word = retval;
+        if ([packedFile isKindOfClass:[NSString class]]) // backwards compatability
+            file.fileCode = packedFile;
+        else if ([packedFile isKindOfClass:[NSNumber class]]) // backwards compatability
+            file.fileID = [NSString stringWithFormat:@"%d", [(NSNumber *)packedFile integerValue]];
+        else if ([packedFile isKindOfClass:[NSDictionary class]]) {
+            file.fileID = [packedFile objectForKey:@"fileID"];
+            file.fileCode = [packedFile objectForKey:@"fileCode"];
+        } else
+            NSLog(@"Malformed word file %@ with class %@", file, [file class]);
+        [newFiles addObject:file];
+    }
+    retval.files = newFiles;
+    return retval;
+}
+
+- (NSDictionary *)toDictionary
+{
+    NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
+    if (self.wordID)
+        [retval setObject:self.wordID forKey:kWordID];
+    if (self.wordCode)
+        [retval setObject:self.wordCode forKey:kWordCode];
+    if (self.languageTag)
+        [retval setObject:self.languageTag forKey:kLanguageTag];
+    if (self.name)
+        [retval setObject:self.name forKey:kName];
+    if (self.detail)
+        [retval setObject:self.detail forKey:kDetail];
+    if (self.userName)
+        [retval setObject:self.userName forKey:kUserName];
+    if (self.userID)
+        [retval setObject:self.userID forKey:kUserID];
+    NSMutableArray *packedFiles = [[NSMutableArray alloc] init];
+    for (Audio *file in self.files) {
+        NSMutableDictionary *fileDict = [[NSMutableDictionary alloc] init];
+        if (file.fileID)
+            [fileDict setObject:file.fileID forKey:kFileID];
+        if (file.fileCode)
+            [fileDict setObject:file.fileCode forKey:kFileCode];
+        [packedFiles addObject:fileDict];
+    }
+    [retval setObject:packedFiles forKey:kFiles];
+    if (self.completed && self.completed.boolValue)
+        [retval setObject:self.completed forKey:kCompleted];
+    return retval;
+}
+
++ (Word *)wordWithJSON:(NSData *)data
+{
+    NSDictionary *packed = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return [Word wordWithDictionary:packed];
+}
+
+- (NSData *)JSON
+{
+    return [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:nil];
 }
 
 @end

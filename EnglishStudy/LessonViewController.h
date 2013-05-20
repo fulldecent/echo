@@ -29,7 +29,7 @@
 - (IBAction)messagePressed:(id)sender;
 - (IBAction)likePressed:(id)sender;
 - (IBAction)flagPressed:(id)sender;
-- (IBAction)share:(id)sender;
+- (IBAction)sharePressed:(id)sender;
 
 #pragma mark - WordPracticeDataSource
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice;

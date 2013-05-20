@@ -11,7 +11,9 @@
 @class Lesson;
 @class Audio;
 
-@interface Word : NSObject <NSCopying>
+@interface Word : NSObject
+
+// Synched with server
 @property (strong, nonatomic) NSNumber *wordID;
 @property (strong, nonatomic) NSString *wordCode;
 @property (strong, nonatomic) NSString *languageTag;
@@ -20,15 +22,18 @@
 @property (strong, nonatomic) NSString *userID;
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSArray *files; // [Audio, ...]
-@property (readonly, strong, nonatomic) NSString *filePath;
+
+// Local data
 @property (weak, nonatomic) Lesson *lesson;
+@property (strong, nonatomic) NSNumber *completed; // client side data
 
-// client side data
-@property (strong, nonatomic) NSNumber *completed;
-
-+ (Word *)wordWithJSON:(NSData *)data;
-- (NSData *)JSON;
+- (NSString *)filePath;
 - (NSArray *)listOfMissingFiles; // [Audio, ...]
 - (Audio *)fileWithCode:(NSString *)fileCode;
+
++ (Word *)wordWithDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)toDictionary;
++ (Word *)wordWithJSON:(NSData *)data;
+- (NSData *)JSON;
 
 @end
