@@ -203,21 +203,11 @@
     return YES;
 }
 
-- (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
-{
-    return NSTemporaryDirectory();
-}
-
 #pragma mark - WordPracticeViewController
 
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice
 {
     return self.currentWord;
-}
-
-- (NSString *)currentSoundDirectoryFilePath
-{
-    return NSTemporaryDirectory();
 }
 
 - (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice

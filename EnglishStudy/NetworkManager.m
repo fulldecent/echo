@@ -422,7 +422,39 @@
     withProgress:(void(^)(NSNumber *progress))progressBlock
        onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
+    NSMutableURLRequest *request = [self.HTTPclient multipartFormRequestWithMethod:@"POST"
+                                                                              path:@"words/practice/"
+                                                                        parameters:nil
+                                                         constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+    {
+        [formData appendPartWithFormData:[word JSON] name:@"word"];
+        int fileNum = 0;
+        for (Audio *file in word.files) {
+            fileNum++;
+            NSString *fileName = [NSString stringWithFormat:@"file%d", fileNum];
+            NSData *fileData = [NSData dataWithContentsOfFile:[file filePath]];
+            [formData appendPartWithFileData:fileData name:fileName fileName:fileName mimeType:@"audio/mp4a-latm"];
+        }
+    }];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+    {
+        if (progressBlock)
+            progressBlock([NSNumber numberWithInt:1]);
+    }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+    {
+        if (failureBlock)
+            failureBlock(error);
+    }];
+    [JSONop setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead)
+     {
+         if (totalBytesExpectedToRead > 0 && totalBytesRead < totalBytesExpectedToRead) {
+             if (progressBlock)
+                 progressBlock([NSNumber numberWithFloat:totalBytesRead / totalBytesExpectedToRead]);
+         }
+     }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
 - (void)postWord:(Word *)word withFilesInPath:(NSString *)filePath asReplyToWordWithID:(NSNumber *)wordID

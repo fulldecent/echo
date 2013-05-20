@@ -41,7 +41,6 @@ STUFF TO DO LATER
  - Filter only relevant stuff on WHAT UP screen
  - How do I say: show share buttons after save
  - Capture user IP address on register / update
- - Kill currentSoundDirectoryFilePath
  - How do I say: flash HUD showing successful transfer
  - Home screen: refresh XX new lessons available in LANGUAGE
  - Home screen: refresh your lesson has XX current users
@@ -58,3 +57,4 @@ STUFF TO DO LATER
  - All tables have Created and Updated columns
  - Edit http://learnwithecho.com/lessons/283 for new API and translations
  - Search / delete "PRACTICE"
+ - WooBox / run a contest / Upload lesson get $100

@@ -627,14 +627,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          }
      } onFailure:^(NSError *error)
      {
+         [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
-}
-
-- (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
-{
-    NSString *lessonPath = self.currentLesson.filePath;
-    return [lessonPath stringByAppendingPathComponent:controller.word.wordCode];
 }
 
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word

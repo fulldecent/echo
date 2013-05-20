@@ -161,7 +161,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             [files addObject:[self.word.files objectAtIndex:i]];
         }
     }
-    self.word.files = [files copy];
+    self.word.files = files;
     [self.delegate wordDetailController:self didSaveWord:self.word];
 }
 
@@ -241,9 +241,8 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
         PHOREchoRecorder *recorder;
         if (i < [self.word.files count]) {
-            NSString *soundDirectoryFilePath = [self.delegate wordDetailControllerSoundDirectoryFilePath:self];
-            NSString *filePath = [soundDirectoryFilePath stringByAppendingPathComponent:[self.word.files objectAtIndex:i]];
-            recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtFilePath:filePath];
+            Audio *file = [self.word.files objectAtIndex:i];
+            recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtFilePath:file.filePath];
         }
         else
             recorder = [[PHOREchoRecorder alloc] init];
@@ -346,20 +345,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     } else {
         return NUMBER_OF_RECORDERS;
     }
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-/*
-    if (section == 0) {
-        if (self.editingLanguageTag.length)
-            return [@"Word in " stringByAppendingString:[Languages nativeDescriptionForLanguage:self.editingLanguageTag]];
-        else
-            return @"Word";
-    }
-    else
-*/
-        return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -510,26 +495,23 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     self.hud = [MBProgressHUD HUDForView:self.view];
     self.hud.labelText = @"Uploading reply";
     self.hud.delegate = self;
-                
+    
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager postWord:word withFilesInPath:NSTemporaryDirectory() asReplyToWordWithID:self.word.wordID withProgress:^(NSNumber *PGprogress)
      {
+         self.hud.mode = MBProgressHUDModeAnnularDeterminate;
         self.hud.progress = PGprogress.floatValue;
         if (PGprogress.floatValue == 1) {
-            [self.hud hide:YES afterDelay:0.5];
+            [self.hud hide:YES];
             // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
             dispatch_async(dispatch_get_main_queue(), ^{
                 [controller.navigationController popToRootViewControllerAnimated:YES];
             });
         }
     } onFailure:^(NSError *error){
+        [self.hud hide:NO];
         [NetworkManager hudFlashError:error];
     }];
-}
-
-- (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
-{
-    return NSTemporaryDirectory();
 }
 
 #pragma mark - MBProgressHUDDelegate

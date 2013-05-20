@@ -193,25 +193,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     return [self.lesson.words objectAtIndex:self.currentWordIndex];
 }
 
-- (NSString *)currentSoundDirectoryFilePath
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    NSString *lessonPath;
-    NSString *wordPath;
-    if (self.lesson.lessonCode.length) {
-        lessonPath = [documentsPath stringByAppendingPathComponent:self.lesson.lessonCode];
-        wordPath = [lessonPath stringByAppendingPathComponent:[[self.lesson.words objectAtIndex:self.currentWordIndex] wordCode]];
-    }
-    else {
-        NSString *lessonIDString = [NSString stringWithFormat:@"%d", [self.lesson.lessonID integerValue]];
-        lessonPath = [documentsPath stringByAppendingPathComponent:lessonIDString];
-        NSNumber *wordID = [[self.lesson.words objectAtIndex:self.currentWordIndex] wordID];
-        wordPath = [lessonPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [wordID integerValue]]];
-    }
-    return wordPath;
-}
-
 - (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice
 {
     Word *word = [self.lesson.words objectAtIndex:self.currentWordIndex];
@@ -558,13 +539,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonView:self didSaveLesson:self.lesson];
     [controller.navigationController popViewControllerAnimated:YES];
-}
-
-- (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller
-{
-    NSString *lessonPath = self.lesson.filePath;
-    NSString *wordPath = [lessonPath stringByAppendingPathComponent:controller.word.wordCode];
-    return wordPath;
 }
 
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word

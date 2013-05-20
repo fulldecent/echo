@@ -15,7 +15,6 @@
 
 @protocol WordPracticeDataSource
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice;
-- (NSString *)currentSoundDirectoryFilePath;
 - (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice;
 @end
 

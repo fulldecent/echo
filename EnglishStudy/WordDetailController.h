@@ -13,7 +13,6 @@
 @class WordDetailController;
 
 @protocol WordDetailControllerDelegate <NSObject>
-- (NSString *)wordDetailControllerSoundDirectoryFilePath:(WordDetailController *)controller;
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word*)word;
 @optional
 - (void)wordDetailController:(WordDetailController *)controller didSaveWord:(Word *)word;

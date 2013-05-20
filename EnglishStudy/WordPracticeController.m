@@ -62,7 +62,6 @@
     int index = arc4random() % [self.word.files count];
     Audio *chosenAudio = [self.word.files objectAtIndex:index];
     NSString *filePath = [chosenAudio filePath];
-//    NSString *filePath = [[self.datasource currentSoundDirectoryFilePath] stringByAppendingPathComponent:[self.word.files objectAtIndex:index]];
     NSURL *url = [NSURL fileURLWithPath:filePath];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.audioPlayer.pan = -0.5;
