@@ -28,7 +28,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.webView loadHTMLString:@"<style>body{background:url(gradient.png:)}" baseURL:nil];
+    // http://stackoverflow.com/questions/7883344/iphone-make-a-uiwebview-subview-scrolling-to-top-when-user-touches-the-status
+    [(UIScrollView *)[self.webView.subviews objectAtIndex:0] setScrollsToTop:YES];    if (![self.view.window isKeyWindow]) [self.view.window makeKeyWindow];
+
     self.webView.opaque = NO;
     self.webView.backgroundColor = [UIColor clearColor];
     // http://stackoverflow.com/questions/2238914/how-to-remove-grey-shadow-on-the-top-uiwebview-when-overscroll
@@ -39,16 +41,16 @@
     //[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     
-    /*
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdate = [defaults objectForKey:@"lastUpdateSocial"];
     if (!lastUpdate || [lastUpdate timeIntervalSinceNow] < -15) {
         [self loadPage];
         NSLog(@"Auto-update social %f", [lastUpdate timeIntervalSinceNow]);
     }
-     */
+     
     
-    
+    /*
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Loading...";
@@ -67,8 +69,10 @@
          [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
+     */
 }
 
+/*
 - (void)generateHTMLForMainViewOnSuccess:(void(^)(NSString *HTML))successBlock
                        onFailure:(void(^)(NSError *error))failureBlock
 {
@@ -93,8 +97,7 @@
              failureBlock(error);
      }];
 }
-
-
+*/
 
 - (void)loadPage
 {
@@ -118,6 +121,7 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+
     if (![request.URL.scheme isEqualToString:@"echo"])
         return YES;
 
@@ -131,42 +135,34 @@
                                                          options:kNilOptions error:&error];
     }
     
-/*
     if ([actionType isEqualToString:@"downloadPractice"]) {
+        NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+        NSNumber *practiceID = [JSON objectForKey:@"id"];
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
-        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
-        
-        NSNumber *practiceID = [JSON objectForKey:@"id"];
-        NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        [networkManager downloadWordWithID:[practiceID integerValue] withProgress:^(Word *PGword, NSNumber *PGprogress)
+        self.hud.mode = MBProgressHUDModeIndeterminate;
+
+        [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress)
          {
-             self.hud.progress = [PGprogress floatValue];
-             if ([PGprogress floatValue] == 1.0) {
+             self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+             self.hud.progress = [progress floatValue];
+             if ([progress floatValue] == 1.0) {
                  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
                  WordDetailController *wordDetail = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
                  //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
-                 wordDetail.word = PGword;
+                 wordDetail.word = word;
                  wordDetail.delegate = self;
                  [self.navigationController pushViewController:wordDetail animated:YES];
                  [self.hud hide:YES];
              }
-         } onFailure:^{
-             [NetworkManager hudFlashError:...
+         }
+                               onFailure:^(NSError *error)
+         {
              [self.hud hide:YES];
-             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-             self.hud.delegate = self;
-             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-             view.text = @"Error downloading";
-             view.font = self.hud.labelFont;
-             view.textColor = [UIColor whiteColor];
-             view.backgroundColor = [UIColor clearColor];
-             [view sizeToFit];
-             self.hud.customView = view;
-             self.hud.mode = MBProgressHUDModeCustomView;
-             [self.hud hide:YES afterDelay:3];
+             [NetworkManager hudFlashError:error];
          }];
-    } else if ([actionType isEqualToString:@"downloadPracticeReply"]) {
+        
+    } /* else if ([actionType isEqualToString:@"downloadPracticeReply"]) {
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
         self.hud.mode = MBProgressHUDModeAnnularDeterminate;

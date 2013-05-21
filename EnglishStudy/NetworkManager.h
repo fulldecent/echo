@@ -106,6 +106,10 @@ onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progress;
+- (void)getWordWithFiles:(NSNumber *)wordID
+            withProgress:(void(^)(Word *word, NSNumber *progress))progress
+               onFailure:(void(^)(NSError *error))failureBlock;
+
 + (void)hudFlashError:(NSError *)error;
 
 @end

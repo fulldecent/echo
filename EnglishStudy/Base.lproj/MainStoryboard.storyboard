@@ -2240,6 +2240,7 @@
         <class className="WordPracticeController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WordPracticeController.h"/>
             <relationships>
+                <relationship kind="action" name="checkPressed:"/>
                 <relationship kind="action" name="continueNextWorkflowStep:"/>
                 <relationship kind="action" name="echoButtonPressed"/>
                 <relationship kind="action" name="echoButtonReset:"/>

@@ -409,8 +409,22 @@
             onSuccess:(void(^)(Word *word))successBlock
             onFailure:(void(^)(NSError *error))failureBlock
 {
-    //TODO: do this
-}
+    NSString *relativePath = [NSString stringWithFormat:@"words/%@.json", wordID];
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"GET" path:relativePath parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          NSData *data = [NSJSONSerialization dataWithJSONObject:JSON options:nil error:nil];
+                                          Word *word = [Word wordWithJSON:data];
+                                          if (successBlock)
+                                              successBlock(word);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];}
 
 - (void)deleteWordWithID:(NSNumber *)wordID
                onSuccess:(void(^)())successBlock
@@ -613,6 +627,45 @@
          if (failureBlock) failureBlock(error);
      }];
 }
+
+- (void)getWordWithFiles:(NSNumber *)wordID
+             withProgress:(void(^)(Word *word, NSNumber *progress))progress
+               onFailure:(void(^)(NSError *error))failureBlock;
+{
+    [self getWordWithID:wordID onSuccess:^(Word *word)
+     {
+         NSArray *neededAudios = [word listOfMissingFiles];
+         __block NSNumber *wordProgress = [NSNumber numberWithInt:1];
+         __block NSNumber *totalWordProgress = [NSNumber numberWithInt:[neededAudios count]+1];
+         if (progress)
+             progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
+         
+         for (Audio *file in neededAudios) {
+             [self getAudioWithID:[file fileID] withProgress:^(NSData *audio, NSNumber *fileProgress)
+              {
+                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                      NSFileManager *fileManager = [NSFileManager defaultManager];
+                      NSString *dirname = [file.filePath stringByDeletingLastPathComponent];
+                      [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
+                      [audio writeToFile:file.filePath atomically:YES];
+                      wordProgress = [NSNumber numberWithInt:[wordProgress integerValue]+1];
+                      if (progress)
+                          progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
+                      //TODO: Could do even more accurate progress reporting if we wanted
+                  }
+              } onFailure:^(NSError *error) {
+                  if (failureBlock)
+                      failureBlock(error);
+              }];
+         }
+     }
+              onFailure:^(NSError *error)
+     {
+         if (failureBlock)
+             failureBlock(error);
+     }];
+}
+
 
 // http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;

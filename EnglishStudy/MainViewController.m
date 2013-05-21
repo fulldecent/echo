@@ -362,11 +362,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             return cell;
         case CellMeetPeople:
             cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
-//TODO: number of messsages
             [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
-            if ([(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] integerValue]) {
+            if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue]) {
                 [(UIButton *)[cell viewWithTag:3] setHidden:NO];
-                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"unreadMessageCount"] description] forState:UIControlStateNormal];
+                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"numNewMessages"] description] forState:UIControlStateNormal];
             } else
                 [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;

@@ -19,16 +19,18 @@ RELEASE PROCESS
  * Switch to v2.0 API
  * Practice against received words
  * Help translate lessons into your own language
+ * Update word practice screen for multi-lingual (show lesson lang and cur user lang)
+ * Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
 
 ========================================
 FOCUS
 ========================================
- ! Update word practice screen for multi-lingual (show lesson lang and cur user lang)
- ! "Editing" a translated lesson that has been recorded will dissociate it from other translations?
- ! Ensure "download lessons" page looks right if lesson does not have english detail
  - Update lesson screen, show translation if it exists, show Google otherwise, don't allow translate from EN to EN
  ! Push notification after replies to How do I say
- - Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
+
+ - test reply to word
+
+
 
 ========================================
 STUFF TO DO LATER
@@ -58,3 +60,4 @@ STUFF TO DO LATER
  - Edit http://learnwithecho.com/lessons/283 for new API and translations
  - Search / delete "PRACTICE"
  - WooBox / run a contest / Upload lesson get $100
+ - Update ProfileView / a view mode and an edit mode. Then link in from social view

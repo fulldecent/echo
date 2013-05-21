@@ -44,7 +44,7 @@
     for (Audio *file in self.files)
         if (!file.fileExistsOnDisk)
             [retval addObject:file];
-    return self.files;
+    return retval;
 }
 
 + (NSString *)makeUUID
