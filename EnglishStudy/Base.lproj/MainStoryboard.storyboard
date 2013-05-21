@@ -1632,6 +1632,10 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gradient.png" id="ynG-SW-xwe">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                             <webView contentMode="scaleToFill" id="Rmn-5j-Btv">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2174,7 +2178,7 @@
                 <relationship kind="action" name="likePressed:"/>
                 <relationship kind="action" name="messagePressed:"/>
                 <relationship kind="action" name="sendToFriendPressed:"/>
-                <relationship kind="action" name="share:"/>
+                <relationship kind="action" name="sharePressed:"/>
                 <relationship kind="outlet" name="detailLabel" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="lessonLabel" candidateClass="UITextField"/>
             </relationships>
@@ -2225,7 +2229,6 @@
             <relationships>
                 <relationship kind="action" name="echoButtonPressed:"/>
                 <relationship kind="action" name="echoButtonReset:"/>
-                <relationship kind="action" name="reply:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="action" name="resetButtonPressed:" candidateClass="UIButton"/>
                 <relationship kind="action" name="save"/>
                 <relationship kind="action" name="updateDetail:"/>

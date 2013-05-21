@@ -140,6 +140,7 @@
                                       {
                                           NSData *data = [NSJSONSerialization dataWithJSONObject:JSON options:nil error:nil];
                                           Lesson *lesson = [Lesson lessonWithJSON:data];
+                                          lesson.version = [NSNumber numberWithInt:0];
                                           if (successBlock)
                                               successBlock(lesson);
                                       }
@@ -492,6 +493,25 @@
     [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
 }
 
+- (void)getEventsTargetingMeOnSuccess:(void(^)(NSArray *events))successBlock
+                            onFailure:(void(^)(NSError *error))failureBlock
+{
+    NSMutableURLRequest *request = [self.HTTPclient requestWithMethod:@"GET" path:@"events/eventsTargetingMe/" parameters:nil];
+    AFJSONRequestOperation *JSONop = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                      {
+                                          if (successBlock)
+                                              successBlock(JSON);
+                                      }
+                                                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                      {
+                                          if (failureBlock)
+                                              failureBlock(error);
+                                      }];
+    [self.HTTPclient enqueueHTTPRequestOperation:JSONop];
+}
+
+
 #pragma mark - Helper functions /////////////////////////////////////////////////
 
 - (void)syncLessons:(NSArray *)lessons
@@ -684,13 +704,6 @@
     
     return newImage;
 }
-
-- (NSArray *)recommendedLessons
-{
-    return _recommendedLessonsTmp;
-}
-
-
 
 #pragma mark - MBProgressHUDDelegate
 

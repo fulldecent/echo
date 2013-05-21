@@ -10,7 +10,7 @@
 
 @class Word;
 
-@interface Lesson : NSObject <NSCopying>
+@interface Lesson : NSObject
 @property (strong, nonatomic) NSNumber *lessonID;
 @property (strong, nonatomic) NSString *lessonCode;
 @property (strong, nonatomic) NSString *languageTag;

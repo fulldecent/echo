@@ -98,11 +98,14 @@ onFailure:(void(^)(NSError *error))failureBlock;
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock;
 
+- (void)getEventsTargetingMeOnSuccess:(void(^)(NSArray *events))successBlock
+                            onFailure:(void(^)(NSError *error))failureBlock;
+
+
 /* HELPER FUNCTIONS */
 
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progress;
-- (NSArray *)recommendedLessons;
 + (void)hudFlashError:(NSError *)error;
 
 @end

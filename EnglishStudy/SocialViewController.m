@@ -15,18 +15,86 @@
 
 @interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate, WordPracticeDataSource, WordPracticeDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) NSString *updatedUserName;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
 @property (strong, nonatomic) Word *currentWord;
 @end
 
 @implementation SocialViewController
 @synthesize webView;
-@synthesize updatedUserName = _updatedUserName;
 @synthesize hud = _hud;
 @synthesize actionSheet = _actionSheet;
 
 #define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0"
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.webView loadHTMLString:@"<style>body{background:url(gradient.png:)}" baseURL:nil];
+    self.webView.opaque = NO;
+    self.webView.backgroundColor = [UIColor clearColor];
+    // http://stackoverflow.com/questions/2238914/how-to-remove-grey-shadow-on-the-top-uiwebview-when-overscroll
+    for (UIView *subview in [self.webView.scrollView subviews])
+        if ([subview isKindOfClass:[UIImageView class]])
+            subview.hidden = YES;
+    
+    //[self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
+    
+    /*
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate *lastUpdate = [defaults objectForKey:@"lastUpdateSocial"];
+    if (!lastUpdate || [lastUpdate timeIntervalSinceNow] < -15) {
+        [self loadPage];
+        NSLog(@"Auto-update social %f", [lastUpdate timeIntervalSinceNow]);
+    }
+     */
+    
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.labelText = @"Loading...";
+
+    [self generateHTMLForMainViewOnSuccess:^(NSString *HTML)
+     {
+         self.hud.mode = MBProgressHUDModeDeterminate;
+         self.hud.progress = 1;
+         [self.hud hide:YES];
+         NSString *path = [[NSBundle mainBundle] bundlePath];
+         NSURL *baseURL = [NSURL fileURLWithPath:path];
+         [self.webView loadHTMLString:HTML baseURL:baseURL];
+     }
+                                 onFailure:^(NSError *error)
+     {
+         [self.hud hide:NO];
+         [NetworkManager hudFlashError:error];
+     }];
+}
+
+- (void)generateHTMLForMainViewOnSuccess:(void(^)(NSString *HTML))successBlock
+                       onFailure:(void(^)(NSError *error))failureBlock
+{
+    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+    [networkManager getEventsTargetingMeOnSuccess:^(NSArray *events)
+     {
+         NSMutableString *HTML = [[NSMutableString alloc] init];
+         [HTML appendString:@"<link rel=\"stylesheet\" href=\"style.css\">"];
+         for (NSDictionary *eventObject in events) {
+             [HTML appendString:@"<div class=\"row\">"];
+             NSString *photoURL = [[networkManager photoURLForUserWithID:[eventObject objectForKey:@"actingUserID"]] absoluteString];
+             [HTML appendFormat:@"<img src=\"%@\" height=32 width=32 alt=\"avatar\" />", photoURL];
+             [HTML appendString:[eventObject objectForKey:@"description"]];
+             [HTML appendString:@"<div class=\"clear\"></div></div>\n"];
+         }
+         if (successBlock)
+             successBlock(HTML);
+     }
+                                                                    onFailure:^(NSError *error)
+     {
+         if (failureBlock)
+             failureBlock(error);
+     }];
+}
+
+
 
 - (void)loadPage
 {
@@ -44,19 +112,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastUpdateSocial"];
     [defaults synchronize];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    //[self.navigationController setNavigationBarHidden:YES animated:animated];
-    [super viewWillAppear:animated];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDate *lastUpdate = [defaults objectForKey:@"lastUpdateSocial"];
-    if (!lastUpdate || [lastUpdate timeIntervalSinceNow] < -15) {
-        [self loadPage];
-        NSLog(@"Auto-update social %f", [lastUpdate timeIntervalSinceNow]);
-    }
 }
 
 #pragma mark - UIWebViewDelegate

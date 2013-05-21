@@ -50,7 +50,7 @@
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
-        if (![lesson.version intValue])
+        if (![lesson isShared])
             continue; // local only, no need to compare to server
         else if (lesson.isNewerThanServer || lesson.isOlderThanServer) {
             [staleLessons addObject:lesson];

@@ -176,7 +176,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
     if (!self.editingFromSwipe) {
         if (!editing) {
-            if ([self.lesson.version intValue])
+            if ([self.lesson isShared])
                 self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
             [self.delegate lessonView:self didSaveLesson:self.lesson];
             self.title = self.lesson.name;
@@ -535,7 +535,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         self.lesson.words = [words copy];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    if ([self.lesson.version intValue])
+    if ([self.lesson isShared])
         self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonView:self didSaveLesson:self.lesson];
     [controller.navigationController popViewControllerAnimated:YES];

@@ -220,24 +220,6 @@
     return [translation wordWithCode:wordCode];    
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    NSLog(@"LESSON IS COPYING! %@", self);
-    
-    Lesson *copy = [[Lesson alloc] init];
-    copy.languageTag = [self.languageTag copy];
-    copy.name = [self.name copy];
-    copy.detail = self.detail;
-    copy.version = [self.version copy];
-    copy.serverVersion = [self.serverVersion copy];
-    copy.words = [[NSArray alloc] initWithArray:self.words copyItems:YES];
-    copy.userName = [self.userName copy];
-    copy.lessonID = [self.lessonID copy];
-    return copy;
-}
-
 #pragma NSObject
 
 -(NSString *) description {
