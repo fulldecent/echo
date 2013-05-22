@@ -282,7 +282,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         case SectionActions:
             if (self.editing && !self.editingFromSwipe)
                 return 0;
-            else if (me.nativeLanguageTag)
+            else if (me.nativeLanguageTag && ![me.nativeLanguageTag isEqualToString:self.lesson.languageTag])
                 return 2;
             else return 1;
         case SectionWords:

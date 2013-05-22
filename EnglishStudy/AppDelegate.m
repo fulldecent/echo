@@ -55,7 +55,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"learningLanguageTag"];
     [defaults removeObjectForKey:@"nativeLanguageTag"];
-    [defaults removeObjectForKey:@"lastUpdatePracticeList"];
+    [defaults removeObjectForKey:@"lastUpdatePracticeList"]; // Upgrade / Backwards compatibility for <= 1.0.9
     [defaults synchronize];
     
     // http://www.switchonthecode.com/tutorials/an-absolute-beginners-guide-to-iphone-development

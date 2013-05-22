@@ -862,7 +862,7 @@
         <!--Word Practice Controller - Second-->
         <scene sceneID="13">
             <objects>
-                <viewController storyboardIdentifier="wordPractice" title="Second" id="3" customClass="WordPracticeController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WordPractice" title="Second" id="3" customClass="WordPracticeController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="17">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2240,7 +2240,6 @@
         <class className="WordPracticeController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WordPracticeController.h"/>
             <relationships>
-                <relationship kind="action" name="checkPressed:"/>
                 <relationship kind="action" name="continueNextWorkflowStep:"/>
                 <relationship kind="action" name="echoButtonPressed"/>
                 <relationship kind="action" name="echoButtonReset:"/>
@@ -2262,8 +2261,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="1s3-fI-s44"/>
-        <segue reference="3H6-9o-S7b"/>
         <segue reference="yax-pl-PTe"/>
         <segue reference="47Q-7Q-DoP"/>
+        <segue reference="xS9-ES-SEq"/>
     </inferredMetricsTieBreakers>
 </document>

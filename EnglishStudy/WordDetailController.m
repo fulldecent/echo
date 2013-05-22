@@ -499,7 +499,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager postWord:word withFilesInPath:NSTemporaryDirectory() asReplyToWordWithID:self.word.wordID withProgress:^(NSNumber *PGprogress)
      {
-         self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
         self.hud.progress = PGprogress.floatValue;
         if (PGprogress.floatValue == 1) {
             [self.hud hide:YES];

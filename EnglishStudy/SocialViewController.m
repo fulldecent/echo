@@ -41,14 +41,16 @@
     //[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     
-    
+    /*
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdate = [defaults objectForKey:@"lastUpdateSocial"];
     if (!lastUpdate || [lastUpdate timeIntervalSinceNow] < -15) {
+     */
         [self loadPage];
+    /*
         NSLog(@"Auto-update social %f", [lastUpdate timeIntervalSinceNow]);
     }
-     
+     */
     
     /*
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -162,40 +164,33 @@
              [NetworkManager hudFlashError:error];
          }];
         
-    } /* else if ([actionType isEqualToString:@"downloadPracticeReply"]) {
+    } else if ([actionType isEqualToString:@"downloadPracticeReply"]) {
+        NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+        NSNumber *practiceID = [JSON objectForKey:@"id"];
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
         self.hud.mode = MBProgressHUDModeAnnularDeterminate;
-        
-        NSNumber *practiceID = [JSON objectForKey:@"id"];
-        NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        [networkManager downloadWordWithID:[practiceID integerValue] withProgress:^(Word *PGword, NSNumber *PGprogress)
+
+        [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress) {
+            self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+            self.hud.progress = [progress floatValue];
+            if ([progress floatValue] == 1.0) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                WordPracticeController *controller = (WordPracticeController *)[storyboard instantiateViewControllerWithIdentifier:@"WordPractice"];
+                //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
+                self.currentWord = word;
+                controller.datasource = self;
+                controller.delegate = self;
+                [self.navigationController pushViewController:controller animated:YES];
+                [self.hud hide:YES];
+            }
+         }
+                               onFailure:^(NSError *error)
          {
-             self.hud.progress = [PGprogress floatValue];
-             if ([PGprogress floatValue] == 1.0) {
-                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                 WordPracticeController *controller = (WordPracticeController *)[storyboard instantiateViewControllerWithIdentifier:@"wordPractice"];
-                 self.currentWord = PGword;
-                 controller.datasource = self;
-                 controller.delegate = self;
-                 [self.navigationController pushViewController:controller animated:YES];
-                 [self.hud hide:YES];
-             }
-         } onFailure:^{
              [self.hud hide:YES];
-             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-             self.hud.delegate = self;
-             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-             view.text = @"Error downloading";
-             view.font = self.hud.labelFont;
-             view.textColor = [UIColor whiteColor];
-             view.backgroundColor = [UIColor clearColor];
-             [view sizeToFit];
-             self.hud.customView = view;
-             self.hud.mode = MBProgressHUDModeCustomView;
-             [self.hud hide:YES afterDelay:3];
+             [NetworkManager hudFlashError:error];
          }];
-    } else */ if ([actionType isEqualToString:@"markEventAsRead"]) {
+    } else if ([actionType isEqualToString:@"markEventAsRead"]) {
         NSNumber *eventID = [JSON objectForKey:@"id"];
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         [networkManager deleteEventWithID:eventID onSuccess:nil onFailure:nil];
@@ -216,23 +211,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
-    [self.hud hide:YES];
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.delegate = self;
-    //    self.hud.labelText = error.localizedDescription;
-    //    self.hud.labelText = @"Network connection failed";
-    //	self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-BigX.png"]];
-    UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-    view.text = error.localizedDescription;
-    view.font = self.hud.labelFont;
-    view.textColor = [UIColor whiteColor];
-    view.backgroundColor = [UIColor clearColor];
-    [view sizeToFit];
-    self.hud.customView = view;
-    
-	self.hud.mode = MBProgressHUDModeCustomView;
-	[self.hud hide:YES afterDelay:3];
-    //    NSLog(@"webView didFailLoadWithError %@", error);
+    [NetworkManager hudFlashError:error];
 }
 
 #pragma mark - MBProgressHUDDelegate

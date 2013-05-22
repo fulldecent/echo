@@ -51,7 +51,8 @@
     self.lesson.languageTag = self.editingLanguageTag;
     self.lesson.name = self.editingName;
     self.lesson.detail = self.editingDetail;
-    self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+    if (self.lesson.isShared)
+        self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
     [self.delegate lessonInformationView:self didSaveLesson:self.lesson];
 }
 

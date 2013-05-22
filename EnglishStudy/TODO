@@ -25,16 +25,13 @@ RELEASE PROCESS
 ========================================
 FOCUS
 ========================================
- - Update lesson screen, show translation if it exists, show Google otherwise, don't allow translate from EN to EN
- ! Push notification after replies to How do I say
 
- - test reply to word
-
-
+TESTING / READY TO RELEASE?
 
 ========================================
 STUFF TO DO LATER
 ========================================
+ ! Push notification after replies to How do I say
  ! Badges and acheivements for completing tasks
      - Upload a photo, Download 5 lessons, Share a lesson on facebook, Contribute a lesson, Translate a lesson, Send a message to author, practice a word, reply to a practice, have your lesson downloaded by 10 people
      - Silver-level badge items are handled locally and reported to server
