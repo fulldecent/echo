@@ -313,7 +313,10 @@
         if (!lesson.lessonID)
             continue;
         [lessonIDsToCheck addObject:lesson.lessonID];
-        [lessonTimestampsToCheck addObject:lesson.serverVersion];
+        if (lesson.serverVersion)
+            [lessonTimestampsToCheck addObject:lesson.serverVersion];
+        else
+            [lessonTimestampsToCheck addObject:[NSNumber numberWithInt:0]];
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

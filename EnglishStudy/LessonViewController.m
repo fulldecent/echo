@@ -24,6 +24,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 @property (nonatomic) BOOL editingFromSwipe;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
+@property (nonatomic) BOOL actionIsToLessonAuthor;
 @end
 
 @implementation LessonViewController
@@ -34,6 +35,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 @synthesize editingFromSwipe = _editingFromSwipe;
 @synthesize hud = _hud;
 @synthesize actionSheet = _actionSheet;
+@synthesize actionIsToLessonAuthor = _actionIsToLessonAuthor;
 
 - (void)viewDidLoad
 {
@@ -53,12 +55,12 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         if (lesson.words.count == 0)
             self.editing = YES;
     }
-    [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendToFriendPressed:)]];
+    [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(lessonShareKitPressed:)]];
     self.navigationItem.rightBarButtonItems = buttons;
     _lesson = lesson;
 }
 
-- (IBAction)likePressed:(id)sender {
+- (IBAction)lessonLikePressed:(id)sender {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
@@ -95,7 +97,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     }
 }
 
-- (IBAction)flagPressed:(id)sender {
+- (IBAction)lessonFlagPressed:(id)sender {
+    self.actionIsToLessonAuthor = YES;
     self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Flagging a lesson is public and will delete your copy of the lesson. To continue, choose a reason."
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
@@ -105,7 +108,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     [self.actionSheet showInView:self.view];
 }
 
-- (IBAction)sendToFriendPressed:(id)sender {
+- (IBAction)lessonShareKitPressed:(id)sender {
     
     // Create the item to share (in this example, a url)
     NSString *urlString = [NSString stringWithFormat:@"http://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
@@ -127,7 +130,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     [actionSheet showInView:self.view];
 }
 
-- (IBAction)messagePressed:(id)sender {    
+- (IBAction)lessonReplyAuthorPressed:(id)sender {
+    self.actionIsToLessonAuthor = YES;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Send feedback"
                                                         message:nil
                                                        delegate:self
@@ -137,6 +141,72 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }
+
+
+- (IBAction)translationLikePressed:(id)sender {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.labelText = @"Sending...";
+    Profile *me = [Profile currentUserProfile];
+    Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+    
+    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+    if (translation.submittedLikeVote && [translation.submittedLikeVote boolValue]) {
+        [networkManager doUnlikeLesson:translation onSuccess:^
+         {
+             translation.submittedLikeVote = nil;
+             self.hud.mode = MBProgressHUDModeDeterminate;
+             self.hud.progress = 1;
+             [self.hud hide:YES];
+             [self.delegate lessonView:self didSaveLesson:self.lesson];
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
+         } onFailure:^(NSError *error)
+         {
+             [self.hud hide:NO];
+             [NetworkManager hudFlashError:error];
+         }];
+    } else {
+        [networkManager doLikeLesson:self.lesson onSuccess:^
+         {
+             translation.submittedLikeVote = [NSNumber numberWithBool:YES];
+             self.hud.mode = MBProgressHUDModeDeterminate;
+             self.hud.progress = 1;
+             [self.hud hide:YES];
+             [self.delegate lessonView:self didSaveLesson:self.lesson];
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
+         } onFailure:^(NSError *error)
+         {
+             [self.hud hide:NO];
+             [NetworkManager hudFlashError:error];
+         }];
+    }
+}
+
+- (IBAction)translationFlagPressed:(id)sender {
+    self.actionIsToLessonAuthor = NO;
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Flagging a translation is public and will delete your copy of the lesson. To continue, choose a reason."
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                     destructiveButtonTitle:nil
+                                          otherButtonTitles:@"Inappropriate title", @"Inaccurate content", @"Poor quality", nil];
+    self.actionSheet.tag = 0;
+    [self.actionSheet showInView:self.view];
+}
+
+- (IBAction)translationReplyAuthorPressed:(id)sender {
+    self.actionIsToLessonAuthor = NO;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Send feedback"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Send", nil];
+    alertView.tag = 0;
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+
+
 
 - (IBAction)sharePressed:(id)sender {
     self.lesson.version = [NSNumber numberWithInt:1];
@@ -357,7 +427,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
             [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
             if (translation.submittedLikeVote && [translation.submittedLikeVote boolValue])
-            [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
+                [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
             return cell;
         }
     }
@@ -571,9 +641,15 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
+    Lesson *target;
+    Profile *me = [Profile currentUserProfile];
+    if (self.actionIsToLessonAuthor)
+        target = self.lesson;
+    else
+        target = [self.lesson.translations objectForKey:me.nativeLanguageTag];
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager doFlagLesson:self.lesson withReason:buttonIndex onSuccess:^
+    [networkManager doFlagLesson:target withReason:buttonIndex onSuccess:^
      {
          self.hud.mode = MBProgressHUDModeDeterminate;
          self.hud.progress = 1;
@@ -595,10 +671,16 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.mode = MBProgressHUDModeIndeterminate;
         self.hud.labelText = @"Sending...";
+        Lesson *target;
+        Profile *me = [Profile currentUserProfile];
+        if (self.actionIsToLessonAuthor)
+            target = self.lesson;
+        else
+            target = [self.lesson.translations objectForKey:me.nativeLanguageTag];
 
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSString *message = [alertView textFieldAtIndex:0].text;
-        [networkManager postFeedback:message toAuthorOfLessonWithID:self.lesson.lessonID
+        [networkManager postFeedback:message toAuthorOfLessonWithID:target.lessonID
                            onSuccess:^
          {
              self.hud.mode = MBProgressHUDModeDeterminate;

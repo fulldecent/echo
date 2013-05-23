@@ -154,7 +154,7 @@
     // see http://stackoverflow.com/questions/8926606/performseguewithidentifier-vs-instantiateviewcontrollerwithidentifier
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    WordPracticeController *newWordPractice = [storyboard instantiateViewControllerWithIdentifier:@"wordPractice"];
+    WordPracticeController *newWordPractice = [storyboard instantiateViewControllerWithIdentifier:@"WordPractice"];
     [self.delegate skipToNextWordForWordPractice:self];
     newWordPractice.datasource = self.datasource;
     newWordPractice.delegate = self.delegate;
@@ -166,8 +166,8 @@
     UINavigationController *navController = self.navigationController;
     
     // retain ourselves so that the controller will still exist once it's popped off
- //   id mySelf = self;
-  //  mySelf;
+    //   id mySelf = self;
+    //  mySelf;
     
     // Pop this controller and replace with another
     [navController popViewControllerAnimated:NO];

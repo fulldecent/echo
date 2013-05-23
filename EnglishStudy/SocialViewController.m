@@ -193,7 +193,21 @@
     } else if ([actionType isEqualToString:@"markEventAsRead"]) {
         NSNumber *eventID = [JSON objectForKey:@"id"];
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        [networkManager deleteEventWithID:eventID onSuccess:nil onFailure:nil];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.delegate = self;
+        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+        [networkManager deleteEventWithID:eventID onSuccess:^
+         {
+             self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+             self.hud.progress = 1;
+             [self.hud hide:YES];
+             [self loadPage];
+         }
+                                onFailure:^(NSError *error)
+         {
+             [self.hud hide:YES];
+             [NetworkManager hudFlashError:error];
+         }];
     }
     return NO;
 }

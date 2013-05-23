@@ -392,6 +392,21 @@
 			name = Backgrounds;
 			sourceTree = "<group>";
 		};
+		775B040E174DBC26000DFF1D /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				775B0411174DBC27000DFF1D /* New Group */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		775B0411174DBC27000DFF1D /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		776D2BFD16ABAC4300EDB4DB /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,6 +559,7 @@
 				77B5138D151970B100F041D7 /* AppDelegate.h */,
 				77B5138E151970B100F041D7 /* AppDelegate.m */,
 				770AA8B616C4ABC300348FB8 /* gradient.png */,
+				775B040E174DBC26000DFF1D /* New Group */,
 				770AA8AC16C4A7D700348FB8 /* Icon-iPad@2x.png */,
 				770AA8AD16C4A7D700348FB8 /* Icon@2x.png */,
 				770AA8AE16C4A7D700348FB8 /* Icon-iPad.png */,

@@ -373,7 +373,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="messagePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="am5-Dw-nbh"/>
+                                                <action selector="lessonReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="83h-IM-nCd"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Q9g-Zd-MSS" customClass="UIGlossyButton">
@@ -405,7 +405,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="likePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="PGD-SG-Fpx"/>
+                                                <action selector="lessonLikePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="nG3-OV-3tz"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Xw0-Zb-wpq" customClass="UIGlossyButton">
@@ -437,7 +437,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="flagPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="VHo-07-4Nh"/>
+                                                <action selector="lessonFlagPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="hXe-gB-PSJ"/>
                                             </connections>
                                         </button>
                                         <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" image="none40.png" id="khu-k6-8nL">
@@ -502,7 +502,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="likePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="PLO-Up-129"/>
+                                                <action selector="translationReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="bbv-bl-WAO"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ett-VA-zXc" customClass="UIGlossyButton">
@@ -534,7 +534,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="likePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="X3t-ZH-kUZ"/>
+                                                <action selector="translationLikePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="lu8-cJ-S1n"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="c1y-go-jON" customClass="UIGlossyButton">
@@ -566,7 +566,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="likePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="6a1-0z-Mgd"/>
+                                                <action selector="translationFlagPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="zVX-SB-Bcx"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -2174,11 +2174,14 @@
         <class className="LessonViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LessonViewController.h"/>
             <relationships>
-                <relationship kind="action" name="flagPressed:"/>
-                <relationship kind="action" name="likePressed:"/>
-                <relationship kind="action" name="messagePressed:"/>
-                <relationship kind="action" name="sendToFriendPressed:"/>
+                <relationship kind="action" name="lessonFlagPressed:"/>
+                <relationship kind="action" name="lessonLikePressed:"/>
+                <relationship kind="action" name="lessonReplyAuthorPressed:"/>
+                <relationship kind="action" name="lessonShareKitPressed:"/>
                 <relationship kind="action" name="sharePressed:"/>
+                <relationship kind="action" name="translationFlagPressed:"/>
+                <relationship kind="action" name="translationLikePressed:"/>
+                <relationship kind="action" name="translationReplyAuthorPressed:"/>
                 <relationship kind="outlet" name="detailLabel" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="lessonLabel" candidateClass="UITextField"/>
             </relationships>
@@ -2261,8 +2264,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="1s3-fI-s44"/>
-        <segue reference="yax-pl-PTe"/>
         <segue reference="47Q-7Q-DoP"/>
-        <segue reference="xS9-ES-SEq"/>
+        <segue reference="yax-pl-PTe"/>
+        <segue reference="3H6-9o-S7b"/>
     </inferredMetricsTieBreakers>
 </document>
