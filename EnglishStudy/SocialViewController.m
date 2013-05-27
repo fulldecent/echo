@@ -12,19 +12,31 @@
 #import "WordDetailController.h"
 #import "WordPracticeController.h"
 #import "AFNetworking.h"
+#import "NSData+Base64.h"
 
 @interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate, WordPracticeDataSource, WordPracticeDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
 @property (strong, nonatomic) Word *currentWord;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @end
 
 @implementation SocialViewController
 @synthesize webView;
 @synthesize hud = _hud;
 @synthesize actionSheet = _actionSheet;
+@synthesize refreshControl = _refreshControl;
 
 #define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0"
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.tintColor = [UIColor colorWithHue:0 saturation:0 brightness:0 alpha:0.5];
+    [self.refreshControl addTarget:self action:@selector(loadPage) forControlEvents:UIControlEventValueChanged];
+    [self.webView.scrollView addSubview:self.refreshControl];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -105,12 +117,17 @@
 {
     self.webView.delegate = self;
     Profile *me = [Profile currentUserProfile];
+    NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
     NSMutableString *url = [[SERVER_ECHO_API_URL stringByAppendingPathComponent:@"iPhone/social"] mutableCopy];
-    [url appendFormat:@"?native=%@", me.nativeLanguageTag];
-    [url appendFormat:@"&userCode=%@", me.usercode];
-    [url appendFormat:@"&learning=%@", me.learningLanguageTag];
+    [url appendFormat:@"?version=%@", version];
     [url appendFormat:@"&locale=%@", [[NSLocale preferredLanguages] objectAtIndex:0]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"xx", me.usercode];
+    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedString]];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
     [self.webView loadRequest:request];
     
@@ -220,11 +237,13 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
+    [self.refreshControl endRefreshing];
     [NetworkManager hudFlashError:error];
 }
 

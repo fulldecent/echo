@@ -11,42 +11,48 @@ RELEASE PROCESS
  - Check the UI works in Chinese
 ========================================
 
+
 ========================================
 1.x.x Changelog
 ========================================
- * Update word practice screen
- * Update original "create a lesson" view
- * Switch to v2.0 API
- * Practice against received words
- * Help translate lessons into your own language
- * Update word practice screen for multi-lingual (show lesson lang and cur user lang)
- * Take advantage of AFFormURLParameterEncoding / remove multipartFormRequestWithMethod
+ ! Track the last time each person has logged in
+ - Search / delete "PRACTICE"
+ - Update "Meet People"
+   - Pull to refresh
+   - Let people know if they already replied to a word
+   - Show content only if it is relevant to your native or learning language
+ - APNS
+   - Send push notification for feedbackLesson and replyPractice
+   - Do not cache DeviceToken (because they may revoke it)
+   - Implement a custom URL so APNS can take them to the Meet People page
 
 ========================================
 FOCUS
 ========================================
+ ! Clean up "Meet People"
+   - Highlight new content since the last time they viewed, because they may open from a push notification
 
-TESTING / READY TO RELEASE?
+ ! Implement APNS
+   - Add a badge = "" if the What's New is updated. Highlight the new items in the news feed.
+   - Support content "someone replied to you" with a "1" and something you may be interested in "NEW"
+   - Home screen: refresh XX new lessons available in LANGUAGE
+
 
 ========================================
 STUFF TO DO LATER
 ========================================
- ! Push notification after replies to How do I say
- ! Badges and acheivements for completing tasks
+ - Badges and acheivements for completing tasks
      - Upload a photo, Download 5 lessons, Share a lesson on facebook, Contribute a lesson, Translate a lesson, Send a message to author, practice a word, reply to a practice, have your lesson downloaded by 10 people
      - Silver-level badge items are handled locally and reported to server
      - Gold-level are calculated by server (your lesson downloaded by 10 people)
- ! After user has translated allow them to record that lesson as well
- - Filter only relevant stuff on WHAT UP screen
+ - After user has translated allow them to record that lesson as well
  - How do I say: show share buttons after save
- - Capture user IP address on register / update
+ - Capture user IP address, version, .... on register / update
  - How do I say: flash HUD showing successful transfer
- - Home screen: refresh XX new lessons available in LANGUAGE
  - Home screen: refresh your lesson has XX current users
  - Home screen: refresh XX new people have viewed your profile
  - Record sentences, not just words
  - Custom URL, and allow opening lessons directly from learnwithecho.com website
-  - LessonInformationController -> make language work like in the How do I say view
  - Help screen like http://imgur.com/RToxQiC
    - Add link to rate app
      http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
@@ -55,6 +61,7 @@ STUFF TO DO LATER
  - Use imageoptim on image assets
  - All tables have Created and Updated columns
  - Edit http://learnwithecho.com/lessons/283 for new API and translations
- - Search / delete "PRACTICE"
  - WooBox / run a contest / Upload lesson get $100
  - Update ProfileView / a view mode and an edit mode. Then link in from social view
+ - In a conversation, track percentage of words in LANG A and LANG B to keep it fair
+ - Check APNS feedback service

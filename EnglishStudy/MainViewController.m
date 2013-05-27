@@ -87,11 +87,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
+    [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.tintColor = [UIColor  blackColor];
-    [refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refreshControl;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationReceived:) name:@"pushNotification" object:nil];
     
     Profile *me = [Profile currentUserProfile];
     if (!me.username)
@@ -635,6 +633,12 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 - (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word
 {
     return !word.name; // edit new, virgin word
+}
+
+- (void)pushNotificationReceived:(NSNotification*)aNotification
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self performSegueWithIdentifier:@"meetPeople" sender:self];
 }
 
 @end

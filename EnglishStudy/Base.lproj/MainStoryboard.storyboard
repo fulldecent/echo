@@ -1598,7 +1598,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="K2Y-ce-bme" kind="push" id="yaL-Y4-CAy"/>
+                                    <segue destination="K2Y-ce-bme" kind="push" identifier="meetPeople" id="yaL-Y4-CAy"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1610,6 +1610,7 @@
                     <navigationItem key="navigationItem" title="Home" id="dyf-WY-0FO"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="ryi-tW-gxn">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                         <connections>
                             <action selector="reload" destination="qr3-vd-QgS" eventType="valueChanged" id="Yzz-Rv-ZnL"/>
                         </connections>
@@ -2264,8 +2265,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="1s3-fI-s44"/>
-        <segue reference="47Q-7Q-DoP"/>
-        <segue reference="yax-pl-PTe"/>
+        <segue reference="kuh-V1-luU"/>
         <segue reference="3H6-9o-S7b"/>
+        <segue reference="yax-pl-PTe"/>
     </inferredMetricsTieBreakers>
 </document>

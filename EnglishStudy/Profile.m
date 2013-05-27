@@ -8,6 +8,7 @@
 
 #import "Profile.h"
 #import "NetworkManager.h"
+#import "AppDelegate.h"
 
 @implementation Profile
 @synthesize userID = _userID;
@@ -54,8 +55,6 @@
     sharedInstance.location = [userProfile objectForKey:@"location"];
     if ([userProfile objectForKey:@"photo"])
         sharedInstance.photo = [UIImage imageWithData:[userProfile objectForKey:@"photo"]];
-    if ([userProfile objectForKey:@"deviceToken"])
-        sharedInstance.deviceToken = [userProfile objectForKey:@"deviceToken"];
     if (needToSync)
         [sharedInstance syncToDisk];
     return sharedInstance;
@@ -94,8 +93,8 @@
         [userProfile setObject:UIImagePNGRepresentation(self.photo) forKey:@"photo"];
     if (self.userID)
         [userProfile setObject:self.userID forKey:@"userID"];
-    if (self.deviceToken)
-        [userProfile setObject:self.deviceToken forKey:@"deviceToken"];
+//    if (self.deviceToken)
+//        [userProfile setObject:self.deviceToken forKey:@"deviceToken"];
     [defaults setObject:userProfile forKey:@"userProfile"];
     [defaults synchronize];
 }
