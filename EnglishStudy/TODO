@@ -21,26 +21,24 @@ RELEASE PROCESS
    - Pull to refresh
    - Let people know if they already replied to a word
    - Show content only if it is relevant to your native or learning language
+   - Highlight new content since the last time they viewed, because they may open from a push notification
  - APNS
    - Send push notification for feedbackLesson and replyPractice
    - Do not cache DeviceToken (because they may revoke it)
    - Implement a custom URL so APNS can take them to the Meet People page
+   - (DONT DO) Add a badge = "" if the What's New is updated
+ - Use imageoptim on image assets
 
 ========================================
 FOCUS
 ========================================
- ! Clean up "Meet People"
-   - Highlight new content since the last time they viewed, because they may open from a push notification
 
- ! Implement APNS
-   - Add a badge = "" if the What's New is updated. Highlight the new items in the news feed.
-   - Support content "someone replied to you" with a "1" and something you may be interested in "NEW"
-   - Home screen: refresh XX new lessons available in LANGUAGE
 
 
 ========================================
 STUFF TO DO LATER
 ========================================
+ - Home screen: refresh XX new lessons available in LANGUAGE
  - Badges and acheivements for completing tasks
      - Upload a photo, Download 5 lessons, Share a lesson on facebook, Contribute a lesson, Translate a lesson, Send a message to author, practice a word, reply to a practice, have your lesson downloaded by 10 people
      - Silver-level badge items are handled locally and reported to server
@@ -58,7 +56,6 @@ STUFF TO DO LATER
      http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
 . Your "use case" should be, there's a 22 year old college student living in the dorms. How will this software get him laid?
- - Use imageoptim on image assets
  - All tables have Created and Updated columns
  - Edit http://learnwithecho.com/lessons/283 for new API and translations
  - WooBox / run a contest / Upload lesson get $100

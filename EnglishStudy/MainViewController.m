@@ -49,16 +49,16 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 }
 
 - (IBAction)reload {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager getUpdatesForLessons:self.lessonSet.lessons
                        newLessonsSinceID:[NSNumber numberWithInt:0]
-                         messagesSinceID:[NSNumber numberWithInt:0]
+                         messagesSinceID:[defaults objectForKey:@"lastMessageSeen"]
                                onSuccess:^
      (NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages)
      {
 
          [self.lessonSet setServerVersionsForLessonsWithIDs:lessonsIDsWithNewServerVersions];
-         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
          [defaults setObject:numNewLessons forKey:@"numNewLessons"];
          [defaults setObject:numNewMessages forKey:@"numNewMessages"];
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
@@ -364,6 +364,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue]) {
                 [(UIButton *)[cell viewWithTag:3] setHidden:NO];
                 [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"numNewMessages"] description] forState:UIControlStateNormal];
+                if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue] == -1)
+                    [(UIButton *)[cell viewWithTag:3] setTitle:@"" forState:UIControlStateNormal];
             } else
                 [(UIButton *)[cell viewWithTag:3] setHidden:YES];
             return cell;

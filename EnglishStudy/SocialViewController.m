@@ -116,11 +116,13 @@
 - (void)loadPage
 {
     self.webView.delegate = self;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     Profile *me = [Profile currentUserProfile];
     NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
     NSMutableString *url = [[SERVER_ECHO_API_URL stringByAppendingPathComponent:@"iPhone/social"] mutableCopy];
     [url appendFormat:@"?version=%@", version];
     [url appendFormat:@"&locale=%@", [[NSLocale preferredLanguages] objectAtIndex:0]];
+    [url appendFormat:@"&lastMessageSeen=%@", [defaults objectForKey:@"lastMessageSeen"]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"xx", me.usercode];
@@ -131,7 +133,6 @@
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
     [self.webView loadRequest:request];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastUpdateSocial"];
     [defaults synchronize];
 }
@@ -236,8 +237,12 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     [self.refreshControl endRefreshing];
+    NSString *javaScript = @"parseInt(document.getElementById('lastMessageSeen').innerHTML)";
+    NSString *lastMessageSeenStr = [self.webView stringByEvaluatingJavaScriptFromString:javaScript];
+    [defaults setInteger:lastMessageSeenStr.integerValue forKey:@"lastMessageSeen"];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
