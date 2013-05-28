@@ -12,7 +12,7 @@
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
 #import "Audio.h"
-#import "NSData+Base64.h" // from some submodule
+#import "NSData+ENBase64.h"
 
 #define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0/"
 

@@ -2,8 +2,9 @@
 RELEASE PROCESS
  - Increment version
  - Update screenshots
+ - git submodule update --init --recursive
  - git submodule foreach --recursive git fetch
- - git submodule update --recursive --merge
+ - git submodule foreach git merge origin master
  - XCode Analyze, AppCode Analyze
  - Build, Tag, Upload
  - Create tokens with Tokens app
