@@ -6,7 +6,7 @@ RELEASE PROCESS
  - git submodule foreach --recursive git fetch
  - git submodule foreach git merge origin master
  - XCode Analyze, AppCode Analyze
- - Build, Tag, Upload
+ - Build, Tag, Upload git tag -a 'v##.##.#' -m 'Release v##.##.#'
  - Create tokens with Tokens app
  - Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
  - Check the UI works in Chinese
@@ -16,24 +16,14 @@ RELEASE PROCESS
 ========================================
 1.x.x Changelog
 ========================================
- ! Track the last time each person has logged in
- - Search / delete "PRACTICE"
- - Update "Meet People"
-   - Pull to refresh
-   - Let people know if they already replied to a word
-   - Show content only if it is relevant to your native or learning language
-   - Highlight new content since the last time they viewed, because they may open from a push notification
- - APNS
-   - Send push notification for feedbackLesson and replyPractice
-   - Do not cache DeviceToken (because they may revoke it)
-   - Implement a custom URL so APNS can take them to the Meet People page
-   - (DONT DO) Add a badge = "" if the What's New is updated
- - Use imageoptim on image assets
+ - Show progress when uploading reply to word (Su)
+
 
 ========================================
 FOCUS
 ========================================
-
+ ! Bug: freezes after intro screen
+ ! Need indication after successful reply to word
 
 
 ========================================
@@ -56,7 +46,7 @@ STUFF TO DO LATER
    - Add link to rate app
      http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
-. Your "use case" should be, there's a 22 year old college student living in the dorms. How will this software get him laid?
+.- Your "use case" should be, there's a 22 year old college student living in the dorms. How will this software get him laid?
  - All tables have Created and Updated columns
  - Edit http://learnwithecho.com/lessons/283 for new API and translations
  - WooBox / run a contest / Upload lesson get $100

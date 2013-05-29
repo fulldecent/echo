@@ -492,7 +492,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (void)wordDetailController:(WordDetailController *)controller didSaveWord:(Word *)word
 {
-    self.hud = [MBProgressHUD HUDForView:self.view];
+    self.hud = [MBProgressHUD showHUDAddedTo:controller.view animated:YES];
     self.hud.labelText = @"Uploading reply";
     self.hud.delegate = self;
     
