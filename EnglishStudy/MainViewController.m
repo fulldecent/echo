@@ -170,7 +170,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 33;
+    return 40;
 }
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,13 +195,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     // Create label with section title
     UILabel *label = [[UILabel alloc] init] ;
-    label.frame = CGRectMake(100, 5, 140, 30);
+    label.frame = CGRectMake(100, 15, 140, 30);
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
-//    label.shadowColor = [UIColor whiteColor];
-//    label.shadowOffset = CGSizeMake(0.0, 1.0);
     label.font = [UIFont boldSystemFontOfSize:20];
     label.text = [self tableView:tableView titleForHeaderInSection:section];
+    //    label.shadowColor = [UIColor whiteColor];
+    //    label.shadowOffset = CGSizeMake(0.0, 1.0);
 
     UIImage *icon;
     if (section == SectionLessons)
@@ -210,11 +210,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         icon = [UIImage imageNamed:@"practiceIcon"];
 
     UIImageView * iconView = [[UIImageView alloc] initWithImage:icon];
-    iconView.frame = CGRectMake(65, 5, 30, 30);
+    iconView.frame = CGRectMake(65, 15, 30, 30);
     
     // Create header view and add label as a subview
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
-    UIView *background = [[UIView alloc] initWithFrame:CGRectMake(50, 5, 200, 30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 140, 30)];
+    UIView *background = [[UIView alloc] initWithFrame:CGRectMake(50, 15, 200, 30)];
   
     if (section == SectionLessons)
         background.backgroundColor = [UIColor colorWithRed:61.0/256 green:100.0/256 blue:212.0/256 alpha:1.0];
@@ -235,15 +235,25 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [view addSubview:label];
     [view addSubview:iconView];
     
+    if (section == SectionLessons) {
+        UIGlossyButton *button = [[UIGlossyButton alloc] initWithFrame:CGRectMake(100, 15, 30, 30)];
+        [button setTitle:@"?" forState:UIControlStateNormal];
+        button.tintColor = [UIColor blackColor];
+        [button useWhiteLabel: YES];
+        button.backgroundOpacity = 0.7;
+        button.innerBorderWidth = 2.0f;
+        button.buttonBorderWidth = 0.0f;
+        button.buttonCornerRadius = 12.0f;
+        [button setGradientType: kUIGlossyButtonGradientTypeSolid];
+        [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
+        
+        
+        
+        button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+        [view addSubview:button];
+    }
+        
     return view;
-    /*
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, 100, 200)];
-    view.backgroundColor = [UIColor redColor];
-    UIImage *icon = [UIImage imageNamed:@"echo"];
-    UIImageView * iconView = [[UIImageView alloc] initWithImage:icon];
-    [view addSubview:iconView];
-    return view;
-     */
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

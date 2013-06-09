@@ -738,7 +738,6 @@
 		77B5136F151970B100F041D7 = {
 			isa = PBXGroup;
 			children = (
-				77BBB7641754DC4A0067787E /* StoreKit.framework */,
 				77B51384151970B100F041D7 /* Echo */,
 				77B5137D151970B100F041D7 /* Frameworks */,
 				77B5137B151970B100F041D7 /* Products */,
@@ -757,6 +756,7 @@
 		77B5137D151970B100F041D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77BBB7641754DC4A0067787E /* StoreKit.framework */,
 				776D2BE516AB8DA500EDB4DB /* libsqlite3.dylib */,
 				776D2BE316AB8D9300EDB4DB /* MobileCoreServices.framework */,
 				776D2BE116AB8D6900EDB4DB /* Social.framework */,
