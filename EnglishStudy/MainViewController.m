@@ -19,6 +19,7 @@
 #import "WordDetailController.h"
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
+#import "WebViewController.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
@@ -246,14 +247,24 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         button.buttonCornerRadius = 12.0f;
         [button setGradientType: kUIGlossyButtonGradientTypeSolid];
         [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-        
-        
-        
+        [button addTarget:self action:@selector(loadHelpScreen) forControlEvents:UIControlEventTouchUpInside];
         button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         [view addSubview:button];
     }
         
     return view;
+}
+
+- (void)loadHelpScreen
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    WebViewController *controller = (WebViewController *)[storyboard instantiateViewControllerWithIdentifier:@"WebViewController"];
+    [self.navigationController pushViewController:controller animated:YES];
+    controller.delegate = self;
+    controller.title = @"Meet people";
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"resources" ofType:@"html"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [controller.webView loadRequest:request];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

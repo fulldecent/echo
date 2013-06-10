@@ -12,6 +12,8 @@
 		770AA8B216C4A7D700348FB8 /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 770AA8AE16C4A7D700348FB8 /* Icon-iPad.png */; };
 		770AA8B316C4A7D700348FB8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 770AA8AF16C4A7D700348FB8 /* Icon.png */; };
 		770AA8B716C4ABC300348FB8 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 770AA8B616C4ABC300348FB8 /* gradient.png */; };
+		771CED691764336000EE8A88 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771CED681764336000EE8A88 /* WebViewController.m */; };
+		771CED981764C09F00EE8A88 /* resources.html in Resources */ = {isa = PBXBuildFile; fileRef = 771CED971764C09F00EE8A88 /* resources.html */; };
 		772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772210B4172DD3B60096B23A /* TranslateLessonViewController.m */; };
 		7729FEC315294E5900D2180E /* echo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEC115294E5900D2180E /* echo.png */; };
 		7729FEC415294E5900D2180E /* echo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEC215294E5900D2180E /* echo@2x.png */; };
@@ -469,6 +471,9 @@
 		770AA8AE16C4A7D700348FB8 /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad.png"; sourceTree = "<group>"; };
 		770AA8AF16C4A7D700348FB8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		770AA8B616C4ABC300348FB8 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
+		771CED671764336000EE8A88 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		771CED681764336000EE8A88 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		771CED971764C09F00EE8A88 /* resources.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = resources.html; sourceTree = "<group>"; };
 		7721960F169E5F9200998B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		77219613169E604700998B69 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard.strings"; sourceTree = "<group>"; };
 		772210B3172DD3B60096B23A /* TranslateLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslateLessonViewController.h; sourceTree = "<group>"; };
@@ -792,6 +797,8 @@
 				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
 				77C7042C16F52FF400C3A13A /* ProfileViewController.h */,
 				77C7042D16F52FF400C3A13A /* ProfileViewController.m */,
+				771CED671764336000EE8A88 /* WebViewController.h */,
+				771CED681764336000EE8A88 /* WebViewController.m */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
 				77DDC70D156DD80300568CDE /* Social Mode */,
@@ -942,6 +949,7 @@
 				774CDA1815CF05B700B14C45 /* SocialViewController.h */,
 				774CDA1915CF05B700B14C45 /* SocialViewController.m */,
 				7762C933174B02C000C82A5D /* style.css */,
+				771CED971764C09F00EE8A88 /* resources.html */,
 				77D8AD0D157AB589001E2E25 /* social.png */,
 				77D8AD0E157AB589001E2E25 /* social@2x.png */,
 			);
@@ -1424,6 +1432,7 @@
 				777FFB011703E235004E03F3 /* share3.png in Resources */,
 				7762C934174B02C000C82A5D /* style.css in Resources */,
 				77BBB75F17544F360067787E /* ShareKit.bundle in Resources */,
+				771CED981764C09F00EE8A88 /* resources.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1470,6 +1479,7 @@
 				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
 				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
 				7769F474173B3B2300BB06D7 /* Audio.m in Sources */,
+				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
