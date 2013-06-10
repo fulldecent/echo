@@ -12,6 +12,7 @@
 #import "SHKFacebook.h"
 #import "AFNetworking.h"
 #import "Profile.h"
+#import "Appirater.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
@@ -45,7 +46,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    //    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
+    // Handle "please rate me"
+    [Appirater setAppId:@"558585608"];
     
     DefaultSHKConfigurator *configurator = [[EchoSHKConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
@@ -71,6 +75,8 @@
     if (userInfo) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:nil userInfo:userInfo];
     }
+    
+    [Appirater appLaunched:YES];
 
     return YES;
 }
@@ -116,6 +122,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
