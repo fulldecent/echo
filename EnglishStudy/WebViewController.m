@@ -151,6 +151,8 @@
         NSString *lastMessageSeenStr = [self.webView stringByEvaluatingJavaScriptFromString:javaScript];
         [defaults setInteger:lastMessageSeenStr.integerValue forKey:@"lastMessageSeen"];
     }
+    NSString* title = [webView stringByEvaluatingJavaScriptFromString: @"document.title"];
+    self.title = title;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

@@ -241,7 +241,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         [button setTitle:@"?" forState:UIControlStateNormal];
         button.tintColor = [UIColor blackColor];
         [button useWhiteLabel: YES];
-        button.backgroundOpacity = 0.7;
+        button.backgroundOpacity = 0.5;
         button.innerBorderWidth = 2.0f;
         button.buttonBorderWidth = 0.0f;
         button.buttonCornerRadius = 12.0f;
@@ -261,7 +261,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     WebViewController *controller = (WebViewController *)[storyboard instantiateViewControllerWithIdentifier:@"WebViewController"];
     [self.navigationController pushViewController:controller animated:YES];
     controller.delegate = self;
-    controller.title = @"Meet people";
     NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"resources" ofType:@"html"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [controller.webView loadRequest:request];
