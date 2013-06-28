@@ -113,7 +113,7 @@
         if ([packedFile isKindOfClass:[NSString class]]) // backwards compatability
             file.fileCode = packedFile;
         else if ([packedFile isKindOfClass:[NSNumber class]]) // backwards compatability
-            file.fileID = [NSString stringWithFormat:@"%d", [(NSNumber *)packedFile integerValue]];
+            file.fileID = packedFile;
         else if ([packedFile isKindOfClass:[NSDictionary class]]) {
             file.fileID = [packedFile objectForKey:@"fileID"];
             file.fileCode = [packedFile objectForKey:@"fileCode"];

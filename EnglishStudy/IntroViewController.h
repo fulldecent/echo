@@ -14,9 +14,8 @@
 @class IntroViewController;
 
 @interface IntroViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITextField *nameField;
-@property (strong, nonatomic) IBOutletCollection(UIGlossyButton) NSArray *languageButtons;
 @property (weak, nonatomic) id<DownloadLessonViewControllerDelegate> delegate;
-- (IBAction)nameChanged:(UITextField *)sender;
+@property (strong, nonatomic) IBOutlet UIButton *nameField;
 - (IBAction)languageButtonClicked:(UIButton *)sender;
+- (IBAction)askUserForName;
 @end

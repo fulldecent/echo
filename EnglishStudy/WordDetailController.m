@@ -320,17 +320,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     NSLog(@"child viewDidDisappear returning");    
 }
 
-- (void)uploadWordAsNewPracticeLesson
-{
-    Lesson *lesson = [[Lesson alloc] init];
-    lesson.name = @"PRACTICE";
-    lesson.detail = [NSDictionary dictionaryWithObject:self.word.name forKey:self.word.languageTag];
-    lesson.languageTag = self.word.languageTag;
-    __block MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.delegate = self;
-    hud.labelText = @"Sharing practice word";
-}
-
 #pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

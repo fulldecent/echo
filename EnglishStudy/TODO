@@ -1,12 +1,12 @@
 ========================================
-RELEASE PROCESS
+RELEASE EARLY, RELEASE OFTEN
  - Increment version
  - Update screenshots
  - git submodule update --init --recursive
  - git submodule foreach --recursive git fetch
  - git submodule foreach git merge origin master
  - XCode Analyze, AppCode Analyze
- - Build, Tag, Upload git tag -a 'v##.##.#' -m 'Release v##.##.#'
+ - Build, Tag, Archive, Upload git tag -a 'v##.##.#' -m 'Release v##.##.#'
  - Create tokens with Tokens app
  - Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
  - Check the UI works in Chinese
@@ -16,15 +16,16 @@ RELEASE PROCESS
 ========================================
 1.x.x Changelog
 ========================================
- - Show progress when uploading reply to word (Su)
-
+ERROR - CANT GET PAST MAIN SCREEN!!
 
 ========================================
 FOCUS
 ========================================
- ! Bug: freezes after intro screen
- ! Request feedback after you use several times
-
+ ! Use autolayout on the word practice screen and test by rotating
+ iOS7 -- use tint color
+ will I support it?
+ use system activity sheet to share
+ use action sheet instead of LanguageSelectController?
 
 ========================================
 STUFF TO DO LATER
@@ -38,19 +39,18 @@ STUFF TO DO LATER
  - After user has translated allow them to record that lesson as well
  - How do I say: show share buttons after save
  - Capture user IP address, version, .... on register / update
- - How do I say: flash HUD showing successful transfer
  - Home screen: refresh your lesson has XX current users
  - Home screen: refresh XX new people have viewed your profile
  - Record sentences, not just words
  - Custom URL, and allow opening lessons directly from learnwithecho.com website
- - Help screen like http://imgur.com/RToxQiC
-   - Add link to rate app
-     http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=558585608&pageNumber=0&sortOrdering=1&type=Purple+Software&mt=8
  - Home screen, Meet people: recreate this view using AJAX and native UITableView
 .- Your "use case" should be, there's a 22 year old college student living in the dorms. How will this software get him laid?
  - All tables have Created and Updated columns
  - Edit http://learnwithecho.com/lessons/283 for new API and translations
  - WooBox / run a contest / Upload lesson get $100
  - Update ProfileView / a view mode and an edit mode. Then link in from social view
- - In a conversation, track percentage of words in LANG A and LANG B to keep it fair
+ - Add conversation view, track percentage of words in LANG A and LANG B to keep it fair
  - Check APNS feedback service
+ - Implement v1 api using v2
+ - Add breakpoint to every method and test for code coverage
+ 

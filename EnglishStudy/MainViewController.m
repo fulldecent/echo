@@ -91,10 +91,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationReceived:) name:@"pushNotification" object:nil];
-    
-    Profile *me = [Profile currentUserProfile];
-    if (!me.username)
-        [self performSegueWithIdentifier:@"intro" sender:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,6 +106,15 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     }
     [super viewWillAppear:YES];
     [self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    Profile *me = [Profile currentUserProfile];
+    if (!me.username)
+        [self performSegueWithIdentifier:@"intro" sender:self];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -19,6 +19,8 @@
 		7729FEC415294E5900D2180E /* echo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729FEC215294E5900D2180E /* echo@2x.png */; };
 		772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772C822E151E26E500F255EF /* AVFoundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 772C83B115BF6D1A00E63B9C /* LessonSet.m */; };
+		773FEA66177E198A000AD650 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773FEA65177E198A000AD650 /* Media.xcassets */; };
+		773FEA91177E1B5B000AD650 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BBB7641754DC4A0067787E /* StoreKit.framework */; };
 		77429F4415D4A3730017834F /* iPhoneBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77429F4215D4A3730017834F /* iPhoneBG@2x.png */; };
 		77429F4515D4A3730017834F /* iPhoneBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 77429F4315D4A3730017834F /* iPhoneBG.png */; };
 		7749939715A0C409001DE784 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7749939615A0C409001DE784 /* NetworkManager.m */; };
@@ -94,7 +96,6 @@
 		77B9BC45160AC28500931E92 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77B9BC44160AC28500931E92 /* Default-568h@2x.png */; };
 		77BBB75E17544EF80067787E /* libShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BBB70317544E9D0067787E /* libShareKit.a */; };
 		77BBB75F17544F360067787E /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 77BBB70517544E9D0067787E /* ShareKit.bundle */; };
-		77BBB7651754DC4A0067787E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BBB7641754DC4A0067787E /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		77BBFDFB157BDC4500511CEC /* Languages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFDFA157BDC4500511CEC /* Languages.plist */; };
 		77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE09157C0DB900511CEC /* LanguageSelectController.m */; };
 		77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0C157C11C900511CEC /* WordDetailController.m */; };
@@ -488,6 +489,7 @@
 		772C822E151E26E500F255EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		772C83B015BF6D1A00E63B9C /* LessonSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonSet.h; sourceTree = "<group>"; };
 		772C83B115BF6D1A00E63B9C /* LessonSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonSet.m; sourceTree = "<group>"; };
+		773FEA65177E198A000AD650 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Echo/Media.xcassets; sourceTree = "<group>"; };
 		77429F4215D4A3730017834F /* iPhoneBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhoneBG@2x.png"; sourceTree = "<group>"; };
 		77429F4315D4A3730017834F /* iPhoneBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneBG.png; sourceTree = "<group>"; };
 		7749939515A0C409001DE784 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
@@ -681,8 +683,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				773FEA91177E1B5B000AD650 /* StoreKit.framework in Frameworks */,
 				774CDA4615D0AF0C00B14C45 /* CFNetwork.framework in Frameworks */,
-				77BBB7651754DC4A0067787E /* StoreKit.framework in Frameworks */,
 				77BBB75E17544EF80067787E /* libShareKit.a in Frameworks */,
 				774CDA4815D0AF1700B14C45 /* CoreLocation.framework in Frameworks */,
 				776D2BE416AB8D9300EDB4DB /* MobileCoreServices.framework in Frameworks */,
@@ -795,6 +797,7 @@
 		77B5136F151970B100F041D7 = {
 			isa = PBXGroup;
 			children = (
+				773FEA65177E198A000AD650 /* Media.xcassets */,
 				77B51384151970B100F041D7 /* Echo */,
 				77B5137D151970B100F041D7 /* Frameworks */,
 				77B5137B151970B100F041D7 /* Products */,
@@ -841,10 +844,10 @@
 			isa = PBXGroup;
 			children = (
 				77E58519169915FE00866A43 /* TODO */,
-				77ED9D2916643D3F005D10ED /* MainViewController.h */,
-				77ED9D2A16643D3F005D10ED /* MainViewController.m */,
 				77ED9D0F1661615D005D10ED /* IntroViewController.h */,
 				77ED9D101661615D005D10ED /* IntroViewController.m */,
+				77ED9D2916643D3F005D10ED /* MainViewController.h */,
+				77ED9D2A16643D3F005D10ED /* MainViewController.m */,
 				77EC14C316C9B10700D5B4C0 /* DownloadLessonViewController.h */,
 				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
 				77C7042C16F52FF400C3A13A /* ProfileViewController.h */,
@@ -1070,7 +1073,17 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PHOR;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					77B51379151970B100F041D7 = {
+						DevelopmentTeam = 8Q693ZG5RN;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 77B51374151970B100F041D7 /* Build configuration list for PBXProject "Echo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1453,6 +1466,7 @@
 				77D8AD1F157ABF1A001E2E25 /* speaker icon.png in Resources */,
 				77D8AD20157ABF1A001E2E25 /* speaker icon@2x.png in Resources */,
 				77D8AD21157ABF1A001E2E25 /* Ready to record.m4a in Resources */,
+				773FEA66177E198A000AD650 /* Media.xcassets in Resources */,
 				77D8AD22157ABF1A001E2E25 /* Record failed.m4a in Resources */,
 				77BBFDFB157BDC4500511CEC /* Languages.plist in Resources */,
 				77BBFE17157C3BF100511CEC /* Checkbox empty.png in Resources */,
@@ -1655,7 +1669,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1673,6 +1686,7 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1683,7 +1697,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -1705,6 +1718,8 @@
 		77B513A7151970B100F041D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
 				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
@@ -1723,6 +1738,8 @@
 		77B513A8151970B100F041D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
 				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";

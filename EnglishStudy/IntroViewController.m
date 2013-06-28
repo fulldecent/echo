@@ -12,9 +12,11 @@
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
 
-@interface IntroViewController() <MBProgressHUDDelegate, LanguageSelectControllerDelegate, UITextFieldDelegate>
-- (void)saveName:(NSString *)name andLanguageWithTag:(NSString *)tag;
+@interface IntroViewController() <MBProgressHUDDelegate, LanguageSelectControllerDelegate, UITextFieldDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) UIAlertView *alertView;
+- (void)saveName:(NSString *)name andLanguageWithTag:(NSString *)tag;
 @end
 
 @implementation IntroViewController
@@ -24,11 +26,11 @@
 - (IBAction)languageButtonClicked:(UIButton *)sender
 {
     if (sender.tag == 1)
-        [self saveName:self.nameField.text andLanguageWithTag:@"en"];
+        [self saveName:self.name andLanguageWithTag:@"en"];
     if (sender.tag == 2)
-        [self saveName:self.nameField.text andLanguageWithTag:@"es"];
+        [self saveName:self.name andLanguageWithTag:@"es"];
     if (sender.tag == 3)
-        [self saveName:self.nameField.text andLanguageWithTag:@"cmn"];
+        [self saveName:self.name andLanguageWithTag:@"cmn"];
 }
 
 - (void)saveName:(NSString *)name andLanguageWithTag:(NSString *)tag
@@ -46,32 +48,40 @@
              [self.delegate downloadLessonViewController:self gotStubLesson:lesson];
          [self.hud hide:YES];
          [me syncToDisk];
-         [self.navigationController popViewControllerAnimated:YES];
+         [self dismissViewControllerAnimated:YES completion:nil];
      } onFailure:^(NSError *error) {
          [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)askUserForName
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    self.alertView = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"My name is:" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Continue", nil];
+    self.alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [[self.alertView textFieldAtIndex:0] setText:self.name];
+    [[self.alertView textFieldAtIndex:0] setDelegate:self];
+    [self.alertView show];
 }
 
-- (void)viewDidLoad
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [super viewDidLoad];
-    self.nameField.delegate = self;
-	// Do any additional setup after loading the view.
+    self.name = [(UITextField *)[alertView textFieldAtIndex:0] text];
+    [self.nameField setTitle:self.name forState:UIControlStateNormal];
+    if (!self.name.length)
+        [self askUserForName];
 }
 
-- (IBAction)nameChanged:(UITextField *)sender {
-    for (UIButton *button in self.languageButtons)
-        button.enabled = sender.text.length > 0;
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.nameField setTitle:@"" forState:UIControlStateNormal];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self askUserForName];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -84,18 +94,16 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (string.length == 0)
-        return YES;
-    if (textField.text.length > 16)
+    if ([textField.text length] + [string length] - range.length > 16)
         return NO;
-    
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]+$" options:0 error:nil];
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]?$" options:0 error:nil];
     return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    [self.alertView dismissWithClickedButtonIndex:self.alertView.firstOtherButtonIndex animated:YES];
     return YES;
 }
 
@@ -110,7 +118,7 @@
 
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name
 {
-    [self saveName:self.nameField.text andLanguageWithTag:tag];
+    [self saveName:self.name andLanguageWithTag:tag];
 }
 
 @end
