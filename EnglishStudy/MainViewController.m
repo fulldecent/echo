@@ -95,6 +95,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)viewWillAppear:(BOOL)animated
 {
+//    self.view.window.tintColor = [UIColor purpleColor];
+//    self.navigationController.navigationBar.tintColor = [UIColor redColor];
+    
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     

@@ -16,7 +16,7 @@ RELEASE EARLY, RELEASE OFTEN
 ========================================
 1.x.x Changelog
 ========================================
-ERROR - CANT GET PAST MAIN SCREEN!!
+ - Switch to AutoLayout
 
 ========================================
 FOCUS
@@ -25,7 +25,11 @@ FOCUS
  iOS7 -- use tint color
  will I support it?
  use system activity sheet to share
- use action sheet instead of LanguageSelectController?
+ use action sheet instead of LanguageSelectController? -- http://stackoverflow.com/questions/13498459/how-to-display-the-default-ios-6-share-action-sheet-with-available-share-options
+ Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
+
+ERROR - CANT GET PAST MAIN SCREEN!!
+
 
 ========================================
 STUFF TO DO LATER
@@ -53,4 +57,37 @@ STUFF TO DO LATER
  - Check APNS feedback service
  - Implement v1 api using v2
  - Add breakpoint to every method and test for code coverage
- 
+
+
+ - Get teachers and add lessons
+ - TOP 10 lessons on website
+ - Free codes to all the teachers in the world. Market to Xindongfang
+ - Jogging mode (full auto)
+ - echoRecorder - better encoding
+ - Reach out to people with polyglot blogs
+ - FREE CODES: http://iphonedevsdk.com/post/discussion/iphone-promo-codes
+ http://www.reddit.com/r/iphone
+ - LETTER TO http://www.myplt.com/contact_us_other.html
+ Hello, I am developing an iPhone application for people to supplement their language studies. This app allows people to listen to a teacher, record their own voice, then listen over and over. It is good for intermediate-level learners. This is a great way for language teachers to meet students. This app costs $4 in the App store, but below are free codes. You can use the App store and click "Redeem" to try this for free.
+
+ - H93A6A6KFLEL
+ 3L9KNF3KHR6Y
+ 4NLXKLM3JAAF
+ 6R43RLREH9PE
+ H7FMJRTXAMKW
+
+ I am writing to ask if you would be interested in a type of partnership. You could create lessons in any language on this app. This is very easy and fast to do. Then you would set list your username as myplt.com. I will market this app to people studying any language and hope some of these become your customers. I have developed this app for my girlfriend who speaks English as a second language to help her practice words she has trouble with. And I do wish to help anyone that wants to learn a new language.
+
+ Please let me know your thoughts, also this website has more details: http://learnwithecho.com
+ http://www.reddit.com/r/iphone/comments/12lnaz/iphone_app_practice_speaking_english_or_spanish/
+ http://iphonedevsdk.com/forum/iphone-promo-codes/109289-english-spanish-speaking-practice-promo-codes.html
+ Submit to app review websites / language learning app websites
+ Find list of competing apps / use majestic or some other tool to track back links
+ Advice for pen pals / language exchange
+ Style: http://stackoverflow.com/questions/6933629/uitableview-cell-query-how-to-get-a-table-view-like-istudiez
+ http://stackoverflow.com/questions/13552422/existing-ios-form-framework
+ Style: http://istudentpro.com/
+
+ OTHER
+ https://itunes.apple.com/mz/app/pocket3-chinese/id346703961?mt=8
+

@@ -961,7 +961,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="textField" id="XXe-Er-O2b">
-                                <rect key="frame" x="0.0" y="99" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="99" width="320" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -2650,137 +2650,14 @@
         <image name="speaker icon.png" width="64" height="64"/>
         <image name="up_arrow.png" width="32" height="32"/>
     </resources>
-    <classes>
-        <class className="DownloadLessonViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DownloadLessonViewController.h"/>
-        </class>
-        <class className="IntroViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IntroViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="askUserForName"/>
-                <relationship kind="action" name="languageButtonClicked:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="nameField" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="LanguageSelectController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LanguageSelectController.h"/>
-        </class>
-        <class className="LessonInformationViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LessonInformationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="action" name="updateDetail:" candidateClass="UITextField"/>
-                <relationship kind="action" name="updateName:" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="detailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="languageName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="lessonLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="lessonName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="LessonViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LessonViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="lessonFlagPressed:"/>
-                <relationship kind="action" name="lessonLikePressed:"/>
-                <relationship kind="action" name="lessonReplyAuthorPressed:"/>
-                <relationship kind="action" name="lessonShareKitPressed:"/>
-                <relationship kind="action" name="sharePressed:"/>
-                <relationship kind="action" name="translationFlagPressed:"/>
-                <relationship kind="action" name="translationLikePressed:"/>
-                <relationship kind="action" name="translationReplyAuthorPressed:"/>
-                <relationship kind="outlet" name="detailLabel" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lessonLabel" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="MainViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="reload"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PHOREchoRecordButton" superclassName="UIGlossyButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PHOREchoRecordButton.h"/>
-        </class>
-        <class className="ProfileViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="checkIn:"/>
-                <relationship kind="action" name="choosePhoto:"/>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="outlet" name="learningLang" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="location" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="name" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nativeLang" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="SocialViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SocialViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="loadPage"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="TranslateLessonViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TranslateLessonViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="save:"/>
-            </relationships>
-        </class>
-        <class className="UIGlossyButton" superclassName="UIButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIGlossyButton.h"/>
-        </class>
-        <class className="UIRefreshControl" superclassName="UIControl">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>
-        </class>
-        <class className="WebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="WordDetailController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/WordDetailController.h"/>
-            <relationships>
-                <relationship kind="action" name="echoButtonPressed:"/>
-                <relationship kind="action" name="echoButtonReset:"/>
-                <relationship kind="action" name="resetButtonPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="save"/>
-                <relationship kind="action" name="updateDetail:"/>
-                <relationship kind="action" name="updateName:"/>
-                <relationship kind="action" name="validate"/>
-                <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="WordPracticeController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/WordPracticeController.h"/>
-            <relationships>
-                <relationship kind="action" name="continueNextWorkflowStep:"/>
-                <relationship kind="action" name="echoButtonPressed"/>
-                <relationship kind="action" name="echoButtonReset:"/>
-                <relationship kind="action" name="fastForwardPressed:"/>
-                <relationship kind="action" name="resetWorkflow"/>
-                <relationship kind="action" name="trainingSpeakerPressed"/>
-                <relationship kind="outlet" name="backgroundImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="echoRecordButton" candidateClass="PHOREchoRecordButton"/>
-                <relationship kind="outlet" name="trainingSpeakerButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="wordDetail" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="workflowButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="kuh-V1-luU"/>
         <segue reference="1s3-fI-s44"/>
-        <segue reference="47Q-7Q-DoP"/>
         <segue reference="yax-pl-PTe"/>
         <segue reference="FBg-62-yCI"/>
     </inferredMetricsTieBreakers>
