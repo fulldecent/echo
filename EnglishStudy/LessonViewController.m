@@ -11,7 +11,6 @@
 #import "Languages.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
-#import "SHK.h"
 #import "UIImageView+AFNetworking.h"
 #import "TranslateLessonViewController.h"
 
@@ -109,25 +108,16 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 }
 
 - (IBAction)lessonShareKitPressed:(id)sender {
-    
     // Create the item to share (in this example, a url)
     NSString *urlString = [NSString stringWithFormat:@"http://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *title = [NSString stringWithFormat:@"I am practicing a lesson in %@: %@",
                        [Languages nativeDescriptionForLanguage:self.lesson.languageTag],
                        self.lesson.name];
-    SHKItem *item = [SHKItem URL:url title:title contentType:SHKURLContentTypeWebpage];
-    
-    // Get the ShareKit action sheet
-    SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
-    
-    // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
-    // but sometimes it may not find one. To be safe, set it explicitly
-    [SHK setRootViewController:self];
-    
-    // Display the action sheet
-//    [actionSheet showFromTabBar:self.tabBarController.tabBar];
-    [actionSheet showInView:self.view];
+    NSArray *itemsToShare = @[url, title];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll]; //or whichever you don't need
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
 
 - (IBAction)lessonReplyAuthorPressed:(id)sender {

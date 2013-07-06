@@ -12,7 +12,7 @@
 #import "WordDetailController.h"
 #import "WordPracticeController.h"
 #import "AFNetworking.h"
-#import "NSData+ENBase64.h" // from some submodule
+#import "NSData+Base64.h"
 
 @interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate, WordPracticeDataSource, WordPracticeDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;

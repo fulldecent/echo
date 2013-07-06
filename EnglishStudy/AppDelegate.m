@@ -7,34 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import "SHKConfiguration.h"
-#import "EchoSHKConfigurator.h"
-#import "SHKFacebook.h"
 #import "AFNetworking.h"
 #import "Profile.h"
 #import "Appirater.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
-
-- (BOOL)handleOpenURL:(NSURL*)url
-{
-    NSString* scheme = [url scheme];
-    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-    if ([scheme hasPrefix:prefix])
-        return [SHKFacebook handleOpenURL:url];
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    return [self handleOpenURL:url];
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    return [self handleOpenURL:url];
-}
 
 /*
  void uncaughtExceptionHandler(NSException *exception) {
@@ -50,9 +28,6 @@
     
     // Handle "please rate me"
     [Appirater setAppId:@"558585608"];
-    
-    DefaultSHKConfigurator *configurator = [[EchoSHKConfigurator alloc] init];
-    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
     
     // Deprecate 1.0.8, for upgrade
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
