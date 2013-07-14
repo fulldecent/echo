@@ -26,6 +26,10 @@
 {
     //    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
+    self.window.tintColor = [UIColor colorWithRed:0x91/255.0 green:0x80/255.0 blue:0x08/255.0 alpha:1];
+    
+//    [UIColor purpleColor];
+    
     // Handle "please rate me"
     [Appirater setAppId:@"558585608"];
     
