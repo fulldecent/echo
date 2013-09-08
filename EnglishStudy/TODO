@@ -10,6 +10,47 @@ RELEASE EARLY, RELEASE OFTEN
  - Create tokens with Tokens app
  - Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
  - Check the UI works in Chinese
+ - Submit codes to
+http://www.appcraver.com/
+http://www.148apps.com/
+http://www.appvee.com/
+http://www.iphoneappreviews.net/
+http://iphone.iusethis.com/
+http://www.appleiphoneschool.com/
+http://www.AppStoreApps.com/
+http://iphoneapplicationlist.com/
+http://www.tuaw.com/apprequests/
+http://www.appsafari.com/
+http://www.todayiniphone.com
+
+ Hello, 
+
+I am William Entriken and have developed the app Echo to practice word pronunciation for people learning languages. Originally I started this to learn programming and help my girlfriend who is Chinese and has trouble with certain English words after being in the US for several years. Now we are adding Spanish and Chinese lessons. There's also a basic website at http://learnwithecho.com
+
+This app is always a work in progress and I would appreciate any feedback you could give. Following are promo codes to download for free.
+
+http://tokn.co/78qmr345
+http://tokn.co/dwmxb26e
+http://tokn.co/ew6u7apv
+
+Thank you,
+Will
+
+================
+
+
+ Effective Speech Learning
+The Pimsleur Method is the most effective way to learn a language. Echo takes the most important part, repetitive speaking, and puts it into a fun and useful app.
+
+ Online Lessons
+Download lessons created by native speakers of the language you are learning. See a lesson »
+
+ Facebook Integration
+Upload audio clips of yourself practicing and ask friends for feedback & help.
+
+ TOEFL, ESL class, AP language tests
+Pass your language tests with effective practice. Do better than classmates who practice with other L2 learners. Work on your accent neutralization.
+
 ========================================
 
 
@@ -17,28 +58,24 @@ RELEASE EARLY, RELEASE OFTEN
 1.x.x Changelog
 ========================================
  - Switch to AutoLayout
- - Remove ShareKit
+ - Remove ShareKit, use ShareSheet
+
 
 ========================================
 FOCUS
 ========================================
+!!!ERROR - CANT GET PAST MAIN SCREEN!!
  ! Use autolayout on the word practice screen and test by rotating
- iOS7 -- use tint color
- will I support it?
- use system activity sheet to share
- use action sheet instead of LanguageSelectController? -- http://stackoverflow.com/questions/13498459/how-to-display-the-default-ios-6-share-action-sheet-with-available-share-options
- Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
-
-ERROR - CANT GET PAST MAIN SCREEN!!
-
-view-source:http://learnwithecho.com/tmp/sample2.html
-SET UP ON WEB PAGE AND THEN DO ELANCE!!!!!
-
+ ! Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
+ ! WEBSITE -- OpenID login / create a lesson
 
 
 ========================================
 STUFF TO DO LATER
 ========================================
+ - Replace "LIKE" with "SUBSCRIBERS" in app, in API, and on website
+ - Use QuickDialog to replace: LessonInformationViewController, TranslateLessonViewController, WordDetailController, LanguageSelectController
+
  - learnwithecho.com use hosted bootstrap fontawesome
  - Home screen: refresh XX new lessons available in LANGUAGE
  - Badges and acheivements for completing tasks
@@ -60,8 +97,10 @@ STUFF TO DO LATER
  - Update ProfileView / a view mode and an edit mode. Then link in from social view
  - Add conversation view, track percentage of words in LANG A and LANG B to keep it fair
  - Check APNS feedback service
+ - Clean up api v2
  - Implement v1 api using v2
  - Add breakpoint to every method and test for code coverage
+
 
 
  - Get teachers and add lessons
