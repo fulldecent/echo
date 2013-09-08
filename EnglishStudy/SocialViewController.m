@@ -27,7 +27,7 @@
 @synthesize actionSheet = _actionSheet;
 @synthesize refreshControl = _refreshControl;
 
-#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0"
+#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0"
 
 - (void)viewDidLoad
 {

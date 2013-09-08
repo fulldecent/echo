@@ -14,7 +14,7 @@
 #import "Audio.h"
 #import "NSData+Base64.h"
 
-#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0/"
+#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0/"
 
 @interface NetworkManager() <MBProgressHUDDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;

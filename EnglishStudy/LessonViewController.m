@@ -109,7 +109,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (IBAction)lessonShareKitPressed:(id)sender {
     // Create the item to share (in this example, a url)
-    NSString *urlString = [NSString stringWithFormat:@"http://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
+    NSString *urlString = [NSString stringWithFormat:@"https://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *title = [NSString stringWithFormat:@"I am practicing a lesson in %@: %@",
                        [Languages nativeDescriptionForLanguage:self.lesson.languageTag],
@@ -395,7 +395,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         case CellAuthorByline: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
             [(UILabel *)[cell viewWithTag:1] setText:self.lesson.userName];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
             [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
             if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
                 [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
@@ -414,7 +414,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             cell = [tableView dequeueReusableCellWithIdentifier:@"translator"];
             Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
             [(UILabel *)[cell viewWithTag:1] setText:translation.userName];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
             [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
             if (translation.submittedLikeVote && [translation.submittedLikeVote boolValue])
                 [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
