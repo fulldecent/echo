@@ -115,10 +115,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     [super viewDidAppear:animated];
     Profile *me = [Profile currentUserProfile];
-#warning TESTING
     if (!me.username)
         [self performSegueWithIdentifier:@"intro" sender:self];
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
