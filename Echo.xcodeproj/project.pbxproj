@@ -75,7 +75,6 @@
 		77B5137F151970B100F041D7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
 		77B51381151970B100F041D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51380151970B100F041D7 /* Foundation.framework */; };
 		77B51383151970B100F041D7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51382151970B100F041D7 /* CoreGraphics.framework */; };
-		77B51389151970B100F041D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77B51387151970B100F041D7 /* InfoPlist.strings */; };
 		77B5138B151970B100F041D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138A151970B100F041D7 /* main.m */; };
 		77B5138F151970B100F041D7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138E151970B100F041D7 /* AppDelegate.m */; };
 		77B51392151970B100F041D7 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77B51390151970B100F041D7 /* MainStoryboard.storyboard */; };
@@ -497,8 +496,7 @@
 				77DDC70E156DD81F00568CDE /* Classes */,
 				77B51385151970B100F041D7 /* Supporting Files */,
 			);
-			name = Echo;
-			path = EnglishStudy;
+			path = Echo;
 			sourceTree = "<group>";
 		};
 		77B51385151970B100F041D7 /* Supporting Files */ = {
@@ -699,7 +697,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77B51389151970B100F041D7 /* InfoPlist.strings in Resources */,
 				77B51392151970B100F041D7 /* MainStoryboard.storyboard in Resources */,
 				7729FEC315294E5900D2180E /* echo.png in Resources */,
 				7729FEC415294E5900D2180E /* echo@2x.png in Resources */,
@@ -939,9 +936,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
-				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
+				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
+				INFOPLIST_FILE = "Echo/Echo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -949,6 +947,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Echo;
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -960,15 +959,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "EnglishStudy/Echo-Prefix.pch";
-				INFOPLIST_FILE = "EnglishStudy/Echo-Info.plist";
+				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
+				INFOPLIST_FILE = "Echo/Echo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
 				PRODUCT_NAME = Echo;
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};
