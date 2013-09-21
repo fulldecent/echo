@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -2596,11 +2596,21 @@
         <image name="down_arrow.png" width="32" height="32"/>
         <image name="echo.png" width="30" height="30"/>
         <image name="flag.png" width="32" height="32"/>
+        <image name="flag.png" width="32" height="32"/>
+        <image name="flag.png" width="32" height="32"/>
+        <image name="gradient.png" width="150" height="1024"/>
+        <image name="gradient.png" width="150" height="1024"/>
         <image name="gradient.png" width="150" height="1024"/>
         <image name="iPhoneBG.png" width="320" height="367"/>
         <image name="like.png" width="32" height="32"/>
+        <image name="like.png" width="32" height="32"/>
+        <image name="like.png" width="32" height="32"/>
+        <image name="message.png" width="32" height="32"/>
         <image name="message.png" width="32" height="32"/>
         <image name="microphone icon.png" width="64" height="64"/>
+        <image name="microphone icon.png" width="64" height="64"/>
+        <image name="none40.png" width="40" height="40"/>
+        <image name="none40.png" width="40" height="40"/>
         <image name="none40.png" width="40" height="40"/>
         <image name="shuffle.png" width="25" height="21"/>
         <image name="social.png" width="30" height="30"/>
@@ -2613,9 +2623,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="yax-pl-PTe"/>
+        <segue reference="E55-RI-AHP"/>
         <segue reference="kuh-V1-luU"/>
         <segue reference="1s3-fI-s44"/>
-        <segue reference="FBg-62-yCI"/>
+        <segue reference="yax-pl-PTe"/>
     </inferredMetricsTieBreakers>
 </document>
