@@ -430,8 +430,8 @@
                                                 <action selector="lessonReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="83h-IM-nCd"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xw0-Zb-wpq" customClass="UIGlossyButton">
-                                            <rect key="frame" x="262" y="1" width="42" height="38"/>
+                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xw0-Zb-wpq" customClass="UIGlossyButton">
+                                            <rect key="frame" x="262" y="4" width="42" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="mZs-GO-3F8"/>
                                             </constraints>
@@ -474,6 +474,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Xw0-Zb-wpq" firstAttribute="leading" secondItem="fpn-QU-Ht5" secondAttribute="trailing" constant="8" id="5vw-qn-94g"/>
+                                        <constraint firstItem="Xw0-Zb-wpq" firstAttribute="baseline" secondItem="fpn-QU-Ht5" secondAttribute="baseline" id="G7o-kp-vtV"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <constraints>
@@ -554,8 +555,8 @@
                                                 <action selector="translationReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="bbv-bl-WAO"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1y-go-jON" customClass="UIGlossyButton">
-                                            <rect key="frame" x="262" y="1" width="42" height="38"/>
+                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1y-go-jON" customClass="UIGlossyButton">
+                                            <rect key="frame" x="262" y="4" width="42" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="sYr-90-cpN"/>
                                             </constraints>
@@ -591,6 +592,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="c1y-go-jON" firstAttribute="leading" secondItem="UlE-XR-ofN" secondAttribute="trailing" constant="8" id="m4U-3t-cRG"/>
+                                        <constraint firstItem="UlE-XR-ofN" firstAttribute="baseline" secondItem="c1y-go-jON" secondAttribute="baseline" id="vQl-d5-peg"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <constraints>

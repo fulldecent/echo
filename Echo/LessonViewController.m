@@ -13,6 +13,9 @@
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 #import "TranslateLessonViewController.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 typedef enum {SectionActions, SectionWords, SectionByline, SectionCount} Sections;
 typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction, CellEditTranslation} Cells;
@@ -43,6 +46,14 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"LessonView"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 //TODO: should be a datasource
@@ -201,12 +212,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 - (IBAction)sharePressed:(id)sender {
     self.lesson.version = [NSNumber numberWithInt:1];
     [self.delegate lessonView:self wantsToUploadLesson:self.lesson];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.title = self.lesson.name;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {

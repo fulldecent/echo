@@ -75,6 +75,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.screenName = @"IntroView";
     [self.nameField setTitle:@"" forState:UIControlStateNormal];
 }
 

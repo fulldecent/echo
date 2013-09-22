@@ -14,6 +14,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface ProfileViewController () <LanguageSelectControllerDelegate, FDTakeDelegate, CLLocationManagerDelegate, MBProgressHUDDelegate>
 @property (strong, nonatomic) UILabel *labelSelectingLanguage;
@@ -65,6 +68,14 @@
     self.nativeLangTag = me.nativeLanguageTag;
     self.location.text = me.location;
     self.photo.image = me.photo;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"ProfileView"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)didReceiveMemoryWarning

@@ -372,6 +372,12 @@
     [self performSelector:@selector(trainingSpeakerPressed) withObject:self afterDelay:0.5];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.screenName = @"WordPracticeController";
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.recorder removeObserver:self forKeyPath:@"microphoneLevel"];    

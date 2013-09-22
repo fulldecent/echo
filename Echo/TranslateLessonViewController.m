@@ -13,6 +13,9 @@
 #import "Word.h"
 #import "NetworkManager.h"
 #import "Lesson.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface TranslateLessonViewController () <LanguageSelectControllerDelegate, UITextFieldDelegate>
 @property Lesson *originalLesson;
@@ -48,6 +51,14 @@
     }
     self.translatedLesson.words = words;
     [self validate];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"TranslateLesson"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)didReceiveMemoryWarning

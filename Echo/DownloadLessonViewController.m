@@ -13,6 +13,9 @@
 #import "LanguageSelectController.h"
 #import "UIImageView+AFNetworking.h"
 #import <MessageUI/MessageUI.h>
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface DownloadLessonViewController () <LanguageSelectControllerDelegate, MFMailComposeViewControllerDelegate>
 @property (strong, nonatomic) NSArray *lessons;
@@ -45,6 +48,14 @@
     Profile *me = [Profile currentUserProfile];
     self.navigationItem.rightBarButtonItem.title = me.learningLanguageTag;
     [self populateRowsWithSearch:@"" languageTag:me.learningLanguageTag];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"DownloadLesson"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 #pragma mark - Table view data source

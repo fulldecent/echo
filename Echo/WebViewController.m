@@ -49,6 +49,7 @@
     for (UIView *subview in [self.webView.scrollView subviews])
         if ([subview isKindOfClass:[UIImageView class]])
             subview.hidden = YES;
+    self.screenName = @"WebView";
     
     [super viewWillAppear:animated];
 }

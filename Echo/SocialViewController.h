@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface SocialViewController : UIViewController
+@interface SocialViewController : GAITrackedViewController
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 -(IBAction)loadPage;
 @end

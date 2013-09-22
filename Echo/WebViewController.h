@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "DownloadLessonViewController.h"
+#import "GAITrackedViewController.h"
 
-@interface WebViewController : UIViewController
+@interface WebViewController : GAITrackedViewController
 @property (weak, nonatomic) id<DownloadLessonViewControllerDelegate> delegate;
 - (void)loadRequest:(NSURLRequest *)request;
     

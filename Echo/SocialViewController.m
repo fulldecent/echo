@@ -84,6 +84,7 @@
          [NetworkManager hudFlashError:error];
      }];
      */
+    self.screenName = @"SocialView";
 }
 
 /*

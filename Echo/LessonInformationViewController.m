@@ -10,6 +10,9 @@
 #import "LessonViewController.h"
 #import "Languages.h"
 #import "LanguageSelectController.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface LessonInformationViewController() <LanguageSelectControllerDelegate>
 @property (strong, nonatomic) NSString *editingLanguageTag;
@@ -97,6 +100,10 @@
     self.detailText.text = self.editingDetail;
     [super viewWillAppear:animated];
     [self validate];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"LessonInformation"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)viewDidAppear:(BOOL)animated

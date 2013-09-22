@@ -8,6 +8,9 @@
 
 #import "LanguageSelectController.h"
 #import "Languages.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface LanguageSelectController ()
 @property (strong, nonatomic) NSArray *languages;
@@ -34,6 +37,13 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"LanguageSelect"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+}
 
 #pragma mark - Table view data source
 

@@ -20,6 +20,9 @@
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
 #import "WebViewController.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
@@ -97,11 +100,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    self.view.window.tintColor = [UIColor purpleColor];
-//    self.navigationController.navigationBar.tintColor = [UIColor redColor];
-    
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"MainView"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdateLessonList"];

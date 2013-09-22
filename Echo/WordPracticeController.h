@@ -10,6 +10,7 @@
 #import "F3BarGauge.h"
 #import "PHOREchoRecordButton.h"
 #import "Word.h"
+#import "GAITrackedViewController.h"
 
 @class WordPracticeController;
 
@@ -25,7 +26,7 @@
 - (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state;
 @end
 
-@interface WordPracticeController : UIViewController;
+@interface WordPracticeController : GAITrackedViewController;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIButton *trainingSpeakerButton;
 @property (strong, nonatomic) IBOutlet PHOREchoRecordButton *echoRecordButton;

@@ -50,23 +50,24 @@ Will
 ========================================
  - Fix resources page, iOS 7 tint
  - Share friends, website is free
+ - Add Google Analytics
 
 
 ========================================
 FOCUS
 ========================================
- ! Create lesson -> set native language
- ! Meet people -> reset unread count on homescreen
-
- ! Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
-
- ! Google Analytics!!!
 
 
 ========================================
 STUFF TO DO LATER
 ========================================
+ ! GOOGLE ANALYTICS - IS DATA COMING IN? 
+    SET UP A GOAL AND TRACK WEBSITE SALES AND MAKE ADWORDS CONVERSION
+
+ ! Create lesson -> set native language
  ! Use autolayout on the word practice screen and test by rotating
+ ! Meet people -> reset unread count on homescreen
+ ! Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
  - Use QuickDialog to replace: LessonInformationViewController, TranslateLessonViewController, WordDetailController, LanguageSelectController
 
  - learnwithecho.com use hosted bootstrap fontawesome
@@ -94,6 +95,8 @@ STUFF TO DO LATER
  - Implement v1 api using v2
  - Add breakpoint to every method and test for code coverage
  - Remove and imageOptim all images
+
+ - Main screen, use cell pages for NEW and "X unread", see https://github.com/tmdvs/TDBadgedCell
 
 
  - Get teachers and add lessons

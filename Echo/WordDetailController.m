@@ -14,6 +14,9 @@
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
 #import "Audio.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 #define NUMBER_OF_RECORDERS 3
 
@@ -293,7 +296,12 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         } else
             self.navigationItem.rightBarButtonItem = nil;
     }
+
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"WordDetail"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
+
 
 - (void)viewDidAppear:(BOOL)animated
 {

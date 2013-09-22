@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "Profile.h"
 #import "Appirater.h"
+#import "GAI.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
@@ -53,6 +54,20 @@
     
     [Appirater appLaunched:YES];
 
+    
+    // https://developers.google.com/analytics/devguides/collection/ios/v3/
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker.
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-52764-16"];
+    
     return YES;
 }
 

@@ -122,6 +122,9 @@
 		77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D2A16643D3F005D10ED /* MainViewController.m */; };
 		77FB0F6D16E296440000D4F5 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB0F6C16E296440000D4F5 /* Profile.m */; };
 		77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FCACF61569E0900039ED77 /* F3BarGauge.m */; };
+		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
+		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
+		D936B11617EF7766003A00BE /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11517EF7766003A00BE /* libGoogleAnalyticsServices.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -311,6 +314,15 @@
 		77FB0F6C16E296440000D4F5 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		77FCACF51569E0900039ED77 /* F3BarGauge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3BarGauge.h; sourceTree = "<group>"; };
 		77FCACF61569E0900039ED77 /* F3BarGauge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3BarGauge.m; sourceTree = "<group>"; };
+		D936B10917EF76A4003A00BE /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		D936B10A17EF76A4003A00BE /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		D936B10B17EF76A4003A00BE /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		D936B10C17EF76A4003A00BE /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		D936B10D17EF76A4003A00BE /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		D936B10E17EF76A4003A00BE /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D936B11517EF7766003A00BE /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +330,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */,
+				D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */,
 				773FEA91177E1B5B000AD650 /* StoreKit.framework in Frameworks */,
 				774CDA4615D0AF0C00B14C45 /* CFNetwork.framework in Frameworks */,
 				774CDA4815D0AF1700B14C45 /* CoreLocation.framework in Frameworks */,
@@ -327,6 +341,7 @@
 				776D2BE216AB8D6900EDB4DB /* Social.framework in Frameworks */,
 				776D2BE016AB8D4F00EDB4DB /* AdSupport.framework in Frameworks */,
 				776D2BDD16AB8C1E00EDB4DB /* Accounts.framework in Frameworks */,
+				D936B11617EF7766003A00BE /* libGoogleAnalyticsServices.a in Frameworks */,
 				77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */,
 				774CDA4C15D0AF2E00B14C45 /* CoreFoundation.framework in Frameworks */,
 				774CDA4A15D0AF1E00B14C45 /* Twitter.framework in Frameworks */,
@@ -449,6 +464,8 @@
 		77B5137D151970B100F041D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D936B11317EF76E6003A00BE /* libz.dylib */,
+				D936B11117EF76CD003A00BE /* CoreData.framework */,
 				77BBB7641754DC4A0067787E /* StoreKit.framework */,
 				776D2BE516AB8DA500EDB4DB /* libsqlite3.dylib */,
 				776D2BE316AB8D9300EDB4DB /* MobileCoreServices.framework */,
@@ -577,6 +594,7 @@
 		77DDC70E156DD81F00568CDE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D936B10817EF763B003A00BE /* Google Analytics for iOS SDK */,
 				775FCFFE1765533E0004202D /* appirater */,
 				779921CF164218DB005DFB07 /* FDTakeExample */,
 				776D2BFD16ABAC4300EDB4DB /* AFNetworking */,
@@ -605,6 +623,20 @@
 				772B5ED417877B740000DEBA /* NSData+Base64.m */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		D936B10817EF763B003A00BE /* Google Analytics for iOS SDK */ = {
+			isa = PBXGroup;
+			children = (
+				D936B10917EF76A4003A00BE /* GAI.h */,
+				D936B10A17EF76A4003A00BE /* GAIDictionaryBuilder.h */,
+				D936B10B17EF76A4003A00BE /* GAIFields.h */,
+				D936B10C17EF76A4003A00BE /* GAILogger.h */,
+				D936B10D17EF76A4003A00BE /* GAITrackedViewController.h */,
+				D936B10E17EF76A4003A00BE /* GAITracker.h */,
+				D936B11517EF7766003A00BE /* libGoogleAnalyticsServices.a */,
+			);
+			name = "Google Analytics for iOS SDK";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -937,6 +969,10 @@
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/williamentriken/Developer/Echo/Echo,
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -960,6 +996,10 @@
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/williamentriken/Developer/Echo/Echo,
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
