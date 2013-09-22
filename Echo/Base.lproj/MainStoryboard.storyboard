@@ -396,7 +396,7 @@
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpn-QU-Ht5" customClass="UIGlossyButton">
-                                            <rect key="frame" x="164" y="1" width="42" height="38"/>
+                                            <rect key="frame" x="212" y="1" width="42" height="38"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="EpX-ph-Ha0"/>
                                                 <constraint firstAttribute="height" constant="38" id="RfT-9d-5Sh"/>
@@ -430,41 +430,7 @@
                                                 <action selector="lessonReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="83h-IM-nCd"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q9g-Zd-MSS" customClass="UIGlossyButton">
-                                            <rect key="frame" x="214" y="1" width="42" height="38"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="tZW-5u-ro7"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="like.png">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="2"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="lessonLikePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="nG3-OV-3tz"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xw0-Zb-wpq" customClass="UIGlossyButton">
+                                        <button opaque="NO" tag="6" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xw0-Zb-wpq" customClass="UIGlossyButton">
                                             <rect key="frame" x="262" y="1" width="42" height="38"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="mZs-GO-3F8"/>
@@ -506,22 +472,19 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Xw0-Zb-wpq" firstAttribute="leading" secondItem="fpn-QU-Ht5" secondAttribute="trailing" constant="8" id="5vw-qn-94g"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <constraints>
                                     <constraint firstItem="8Ly-gq-mTa" firstAttribute="leading" secondItem="khu-k6-8nL" secondAttribute="trailing" constant="4" id="0eg-ef-jJ5"/>
-                                    <constraint firstItem="Q9g-Zd-MSS" firstAttribute="top" secondItem="fpn-QU-Ht5" secondAttribute="top" id="9C6-zv-0G6"/>
                                     <constraint firstAttribute="bottom" secondItem="8Ly-gq-mTa" secondAttribute="bottom" constant="2" id="KMr-67-9gV"/>
                                     <constraint firstAttribute="bottom" secondItem="MX6-fg-WVc" secondAttribute="bottom" constant="20" id="Lo9-Cl-1lR"/>
                                     <constraint firstItem="khu-k6-8nL" firstAttribute="centerY" secondItem="8Ly-gq-mTa" secondAttribute="centerY" id="R0z-Aa-IiX"/>
                                     <constraint firstItem="fpn-QU-Ht5" firstAttribute="top" secondItem="3qi-N8-L8x" secondAttribute="top" constant="1" id="SQk-me-hRd"/>
                                     <constraint firstAttribute="trailing" secondItem="Xw0-Zb-wpq" secondAttribute="trailing" constant="16" id="WF0-hQ-WZZ"/>
-                                    <constraint firstItem="Q9g-Zd-MSS" firstAttribute="leading" secondItem="fpn-QU-Ht5" secondAttribute="trailing" constant="8" id="WrN-gM-X1K"/>
-                                    <constraint firstAttribute="trailing" secondItem="Q9g-Zd-MSS" secondAttribute="trailing" constant="64" id="awk-I0-2an"/>
-                                    <constraint firstItem="fpn-QU-Ht5" firstAttribute="bottom" secondItem="Q9g-Zd-MSS" secondAttribute="bottom" id="b3G-Aw-y0E"/>
-                                    <constraint firstItem="Q9g-Zd-MSS" firstAttribute="bottom" secondItem="Xw0-Zb-wpq" secondAttribute="bottom" id="lOx-al-PJU"/>
                                     <constraint firstItem="MX6-fg-WVc" firstAttribute="leading" secondItem="3qi-N8-L8x" secondAttribute="leading" constant="20" id="pbp-Tt-LK5"/>
                                     <constraint firstItem="khu-k6-8nL" firstAttribute="leading" secondItem="3qi-N8-L8x" secondAttribute="leading" constant="20" id="q5t-9m-sPz"/>
-                                    <constraint firstItem="Q9g-Zd-MSS" firstAttribute="top" secondItem="Xw0-Zb-wpq" secondAttribute="top" id="wfR-kL-EDg"/>
                                 </constraints>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="translator" id="neP-CX-dqB">
@@ -557,7 +520,7 @@
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UlE-XR-ofN" customClass="UIGlossyButton">
-                                            <rect key="frame" x="164" y="1" width="42" height="38"/>
+                                            <rect key="frame" x="212" y="1" width="42" height="38"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="KFX-Ns-oef"/>
                                                 <constraint firstAttribute="height" constant="38" id="blE-q4-NTC"/>
@@ -591,41 +554,7 @@
                                                 <action selector="translationReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="bbv-bl-WAO"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ett-VA-zXc" customClass="UIGlossyButton">
-                                            <rect key="frame" x="214" y="1" width="42" height="38"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="Maf-SM-cgq"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="like.png">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="2"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="translationLikePressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="lu8-cJ-S1n"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1y-go-jON" customClass="UIGlossyButton">
+                                        <button opaque="NO" tag="6" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1y-go-jON" customClass="UIGlossyButton">
                                             <rect key="frame" x="262" y="1" width="42" height="38"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="sYr-90-cpN"/>
@@ -660,22 +589,19 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="c1y-go-jON" firstAttribute="leading" secondItem="UlE-XR-ofN" secondAttribute="trailing" constant="8" id="m4U-3t-cRG"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="c1y-go-jON" secondAttribute="trailing" constant="16" id="A0U-md-N9b"/>
                                     <constraint firstItem="WLV-6i-X4S" firstAttribute="leading" secondItem="neP-CX-dqB" secondAttribute="leading" constant="20" id="Eoi-Zr-WzB"/>
                                     <constraint firstAttribute="bottom" secondItem="QbJ-F6-wHF" secondAttribute="bottom" constant="20" id="Ex6-Np-TqL"/>
-                                    <constraint firstItem="ett-VA-zXc" firstAttribute="leading" secondItem="UlE-XR-ofN" secondAttribute="trailing" constant="8" id="Iow-7R-cE4"/>
                                     <constraint firstAttribute="bottom" secondItem="lpm-JJ-cj7" secondAttribute="bottom" constant="2" id="LhO-El-OII"/>
-                                    <constraint firstItem="ett-VA-zXc" firstAttribute="bottom" secondItem="UlE-XR-ofN" secondAttribute="bottom" id="ZUw-TV-wUn"/>
-                                    <constraint firstItem="ett-VA-zXc" firstAttribute="top" secondItem="c1y-go-jON" secondAttribute="top" id="bDt-Rk-kYd"/>
                                     <constraint firstItem="WLV-6i-X4S" firstAttribute="centerY" secondItem="lpm-JJ-cj7" secondAttribute="centerY" id="dM3-HU-Th2"/>
                                     <constraint firstItem="UlE-XR-ofN" firstAttribute="top" secondItem="neP-CX-dqB" secondAttribute="top" constant="1" id="mR3-9a-rtw"/>
-                                    <constraint firstItem="ett-VA-zXc" firstAttribute="top" secondItem="UlE-XR-ofN" secondAttribute="top" id="mUg-Cp-2j1"/>
-                                    <constraint firstItem="c1y-go-jON" firstAttribute="bottom" secondItem="ett-VA-zXc" secondAttribute="bottom" id="nxL-JU-rvg"/>
                                     <constraint firstItem="lpm-JJ-cj7" firstAttribute="leading" secondItem="WLV-6i-X4S" secondAttribute="trailing" constant="4" id="re5-ha-edi"/>
                                     <constraint firstItem="QbJ-F6-wHF" firstAttribute="leading" secondItem="neP-CX-dqB" secondAttribute="leading" constant="20" id="u2M-A1-iF8"/>
-                                    <constraint firstAttribute="trailing" secondItem="ett-VA-zXc" secondAttribute="trailing" constant="64" id="vs0-na-StT"/>
                                 </constraints>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="editTranslation" id="zSg-1v-IjH">
@@ -2619,9 +2545,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="E55-RI-AHP"/>
-        <segue reference="kuh-V1-luU"/>
-        <segue reference="1s3-fI-s44"/>
+        <segue reference="cjs-Y6-M9H"/>
+        <segue reference="47Q-7Q-DoP"/>
         <segue reference="yax-pl-PTe"/>
+        <segue reference="3H6-9o-S7b"/>
     </inferredMetricsTieBreakers>
 </document>

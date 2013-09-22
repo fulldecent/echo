@@ -48,26 +48,25 @@ Will
 ========================================
 1.x.x Changelog
 ========================================
- - Fix resources
+ - Fix resources page, iOS 7 tint
+ - Share friends, website is free
 
 
 ========================================
 FOCUS
 ========================================
-Create lesson -> set native language
-Meet people -> reset unread count on homescreen
+ ! Create lesson -> set native language
+ ! Meet people -> reset unread count on homescreen
 
-
-!!!ERROR - CANT GET PAST MAIN SCREEN!!
- ! Use autolayout on the word practice screen and test by rotating
  ! Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
- ! WEBSITE -- OpenID login / create a lesson
+
+ ! Google Analytics!!!
 
 
 ========================================
 STUFF TO DO LATER
 ========================================
- - Replace "LIKE" with "SUBSCRIBERS" in app, in API, and on website
+ ! Use autolayout on the word practice screen and test by rotating
  - Use QuickDialog to replace: LessonInformationViewController, TranslateLessonViewController, WordDetailController, LanguageSelectController
 
  - learnwithecho.com use hosted bootstrap fontawesome

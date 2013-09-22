@@ -91,6 +91,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationReceived:) name:@"pushNotification" object:nil];
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)])
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244.0/255 green:219.0/255 blue:0 alpha:1];
 }
 
 - (void)viewWillAppear:(BOOL)animated
