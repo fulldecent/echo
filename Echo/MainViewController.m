@@ -266,11 +266,11 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     WebViewController *controller = (WebViewController *)[storyboard instantiateViewControllerWithIdentifier:@"WebViewController"];
-    [self.navigationController pushViewController:controller animated:YES];
     controller.delegate = self;
     NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"resources" ofType:@"html"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [controller.webView loadRequest:request];
+    [self.navigationController pushViewController:controller animated:YES];
+    [controller loadRequest:request];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

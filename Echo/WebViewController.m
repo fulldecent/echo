@@ -17,6 +17,7 @@
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) Word *currentWord;
+@property (strong, nonatomic) NSURLRequest *requestToLoad;
 @end
 
 @implementation WebViewController
@@ -28,16 +29,21 @@
 {
     [super viewDidLoad];
     self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.tintColor = [UIColor colorWithHue:0 saturation:0 brightness:0 alpha:0.5];
+    self.refreshControl.tintColor = [UIColor blackColor];
     [self.refreshControl addTarget:self.webView action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     [self.webView.scrollView addSubview:self.refreshControl];
     self.webView.delegate = self;
+    if (self.requestToLoad) {
+        [self.webView loadRequest:self.requestToLoad];
+        self.requestToLoad = nil;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     // http://stackoverflow.com/questions/7883344/iphone-make-a-uiwebview-subview-scrolling-to-top-when-user-touches-the-status
-    [(UIScrollView *)[self.webView.subviews objectAtIndex:0] setScrollsToTop:YES];    if (![self.view.window isKeyWindow]) [self.view.window makeKeyWindow];
+    self.webView.scrollView.scrollsToTop = YES;
+//    [(UIScrollView *)[self.webView.subviews objectAtIndex:0] setScrollsToTop:YES];    if (![self.view.window isKeyWindow]) [self.view.window makeKeyWindow];
     
     // http://stackoverflow.com/questions/2238914/how-to-remove-grey-shadow-on-the-top-uiwebview-when-overscroll
     for (UIView *subview in [self.webView.scrollView subviews])
@@ -51,6 +57,7 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+#warning TODO
     if (![request.URL.scheme isEqualToString:@"echo"]) {
         return YES;
     }
@@ -210,6 +217,16 @@
 - (BOOL)wordPracticeShouldShowNextButton:(WordPracticeController *)wordPractice;
 {
     return false;
+}
+    
+#pragma mark -
+    
+- (void)loadRequest:(NSURLRequest *)request
+{
+    if (self.webView)
+        [self.webView loadRequest:request];
+    else
+        self.requestToLoad = request;
 }
 
 @end

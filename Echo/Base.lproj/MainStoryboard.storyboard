@@ -1969,16 +1969,21 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="y17-Qx-Shp" firstAttribute="bottom" secondItem="87A-cj-KcO" secondAttribute="bottom" id="32s-4e-eM9"/>
+                            <constraint firstAttribute="trailing" secondItem="Aak-Tf-Mx1" secondAttribute="trailing" id="6Da-kb-O4m"/>
                             <constraint firstItem="Aak-Tf-Mx1" firstAttribute="trailing" secondItem="87A-cj-KcO" secondAttribute="trailing" id="6Ha-3a-wh4"/>
                             <constraint firstItem="y17-Qx-Shp" firstAttribute="top" secondItem="87A-cj-KcO" secondAttribute="top" id="6tW-Sk-zeM"/>
                             <constraint firstItem="Aak-Tf-Mx1" firstAttribute="leading" secondItem="87A-cj-KcO" secondAttribute="leading" id="AjH-Me-KLW"/>
+                            <constraint firstItem="Aak-Tf-Mx1" firstAttribute="top" secondItem="87A-cj-KcO" secondAttribute="top" id="cDQ-Yp-XoX"/>
+                            <constraint firstItem="Am0-oQ-Rck" firstAttribute="top" secondItem="Aak-Tf-Mx1" secondAttribute="bottom" id="fT1-iY-pbw"/>
                             <constraint firstItem="Aak-Tf-Mx1" firstAttribute="top" secondItem="87A-cj-KcO" secondAttribute="top" id="lqs-PN-NFp"/>
                             <constraint firstItem="Aak-Tf-Mx1" firstAttribute="bottom" secondItem="87A-cj-KcO" secondAttribute="bottom" id="p3d-ge-sls"/>
                             <constraint firstItem="y17-Qx-Shp" firstAttribute="trailing" secondItem="87A-cj-KcO" secondAttribute="trailing" id="pCt-CZ-Sib"/>
+                            <constraint firstItem="Aak-Tf-Mx1" firstAttribute="leading" secondItem="87A-cj-KcO" secondAttribute="leading" id="sjP-Ks-lMl"/>
                             <constraint firstItem="y17-Qx-Shp" firstAttribute="leading" secondItem="87A-cj-KcO" secondAttribute="leading" id="uop-c4-CIa"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <keyCommands/>
                     <connections>
                         <outlet property="webView" destination="Aak-Tf-Mx1" id="YNA-tO-6kC"/>
                     </connections>
@@ -2596,27 +2601,18 @@
         <image name="down_arrow.png" width="32" height="32"/>
         <image name="echo.png" width="30" height="30"/>
         <image name="flag.png" width="32" height="32"/>
-        <image name="flag.png" width="32" height="32"/>
-        <image name="flag.png" width="32" height="32"/>
-        <image name="gradient.png" width="150" height="1024"/>
-        <image name="gradient.png" width="150" height="1024"/>
         <image name="gradient.png" width="150" height="1024"/>
         <image name="iPhoneBG.png" width="320" height="367"/>
         <image name="like.png" width="32" height="32"/>
-        <image name="like.png" width="32" height="32"/>
-        <image name="like.png" width="32" height="32"/>
-        <image name="message.png" width="32" height="32"/>
         <image name="message.png" width="32" height="32"/>
         <image name="microphone icon.png" width="64" height="64"/>
-        <image name="microphone icon.png" width="64" height="64"/>
-        <image name="none40.png" width="40" height="40"/>
-        <image name="none40.png" width="40" height="40"/>
         <image name="none40.png" width="40" height="40"/>
         <image name="shuffle.png" width="25" height="21"/>
         <image name="social.png" width="30" height="30"/>
         <image name="speaker icon.png" width="64" height="64"/>
         <image name="up_arrow.png" width="32" height="32"/>
     </resources>
+    <color key="tintColor" red="0.56862747669219971" green="0.51372551918029785" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

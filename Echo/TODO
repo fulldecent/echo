@@ -1,27 +1,33 @@
 ========================================
 RELEASE EARLY, RELEASE OFTEN
- - Increment version
- - Update screenshots
- - git submodule update --init --recursive
- - git submodule foreach --recursive git fetch
- - git submodule foreach git merge origin master
- - XCode Analyze, AppCode Analyze
- - Build, Tag, Archive, Upload git tag -a 'v##.##.#' -m 'Release v##.##.#'
- - Create tokens with Tokens app
- - Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
- - Check the UI works in Chinese
- - Submit codes to
-http://www.appcraver.com/
-http://www.148apps.com/
-http://www.appvee.com/
-http://www.iphoneappreviews.net/
-http://iphone.iusethis.com/
-http://www.appleiphoneschool.com/
-http://www.AppStoreApps.com/
-http://iphoneapplicationlist.com/
-http://www.tuaw.com/apprequests/
-http://www.appsafari.com/
-http://www.todayiniphone.com
+
+RELEASE
+  git submodule update --init --recursive
+  git submodule foreach --recursive git fetch
+  git submodule foreach git merge origin master
+  XCode Analyze, AppCode Analyze
+  Update screenshots on website and iTunesConnect
+  Increment version
+  Archive
+  VERSION=$(/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' Echo/Echo-Info.plist)
+  git tag -a "v$VERSION" -m "Release v$VERSION"
+  git push --tags
+
+DISTRIBUTE
+  Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
+  Check the UI works in Chinese
+  Create tokens with Tokens app and distribute to:
+    http://www.appcraver.com/
+    http://www.148apps.com/
+    http://www.appvee.com/
+    http://www.iphoneappreviews.net/
+    http://iphone.iusethis.com/
+    http://www.appleiphoneschool.com/
+    http://www.AppStoreApps.com/
+    http://iphoneapplicationlist.com/
+    http://www.tuaw.com/apprequests/
+    http://www.appsafari.com/
+    http://www.todayiniphone.com
 
  Hello, 
 
@@ -36,34 +42,22 @@ http://tokn.co/ew6u7apv
 Thank you,
 Will
 
-================
-
-
- Effective Speech Learning
-The Pimsleur Method is the most effective way to learn a language. Echo takes the most important part, repetitive speaking, and puts it into a fun and useful app.
-
- Online Lessons
-Download lessons created by native speakers of the language you are learning. See a lesson »
-
- Facebook Integration
-Upload audio clips of yourself practicing and ask friends for feedback & help.
-
- TOEFL, ESL class, AP language tests
-Pass your language tests with effective practice. Do better than classmates who practice with other L2 learners. Work on your accent neutralization.
-
-========================================
+ -- Use consistent marketing message with website
 
 
 ========================================
 1.x.x Changelog
 ========================================
- - Switch to AutoLayout
- - Remove ShareKit, use ShareSheet
+ - Fix resources
 
 
 ========================================
 FOCUS
 ========================================
+Create lesson -> set native language
+Meet people -> reset unread count on homescreen
+
+
 !!!ERROR - CANT GET PAST MAIN SCREEN!!
  ! Use autolayout on the word practice screen and test by rotating
  ! Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
@@ -100,7 +94,7 @@ STUFF TO DO LATER
  - Clean up api v2
  - Implement v1 api using v2
  - Add breakpoint to every method and test for code coverage
-
+ - Remove and imageOptim all images
 
 
  - Get teachers and add lessons

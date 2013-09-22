@@ -10,6 +10,8 @@
 #import "DownloadLessonViewController.h"
 
 @interface WebViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) id<DownloadLessonViewControllerDelegate> delegate;
+- (void)loadRequest:(NSURLRequest *)request;
+    
+@property (strong, nonatomic) IBOutlet UIWebView *webView; // don't access me directly
 @end
