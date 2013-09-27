@@ -27,7 +27,6 @@
 @synthesize words = _words;
 @synthesize userID = _userID;
 @synthesize userName = _userName;
-@synthesize submittedLikeVote = _submittedLikeVote;
 
 #define kLessonID @"lessonID"
 #define kLessonCode @"lessonCode"
@@ -38,7 +37,6 @@
 #define kServerVersion @"serverVersion"
 #define kUpdated @"updated"
 #define kWords @"words"
-#define kSubmittedLikeVote @"submittedLikeVote"
 #define kLikes @"likes"
 #define kFlags @"flags"
 #define kTranslations @"translations"
@@ -107,8 +105,6 @@
         self.userID = lesson.userID;
     if (lesson.userName)
         self.userName = lesson.userName;
-    if (lesson.submittedLikeVote && [lesson.submittedLikeVote boolValue])
-        self.submittedLikeVote = lesson.submittedLikeVote;
     if (lesson.words)
         self.words = lesson.words;
     for (Word *word in lesson.words) {
@@ -257,8 +253,6 @@
         retval.userID = [packed objectForKey:kUserID];
     if ([packed objectForKey:kUserName])
         retval.userName = [packed objectForKey:kUserName];
-    if ([packed objectForKey:kSubmittedLikeVote])
-        retval.submittedLikeVote = [packed objectForKey:kSubmittedLikeVote];
     if ([packed objectForKey:kLikes])
         retval.numLikes = [packed objectForKey:kLikes];
     if ([packed objectForKey:kFlags])
@@ -305,8 +299,6 @@
         [retval setObject:self.userID forKey:kUserID];
     if (self.userName)
         [retval setObject:self.userName forKey:kUserName];
-    if (self.submittedLikeVote && [self.submittedLikeVote boolValue])
-        [retval setObject:self.submittedLikeVote forKey:kSubmittedLikeVote];
     NSMutableArray *packedWords = [[NSMutableArray alloc] init];
     for (Word *word in self.words) {
         NSDictionary *packedWord = [word toDictionary];

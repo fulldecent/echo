@@ -9,6 +9,7 @@
 #import "Profile.h"
 #import "NetworkManager.h"
 #import "AppDelegate.h"
+#import <NSData+Base64.h>
 
 @implementation Profile
 @synthesize userID = _userID;
@@ -109,6 +110,125 @@
     if (self.location.length) numerator++;
     if (self.photo) numerator++;
     return [NSNumber numberWithFloat:numerator/denominator];
+}
+
+// http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
++ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
+{
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
+    
+    if (CGSizeEqualToSize(imageSize, targetSize) == NO) {
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        
+        if (widthFactor > heightFactor) {
+            scaleFactor = widthFactor; // scale to fit height
+        }
+        else {
+            scaleFactor = heightFactor; // scale to fit width
+        }
+        
+        scaledWidth  = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        
+        // center the image
+        if (widthFactor > heightFactor) {
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }
+        else if (widthFactor < heightFactor) {
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
+    }
+    
+    CGImageRef imageRef = [sourceImage CGImage];
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+    CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
+    
+    if (bitmapInfo == kCGImageAlphaNone) {
+        bitmapInfo = kCGImageAlphaNoneSkipLast;
+    }
+    
+    CGContextRef bitmap;
+    
+    if (sourceImage.imageOrientation == UIImageOrientationUp || sourceImage.imageOrientation == UIImageOrientationDown) {
+        bitmap = CGBitmapContextCreate(NULL, targetWidth, targetHeight, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), colorSpaceInfo, bitmapInfo);
+        
+    } else {
+        bitmap = CGBitmapContextCreate(NULL, targetHeight, targetWidth, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), colorSpaceInfo, bitmapInfo);
+        
+    }
+    
+    // In the right or left cases, we need to switch scaledWidth and scaledHeight,
+    // and also the thumbnail point
+    if (sourceImage.imageOrientation == UIImageOrientationLeft) {
+        thumbnailPoint = CGPointMake(thumbnailPoint.y, thumbnailPoint.x);
+        CGFloat oldScaledWidth = scaledWidth;
+        scaledWidth = scaledHeight;
+        scaledHeight = oldScaledWidth;
+        
+        CGContextRotateCTM (bitmap, M_PI_2); // + 90 degrees
+        CGContextTranslateCTM (bitmap, 0, -targetHeight);
+        
+    } else if (sourceImage.imageOrientation == UIImageOrientationRight) {
+        thumbnailPoint = CGPointMake(thumbnailPoint.y, thumbnailPoint.x);
+        CGFloat oldScaledWidth = scaledWidth;
+        scaledWidth = scaledHeight;
+        scaledHeight = oldScaledWidth;
+        
+        CGContextRotateCTM (bitmap, -M_PI_2); // - 90 degrees
+        CGContextTranslateCTM (bitmap, -targetWidth, 0);
+        
+    } else if (sourceImage.imageOrientation == UIImageOrientationUp) {
+        // NOTHING
+    } else if (sourceImage.imageOrientation == UIImageOrientationDown) {
+        CGContextTranslateCTM (bitmap, targetWidth, targetHeight);
+        CGContextRotateCTM (bitmap, -M_PI); // - 180 degrees
+    }
+    
+    CGContextDrawImage(bitmap, CGRectMake(thumbnailPoint.x, thumbnailPoint.y, scaledWidth, scaledHeight), imageRef);
+    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+    UIImage* newImage = [UIImage imageWithCGImage:ref];
+    
+    CGContextRelease(bitmap);
+    CGImageRelease(ref);
+    
+    return newImage;
+}
+
+- (NSDictionary *)toDictionary
+{
+#warning todo: dont use me
+    Profile *me = [Profile currentUserProfile];
+    NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
+    [retval setObject:me.username forKey:@"username"];
+    [retval setObject:me.usercode forKey:@"userCode"];
+    if (me.learningLanguageTag)
+        [retval setObject:me.learningLanguageTag forKey:@"learningLanguageTag"];
+    if (me.nativeLanguageTag)
+        [retval setObject:me.nativeLanguageTag forKey:@"nativeLanguageTag"];
+    if (me.location)
+        [retval setObject:me.location forKey:@"location"];
+    if (me.deviceToken)
+        [retval setObject:me.deviceToken forKey:@"deviceToken"];
+    if (me.photo) {
+        UIImage *thumbnail = [Profile imageWithImage:me.photo scaledToSizeWithSameAspectRatio:CGSizeMake(100, 100)];
+        NSData *JPEGdata = UIImageJPEGRepresentation(thumbnail, 0.8);
+        [retval setObject:[JPEGdata base64EncodedString] forKey:@"photo"];
+    }
+    return retval;
+}
+
+- (NSData *)JSON
+{
+    return [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:nil];
 }
 
 @end

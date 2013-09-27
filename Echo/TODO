@@ -3,12 +3,9 @@ RELEASE EARLY, RELEASE OFTEN
 
 RELEASE
   SWITCH TO COCOAPODS AND UPDATE
-  git submodule update --init --recursive
-  git submodule foreach --recursive git fetch
-  git submodule foreach git merge origin master
-  # or maybe to git submodule update --init --recursive / http://stackoverflow.com/questions/10168449/git-update-submodule-recursive
   XCode Analyze, AppCode Analyze
   Update screenshots on website and iTunesConnect
+## NEED TO DO A CODE COVERAGE TEST HERE, MUCH CHANGED
   Increment version
   Archive
   VERSION=$(/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' Echo/Echo-Info.plist)

@@ -330,6 +330,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                 [(UILabel *)[cell viewWithTag:3] setText:@"Not yet shared online"];
             return cell;
         case CellLessonDownload: {
+#warning USE UIProgressView+AFNetworking HERE AND BELOW
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonDownload"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             [(UILabel *)[cell viewWithTag:1] setText:lesson.name];

@@ -11,7 +11,6 @@
 #import "NetworkManager.h"
 #import "WordDetailController.h"
 #import "WordPracticeController.h"
-#import "AFNetworking.h"
 #import "NSData+Base64.h"
 
 @interface SocialViewController () <UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate, WordPracticeDataSource, WordPracticeDelegate>
@@ -231,15 +230,9 @@
     return NO;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    [[AFNetworkActivityIndicatorManager sharedManager] incrementActivityCount];
-}
-
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     [self.refreshControl endRefreshing];
     NSString *javaScript = @"parseInt(document.getElementById('lastMessageSeen').innerHTML)";
     NSString *lastMessageSeenStr = [self.webView stringByEvaluatingJavaScriptFromString:javaScript];
@@ -248,7 +241,6 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     [self.refreshControl endRefreshing];
     [NetworkManager hudFlashError:error];
 }

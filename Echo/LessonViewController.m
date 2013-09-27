@@ -11,7 +11,6 @@
 #import "Languages.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
-#import "AFNetworking.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "TranslateLessonViewController.h"
 #import "GAI.h"
@@ -71,43 +70,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     _lesson = lesson;
 }
 
-- (IBAction)lessonLikePressed:(id)sender {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-    self.hud.labelText = @"Sending...";
-    
-    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue]) {
-        [networkManager doUnlikeLesson:self.lesson onSuccess:^
-         {
-             self.lesson.submittedLikeVote = nil;
-             self.hud.mode = MBProgressHUDModeDeterminate;
-             self.hud.progress = 1;
-             [self.hud hide:YES];
-             [self.delegate lessonView:self didSaveLesson:self.lesson];
-             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
-         } onFailure:^(NSError *error)
-         {
-             [self.hud hide:NO];
-             [NetworkManager hudFlashError:error];
-         }];
-    } else {
-        [networkManager doLikeLesson:self.lesson onSuccess:^
-         {
-             self.lesson.submittedLikeVote = [NSNumber numberWithBool:YES];
-             self.hud.mode = MBProgressHUDModeDeterminate;
-             self.hud.progress = 1;
-             [self.hud hide:YES];
-             [self.delegate lessonView:self didSaveLesson:self.lesson];
-             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
-         } onFailure:^(NSError *error)
-         {
-             [self.hud hide:NO];
-             [NetworkManager hudFlashError:error];
-         }];
-    }
-}
-
 - (IBAction)lessonFlagPressed:(id)sender {
     self.actionIsToLessonAuthor = YES;
     self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Flagging a lesson is public and will delete your copy of the lesson. To continue, choose a reason."
@@ -142,46 +104,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     alertView.tag = 0;
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
-}
-
-
-- (IBAction)translationLikePressed:(id)sender {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-    self.hud.labelText = @"Sending...";
-    Profile *me = [Profile currentUserProfile];
-    Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
-    
-    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    if (translation.submittedLikeVote && [translation.submittedLikeVote boolValue]) {
-        [networkManager doUnlikeLesson:translation onSuccess:^
-         {
-             translation.submittedLikeVote = nil;
-             self.hud.mode = MBProgressHUDModeDeterminate;
-             self.hud.progress = 1;
-             [self.hud hide:YES];
-             [self.delegate lessonView:self didSaveLesson:self.lesson];
-             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
-         } onFailure:^(NSError *error)
-         {
-             [self.hud hide:NO];
-             [NetworkManager hudFlashError:error];
-         }];
-    } else {
-        [networkManager doLikeLesson:self.lesson onSuccess:^
-         {
-             translation.submittedLikeVote = [NSNumber numberWithBool:YES];
-             self.hud.mode = MBProgressHUDModeDeterminate;
-             self.hud.progress = 1;
-             [self.hud hide:YES];
-             [self.delegate lessonView:self didSaveLesson:self.lesson];
-             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationNone];
-         } onFailure:^(NSError *error)
-         {
-             [self.hud hide:NO];
-             [NetworkManager hudFlashError:error];
-         }];
-    }
 }
 
 - (IBAction)translationFlagPressed:(id)sender {
@@ -403,8 +325,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             [(UILabel *)[cell viewWithTag:1] setText:self.lesson.userName];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
             [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
-            if (self.lesson.submittedLikeVote && [self.lesson.submittedLikeVote boolValue])
-                [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
             return cell;
         }
         case CellTranslateAction:
@@ -422,8 +342,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             [(UILabel *)[cell viewWithTag:1] setText:translation.userName];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
             [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
-            if (translation.submittedLikeVote && [translation.submittedLikeVote boolValue])
-                [(UIGlossyButton *)[cell viewWithTag:5] setTintColor:[UIColor greenColor]];
             return cell;
         }
     }

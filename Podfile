@@ -1,5 +1,5 @@
 platform :ios, '6.1'
-pod 'AFNetworking', '~> 0.10.1'
+pod 'AFNetworking'
 #pod 'AFNetworking/UIKit+AFNetworking'
 pod 'GoogleAnalytics-iOS-SDK'
 pod 'Appirater'

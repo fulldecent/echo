@@ -25,6 +25,9 @@
 @synthesize refreshControl = _refreshControl;
 @synthesize currentWord = _currentWord;
 
+#warning LOOK AT USING UIWebView+AFNetworking HERE
+#warning CONSOLIDATE SOCIAL INTO THIS CLASS
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -62,14 +62,6 @@ onFailure:(void(^)(NSError *error))failureBlock;
                                       NSNumber *numNewMessages))successBlock
                    onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)doLikeLesson:(Lesson *)lesson
-           onSuccess:(void(^)())successBlock
-           onFailure:(void(^)(NSError *error))failureBlock;
-
-- (void)doUnlikeLesson:(Lesson *)lesson
-             onSuccess:(void(^)())successBlock
-             onFailure:(void(^)(NSError *error))failureBlock;
-
 - (void)doFlagLesson:(Lesson *)lesson withReason:(enum NetworkManagerFlagReason)flagReason
            onSuccess:(void(^)())successBlock
            onFailure:(void(^)(NSError *error))failureBlock;

@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <AFNetworking.h>
-#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
+#import "AFNetworkActivityIndicatorManager.h"
 #import "Profile.h"
 #import "Appirater.h"
 #import "GAI.h"

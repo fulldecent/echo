@@ -26,7 +26,6 @@
 @property (strong, nonatomic) NSNumber *numUsers;
 @property (strong, nonatomic) NSDictionary *translations; // {"en":Lesson *,...}
 
-@property (strong, nonatomic) NSNumber *submittedLikeVote; // (BOOL)
 @property (readonly, strong, nonatomic) NSString *filePath;
 
 - (void)setToLesson:(Lesson *)lesson;

@@ -22,4 +22,5 @@
 - (void)syncOnlineOnSuccess:(void(^)(NSArray *recommendedLessons))success onFailure:(void(^)(NSError *error))failure;
 - (void)syncToDisk;
 - (NSNumber *)profileCompleteness;
+- (NSData *)JSON;
 @end
