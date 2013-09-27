@@ -2,9 +2,11 @@
 RELEASE EARLY, RELEASE OFTEN
 
 RELEASE
+  SWITCH TO COCOAPODS AND UPDATE
   git submodule update --init --recursive
   git submodule foreach --recursive git fetch
   git submodule foreach git merge origin master
+  # or maybe to git submodule update --init --recursive / http://stackoverflow.com/questions/10168449/git-update-submodule-recursive
   XCode Analyze, AppCode Analyze
   Update screenshots on website and iTunesConnect
   Increment version
@@ -29,11 +31,11 @@ DISTRIBUTE
     http://www.appsafari.com/
     http://www.todayiniphone.com
 
- Hello, 
+Hello, 
 
 I am William Entriken and have developed the app Echo to practice word pronunciation for people learning languages. Originally I started this to learn programming and help my girlfriend who is Chinese and has trouble with certain English words after being in the US for several years. Now we are adding Spanish and Chinese lessons. There's also a basic website at https://learnwithecho.com
 
-This app is always a work in progress and I would appreciate any feedback you could give. Following are promo codes to download for free.
+Just wanted to reach out in case this would be of any value for your audience. Following are promo codes to download for free.
 
 http://tokn.co/78qmr345
 http://tokn.co/dwmxb26e
@@ -51,18 +53,24 @@ Will
  - Fix resources page, iOS 7 tint
  - Share friends, website is free
  - Add Google Analytics
+- AFNetworkActivityIndicatorManager gone
 
 
 ========================================
 FOCUS
 ========================================
 
+AFNETWORKING 2!!!!
+https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide
+
+- PRACTICE PAGE SUCKS ON IPAD
+
+ - GOOGLE ANALYTICS - IS DATA COMING IN? Track sales in Analytics and AdWords -> increase advertising?
+
 
 ========================================
 STUFF TO DO LATER
 ========================================
- ! GOOGLE ANALYTICS - IS DATA COMING IN? 
-    SET UP A GOAL AND TRACK WEBSITE SALES AND MAKE ADWORDS CONVERSION
 
  ! Create lesson -> set native language
  ! Use autolayout on the word practice screen and test by rotating
@@ -70,7 +78,6 @@ STUFF TO DO LATER
  ! Set a local reminder, "You started the XXX lesson and haven't worked on it in a week, keep going!"
  - Use QuickDialog to replace: LessonInformationViewController, TranslateLessonViewController, WordDetailController, LanguageSelectController
 
- - learnwithecho.com use hosted bootstrap fontawesome
  - Home screen: refresh XX new lessons available in LANGUAGE
  - Badges and acheivements for completing tasks
      - Upload a photo, Download 5 lessons, Share a lesson on facebook, Contribute a lesson, Translate a lesson, Send a message to author, practice a word, reply to a practice, have your lesson downloaded by 10 people
@@ -97,7 +104,6 @@ STUFF TO DO LATER
  - Remove and imageOptim all images
 
  - Main screen, use cell pages for NEW and "X unread", see https://github.com/tmdvs/TDBadgedCell
-
 
  - Get teachers and add lessons
  - TOP 10 lessons on website

@@ -11,3 +11,4 @@ build
 .DS_Store
 Classes/ShareKit/SHKConfig.h
 DerivedData
+Pods

@@ -8,8 +8,9 @@
 
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
-#import "AFHTTPClient.h"
+#import "AFNetworking.h"
 #import "AFHTTPRequestOperation.h"
+
 #import "AFJSONRequestOperation.h"
 #import "Audio.h"
 #import "NSData+Base64.h"

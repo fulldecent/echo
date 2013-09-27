@@ -993,7 +993,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="hpH-bY-sKv" customClass="UIGlossyButton">
-                                <rect key="frame" x="52" y="222" width="32" height="30"/>
+                                <rect key="frame" x="52" y="223" width="32" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -1012,7 +1012,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="NuC-Cx-ncp" customClass="UIGlossyButton">
-                                <rect key="frame" x="90" y="222" width="32" height="30"/>
+                                <rect key="frame" x="90" y="223" width="32" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -1030,7 +1030,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="oVv-Qd-UNg" customClass="UIGlossyButton">
-                                <rect key="frame" x="128" y="222" width="32" height="30"/>
+                                <rect key="frame" x="128" y="223" width="32" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -1048,7 +1048,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-R0-iZi" customClass="UIGlossyButton">
-                                <rect key="frame" x="166" y="222" width="32" height="30"/>
+                                <rect key="frame" x="166" y="223" width="32" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -1066,7 +1066,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Tl0-3A-6vl" customClass="UIGlossyButton">
-                                <rect key="frame" x="204" y="222" width="32" height="30"/>
+                                <rect key="frame" x="204" y="223" width="32" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -1084,7 +1084,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Kj1-ni-mPZ" customClass="UIGlossyButton">
-                                <rect key="frame" x="242" y="222" width="32" height="30"/>
+                                <rect key="frame" x="242" y="223" width="32" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -1116,9 +1116,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Cir-xp-IZM" firstAttribute="top" secondItem="2Ah-up-E1a" secondAttribute="bottom" id="0Zy-nR-zQ8"/>
                             <constraint firstItem="oVv-Qd-UNg" firstAttribute="top" secondItem="NuC-Cx-ncp" secondAttribute="top" id="43F-IX-xJl"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="trailing" secondItem="2h4-zK-NNJ" secondAttribute="trailing" id="59e-Cv-UXz"/>
                             <constraint firstItem="2h4-zK-NNJ" firstAttribute="trailing" secondItem="Fdd-HF-y3t" secondAttribute="trailing" id="5CU-G2-OAI"/>
                             <constraint firstAttribute="trailing" secondItem="Tl0-3A-6vl" secondAttribute="trailing" constant="84" id="6vJ-kJ-Du8"/>
+                            <constraint firstItem="2Ah-up-E1a" firstAttribute="top" secondItem="dTj-8T-Izr" secondAttribute="bottom" id="81z-pf-GS2"/>
                             <constraint firstAttribute="bottom" secondItem="ige-48-HDh" secondAttribute="bottom" constant="20" symbolic="YES" id="8Nb-B5-nPo"/>
                             <constraint firstAttribute="trailing" secondItem="kpQ-R0-iZi" secondAttribute="trailing" constant="122" id="9DJ-iP-dfZ"/>
                             <constraint firstAttribute="trailing" secondItem="Kj1-ni-mPZ" secondAttribute="trailing" constant="46" id="AKD-6G-oU7"/>
@@ -1130,23 +1133,38 @@
                             <constraint firstItem="hpH-bY-sKv" firstAttribute="bottom" secondItem="NuC-Cx-ncp" secondAttribute="bottom" id="GF6-S9-dPC"/>
                             <constraint firstItem="2h4-zK-NNJ" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="35" id="GGx-pM-mrg"/>
                             <constraint firstItem="Tl0-3A-6vl" firstAttribute="top" secondItem="Kj1-ni-mPZ" secondAttribute="top" id="H9k-fm-pns"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="leading" secondItem="Fdd-HF-y3t" secondAttribute="leading" id="Hm9-h3-BP9"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="top" secondItem="Fdd-HF-y3t" secondAttribute="bottom" constant="21" id="KWE-HV-pt0"/>
                             <constraint firstItem="kpQ-R0-iZi" firstAttribute="bottom" secondItem="Tl0-3A-6vl" secondAttribute="bottom" id="NxD-X1-InJ"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="centerY" secondItem="Tl0-3A-6vl" secondAttribute="centerY" id="OI0-2Y-rjT"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="centerY" secondItem="oVv-Qd-UNg" secondAttribute="centerY" id="QAd-MC-J3h"/>
+                            <constraint firstAttribute="trailing" secondItem="2h4-zK-NNJ" secondAttribute="trailing" constant="20" id="SSq-Uo-uKR"/>
                             <constraint firstItem="0F5-J6-XPb" firstAttribute="leading" secondItem="Fdd-HF-y3t" secondAttribute="leading" id="SXb-bO-aqZ"/>
                             <constraint firstItem="hpH-bY-sKv" firstAttribute="top" secondItem="NuC-Cx-ncp" secondAttribute="top" id="U6m-0c-i7n"/>
                             <constraint firstItem="hpH-bY-sKv" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="52" id="UfO-T2-P4U"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="leading" secondItem="2h4-zK-NNJ" secondAttribute="leading" id="Uw5-Ig-C6N"/>
                             <constraint firstItem="NuC-Cx-ncp" firstAttribute="bottom" secondItem="oVv-Qd-UNg" secondAttribute="bottom" id="XQc-cA-2kW"/>
                             <constraint firstItem="2h4-zK-NNJ" firstAttribute="leading" secondItem="Fdd-HF-y3t" secondAttribute="leading" id="XdK-MP-pXX"/>
                             <constraint firstItem="2Ah-up-E1a" firstAttribute="leading" secondItem="17" secondAttribute="leading" id="XeD-u9-BqZ"/>
                             <constraint firstItem="oVv-Qd-UNg" firstAttribute="bottom" secondItem="kpQ-R0-iZi" secondAttribute="bottom" id="bHs-d5-GCc"/>
                             <constraint firstItem="0F5-J6-XPb" firstAttribute="top" secondItem="17" secondAttribute="top" constant="207" id="ddi-8E-EsW"/>
+                            <constraint firstItem="2h4-zK-NNJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="17" secondAttribute="leading" constant="20" id="fhZ-xZ-CJ6"/>
                             <constraint firstItem="oVv-Qd-UNg" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="128" id="g6H-4B-DH2"/>
                             <constraint firstItem="2Ah-up-E1a" firstAttribute="bottom" secondItem="17" secondAttribute="bottom" id="gbK-Qa-EXt"/>
                             <constraint firstItem="ige-48-HDh" firstAttribute="leading" secondItem="0F5-J6-XPb" secondAttribute="leading" id="haB-vY-anl"/>
                             <constraint firstItem="ige-48-HDh" firstAttribute="trailing" secondItem="0F5-J6-XPb" secondAttribute="trailing" id="hsY-vd-1ZV"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="centerY" secondItem="hpH-bY-sKv" secondAttribute="centerY" id="iza-2s-fFC"/>
+                            <constraint firstAttribute="trailing" secondItem="2Ah-up-E1a" secondAttribute="trailing" id="kXF-Te-RJi"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="trailing" secondItem="Fdd-HF-y3t" secondAttribute="trailing" id="kbg-QV-Xrd"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="centerY" secondItem="NuC-Cx-ncp" secondAttribute="centerY" id="m6X-an-FYL"/>
                             <constraint firstAttribute="bottom" secondItem="hpH-bY-sKv" secondAttribute="bottom" constant="164" id="mBt-lR-XVw"/>
                             <constraint firstItem="2h4-zK-NNJ" firstAttribute="top" secondItem="17" secondAttribute="top" constant="20" symbolic="YES" id="q0V-Wg-O0E"/>
                             <constraint firstItem="Fdd-HF-y3t" firstAttribute="trailing" secondItem="0F5-J6-XPb" secondAttribute="trailing" id="rFz-FY-a29"/>
                             <constraint firstItem="oVv-Qd-UNg" firstAttribute="top" secondItem="kpQ-R0-iZi" secondAttribute="top" id="s9v-wS-Pm3"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="centerY" secondItem="Kj1-ni-mPZ" secondAttribute="centerY" id="ufD-cZ-OkL"/>
+                            <constraint firstItem="0F5-J6-XPb" firstAttribute="centerY" secondItem="kpQ-R0-iZi" secondAttribute="centerY" id="w31-3e-di4"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="top" secondItem="0F5-J6-XPb" secondAttribute="bottom" constant="17" id="weq-MJ-p4a"/>
+                            <constraint firstItem="2Ah-up-E1a" firstAttribute="leading" secondItem="17" secondAttribute="leading" id="xrS-RB-YYm"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>

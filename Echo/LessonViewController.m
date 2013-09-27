@@ -11,7 +11,8 @@
 #import "Languages.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
-#import "UIImageView+AFNetworking.h"
+#import "AFNetworking.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 #import "TranslateLessonViewController.h"
 #import "GAI.h"
 #import "GAIFields.h"
