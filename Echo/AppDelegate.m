@@ -11,6 +11,7 @@
 #import "Profile.h"
 #import "Appirater.h"
 #import "GAI.h"
+#import "TDBadgedCell.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
@@ -67,6 +68,10 @@
     
     // Initialize tracker.
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-52764-16"];
+    
+    
+    // http://stackoverflow.com/questions/10111369/unknown-class-zbarreaderview-in-interface-builder-file
+    [TDBadgedCell class];
     
     return YES;
 }

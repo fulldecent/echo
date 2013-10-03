@@ -65,7 +65,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         if (lesson.words.count == 0)
             self.editing = YES;
     }
-    [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(lessonShareKitPressed:)]];
+    [buttons addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(lessonSharePressed:)]];
     self.navigationItem.rightBarButtonItems = buttons;
     _lesson = lesson;
 }
@@ -81,7 +81,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     [self.actionSheet showInView:self.view];
 }
 
-- (IBAction)lessonShareKitPressed:(id)sender {
+- (IBAction)lessonSharePressed:(id)sender {
     // Create the item to share (in this example, a url)
     NSString *urlString = [NSString stringWithFormat:@"https://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
     NSURL *url = [NSURL URLWithString:urlString];

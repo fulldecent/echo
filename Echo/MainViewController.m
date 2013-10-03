@@ -23,6 +23,7 @@
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "TDBadgedCell.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
@@ -96,6 +97,12 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationReceived:) name:@"pushNotification" object:nil];
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)])
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244.0/255 green:219.0/255 blue:0 alpha:1];
+
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+        [self.tableView setContentInset:UIEdgeInsetsMake(20,
+                                                         self.tableView.contentInset.left,
+                                                         self.tableView.contentInset.bottom,
+                                                         self.tableView.contentInset.right)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -298,7 +305,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    TDBadgedCell *cell; /* Sometimes it is UITableViewCell, you keep track of that */
     Lesson *lesson;
     Profile *me = [Profile currentUserProfile];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -306,69 +313,65 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"lesson"];
+#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
+            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+                cell.badgeRightOffset = 0.0f;
+            
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-            [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
-            [(UIProgressView *)[cell viewWithTag:3] setProgress:[lesson.portionComplete floatValue]];
-            [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)([lesson.portionComplete floatValue]*100)]];
-            [(UIButton *)[cell viewWithTag:6] setHidden:(lesson.portionComplete.floatValue > 0)];
+            cell.textLabel.text = lesson.name;
+            cell.detailTextLabel.text = lesson.detail;
             if (me.nativeLanguageTag) {
                 Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
                 if (translatedLesson.name)
-                    [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.detail];
+                    cell.detailTextLabel.text = translatedLesson.detail;
             }
+            
+            if (lesson.portionComplete.floatValue == 0)
+                cell.badgeString = @"New";
+            else if (lesson.portionComplete.floatValue < 1.0)
+                cell.badgeString = [NSString stringWithFormat:@"%d%% done", (int)([lesson.portionComplete floatValue]*100)];
+            else
+                cell.badgeString = nil;
             return cell;
         case CellLessonEditable:
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonEditable"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-            [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
+            cell.textLabel.text = lesson.name;
             if (lesson.isShared)
-//TODO: make this "X people now using"
-                [(UILabel *)[cell viewWithTag:3] setText:@"Shared online"];
+                //TODO: make this "X people now using"
+                cell.detailTextLabel.text = @"Shared online";
             else
-                [(UILabel *)[cell viewWithTag:3] setText:@"Not yet shared online"];
+                cell.detailTextLabel.text = @"Not yet shared online";
             return cell;
         case CellLessonDownload: {
-#warning USE UIProgressView+AFNetworking HERE AND BELOW
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonDownload"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-            [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
+            cell.textLabel.text = lesson.name;
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
-            [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
-            //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
-            if (me.nativeLanguageTag) {
-                Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
-                if (translatedLesson.name)
-                    [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.detail];
-            }
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Downloading – %d%%", (int)([percent floatValue]*100)];
             return cell;
         }
         case CellLessonUpload: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"lessonUpload"];
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-            [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-            [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
+            cell.textLabel.text = lesson.name;
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
-            [(UIProgressView *)[cell viewWithTag:4] setProgress:[percent floatValue]];
-            //[(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%d%%", (int)([percent floatValue]*100)]];
-            if (me.nativeLanguageTag) {
-                Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
-                if (translatedLesson.name)
-                    [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.detail];
-            }
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Uploading – %d%%", (int)([percent floatValue]*100)];
             return cell;
         }
         case CellDownloadLesson:
+#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
+            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+                cell.badgeRightOffset = 0.0f;
+            
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
-//TODO: number of new lessons
-            [(UILabel *)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"Get %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]]];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Get %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]];
             if ([(NSNumber *)[defaults objectForKey:@"newLessonCount"] integerValue]) {
-                [(UIButton *)[cell viewWithTag:3] setHidden:NO];
-                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"newLessonCount"] stringValue] forState:UIControlStateNormal];
-            } else
-                [(UIButton *)[cell viewWithTag:3] setHidden:YES];
+                cell.badgeString = [(NSNumber *)[defaults objectForKey:@"newLessonCount"] stringValue];
+                cell.badgeRightOffset = 8;
+            } else {
+                cell.badgeString = nil;
+            }
             return cell;
         case CellCreateLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"createLesson"];
@@ -378,29 +381,32 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             return cell;
         case CellEditProfile:
             cell = [tableView dequeueReusableCellWithIdentifier:@"editProfile"];
-            [(UILabel *)[cell viewWithTag:1] setText:me.username];
-            [(UIImageView *)[cell viewWithTag:2] setImage:me.photo];
+
+#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
+            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+                cell.badgeRightOffset = 0.0f;
+            
+            cell.textLabel.text = me.username;
+            cell.imageView.image = me.photo;
             if (me.profileCompleteness.floatValue < 1) {
-                [(UIProgressView *)[cell viewWithTag:3] setProgress:me.profileCompleteness.floatValue];
-                [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%d%%", (int)(me.profileCompleteness.floatValue*100)]];
-                [(UILabel *)[cell viewWithTag:5] setHidden:YES];
-            } else {
-                [(UIProgressView *)[cell viewWithTag:3] setHidden:YES];
-                [(UILabel *)[cell viewWithTag:4] setHidden:YES];
-                [(UILabel *)[cell viewWithTag:5] setHidden:NO];
-                [(UILabel *)[cell viewWithTag:5] setText:@"Profile updated"];
-            }
+                cell.badgeString = [NSString stringWithFormat:@"%d%% done", (int)(me.profileCompleteness.floatValue*100)];
+            } else
+                cell.badgeString = nil;
             return cell;
         case CellMeetPeople:
             cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
+            
+#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
+            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+                cell.badgeRightOffset = 0.0f;
+            
             [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
             if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue]) {
-                [(UIButton *)[cell viewWithTag:3] setHidden:NO];
-                [(UIButton *)[cell viewWithTag:3] setTitle:[(NSNumber *)[defaults objectForKey:@"numNewMessages"] description] forState:UIControlStateNormal];
+                cell.badgeString = [NSString stringWithFormat:@"%d", [[defaults objectForKey:@"numNewMessages"] integerValue]];
                 if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue] == -1)
-                    [(UIButton *)[cell viewWithTag:3] setTitle:@"" forState:UIControlStateNormal];
+                    cell.badgeString = @"New";
             } else
-                [(UIButton *)[cell viewWithTag:3] setHidden:YES];
+                cell.badgeString = nil;
             return cell;
     }
     assert (0); return 0;

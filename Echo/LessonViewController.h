@@ -25,8 +25,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *lessonLabel;
 @property (strong, nonatomic) IBOutlet UITextField *detailLabel;
 
-#warning REMOVE lessonShareKitPressed?
-- (IBAction)lessonShareKitPressed:(id)sender;
+- (IBAction)lessonSharePressed:(id)sender;
 - (IBAction)lessonReplyAuthorPressed:(id)sender;
 - (IBAction)lessonFlagPressed:(id)sender;
 - (IBAction)translationReplyAuthorPressed:(id)sender;

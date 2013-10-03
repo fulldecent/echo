@@ -49,13 +49,16 @@ Will
 ========================================
  - Fix resources page, iOS 7 tint
  - Share friends, website is free
- - Add Google Analytics
-- AFNetworkActivityIndicatorManager gone
+ - AFNetworkActivityIndicatorManager gone
 
 
 ========================================
-FOCUS
+FOCUS / BUGS
 ========================================
+
+ CANT DOWNLOAD LESSONS
+https://learnwithecho.com/api/2.0/users/80.png 406 error
+
 
 AFNETWORKING 2!!!!
 https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide

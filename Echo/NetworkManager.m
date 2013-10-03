@@ -42,7 +42,7 @@
     if (!_requestManager) {
         Profile *me = [Profile currentUserProfile];
         _requestManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
-        AFHTTPRequestSerializer *authenticateRequests = [AFHTTPRequestSerializer serializer];
+        AFHTTPRequestSerializer *authenticateRequests = [AFJSONRequestSerializer serializer];
         [authenticateRequests setAuthorizationHeaderFieldWithUsername:@"xxx" password:me.usercode];
         _requestManager.requestSerializer = authenticateRequests;
     }
@@ -89,7 +89,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0 && totalBytesRead < totalBytesExpectedToRead) {
             if (progressBlock)
-                progressBlock(nil, [NSNumber numberWithFloat:totalBytesRead / totalBytesExpectedToRead]);
+                progressBlock(nil, [NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
         }
     }];
     [request start];
@@ -121,7 +121,7 @@
         relativePath = [NSString stringWithFormat:@"lessons/%@.json", lessonID];
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 #warning DOES THIS WORK?
-        Lesson *lesson = [Lesson lessonWithJSON:responseObject];
+        Lesson *lesson = [Lesson lessonWithDictionary:responseObject];
         lesson.version = [NSNumber numberWithInt:0];
         if (successBlock)
             successBlock(lesson);
@@ -204,7 +204,7 @@
     [request setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         if (totalBytesExpectedToWrite > 0 && totalBytesWritten < totalBytesExpectedToWrite) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:totalBytesWritten / totalBytesExpectedToWrite]);
+                progressBlock([NSNumber numberWithFloat:(float)totalBytesWritten / totalBytesExpectedToWrite]);
         }
     }];
     [request start];
@@ -216,18 +216,17 @@
     return [NSURL URLWithString:relativeURL relativeToURL:[NSURL URLWithString:SERVER_ECHO_API_URL]];
 }
 
-#warning ADD SOME METHODS THAT GET THE TOTL PROGRESS FOR A lesson UPLOAD OR DOWNLOAD
-
 - (void)postUserProfile:(Profile *)profile
               onSuccess:(void(^)(NSString *username, NSNumber *userID, NSArray *recommendedLessons))successBlock
               onFailure:(void(^)(NSError *error))failureBlock
 {
-    NSData *JSON = [[Profile currentUserProfile] JSON];
-    AFHTTPRequestOperation *request = [self.requestManager POST:@"users" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *username = [(NSDictionary *)JSON objectForKey:@"username"];
-        NSNumber *userID = [(NSDictionary *)JSON objectForKey:@"userID"];
+    NSDictionary *JSONDict = [NSJSONSerialization JSONObjectWithData:[[Profile currentUserProfile] JSON] options:nil error:nil];
+    
+    AFHTTPRequestOperation *request = [self.requestManager POST:@"users" parameters:JSONDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *username = [(NSDictionary *)responseObject objectForKey:@"username"];
+        NSNumber *userID = [(NSDictionary *)responseObject objectForKey:@"userID"];
         NSMutableArray *recommendedLessons = [[NSMutableArray alloc] init];
-        for (id lessonJSONDecoded in [(NSDictionary *)JSON objectForKey:@"recommendedLessons"]) {
+        for (id lessonJSONDecoded in [(NSDictionary *)responseObject objectForKey:@"recommendedLessons"]) {
             NSData *lessonJSON = [NSJSONSerialization dataWithJSONObject:lessonJSONDecoded options:0 error:nil];
             [recommendedLessons addObject:[Lesson lessonWithJSON:lessonJSON]];
         }
@@ -344,7 +343,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0 && totalBytesRead < totalBytesExpectedToRead) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:totalBytesRead / totalBytesExpectedToRead]);
+                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
         }
     }];
     [request start];
@@ -374,7 +373,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0 && totalBytesRead < totalBytesExpectedToRead) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:totalBytesRead / totalBytesExpectedToRead]);
+                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
         }
     }];
     [request start];
@@ -461,20 +460,29 @@
          if (progressBlock)
              progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
          
+         NSMutableDictionary *progressPerAudioFile = [NSMutableDictionary dictionary];
+         
+         //             [self.lessonTransferProgress setObject:NMprogress forKey:[NSValue valueWithNonretainedObject:NMlesson]];
+
+         
          for (Audio *file in neededAudios) {
+             [progressPerAudioFile setObject:[NSNumber numberWithInt:0] forKey:[file fileID]];
+             
              [self getAudioWithID:[file fileID] withProgress:^(NSData *audio, NSNumber *fileProgress)
               {
+                  [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
+                  NSNumber *filesProgress = [[progressPerAudioFile allValues] valueForKeyPath:@"sum.self"];
+                  lessonProgress = [NSNumber numberWithFloat:[filesProgress floatValue] + 1];
+                  
                   if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
                       NSFileManager *fileManager = [NSFileManager defaultManager];
                       NSString *dirname = [file.filePath stringByDeletingLastPathComponent];
                       [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
                       [audio writeToFile:file.filePath atomically:YES];                      
-                      lessonProgress = [NSNumber numberWithInt:[lessonProgress integerValue]+1];
                       if ([lessonProgress isEqualToNumber:totalLessonProgress])
                           lessonToSync.version = retreivedLesson.serverVersion;
                       if (progressBlock)
                           progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
-                      //TODO: Could do even more accurate progress reporting if we wanted
                   }
               } onFailure:^(NSError *error) {
               }];

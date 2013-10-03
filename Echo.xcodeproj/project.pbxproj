@@ -782,7 +782,7 @@
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Echo;
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
