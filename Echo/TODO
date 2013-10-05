@@ -1,13 +1,12 @@
 ========================================
-RELEASE EARLY, RELEASE OFTEN
+RELEASE EARLY, RELEASE DAILY!
 
 RELEASE
-  SWITCH TO COCOAPODS AND UPDATE
+  pod update
   XCode Analyze, AppCode Analyze
   Update screenshots on website and iTunesConnect
-## NEED TO DO A CODE COVERAGE TEST HERE, MUCH CHANGED
   Increment version
-  Archive
+  Product -> Archive
   VERSION=$(/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' Echo/Echo-Info.plist)
   git tag -a "v$VERSION" -m "Release v$VERSION"
   git push --tags
@@ -56,22 +55,23 @@ Will
 FOCUS / BUGS
 ========================================
 
- CANT DOWNLOAD LESSONS
-https://learnwithecho.com/api/2.0/users/80.png 406 error
+  https://learnwithecho.com/api/2.0/users/80.png 406 error
 
+  Can't download audio files
+  Echo Practive page sucks on 3.5" iphone and ipad
+  TEST ALL UPLOAD FEATURES
 
-AFNETWORKING 2!!!!
-https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide
-
-- PRACTICE PAGE SUCKS ON IPAD
-
- - GOOGLE ANALYTICS - IS DATA COMING IN? Track sales in Analytics and AdWords -> increase advertising?
-
+  Before release:
+  Do code coverage test / at same time test functional correctness
+  
+  Social // Does not remember if you already saw that stuff
 
 ========================================
 STUFF TO DO LATER
 ========================================
 
+
+  GOOGLE ANALYTICS - IS DATA COMING IN? Track sales in Analytics and AdWords -> increase advertising?
  ! Create lesson -> set native language
  ! Use autolayout on the word practice screen and test by rotating
  ! Meet people -> reset unread count on homescreen

@@ -24,6 +24,7 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 #import "TDBadgedCell.h"
+#import <NSData+Base64.h>
 
 typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
@@ -561,6 +562,23 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         Word *word = [[Word alloc] init];
         word.languageTag = me.learningLanguageTag;
         controller.word = word;
+    } else if ([segue.destinationViewController isKindOfClass:[WebViewController class]]) {
+        WebViewController *controller = segue.destinationViewController;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        Profile *me = [Profile currentUserProfile];
+
+        NSMutableString *url = [[SERVER_ECHO_API_URL stringByAppendingPathComponent:@"iPhone/social"] mutableCopy];
+        [url appendFormat:@"?lastMessageSeen=%@", [defaults objectForKey:@"lastMessageSeen"]];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"xx", me.usercode];
+        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedString]];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
+
+        [controller loadRequest:request];
+        [defaults setObject:[NSDate date] forKey:@"lastUpdateSocial"];
+        [defaults synchronize];
     }
 }
 

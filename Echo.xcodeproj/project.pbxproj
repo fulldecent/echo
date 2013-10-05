@@ -20,7 +20,6 @@
 		77429F4415D4A3730017834F /* iPhoneBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77429F4215D4A3730017834F /* iPhoneBG@2x.png */; };
 		77429F4515D4A3730017834F /* iPhoneBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 77429F4315D4A3730017834F /* iPhoneBG.png */; };
 		7749939715A0C409001DE784 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7749939615A0C409001DE784 /* NetworkManager.m */; };
-		774CDA1A15CF05B700B14C45 /* SocialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDA1915CF05B700B14C45 /* SocialViewController.m */; };
 		774CDA1F15D080F100B14C45 /* message.png in Resources */ = {isa = PBXBuildFile; fileRef = 774CDA1B15D080F100B14C45 /* message.png */; };
 		774CDA2015D080F100B14C45 /* message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 774CDA1C15D080F100B14C45 /* message@2x.png */; };
 		774CDA4215D0AEF800B14C45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDA4115D0AEF800B14C45 /* SystemConfiguration.framework */; };
@@ -127,8 +126,6 @@
 		77429F4315D4A3730017834F /* iPhoneBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneBG.png; sourceTree = "<group>"; };
 		7749939515A0C409001DE784 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		7749939615A0C409001DE784 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
-		774CDA1815CF05B700B14C45 /* SocialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialViewController.h; sourceTree = "<group>"; };
-		774CDA1915CF05B700B14C45 /* SocialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialViewController.m; sourceTree = "<group>"; };
 		774CDA1B15D080F100B14C45 /* message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message.png; sourceTree = "<group>"; };
 		774CDA1C15D080F100B14C45 /* message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message@2x.png"; sourceTree = "<group>"; };
 		774CDA4115D0AEF800B14C45 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -367,9 +364,9 @@
 				77C7042D16F52FF400C3A13A /* ProfileViewController.m */,
 				771CED671764336000EE8A88 /* WebViewController.h */,
 				771CED681764336000EE8A88 /* WebViewController.m */,
+				771CED971764C09F00EE8A88 /* resources.html */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
-				77DDC70D156DD80300568CDE /* Social Mode */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
 				77DDC70E156DD81F00568CDE /* Classes */,
 				77B51385151970B100F041D7 /* Supporting Files */,
@@ -388,6 +385,8 @@
 				77CB51E815683C2F00BBD4FC /* star.png */,
 				77B7718E15698D7100E0F012 /* staron.png */,
 				77B771A31569951800E0F012 /* staroff.png */,
+				77D8AD0D157AB589001E2E25 /* social.png */,
+				77D8AD0E157AB589001E2E25 /* social@2x.png */,
 				77E58515169910B200866A43 /* check.png */,
 				77E58516169910B200866A43 /* check@2x.png */,
 				77E5850F1699104A00866A43 /* checkon.png */,
@@ -440,18 +439,6 @@
 				7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */,
 			);
 			name = "Lesson UI";
-			sourceTree = "<group>";
-		};
-		77DDC70D156DD80300568CDE /* Social Mode */ = {
-			isa = PBXGroup;
-			children = (
-				774CDA1815CF05B700B14C45 /* SocialViewController.h */,
-				774CDA1915CF05B700B14C45 /* SocialViewController.m */,
-				771CED971764C09F00EE8A88 /* resources.html */,
-				77D8AD0D157AB589001E2E25 /* social.png */,
-				77D8AD0E157AB589001E2E25 /* social@2x.png */,
-			);
-			name = "Social Mode";
 			sourceTree = "<group>";
 		};
 		77DDC70E156DD81F00568CDE /* Classes */ = {
@@ -675,7 +662,6 @@
 				77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
-				774CDA1A15CF05B700B14C45 /* SocialViewController.m in Sources */,
 				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
 				77ED9D111661615D005D10ED /* IntroViewController.m in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,

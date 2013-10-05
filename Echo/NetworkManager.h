@@ -12,6 +12,8 @@
 #import "Word.h"
 #import "Profile.h"
 
+#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0/"
+
 enum NetworkManagerFlagReason {
     NetworkManagerFlagReasonInappropriateTitle,
     NetworkManagerFlagReasonInaccurateContent,
@@ -67,12 +69,12 @@ onFailure:(void(^)(NSError *error))failureBlock;
            onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)getWordWithID:(NSNumber *)wordID
-onSuccess:(void(^)(Word *word))successBlock
-onFailure:(void(^)(NSError *error))failureBlock;
+            onSuccess:(void(^)(Word *word))successBlock
+            onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)deleteWordWithID:(NSNumber *)wordID
-onSuccess:(void(^)())successBlock
-onFailure:(void(^)(NSError *error))failureBlock;
+               onSuccess:(void(^)())successBlock
+               onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)postWord:(Word *)word AsPracticeWithFilesInPath:(NSString *)filePath
     withProgress:(void(^)(NSNumber *progress))progressBlock

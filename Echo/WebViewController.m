@@ -12,6 +12,7 @@
 #import "NetworkManager.h"
 #import "WordDetailController.h"
 #import "WordPracticeController.h"
+#import "NSData+Base64.h"
 
 @interface WebViewController ()<UIWebViewDelegate, MBProgressHUDDelegate, WordDetailControllerDelegate, WordPracticeDataSource, WordPracticeDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -24,6 +25,8 @@
 @synthesize hud = _hud;
 @synthesize refreshControl = _refreshControl;
 @synthesize currentWord = _currentWord;
+
+#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0"
 
 #warning LOOK AT USING UIWebView+AFNetworking HERE
 #warning CONSOLIDATE SOCIAL INTO THIS CLASS
@@ -79,6 +82,10 @@
     if ([actionType isEqualToString:@"downloadPractice"]) {
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSNumber *practiceID = [JSON objectForKey:@"id"];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.delegate = self;
+        self.hud.mode = MBProgressHUDModeIndeterminate;
+        
         [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress)
          {
              self.hud.mode = MBProgressHUDModeAnnularDeterminate;
@@ -102,6 +109,10 @@
     } else if ([actionType isEqualToString:@"downloadPracticeReply"]) {
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSNumber *practiceID = [JSON objectForKey:@"id"];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.delegate = self;
+        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+        
         [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress) {
             self.hud.mode = MBProgressHUDModeAnnularDeterminate;
             self.hud.progress = [progress floatValue];
@@ -124,6 +135,9 @@
     } else if ([actionType isEqualToString:@"markEventAsRead"]) {
         NSNumber *eventID = [JSON objectForKey:@"id"];
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.delegate = self;
+        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
         [networkManager deleteEventWithID:eventID onSuccess:^
          {
              self.hud.mode = MBProgressHUDModeAnnularDeterminate;
@@ -155,15 +169,16 @@
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     [self.refreshControl endRefreshing];
     [self.hud hide:YES];
-    if (0) { // if this is loading Meet People page
-#warning TODO
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *javaScript = @"parseInt(document.getElementById('lastMessageSeen').innerHTML)";
-        NSString *lastMessageSeenStr = [self.webView stringByEvaluatingJavaScriptFromString:javaScript];
-        [defaults setInteger:lastMessageSeenStr.integerValue forKey:@"lastMessageSeen"];
-    }
     NSString* title = [webView stringByEvaluatingJavaScriptFromString: @"document.title"];
     self.title = title;
+    
+    // For the Meet People page
+    NSString *javaScript = @"parseInt(document.getElementById('lastMessageSeen2').innerHTML)";
+    NSString *lastMessageSeenStr = [self.webView stringByEvaluatingJavaScriptFromString:javaScript];
+    if (lastMessageSeenStr.length) { // Found something
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setInteger:lastMessageSeenStr.integerValue forKey:@"lastMessageSeen"];
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
