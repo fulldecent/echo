@@ -24,10 +24,6 @@ enum NetworkManagerFlagReason {
 
 + (NetworkManager *)sharedNetworkManager;
 
-- (void)getAudioWithID:(NSNumber *)audioID
-withProgress:(void(^)(NSData *audio, NSNumber *progress))progressBlock
-onFailure:(void(^)(NSError *error))failureBlock;
-
 - (void)deleteLessonWithID:(NSNumber *)lessonID
 onSuccess:(void(^)())successBlock
 onFailure:(void(^)(NSError *error))failureBlock;

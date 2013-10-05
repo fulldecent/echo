@@ -102,6 +102,7 @@ STUFF TO DO LATER
  - Implement v1 api using v2
  - Add breakpoint to every method and test for code coverage
  - Remove and imageOptim all images
+  - Networking code --> switch to PULL / PUSH style functions
 
  - Main screen, use cell pages for NEW and "X unread", see https://github.com/tmdvs/TDBadgedCell
 

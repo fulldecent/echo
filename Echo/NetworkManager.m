@@ -73,7 +73,6 @@
  //      GET     users/172.json
 
 
-
 - (void)pullAudio:(Audio *)audio
           withProgress:(void(^)(NSNumber *progress))progressBlock
              onFailure:(void(^)(NSError *error))failureBlock
@@ -96,27 +95,6 @@
     NSString *dirname = [audio.filePath stringByDeletingLastPathComponent];
     [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
     request.outputStream = [NSOutputStream outputStreamToFileAtPath:audio.filePath append:NO];
-    [request start];
-}
-
-- (void)getAudioWithID:(NSNumber *)audioID
-          withProgress:(void(^)(NSData *audio, NSNumber *progress))progressBlock
-             onFailure:(void(^)(NSError *error))failureBlock
-{
-    NSString *relativePath =[NSString stringWithFormat:@"audio/%@.caf", audioID];
-    AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (progressBlock)
-            progressBlock((NSData *)responseObject, [NSNumber numberWithInt:1]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (failureBlock)
-            failureBlock(error);
-    }];
-    [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        if (totalBytesExpectedToRead > 0) {
-            if (progressBlock)
-                progressBlock(nil, [NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
-        }
-    }];
     [request start];
 }
 
@@ -492,29 +470,6 @@
          
          for (Audio *file in neededAudios) {
              [progressPerAudioFile setObject:[NSNumber numberWithFloat:0] forKey:[file fileID]];
-
-             /*
-             [self getAudioWithID:[file fileID] withProgress:^(NSData *audio, NSNumber *fileProgress)
-              {
-NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
-                  [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
-                  NSNumber *filesProgress = [[progressPerAudioFile allValues] valueForKeyPath:@"@sum.self"];
-                  lessonProgress = [NSNumber numberWithFloat:[filesProgress floatValue] + 1];
-                  
-                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                      NSFileManager *fileManager = [NSFileManager defaultManager];
-                      NSString *dirname = [file.filePath stringByDeletingLastPathComponent];
-                      [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
-                      [audio writeToFile:file.filePath atomically:YES];                      
-                      if ([lessonProgress isEqualToNumber:totalLessonProgress])
-                          lessonToSync.version = retreivedLesson.serverVersion;
-                      if (progressBlock)
-                          progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
-                  }
-              } onFailure:^(NSError *error) {
-              }];
-              */
-             
              [self pullAudio:file withProgress:^(NSNumber *fileProgress) {
                  NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
                  [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
@@ -591,24 +546,6 @@ NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
              progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
          
          for (Audio *file in neededAudios) {
-             /*
-             [self getAudioWithID:[file fileID] withProgress:^(NSData *audio, NSNumber *fileProgress)
-              {
-                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                      NSFileManager *fileManager = [NSFileManager defaultManager];
-                      NSString *dirname = [file.filePath stringByDeletingLastPathComponent];
-                      [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
-                      [audio writeToFile:file.filePath atomically:YES];
-                      wordProgress = [NSNumber numberWithInt:[wordProgress integerValue]+1];
-                      if (progress)
-                          progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
-                      //TODO: Could do even more accurate progress reporting if we wanted
-                  }
-              } onFailure:^(NSError *error) {
-                  if (failureBlock)
-                      failureBlock(error);
-              }];
-              */
              [self pullAudio:file withProgress:^(NSNumber *fileProgress) {
                  NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
                  wordProgress = [NSNumber numberWithInt:[wordProgress integerValue]+1];
@@ -617,9 +554,6 @@ NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
                  //TODO: Could do even more accurate progress reporting if we wanted
              } onFailure:^(NSError *error) {
              }];
-
-             
-              
          }
      }
               onFailure:^(NSError *error)
