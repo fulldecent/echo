@@ -322,9 +322,30 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         }
         case CellAuthorByline: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
-            [(UILabel *)[cell viewWithTag:1] setText:self.lesson.userName];
+            cell.textLabel.text = self.lesson.userName;
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
-            [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            
+            UIButton *flagButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [flagButton setImage:[UIImage imageNamed:@"flag"] forState:UIControlStateNormal];
+            [flagButton setFrame:CGRectMake(0, 0, 40, 40)];
+            [flagButton addTarget:self action:@selector(lessonFlagPressed:) forControlEvents:UIControlEventTouchUpInside];
+            cell.accessoryView = flagButton;
+            return cell;
+        }
+        case CellTranslatorByline: {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"translator"];
+            Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+            cell.textLabel.text = translation.userName;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Translated to %@", translation.languageTag];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
+            [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            
+            UIButton *flagButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [flagButton setImage:[UIImage imageNamed:@"flag"] forState:UIControlStateNormal];
+            [flagButton setFrame:CGRectMake(0, 0, 40, 40)];
+            [flagButton addTarget:self action:@selector(translationFlagPressed:) forControlEvents:UIControlEventTouchUpInside];
+            cell.accessoryView = flagButton;
             return cell;
         }
         case CellTranslateAction:
@@ -336,14 +357,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             cell = [tableView dequeueReusableCellWithIdentifier:@"editTranslation"];
             [(UILabel *)[cell viewWithTag:1] setText:[NSString stringWithFormat:@"You translated this lesson to %@", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]]];
             return cell;
-        case CellTranslatorByline: {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"translator"];
-            Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
-            [(UILabel *)[cell viewWithTag:1] setText:translation.userName];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
-            [(UIImageView *)[cell viewWithTag:3] setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
-            return cell;
-        }
     }
     assert(0); return 0;
 }
@@ -453,6 +466,10 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             self.currentWordIndex = indexPath.row - 1;
             self.wordListIsShuffled = NO;
             [self performSegueWithIdentifier:@"echoWord" sender:self];
+        case CellAuthorByline:
+            break;//TODO LOAD AUTHOR PAGE FROM WEBVIEW HERE
+        case CellTranslatorByline:
+            break;//TODO LOAD AUTHOR PAGE FROM WEBVIEW HERE
         default:
             break;
     }

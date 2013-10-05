@@ -370,241 +370,61 @@
                                     <constraint firstItem="qd2-kC-8Nd" firstAttribute="trailing" secondItem="NVt-Rc-VYE" secondAttribute="trailing" id="vlc-UP-T5V"/>
                                 </constraints>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="author" id="3qi-N8-L8x">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="author" textLabel="keq-Ty-9Ig" detailTextLabel="0N5-wd-XJY" imageView="9Ia-X3-CGa" style="IBUITableViewCellStyleSubtitle" id="3qi-N8-L8x">
                                 <rect key="frame" x="0.0" y="143" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3qi-N8-L8x" id="vXh-Dt-BhW">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="left" text="Shared lesson" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ly-gq-mTa">
-                                            <rect key="frame" x="40" y="25" width="118" height="17"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="118" id="PoN-0X-lZB"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="AUTHOR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MX6-fg-WVc">
-                                            <rect key="frame" x="20" y="2" width="138" height="22"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="138" id="Lzc-OH-KJk"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="AUTHOR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="keq-Ty-9Ig">
+                                            <rect key="frame" x="70" y="3" width="74" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpn-QU-Ht5" customClass="UIGlossyButton">
-                                            <rect key="frame" x="212" y="1" width="42" height="38"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="EpX-ph-Ha0"/>
-                                                <constraint firstAttribute="height" constant="38" id="RfT-9d-5Sh"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="message.png">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="2"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="lessonReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="83h-IM-nCd"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xw0-Zb-wpq" customClass="UIGlossyButton">
-                                            <rect key="frame" x="262" y="4" width="42" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="mZs-GO-3F8"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="flag.png">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="2"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="lessonFlagPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="hXe-gB-PSJ"/>
-                                            </connections>
-                                        </button>
-                                        <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" image="none40.png" translatesAutoresizingMaskIntoConstraints="NO" id="khu-k6-8nL">
-                                            <rect key="frame" x="20" y="26" width="16" height="16"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="16" id="U7C-PO-9IH"/>
-                                                <constraint firstAttribute="height" constant="16" id="yhW-Pu-3ii"/>
-                                            </constraints>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Shared lesson" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0N5-wd-XJY">
+                                            <rect key="frame" x="70" y="25" width="80" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="none40.png" id="9Ia-X3-CGa">
+                                            <rect key="frame" x="15" y="1" width="40" height="40"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="Xw0-Zb-wpq" firstAttribute="leading" secondItem="fpn-QU-Ht5" secondAttribute="trailing" constant="8" id="5vw-qn-94g"/>
-                                        <constraint firstItem="Xw0-Zb-wpq" firstAttribute="baseline" secondItem="fpn-QU-Ht5" secondAttribute="baseline" id="G7o-kp-vtV"/>
-                                    </constraints>
                                 </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstItem="8Ly-gq-mTa" firstAttribute="leading" secondItem="khu-k6-8nL" secondAttribute="trailing" constant="4" id="0eg-ef-jJ5"/>
-                                    <constraint firstAttribute="bottom" secondItem="8Ly-gq-mTa" secondAttribute="bottom" constant="2" id="KMr-67-9gV"/>
-                                    <constraint firstAttribute="bottom" secondItem="MX6-fg-WVc" secondAttribute="bottom" constant="20" id="Lo9-Cl-1lR"/>
-                                    <constraint firstItem="khu-k6-8nL" firstAttribute="centerY" secondItem="8Ly-gq-mTa" secondAttribute="centerY" id="R0z-Aa-IiX"/>
-                                    <constraint firstItem="fpn-QU-Ht5" firstAttribute="top" secondItem="3qi-N8-L8x" secondAttribute="top" constant="1" id="SQk-me-hRd"/>
-                                    <constraint firstAttribute="trailing" secondItem="Xw0-Zb-wpq" secondAttribute="trailing" constant="16" id="WF0-hQ-WZZ"/>
-                                    <constraint firstItem="MX6-fg-WVc" firstAttribute="leading" secondItem="3qi-N8-L8x" secondAttribute="leading" constant="20" id="pbp-Tt-LK5"/>
-                                    <constraint firstItem="khu-k6-8nL" firstAttribute="leading" secondItem="3qi-N8-L8x" secondAttribute="leading" constant="20" id="q5t-9m-sPz"/>
-                                </constraints>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="translator" id="neP-CX-dqB">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="translator" textLabel="6oK-69-VEq" detailTextLabel="bSh-MF-k3P" imageView="HcG-mz-AvJ" style="IBUITableViewCellStyleSubtitle" id="neP-CX-dqB">
                                 <rect key="frame" x="0.0" y="187" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="neP-CX-dqB" id="6s9-n4-f5G">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="left" text="Shared EN translation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpm-JJ-cj7">
-                                            <rect key="frame" x="40" y="25" width="118" height="17"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="118" id="OEw-o2-rZ6"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="left" text="TRANSLATOR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbJ-F6-wHF">
-                                            <rect key="frame" x="20" y="2" width="138" height="22"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="138" id="fPJ-zA-WqV"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="TRANSLATOR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6oK-69-VEq">
+                                            <rect key="frame" x="70" y="3" width="116" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" image="none40.png" translatesAutoresizingMaskIntoConstraints="NO" id="WLV-6i-X4S">
-                                            <rect key="frame" x="20" y="26" width="16" height="16"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="16" id="JyE-lc-B0f"/>
-                                                <constraint firstAttribute="height" constant="16" id="ZpM-gN-k4t"/>
-                                            </constraints>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Shared EN translation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bSh-MF-k3P">
+                                            <rect key="frame" x="70" y="25" width="122" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="none40.png" id="HcG-mz-AvJ">
+                                            <rect key="frame" x="15" y="1" width="40" height="40"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UlE-XR-ofN" customClass="UIGlossyButton">
-                                            <rect key="frame" x="212" y="1" width="42" height="38"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="KFX-Ns-oef"/>
-                                                <constraint firstAttribute="height" constant="38" id="blE-q4-NTC"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="message.png">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="2"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="translationReplyAuthorPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="bbv-bl-WAO"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1y-go-jON" customClass="UIGlossyButton">
-                                            <rect key="frame" x="262" y="4" width="42" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="sYr-90-cpN"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="flag.png">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="2"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="translationFlagPressed:" destination="rIc-tv-Snc" eventType="touchUpInside" id="zVX-SB-Bcx"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="c1y-go-jON" firstAttribute="leading" secondItem="UlE-XR-ofN" secondAttribute="trailing" constant="8" id="m4U-3t-cRG"/>
-                                        <constraint firstItem="UlE-XR-ofN" firstAttribute="baseline" secondItem="c1y-go-jON" secondAttribute="baseline" id="vQl-d5-peg"/>
-                                    </constraints>
                                 </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="c1y-go-jON" secondAttribute="trailing" constant="16" id="A0U-md-N9b"/>
-                                    <constraint firstItem="WLV-6i-X4S" firstAttribute="leading" secondItem="neP-CX-dqB" secondAttribute="leading" constant="20" id="Eoi-Zr-WzB"/>
-                                    <constraint firstAttribute="bottom" secondItem="QbJ-F6-wHF" secondAttribute="bottom" constant="20" id="Ex6-Np-TqL"/>
-                                    <constraint firstAttribute="bottom" secondItem="lpm-JJ-cj7" secondAttribute="bottom" constant="2" id="LhO-El-OII"/>
-                                    <constraint firstItem="WLV-6i-X4S" firstAttribute="centerY" secondItem="lpm-JJ-cj7" secondAttribute="centerY" id="dM3-HU-Th2"/>
-                                    <constraint firstItem="UlE-XR-ofN" firstAttribute="top" secondItem="neP-CX-dqB" secondAttribute="top" constant="1" id="mR3-9a-rtw"/>
-                                    <constraint firstItem="lpm-JJ-cj7" firstAttribute="leading" secondItem="WLV-6i-X4S" secondAttribute="trailing" constant="4" id="re5-ha-edi"/>
-                                    <constraint firstItem="QbJ-F6-wHF" firstAttribute="leading" secondItem="neP-CX-dqB" secondAttribute="leading" constant="20" id="u2M-A1-iF8"/>
-                                </constraints>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="editTranslation" id="zSg-1v-IjH">
                                 <rect key="frame" x="0.0" y="231" width="320" height="44"/>
@@ -2267,10 +2087,13 @@
         <image name="echo.png" width="30" height="30"/>
         <image name="flag.png" width="32" height="32"/>
         <image name="gradient.png" width="150" height="1024"/>
+        <image name="gradient.png" width="150" height="1024"/>
         <image name="iPhoneBG.png" width="320" height="367"/>
         <image name="like.png" width="32" height="32"/>
-        <image name="message.png" width="32" height="32"/>
         <image name="microphone icon.png" width="64" height="64"/>
+        <image name="microphone icon.png" width="64" height="64"/>
+        <image name="none40.png" width="40" height="40"/>
+        <image name="none40.png" width="40" height="40"/>
         <image name="none40.png" width="40" height="40"/>
         <image name="shuffle.png" width="25" height="21"/>
         <image name="social.png" width="30" height="30"/>
@@ -2284,9 +2107,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="kuh-V1-luU"/>
+        <segue reference="47Q-7Q-DoP"/>
         <segue reference="cjs-Y6-M9H"/>
         <segue reference="yax-pl-PTe"/>
-        <segue reference="FBg-62-yCI"/>
+        <segue reference="3H6-9o-S7b"/>
     </inferredMetricsTieBreakers>
 </document>
