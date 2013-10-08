@@ -12,6 +12,7 @@
 #import "Appirater.h"
 #import "GAI.h"
 #import "TDBadgedCell.h"
+#import "GoogleConversionPing.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
@@ -72,6 +73,11 @@
     
     // http://stackoverflow.com/questions/10111369/unknown-class-zbarreaderview-in-interface-builder-file
     [TDBadgedCell class];
+    
+    [GoogleConversionPing pingWithConversionId:@"1070788746"
+                                         label:@"jTQnCLzisQcQiuHL_gM"
+                                         value:@"2.8"
+                                  isRepeatable:NO];
     
     return YES;
 }

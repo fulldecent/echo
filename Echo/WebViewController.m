@@ -173,7 +173,7 @@
     self.title = title;
     
     // For the Meet People page
-    NSString *javaScript = @"parseInt(document.getElementById('lastMessageSeen2').innerHTML)";
+    NSString *javaScript = @"parseInt(document.getElementById('lastMessageSeen').innerHTML)";
     NSString *lastMessageSeenStr = [self.webView stringByEvaluatingJavaScriptFromString:javaScript];
     if (lastMessageSeenStr.length) { // Found something
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

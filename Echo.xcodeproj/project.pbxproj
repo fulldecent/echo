@@ -104,6 +104,7 @@
 		C7991F84AEFB4058AD062485 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1BCA506CBE64FE7852ADA22 /* libPods.a */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
+		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -233,6 +234,8 @@
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D9956EEA17F4C759008070EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
+		D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = Echo/libGoogleConversionTracking.a; sourceTree = "<group>"; };
 		F1BCA506CBE64FE7852ADA22 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -258,6 +261,7 @@
 				774CDA4415D0AF0000B14C45 /* Security.framework in Frameworks */,
 				77D8AD24157ABF48001E2E25 /* CoreMedia.framework in Frameworks */,
 				777667C21569F41C0099996B /* AudioToolbox.framework in Frameworks */,
+				D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */,
 				77B771AA1569ADA600E0F012 /* MessageUI.framework in Frameworks */,
 				772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */,
 				77B5137F151970B100F041D7 /* UIKit.framework in Frameworks */,
@@ -307,6 +311,7 @@
 				77B51384151970B100F041D7 /* Echo */,
 				77B5137D151970B100F041D7 /* Frameworks */,
 				77B5137B151970B100F041D7 /* Products */,
+				D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */,
 				81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -444,6 +449,7 @@
 		77DDC70E156DD81F00568CDE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */,
 				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
 				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
 				77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */,

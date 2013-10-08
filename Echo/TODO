@@ -57,7 +57,6 @@ FOCUS / BUGS
 
   https://learnwithecho.com/api/2.0/users/80.png 406 error
 
-  Can't download audio files
   Echo Practive page sucks on 3.5" iphone and ipad
   TEST ALL UPLOAD FEATURES
 
@@ -65,6 +64,9 @@ FOCUS / BUGS
   Do code coverage test / at same time test functional correctness
   
   Social // Does not remember if you already saw that stuff
+  
+  How do I say? / Action button -> s/Save/Send/
+  How do I say? / Crash after send?
 
 ========================================
 STUFF TO DO LATER

@@ -73,31 +73,6 @@
  //      GET     users/172.json
 
 
-- (void)pullAudio:(Audio *)audio
-          withProgress:(void(^)(NSNumber *progress))progressBlock
-             onFailure:(void(^)(NSError *error))failureBlock
-{
-    NSString *relativePath =[NSString stringWithFormat:@"audio/%@.caf", [audio fileID]];
-    AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (progressBlock)
-            progressBlock([NSNumber numberWithInt:1]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (failureBlock)
-            failureBlock(error);
-    }];
-    [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        if (totalBytesExpectedToRead > 0) {
-            if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
-        }
-    }];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *dirname = [audio.filePath stringByDeletingLastPathComponent];
-    [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
-    request.outputStream = [NSOutputStream outputStreamToFileAtPath:audio.filePath append:NO];
-    [request start];
-}
-
 - (void)deleteLessonWithID:(NSNumber *)lessonID
                  onSuccess:(void(^)())successBlock
                  onFailure:(void(^)(NSError *error))failureBlock
@@ -123,7 +98,6 @@
     else
         relativePath = [NSString stringWithFormat:@"lessons/%@.json", lessonID];
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-#warning DOES THIS WORK?
         Lesson *lesson = [Lesson lessonWithDictionary:responseObject];
         lesson.version = [NSNumber numberWithInt:0];
         if (successBlock)
@@ -428,6 +402,31 @@
 
 #pragma mark - Helper functions /////////////////////////////////////////////////
 
+- (void)pullAudio:(Audio *)audio
+     withProgress:(void(^)(NSNumber *progress))progressBlock
+        onFailure:(void(^)(NSError *error))failureBlock
+{
+    NSString *relativePath =[NSString stringWithFormat:@"audio/%@.caf", [audio fileID]];
+    AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (progressBlock)
+            progressBlock([NSNumber numberWithInt:1]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failureBlock)
+            failureBlock(error);
+    }];
+    [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        if (totalBytesExpectedToRead > 0) {
+            if (progressBlock)
+                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
+        }
+    }];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *dirname = [audio.filePath stringByDeletingLastPathComponent];
+    [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
+    request.outputStream = [NSOutputStream outputStreamToFileAtPath:audio.filePath append:NO];
+    [request start];
+}
+
 - (void)syncLessons:(NSArray *)lessons
        withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progressBlock
 {
@@ -545,13 +544,18 @@
          if (progress)
              progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
          
+         NSMutableDictionary *progressPerAudioFile = [NSMutableDictionary dictionary];
+         
          for (Audio *file in neededAudios) {
+             [progressPerAudioFile setObject:[NSNumber numberWithFloat:0] forKey:[file fileID]];
+
              [self pullAudio:file withProgress:^(NSNumber *fileProgress) {
                  NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
-                 wordProgress = [NSNumber numberWithInt:[wordProgress integerValue]+1];
+                 [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
+                 NSNumber *filesProgress = [[progressPerAudioFile allValues] valueForKeyPath:@"@sum.self"];
+                 wordProgress = [NSNumber numberWithFloat:[filesProgress floatValue] + 1];
                  if (progress)
                      progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
-                 //TODO: Could do even more accurate progress reporting if we wanted
              } onFailure:^(NSError *error) {
              }];
          }

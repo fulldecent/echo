@@ -2087,13 +2087,9 @@
         <image name="echo.png" width="30" height="30"/>
         <image name="flag.png" width="32" height="32"/>
         <image name="gradient.png" width="150" height="1024"/>
-        <image name="gradient.png" width="150" height="1024"/>
         <image name="iPhoneBG.png" width="320" height="367"/>
         <image name="like.png" width="32" height="32"/>
         <image name="microphone icon.png" width="64" height="64"/>
-        <image name="microphone icon.png" width="64" height="64"/>
-        <image name="none40.png" width="40" height="40"/>
-        <image name="none40.png" width="40" height="40"/>
         <image name="none40.png" width="40" height="40"/>
         <image name="shuffle.png" width="25" height="21"/>
         <image name="social.png" width="30" height="30"/>
