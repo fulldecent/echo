@@ -11,6 +11,7 @@
 #import "PHOREchoRecordButton.h"
 #import "Word.h"
 #import "GAITrackedViewController.h"
+#import "FDWaveformView.h"
 
 @class WordPracticeController;
 
@@ -27,18 +28,20 @@
 @end
 
 @interface WordPracticeController : GAITrackedViewController;
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
-@property (strong, nonatomic) IBOutlet UIButton *trainingSpeakerButton;
-@property (strong, nonatomic) IBOutlet PHOREchoRecordButton *echoRecordButton;
-@property (strong, nonatomic) IBOutlet UIButton *workflowButton;
+@property (strong, nonatomic) IBOutlet UILabel *wordTitle;
 @property (strong, nonatomic) IBOutlet UITextView *wordDetail;
+@property (strong, nonatomic) IBOutlet UIButton *trainingSpeakerButton;
+@property (strong, nonatomic) IBOutlet FDWaveformView *trainingWaveform;
+@property (strong, nonatomic) IBOutlet UIButton *recordButton;
+@property (strong, nonatomic) IBOutlet UIButton *playbackButton;
+@property (strong, nonatomic) IBOutlet FDWaveformView *playbackWaveform;
 @property (weak, nonatomic) id <WordPracticeDataSource> datasource;
 @property (weak, nonatomic) id <WordPracticeDelegate> delegate;
 
-- (IBAction)trainingSpeakerPressed;
-- (IBAction)echoButtonPressed;
-- (IBAction)echoButtonReset:(id)sender;
-- (IBAction)continueNextWorkflowStep:(id)sender;
+- (IBAction)trainingButtonPressed;
+- (IBAction)recordButtonPressed;
+- (IBAction)playbackButtonPressed;
+- (IBAction)playbackButtonHeld;
 - (IBAction)resetWorkflow;
 - (IBAction)fastForwardPressed:(id)sender;
 

@@ -104,6 +104,7 @@
 		C7991F84AEFB4058AD062485 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1BCA506CBE64FE7852ADA22 /* libPods.a */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
+		D9793A8B18131534009F32D5 /* FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9793A8A18131534009F32D5 /* FDWaveformView.m */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
@@ -233,6 +234,8 @@
 		81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D9793A8918131534009F32D5 /* FDWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDWaveformView.h; sourceTree = "<group>"; };
+		D9793A8A18131534009F32D5 /* FDWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDWaveformView.m; sourceTree = "<group>"; };
 		D9956EEA17F4C759008070EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
 		D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = Echo/libGoogleConversionTracking.a; sourceTree = "<group>"; };
@@ -450,6 +453,8 @@
 			isa = PBXGroup;
 			children = (
 				D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */,
+				D9793A8918131534009F32D5 /* FDWaveformView.h */,
+				D9793A8A18131534009F32D5 /* FDWaveformView.m */,
 				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
 				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
 				77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */,
@@ -677,6 +682,7 @@
 				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
 				7769F474173B3B2300BB06D7 /* Audio.m in Sources */,
 				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
+				D9793A8B18131534009F32D5 /* FDWaveformView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

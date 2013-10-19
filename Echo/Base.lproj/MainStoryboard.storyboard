@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -745,14 +745,13 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="iPhoneBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Ah-up-E1a">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gradient.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Ah-up-E1a">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                             </imageView>
-                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="ige-48-HDh" customClass="PHOREchoRecordButton">
-                                <rect key="frame" x="35" y="286" width="250" height="110"/>
+                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="ige-48-HDh" customClass="PHOREchoRecordButton">
+                                <rect key="frame" x="20" y="276" width="280" height="120"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal" title="Some Word" image="microphone icon.png">
+                                <state key="normal" image="microphone icon.png">
                                     <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -765,14 +764,10 @@
                                     <action selector="resetWorkflow" destination="3" eventType="touchUpInside" id="3du-qn-lOr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-HF-y3t" customClass="UIGlossyButton">
-                                <rect key="frame" x="35" y="76" width="250" height="110"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="110" id="Xw4-47-4HW"/>
-                                </constraints>
+                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-HF-y3t">
+                                <rect key="frame" x="20" y="20" width="280" height="120"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal" title="Some Word" image="speaker icon.png">
+                                <state key="normal" image="speaker icon.png">
                                     <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -781,207 +776,188 @@
                                 </state>
                                 <connections>
                                     <action selector="resetWorkflow" destination="3" eventType="touchUpInside" id="oBp-IW-RQb"/>
-                                    <action selector="trainingSpeakerPressed" destination="3" eventType="touchUpInside" id="ucn-ux-7ra"/>
+                                    <action selector="trainingButtonPressed" destination="3" eventType="touchUpInside" id="tzA-mY-Rr7"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="14" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0F5-J6-XPb" customClass="UIGlossyButton">
-                                <rect key="frame" x="35" y="207" width="250" height="62"/>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <attributedString key="userComments">
-                                    <fragment content="Kicks off workflow">
-                                        <attributes>
-                                            <font key="NSFont" size="12" name="Helvetica"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <connections>
-                                    <action selector="continueNextWorkflowStep:" destination="3" eventType="touchUpInside" id="7f4-uI-z5t"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="hpH-bY-sKv" customClass="UIGlossyButton">
-                                <rect key="frame" x="52" y="223" width="32" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="0lw-kg-RE8"/>
-                                    <constraint firstAttribute="width" constant="32" id="ClG-f2-jSv"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="NuC-Cx-ncp" customClass="UIGlossyButton">
-                                <rect key="frame" x="90" y="223" width="32" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="RYr-u5-EeN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="oVv-Qd-UNg" customClass="UIGlossyButton">
-                                <rect key="frame" x="128" y="223" width="32" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="9P3-bl-Ebo"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-R0-iZi" customClass="UIGlossyButton">
-                                <rect key="frame" x="166" y="223" width="32" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="Vfk-lL-eRI"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Tl0-3A-6vl" customClass="UIGlossyButton">
-                                <rect key="frame" x="204" y="223" width="32" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="dR4-iA-4k2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Kj1-ni-mPZ" customClass="UIGlossyButton">
-                                <rect key="frame" x="242" y="223" width="32" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2h4-zK-NNJ">
-                                <rect key="frame" x="35" y="20" width="250" height="48"/>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-b3-kJA" customClass="FDWaveformView">
+                                <rect key="frame" x="320" y="20" width="0.0" height="120"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uc0-KQ-CWF">
+                                <rect key="frame" x="0.0" y="148" width="320" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMw-2Y-imc">
+                                        <rect key="frame" x="20" y="20" width="280" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2h4-zK-NNJ">
+                                        <rect key="frame" x="20" y="39" width="280" height="65"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="tN8-Oe-Mdg"/>
+                                    <constraint firstItem="wMw-2Y-imc" firstAttribute="leading" secondItem="uc0-KQ-CWF" secondAttribute="leading" constant="20" id="4at-v3-cTX"/>
+                                    <constraint firstItem="wMw-2Y-imc" firstAttribute="top" secondItem="uc0-KQ-CWF" secondAttribute="top" constant="20" id="EWm-Zp-D95"/>
+                                    <constraint firstItem="2h4-zK-NNJ" firstAttribute="leading" secondItem="uc0-KQ-CWF" secondAttribute="leading" constant="20" id="I6b-Am-GtC"/>
+                                    <constraint firstAttribute="bottom" secondItem="2h4-zK-NNJ" secondAttribute="bottom" constant="20" id="SMY-PU-OM6"/>
+                                    <constraint firstItem="2h4-zK-NNJ" firstAttribute="top" secondItem="wMw-2Y-imc" secondAttribute="bottom" constant="8" id="T9u-uv-MS3"/>
+                                    <constraint firstAttribute="trailing" secondItem="wMw-2Y-imc" secondAttribute="trailing" constant="20" id="ldp-Iq-ECI"/>
+                                    <constraint firstAttribute="trailing" secondItem="2h4-zK-NNJ" secondAttribute="trailing" constant="20" id="zsH-5a-Oar"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qhx-Pv-Lff">
+                                <rect key="frame" x="320" y="148" width="320" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="hpH-bY-sKv" customClass="UIGlossyButton">
+                                        <rect key="frame" x="20" y="15" width="40" height="34"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="NuC-Cx-ncp" customClass="UIGlossyButton">
+                                        <rect key="frame" x="68" y="-83" width="40" height="34"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="oVv-Qd-UNg" customClass="UIGlossyButton">
+                                        <rect key="frame" x="116" y="-35" width="40" height="34"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-R0-iZi" customClass="UIGlossyButton">
+                                        <rect key="frame" x="164" y="-24" width="40" height="34"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Tl0-3A-6vl" customClass="UIGlossyButton">
+                                        <rect key="frame" x="212" y="-82" width="40" height="34"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Kj1-ni-mPZ" customClass="UIGlossyButton">
+                                        <rect key="frame" x="260" y="76" width="40" height="34"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Kj1-ni-mPZ" secondAttribute="trailing" constant="20" id="AVb-vh-RVe"/>
+                                    <constraint firstItem="Kj1-ni-mPZ" firstAttribute="leading" secondItem="Tl0-3A-6vl" secondAttribute="trailing" constant="8" id="EUc-qT-6KO"/>
+                                    <constraint firstItem="kpQ-R0-iZi" firstAttribute="width" secondItem="NuC-Cx-ncp" secondAttribute="width" id="EuV-i4-7X8"/>
+                                    <constraint firstItem="hpH-bY-sKv" firstAttribute="leading" secondItem="Qhx-Pv-Lff" secondAttribute="leading" constant="20" id="FRG-bn-dND"/>
+                                    <constraint firstItem="kpQ-R0-iZi" firstAttribute="width" secondItem="Kj1-ni-mPZ" secondAttribute="width" id="KSg-Ux-MpI"/>
+                                    <constraint firstItem="hpH-bY-sKv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Qhx-Pv-Lff" secondAttribute="leading" constant="20" id="NWl-WW-aki"/>
+                                    <constraint firstItem="oVv-Qd-UNg" firstAttribute="leading" secondItem="NuC-Cx-ncp" secondAttribute="trailing" constant="8" id="SA1-XE-eCP"/>
+                                    <constraint firstItem="NuC-Cx-ncp" firstAttribute="leading" secondItem="hpH-bY-sKv" secondAttribute="trailing" constant="8" id="Sld-Kc-Pz4"/>
+                                    <constraint firstItem="kpQ-R0-iZi" firstAttribute="width" secondItem="Tl0-3A-6vl" secondAttribute="width" id="VmK-mY-abq"/>
+                                    <constraint firstItem="kpQ-R0-iZi" firstAttribute="leading" secondItem="oVv-Qd-UNg" secondAttribute="trailing" constant="8" id="ch1-2L-3iN"/>
+                                    <constraint firstAttribute="trailing" secondItem="NuC-Cx-ncp" secondAttribute="trailing" constant="252" id="kKc-Hr-YEL"/>
+                                    <constraint firstItem="Tl0-3A-6vl" firstAttribute="leading" secondItem="kpQ-R0-iZi" secondAttribute="trailing" constant="8" id="lMh-qy-Hl2"/>
+                                    <constraint firstItem="kpQ-R0-iZi" firstAttribute="width" secondItem="hpH-bY-sKv" secondAttribute="width" id="vEJ-ga-O71"/>
+                                    <constraint firstItem="kpQ-R0-iZi" firstAttribute="width" secondItem="oVv-Qd-UNg" secondAttribute="width" id="yIL-WQ-Nad"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kpQ-R0-iZi" firstAttribute="top" secondItem="Tl0-3A-6vl" secondAttribute="top" id="1qC-Lv-ESC"/>
-                            <constraint firstItem="hpH-bY-sKv" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="52" id="2GA-aF-BmW"/>
-                            <constraint firstAttribute="trailing" secondItem="Fdd-HF-y3t" secondAttribute="trailing" constant="35" id="4oy-F1-tVf"/>
-                            <constraint firstItem="oVv-Qd-UNg" firstAttribute="top" secondItem="kpQ-R0-iZi" secondAttribute="top" id="5JF-64-Ycz"/>
-                            <constraint firstItem="0F5-J6-XPb" firstAttribute="top" secondItem="Fdd-HF-y3t" secondAttribute="bottom" constant="21" id="7XX-2R-HNZ"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="baseline" secondItem="Tl0-3A-6vl" secondAttribute="baseline" id="8HH-wg-e9t"/>
-                            <constraint firstItem="ige-48-HDh" firstAttribute="top" secondItem="hpH-bY-sKv" secondAttribute="bottom" constant="33" id="9xj-J4-Imo"/>
-                            <constraint firstItem="Tl0-3A-6vl" firstAttribute="baseline" secondItem="oVv-Qd-UNg" secondAttribute="baseline" id="AQh-qe-UJh"/>
-                            <constraint firstItem="Tl0-3A-6vl" firstAttribute="baseline" secondItem="Kj1-ni-mPZ" secondAttribute="baseline" id="CsD-fp-y96"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="baseline" secondItem="kpQ-R0-iZi" secondAttribute="baseline" id="DiM-f3-9xL"/>
-                            <constraint firstItem="Fdd-HF-y3t" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="35" id="EtJ-E9-NHD"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="centerY" secondItem="Tl0-3A-6vl" secondAttribute="centerY" id="HKg-2i-Vbc"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="baseline" secondItem="hpH-bY-sKv" secondAttribute="baseline" id="Hqa-69-2u0"/>
-                            <constraint firstItem="ige-48-HDh" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="35" id="M9E-ov-IPh"/>
-                            <constraint firstItem="hpH-bY-sKv" firstAttribute="baseline" secondItem="Tl0-3A-6vl" secondAttribute="baseline" id="MsV-46-TgV"/>
-                            <constraint firstItem="2Ah-up-E1a" firstAttribute="top" secondItem="dTj-8T-Izr" secondAttribute="bottom" id="P8k-Gx-Rhq"/>
-                            <constraint firstItem="oVv-Qd-UNg" firstAttribute="baseline" secondItem="hpH-bY-sKv" secondAttribute="baseline" id="Pmd-69-qq2"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="centerY" secondItem="Kj1-ni-mPZ" secondAttribute="centerY" id="Q0q-IY-ZNf"/>
-                            <constraint firstItem="ige-48-HDh" firstAttribute="top" secondItem="0F5-J6-XPb" secondAttribute="bottom" constant="17" id="QZH-NT-dMH"/>
-                            <constraint firstItem="Tl0-3A-6vl" firstAttribute="leading" secondItem="kpQ-R0-iZi" secondAttribute="trailing" constant="6" id="Sds-Nj-bOL"/>
-                            <constraint firstItem="kpQ-R0-iZi" firstAttribute="baseline" secondItem="hpH-bY-sKv" secondAttribute="baseline" id="TEA-O5-pbe"/>
-                            <constraint firstItem="oVv-Qd-UNg" firstAttribute="leading" secondItem="NuC-Cx-ncp" secondAttribute="trailing" constant="6" id="Tvb-Zl-XNa"/>
-                            <constraint firstItem="oVv-Qd-UNg" firstAttribute="top" secondItem="NuC-Cx-ncp" secondAttribute="top" id="VF9-qT-xgV"/>
-                            <constraint firstAttribute="trailing" secondItem="Kj1-ni-mPZ" secondAttribute="trailing" constant="46" id="VYZ-su-1oS"/>
-                            <constraint firstItem="kpQ-R0-iZi" firstAttribute="baseline" secondItem="Tl0-3A-6vl" secondAttribute="baseline" id="WGj-V4-FDR"/>
-                            <constraint firstItem="2Ah-up-E1a" firstAttribute="leading" secondItem="17" secondAttribute="leading" id="Xbj-A6-Nv5"/>
-                            <constraint firstItem="kpQ-R0-iZi" firstAttribute="baseline" secondItem="oVv-Qd-UNg" secondAttribute="baseline" id="YLd-IK-5sS"/>
-                            <constraint firstItem="kpQ-R0-iZi" firstAttribute="leading" secondItem="oVv-Qd-UNg" secondAttribute="trailing" constant="6" id="ZMu-bs-Pog"/>
-                            <constraint firstItem="Cir-xp-IZM" firstAttribute="top" secondItem="ige-48-HDh" secondAttribute="bottom" constant="20" id="bb2-dz-tc4"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="baseline" secondItem="Kj1-ni-mPZ" secondAttribute="baseline" id="bpO-Sy-LTI"/>
-                            <constraint firstItem="Fdd-HF-y3t" firstAttribute="top" secondItem="2h4-zK-NNJ" secondAttribute="bottom" constant="8" id="dcV-Ju-15Z"/>
-                            <constraint firstAttribute="trailing" secondItem="2h4-zK-NNJ" secondAttribute="trailing" constant="35" id="eOe-dx-5Rk"/>
-                            <constraint firstItem="2h4-zK-NNJ" firstAttribute="top" secondItem="dTj-8T-Izr" secondAttribute="bottom" constant="20" id="ePj-ZP-4CT"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="centerY" secondItem="oVv-Qd-UNg" secondAttribute="centerY" id="eig-bj-siJ"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="centerY" secondItem="0F5-J6-XPb" secondAttribute="centerY" id="fry-ui-O85"/>
-                            <constraint firstItem="Kj1-ni-mPZ" firstAttribute="top" secondItem="Tl0-3A-6vl" secondAttribute="top" id="iZo-wv-xVP"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="centerY" secondItem="hpH-bY-sKv" secondAttribute="centerY" id="jLN-t6-nYx"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="baseline" secondItem="oVv-Qd-UNg" secondAttribute="baseline" id="k2N-SI-xna"/>
-                            <constraint firstItem="2h4-zK-NNJ" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="35" id="ksT-s2-tNW"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="centerY" secondItem="kpQ-R0-iZi" secondAttribute="centerY" id="lLT-1f-ifq"/>
-                            <constraint firstAttribute="trailing" secondItem="0F5-J6-XPb" secondAttribute="trailing" constant="35" id="m3f-rb-pBC"/>
-                            <constraint firstItem="Cir-xp-IZM" firstAttribute="top" secondItem="2Ah-up-E1a" secondAttribute="bottom" id="mtH-gO-DQR"/>
-                            <constraint firstItem="Kj1-ni-mPZ" firstAttribute="leading" secondItem="Tl0-3A-6vl" secondAttribute="trailing" constant="6" id="pOV-57-nIz"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="top" secondItem="hpH-bY-sKv" secondAttribute="top" id="pOv-lh-gWm"/>
-                            <constraint firstItem="Kj1-ni-mPZ" firstAttribute="baseline" secondItem="kpQ-R0-iZi" secondAttribute="baseline" id="pca-4x-lBX"/>
-                            <constraint firstItem="NuC-Cx-ncp" firstAttribute="leading" secondItem="hpH-bY-sKv" secondAttribute="trailing" constant="6" id="pvq-pB-fXv"/>
-                            <constraint firstAttribute="trailing" secondItem="2Ah-up-E1a" secondAttribute="trailing" id="rYN-cV-Q3E"/>
-                            <constraint firstItem="0F5-J6-XPb" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="35" id="vmt-jh-Hxe"/>
-                            <constraint firstItem="hpH-bY-sKv" firstAttribute="baseline" secondItem="Kj1-ni-mPZ" secondAttribute="baseline" id="xZ6-e4-h7P"/>
-                            <constraint firstItem="Kj1-ni-mPZ" firstAttribute="baseline" secondItem="oVv-Qd-UNg" secondAttribute="baseline" id="ydY-3j-YKe"/>
-                            <constraint firstAttribute="trailing" secondItem="ige-48-HDh" secondAttribute="trailing" constant="35" id="yhF-ec-HHI"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="top" secondItem="Fdd-HF-y3t" secondAttribute="bottom" constant="8" id="1vv-Ge-Fg8"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="top" secondItem="Qhx-Pv-Lff" secondAttribute="top" id="32X-Cc-EfB"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="width" secondItem="Qhx-Pv-Lff" secondAttribute="width" id="3re-9J-q0d"/>
+                            <constraint firstAttribute="trailing" secondItem="Fdd-HF-y3t" secondAttribute="trailing" constant="20" id="7VO-4U-dg8"/>
+                            <constraint firstItem="Cir-xp-IZM" firstAttribute="top" secondItem="2Ah-up-E1a" secondAttribute="bottom" id="8ep-P9-8Ll"/>
+                            <constraint firstItem="Cir-xp-IZM" firstAttribute="top" secondItem="ige-48-HDh" secondAttribute="bottom" constant="20" id="9uY-xa-eyt"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="height" secondItem="ige-48-HDh" secondAttribute="height" id="AgM-cZ-K1v"/>
+                            <constraint firstAttribute="trailing" secondItem="2Ah-up-E1a" secondAttribute="trailing" id="BaP-cg-JiI"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="20" id="Err-OJ-t20"/>
+                            <constraint firstItem="tbj-b3-kJA" firstAttribute="bottom" secondItem="Fdd-HF-y3t" secondAttribute="bottom" id="GQR-cz-kHb"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="height" secondItem="Qhx-Pv-Lff" secondAttribute="height" id="KXy-Mo-znY"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="height" secondItem="Fdd-HF-y3t" secondAttribute="height" id="Lh2-ls-uVQ"/>
+                            <constraint firstAttribute="trailing" secondItem="uc0-KQ-CWF" secondAttribute="trailing" id="LzQ-vr-Pq7"/>
+                            <constraint firstItem="tbj-b3-kJA" firstAttribute="top" secondItem="Fdd-HF-y3t" secondAttribute="top" id="MVs-3d-vKP"/>
+                            <constraint firstItem="Qhx-Pv-Lff" firstAttribute="leading" secondItem="uc0-KQ-CWF" secondAttribute="trailing" id="RaI-C5-l5C"/>
+                            <constraint firstItem="ige-48-HDh" firstAttribute="top" secondItem="uc0-KQ-CWF" secondAttribute="bottom" constant="8" id="XB9-nD-BvF"/>
+                            <constraint firstItem="uc0-KQ-CWF" firstAttribute="leading" secondItem="17" secondAttribute="leading" id="Ypt-lu-3SV"/>
+                            <constraint firstItem="Fdd-HF-y3t" firstAttribute="top" secondItem="dTj-8T-Izr" secondAttribute="bottom" constant="20" id="bJt-t8-AvI"/>
+                            <constraint firstItem="tbj-b3-kJA" firstAttribute="trailing" secondItem="Fdd-HF-y3t" secondAttribute="trailing" id="hBg-Nx-Dvy"/>
+                            <constraint firstItem="Fdd-HF-y3t" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="20" id="oNG-2E-RmW"/>
+                            <constraint firstItem="2Ah-up-E1a" firstAttribute="top" secondItem="dTj-8T-Izr" secondAttribute="bottom" id="qO3-Oh-p2P"/>
+                            <constraint firstItem="2Ah-up-E1a" firstAttribute="leading" secondItem="17" secondAttribute="leading" id="s5a-I5-LPL"/>
+                            <constraint firstAttribute="trailing" secondItem="ige-48-HDh" secondAttribute="trailing" constant="20" id="sRO-bI-Yd4"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Echo" image="echo.png" id="NjY-9Y-8iQ"/>
-                    <navigationItem key="navigationItem" title="Some Word" id="iPr-iF-usT">
+                    <navigationItem key="navigationItem" title="SOME WORD" id="iPr-iF-usT">
                         <barButtonItem key="rightBarButtonItem" systemItem="fastForward" id="uq4-p6-PI0">
                             <connections>
                                 <action selector="fastForwardPressed:" destination="3" id="4hS-9g-5kf"/>
@@ -989,11 +965,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="backgroundImage" destination="2Ah-up-E1a" id="4eA-kv-VD2"/>
                         <outlet property="echoRecordButton" destination="ige-48-HDh" id="nvZ-kS-hRs"/>
                         <outlet property="trainingSpeakerButton" destination="Fdd-HF-y3t" id="bI8-s8-Dud"/>
+                        <outlet property="trainingWaveform" destination="tbj-b3-kJA" id="7Oy-NM-IbZ"/>
                         <outlet property="wordDetail" destination="2h4-zK-NNJ" id="m5H-FZ-CEz"/>
-                        <outlet property="workflowButton" destination="0F5-J6-XPb" id="A6s-mk-7vI"/>
+                        <outlet property="wordTitle" destination="wMw-2Y-imc" id="ka1-4r-juk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12" sceneMemberID="firstResponder"/>
@@ -1780,7 +1756,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUF-wW-fgM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="377" y="3573"/>
+            <point key="canvasLocation" x="377" y="3039"/>
         </scene>
         <!--Download Lesson View Controller - Download lesson-->
         <scene sceneID="0ag-CD-m2N">
@@ -2087,9 +2063,13 @@
         <image name="echo.png" width="30" height="30"/>
         <image name="flag.png" width="32" height="32"/>
         <image name="gradient.png" width="150" height="1024"/>
-        <image name="iPhoneBG.png" width="320" height="367"/>
+        <image name="gradient.png" width="150" height="1024"/>
+        <image name="gradient.png" width="150" height="1024"/>
         <image name="like.png" width="32" height="32"/>
         <image name="microphone icon.png" width="64" height="64"/>
+        <image name="microphone icon.png" width="64" height="64"/>
+        <image name="none40.png" width="40" height="40"/>
+        <image name="none40.png" width="40" height="40"/>
         <image name="none40.png" width="40" height="40"/>
         <image name="shuffle.png" width="25" height="21"/>
         <image name="social.png" width="30" height="30"/>
@@ -2103,9 +2083,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="47Q-7Q-DoP"/>
         <segue reference="cjs-Y6-M9H"/>
+        <segue reference="E55-RI-AHP"/>
         <segue reference="yax-pl-PTe"/>
-        <segue reference="3H6-9o-S7b"/>
+        <segue reference="47Q-7Q-DoP"/>
     </inferredMetricsTieBreakers>
 </document>

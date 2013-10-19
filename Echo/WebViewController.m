@@ -26,10 +26,7 @@
 @synthesize refreshControl = _refreshControl;
 @synthesize currentWord = _currentWord;
 
-#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0"
-
 #warning LOOK AT USING UIWebView+AFNetworking HERE
-#warning CONSOLIDATE SOCIAL INTO THIS CLASS
 
 - (void)viewDidLoad
 {

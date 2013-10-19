@@ -23,7 +23,6 @@
 @implementation WordPracticeController
 @synthesize trainingSpeakerButton;
 @synthesize echoRecordButton;
-@synthesize backgroundImage;
 @synthesize workflowButton;
 
 @synthesize datasource = _datasource;
@@ -42,7 +41,7 @@
     }  
 }
 
-- (IBAction)trainingSpeakerPressed {
+- (IBAction)trainingButtonPressed {
     [self.recorder stopRecordingAndKeepResult:NO];
     
     CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
@@ -66,6 +65,23 @@
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.audioPlayer.pan = -0.5;
     [self.audioPlayer play];
+    
+    //FD
+    // iOS bug workaround: http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
+    NSFileManager *dfm = [NSFileManager defaultManager];
+    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *tmpPath = [[documentPaths lastObject] stringByAppendingPathComponent:@"tmp.caf"];
+    [dfm removeItemAtPath:tmpPath error:nil];
+    [dfm linkItemAtPath:filePath toPath:tmpPath error:nil];
+    
+    self.trainingWaveform.audioURL = [NSURL fileURLWithPath:tmpPath];
+    self.trainingWaveform.progressSamples = 0;
+    [UIView animateWithDuration:self.audioPlayer.duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.trainingWaveform.progressSamples = self.trainingWaveform.totalSamples;
+    } completion:^(BOOL done){
+        if (done)
+            self.trainingWaveform.progressSamples = 0;
+    }];
     
     if (self.workflowState == 2 || self.workflowState == 4 || self.workflowState == 6) 
         [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:self.audioPlayer.duration];
@@ -202,34 +218,17 @@
     }
 }
 
-/*
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                                         duration:(NSTimeInterval)duration
-{
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            [self.backgroundImage setImage:[UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"iPhoneBG" ofType:@"png"]]];
-        else
-            [self.backgroundImage setImage:[UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"Default-Portrait" ofType:@"png"]]];
-    } else {
-        [self.backgroundImage setImage:[UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"Default-Landscape" ofType:@"png"]]];
-    }
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        self.backgroundImage.transform = CGAffineTransformIdentity;
-    else 
-        self.backgroundImage.transform = CGAffineTransformMakeTranslation(0, 20);
-}
-*/
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.word = [self.datasource currentWordForWordPractice:self];
     self.title = self.word.name;
-    [self.trainingSpeakerButton setTitle:self.title forState:UIControlStateNormal];
+    self.wordTitle.text = self.word.name;
+    self.wordDetail.text = self.word.detail;
+
+    
+//    [self.trainingSpeakerButton setTitle:self.title forState:UIControlStateNormal];
     [self.echoRecordButton setTitle:self.title forState:UIControlStateNormal];    
     [self willAnimateRotationToInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation] duration:0];
     [super viewDidLoad];
@@ -239,7 +238,12 @@
     self.recorder.pan = [NSNumber numberWithFloat:0.5];
     self.recorder.delegate = self;
     
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.trainingSpeakerButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trainingWaveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
+    
+
+    
     UIGlossyButton *b;
+    /*
     b = (UIGlossyButton *) self.trainingSpeakerButton;
 	b.tintColor = [UIColor greenColor];
 	[b useWhiteLabel: YES];
@@ -249,6 +253,10 @@
 	b.buttonCornerRadius = 12.0f;
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
+*/
+    
+    [self.trainingSpeakerButton addSubview:self.trainingWaveform];
+    
 
     b = (UIGlossyButton*) self.echoRecordButton;
 	b.tintColor = [UIColor grayColor];
@@ -324,13 +332,6 @@
 	b.buttonCornerRadius = 50.0f;
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
-    self.wordDetail.text = self.word.detail;
-    CALayer *textLayer = ((CALayer *)[self.wordDetail.layer.sublayers objectAtIndex:0]);
-    textLayer.shadowColor = [UIColor whiteColor].CGColor;
-    textLayer.shadowOffset = CGSizeMake(5.0f, 5.0f);
-    textLayer.shadowOpacity = 1.0f;
-    textLayer.shadowRadius = 4.0f;
 
     
     NSMutableArray *rightBarButtonItems = [[NSMutableArray alloc] init];

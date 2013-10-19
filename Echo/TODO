@@ -3,7 +3,6 @@ RELEASE EARLY, RELEASE DAILY!
 
 RELEASE
   pod update
-  XCode Analyze, AppCode Analyze
   Update screenshots on website and iTunesConnect
   Increment version
   Product -> Archive
@@ -13,10 +12,10 @@ RELEASE
 
 DISTRIBUTE
   Share after release on https://plus.google.com/ and http://weibo.com/u/2852977157 with free tokens
-  Check the UI works in Chinese
   Create tokens with Tokens app and distribute to:
-    http://www.appcraver.com/
-    http://www.148apps.com/
+  Use consistent marketing message with website
+    http://iphonedevsdk.com/post/discussion/iphone-promo-codes
+    http://www.reddit.com/r/iphone
     http://www.appvee.com/
     http://www.iphoneappreviews.net/
     http://iphone.iusethis.com/
@@ -26,39 +25,40 @@ DISTRIBUTE
     http://www.tuaw.com/apprequests/
     http://www.appsafari.com/
     http://www.todayiniphone.com
+    http://www.myplt.com/contact_us_other.html
+    http://www.appcraver.com/
+    http://www.148apps.com/
+    http://iphonedevsdk.com/forum/iphone-promo-codes/109289-english-spanish-speaking-practice-promo-codes.html
 
 Hello, 
-
+--------------------------
 I am William Entriken and have developed the app Echo to practice word pronunciation for people learning languages. Originally I started this to learn programming and help my girlfriend who is Chinese and has trouble with certain English words after being in the US for several years. Now we are adding Spanish and Chinese lessons. There's also a basic website at https://learnwithecho.com
 
 Just wanted to reach out in case this would be of any value for your audience. Following are promo codes to download for free.
-
-http://tokn.co/78qmr345
-http://tokn.co/dwmxb26e
-http://tokn.co/ew6u7apv
+--------------------------
+ Hello, I am developing an iPhone application for people to supplement their language studies. This app allows people to listen to a teacher, record their own voice, then listen over and over. It is good for intermediate-level learners. This is a great way for language teachers to meet students. This app costs $4 in the App store, but below are free codes. You can use the App store and click "Redeem" to try this for free.
+--------------------------
+ I am writing to ask if you would be interested in a type of partnership. You could create lessons in any language on this app. This is very easy and fast to do. Then you would set list your username as myplt.com. I will market this app to people studying any language and hope some of these become your customers. I have developed this app for my girlfriend who speaks English as a second language to help her practice words she has trouble with. And I do wish to help anyone that wants to learn a new language.
+--------------------------
+TOKNS
 
 Thank you,
 Will
-
- -- Use consistent marketing message with website
 
 
 ========================================
 1.x.x Changelog
 ========================================
- - Fix resources page, iOS 7 tint
  - Share friends, website is free
- - AFNetworkActivityIndicatorManager gone
 
 
 ========================================
-FOCUS / BUGS
+BUGS / STUFF TO DO NOW
 ========================================
 
-  https://learnwithecho.com/api/2.0/users/80.png 406 error
-
-  Echo Practive page sucks on 3.5" iphone and ipad
-  TEST ALL UPLOAD FEATURES
+  Echo Practice page sucks on 3.5" iphone and ipad
+  TEST ALL UPLOAD FEATURES!!!
+ Drop F3BarGuage, UIGlossyButton and use FDWaveformView
 
   Before release:
   Do code coverage test / at same time test functional correctness
@@ -67,6 +67,10 @@ FOCUS / BUGS
   
   How do I say? / Action button -> s/Save/Send/
   How do I say? / Crash after send?
+  Check the UI works in Chinese
+
+  https://learnwithecho.com/api/2.0/users/80.png 406 error
+  http://stackoverflow.com/questions/19169337/apache-2-multiviews-and-406-error-for-image-request
 
 ========================================
 STUFF TO DO LATER
@@ -114,28 +118,6 @@ STUFF TO DO LATER
  - Jogging mode (full auto)
  - echoRecorder - better encoding
  - Reach out to people with polyglot blogs
- - FREE CODES: http://iphonedevsdk.com/post/discussion/iphone-promo-codes
- http://www.reddit.com/r/iphone
- - LETTER TO http://www.myplt.com/contact_us_other.html
- Hello, I am developing an iPhone application for people to supplement their language studies. This app allows people to listen to a teacher, record their own voice, then listen over and over. It is good for intermediate-level learners. This is a great way for language teachers to meet students. This app costs $4 in the App store, but below are free codes. You can use the App store and click "Redeem" to try this for free.
-
- - H93A6A6KFLEL
- 3L9KNF3KHR6Y
- 4NLXKLM3JAAF
- 6R43RLREH9PE
- H7FMJRTXAMKW
-
- I am writing to ask if you would be interested in a type of partnership. You could create lessons in any language on this app. This is very easy and fast to do. Then you would set list your username as myplt.com. I will market this app to people studying any language and hope some of these become your customers. I have developed this app for my girlfriend who speaks English as a second language to help her practice words she has trouble with. And I do wish to help anyone that wants to learn a new language.
-
- Please let me know your thoughts, also this website has more details: https://learnwithecho.com
- http://www.reddit.com/r/iphone/comments/12lnaz/iphone_app_practice_speaking_english_or_spanish/
- http://iphonedevsdk.com/forum/iphone-promo-codes/109289-english-spanish-speaking-practice-promo-codes.html
- Submit to app review websites / language learning app websites
- Find list of competing apps / use majestic or some other tool to track back links
- Advice for pen pals / language exchange
- Style: http://stackoverflow.com/questions/6933629/uitableview-cell-query-how-to-get-a-table-view-like-istudiez
- http://stackoverflow.com/questions/13552422/existing-ios-form-framework
- Style: http://istudentpro.com/
 
  OTHER
  https://itunes.apple.com/mz/app/pocket3-chinese/id346703961?mt=8
