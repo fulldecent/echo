@@ -22,9 +22,6 @@
 
 @implementation WordPracticeController
 @synthesize trainingSpeakerButton;
-@synthesize echoRecordButton;
-@synthesize workflowButton;
-
 @synthesize datasource = _datasource;
 @synthesize delegate = _delegate;
 @synthesize audioPlayer = _audioPlayer;
@@ -34,12 +31,15 @@
 
 #define WORKFLOW_DELAY 0.3
 
+/*
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"microphoneLevel"]) {
+        self.recordButton
         self.echoRecordButton.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
     }  
 }
+ */
 
 - (IBAction)trainingButtonPressed {
     [self.recorder stopRecordingAndKeepResult:NO];
@@ -87,6 +87,7 @@
         [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:self.audioPlayer.duration];
 }
 
+/*
 - (IBAction)echoButtonPressed {
     if (self.echoRecordButton.state == PHORRecordButtonStateRecord) {
         [self.recorder record];
@@ -106,11 +107,14 @@
     if (self.workflowState == 5 || self.workflowState == 7) 
         [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:[self.recorder.duration doubleValue]];
 }
+ */
 
+/*
 - (IBAction)echoButtonReset:(id)sender
 {
     [self.recorder reset];
 }
+ */
 
 - (IBAction)continueNextWorkflowStep:(id)sender
 {
@@ -130,11 +134,11 @@
         }];
         
         if (self.workflowState == 2) {
-            [self performSelector:@selector(trainingSpeakerPressed) withObject:nil afterDelay:WORKFLOW_DELAY];
+            [self performSelector:@selector(trainingButtonPressed) withObject:nil afterDelay:WORKFLOW_DELAY];
         } else if (self.workflowState == 3) {
             [self performSelector:@selector(echoButtonPressed) withObject:nil afterDelay:WORKFLOW_DELAY];
         } else if (self.workflowState == 4 || self.workflowState == 6) {
-            [self performSelector:@selector(trainingSpeakerPressed) withObject:nil afterDelay:WORKFLOW_DELAY];
+            [self performSelector:@selector(trainingButtonPressed) withObject:nil afterDelay:WORKFLOW_DELAY];
         } else if (self.workflowState == 5 | self.workflowState == 7) {
             [self performSelector:@selector(echoButtonPressed) withObject:nil afterDelay:WORKFLOW_DELAY];
         } else if (self.workflowState == 8) {
@@ -144,6 +148,7 @@
 }
 
 - (IBAction)resetWorkflow {
+    /*
     self.workflowState = 99;
     
     [UIView animateWithDuration:WORKFLOW_DELAY animations:^{
@@ -153,6 +158,7 @@
             [self.view viewWithTag:i].transform = CGAffineTransformIdentity;
         self.workflowButton.alpha=1;
     }];
+     */
 }
 
 - (IBAction)checkPressed:(id)sender {
@@ -191,6 +197,7 @@
 }
 
 - (void)doFirstWorkflowStep {
+    /*
     [UIView animateWithDuration:WORKFLOW_DELAY animations:^{
         for (int i=2; i<=7; i++)
             [self.view viewWithTag:i].alpha=1;
@@ -207,8 +214,10 @@
     self.echoRecordButton.state = PHORRecordButtonStateRecord;
     
     [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:self.audioPlayer.duration];
+     */
 }
 
+/*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -217,6 +226,7 @@
         return YES;
     }
 }
+*/
 
 - (void)viewDidLoad
 {
@@ -229,12 +239,12 @@
 
     
 //    [self.trainingSpeakerButton setTitle:self.title forState:UIControlStateNormal];
-    [self.echoRecordButton setTitle:self.title forState:UIControlStateNormal];    
+//    [self.echoRecordButton setTitle:self.title forState:UIControlStateNormal];
     [self willAnimateRotationToInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation] duration:0];
     [super viewDidLoad];
     
     self.recorder = [[PHOREchoRecorder alloc] init];
-    [self.recorder addObserver:self forKeyPath:@"microphoneLevel" options:NSKeyValueObservingOptionNew context:nil];
+//    [self.recorder addObserver:self forKeyPath:@"microphoneLevel" options:NSKeyValueObservingOptionNew context:nil];
     self.recorder.pan = [NSNumber numberWithFloat:0.5];
     self.recorder.delegate = self;
     
@@ -257,7 +267,7 @@
     
     [self.trainingSpeakerButton addSubview:self.trainingWaveform];
     
-
+/*
     b = (UIGlossyButton*) self.echoRecordButton;
 	b.tintColor = [UIColor grayColor];
 	[b useWhiteLabel: YES];
@@ -277,7 +287,7 @@
 	b.buttonCornerRadius = 12.0f;
 	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
 	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-    
+  */
     // Auto play circles
     b = (UIGlossyButton*) [self.view viewWithTag: 2];
 	b.tintColor = [UIColor greenColor];
@@ -370,7 +380,7 @@
     //Activate the customized audio session
     [[AVAudioSession sharedInstance] setActive: YES error: &activationErr];
     
-    [self performSelector:@selector(trainingSpeakerPressed) withObject:self afterDelay:0.5];
+    [self performSelector:@selector(trainingButtonPressed) withObject:self afterDelay:0.5];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -381,7 +391,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.recorder removeObserver:self forKeyPath:@"microphoneLevel"];    
+//    [self.recorder removeObserver:self forKeyPath:@"microphoneLevel"];
 }
 
 #pragma mark PHOREchoRecorderDelegate
@@ -389,7 +399,7 @@
 - (void)recording:(id)recorder didFinishSuccessfully:(BOOL)success
 {
     if (success) {
-        self.echoRecordButton.state = PHORRecordButtonStatePlayback;
+//        self.echoRecordButton.state = PHORRecordButtonStatePlayback;
         
         if (self.workflowState == 3) 
             [self continueNextWorkflowStep:nil];
