@@ -124,7 +124,7 @@
     [self.audioPlayer play];
 }
 
-- (void) actuallyRecord
+- (void)actuallyRecord
 {
     [self.audioRecorder recordForDuration:RECORDING_TIMEOUT];
     
@@ -135,7 +135,7 @@
                                                        repeats:YES];
 }
 
-- (void) followUpOnRecording 
+- (void)followUpOnRecording
 {    
     if (!self.isRecordingInProgress) return;
 //NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audioRecorder.recording?@"YES":@"NO");
@@ -181,7 +181,7 @@
 //    NSLog(@"levels: peak %f, current %f, avg %f, begin %f", peak, currentLevel, runningTotal, self.speakingBeginTime);
 }
 
-- (void) stopRecordingAndKeepResult:(BOOL)save
+- (void)stopRecordingAndKeepResult:(BOOL)save
 {
     [self.updateTimer invalidate];
     self.isRecordingInProgress = NO;
@@ -197,7 +197,7 @@
     [self.delegate recording:self didFinishSuccessfully:save];
 }
 
-- (void) reset
+- (void)reset
 {
     [self.updateTimer invalidate];
     self.isRecordingInProgress = NO;
@@ -207,7 +207,7 @@
     [self.delegate recording:self didFinishSuccessfully:NO];
 }
 
-- (void) playback
+- (void)playback
 {
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioFile error:nil];
     self.audioPlayer.currentTime = self.speakingBeginTime;
@@ -215,7 +215,7 @@
     [self.audioPlayer play];
 }
 
-- (NSString *) getAudioDataFilePath
+- (NSString *)getAudioDataFilePath
 {
     // Prepare output 
     NSString *trimmedAudioFileBaseName = [NSString stringWithFormat:@"recordingConverted%x.caf", arc4random()];
@@ -294,7 +294,7 @@
     return nil;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 //    [self.audioRecorder stop];
 //    [self.audioRecorder deleteRecording];

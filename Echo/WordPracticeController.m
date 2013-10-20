@@ -31,19 +31,15 @@
 
 #define WORKFLOW_DELAY 0.3
 
-/*
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"microphoneLevel"]) {
-        self.recordButton
-        self.echoRecordButton.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+        self.recordButton.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
     }  
 }
- */
 
-- (IBAction)trainingButtonPressed {
-    [self.recorder stopRecordingAndKeepResult:NO];
-    
+- (void)makeItBounce:(UIView *)view
+{
     CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     bounceAnimation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:1], [NSNumber numberWithFloat:1.2], nil];
     bounceAnimation.duration = 0.15;
@@ -51,7 +47,12 @@
     bounceAnimation.repeatCount = 2;
     bounceAnimation.autoreverses = YES;
     bounceAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    [self.trainingSpeakerButton.layer addAnimation:bounceAnimation forKey:@"bounce"];
+    [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
+}
+
+- (IBAction)trainingButtonPressed {
+    [self.recorder stopRecordingAndKeepResult:NO];
+    [self makeItBounce:self.trainingSpeakerButton];
   
     if (!self.word.files.count) {
         [self.navigationController popViewControllerAnimated:NO];
@@ -66,8 +67,8 @@
     self.audioPlayer.pan = -0.5;
     [self.audioPlayer play];
     
-    //FD
-    // iOS bug workaround: http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
+    // Workaround because AVURLAsset needs files with file extensions
+    // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
     NSFileManager *dfm = [NSFileManager defaultManager];
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *tmpPath = [[documentPaths lastObject] stringByAppendingPathComponent:@"tmp.caf"];
@@ -87,34 +88,35 @@
         [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:self.audioPlayer.duration];
 }
 
-/*
-- (IBAction)echoButtonPressed {
-    if (self.echoRecordButton.state == PHORRecordButtonStateRecord) {
-        [self.recorder record];
-    } else if (self.echoRecordButton.state == PHORRecordButtonStatePlayback) {
-        [self.recorder playback];
-    }
-
-    CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    bounceAnimation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:1], [NSNumber numberWithFloat:1.2], nil];
-    bounceAnimation.duration = 0.15;
-    bounceAnimation.removedOnCompletion = NO;
-    bounceAnimation.repeatCount = 2;
-    bounceAnimation.autoreverses = YES;
-    bounceAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    [self.echoRecordButton.layer addAnimation:bounceAnimation forKey:@"bounce"];
-    
-    if (self.workflowState == 5 || self.workflowState == 7) 
+- (IBAction)recordButtonPressed
+{
+    [self makeItBounce:self.recordButton];
+    [self.recorder record];
+    if (self.workflowState == 5 || self.workflowState == 7)
         [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:[self.recorder.duration doubleValue]];
 }
- */
 
-/*
-- (IBAction)echoButtonReset:(id)sender
+- (IBAction)playbackButtonPressed
+{
+    [self makeItBounce:self.playbackButton];
+    [self.recorder playback];
+    if (self.workflowState == 5 || self.workflowState == 7)
+        [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:[self.recorder.duration doubleValue]];
+
+    [UIView animateWithDuration:self.audioPlayer.duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.playbackWaveform.progressSamples = self.playbackWaveform.totalSamples;
+    } completion:^(BOOL done){
+        if (done)
+            self.playbackWaveform.progressSamples = 0;
+    }];
+}
+
+- (IBAction)playbackButtonHeld
 {
     [self.recorder reset];
+    self.recordButton.hidden = NO;
+    self.playbackButton.hidden = YES;
 }
- */
 
 - (IBAction)continueNextWorkflowStep:(id)sender
 {
@@ -172,7 +174,7 @@
         [check setImage:[UIImage imageNamed:@"check"]];
 }
 
-- (IBAction)fastForwardPressed:(id)sender {
+- (IBAction)fastForwardPressed {
     // see http://stackoverflow.com/questions/8926606/performseguewithidentifier-vs-instantiateviewcontrollerwithidentifier
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -217,17 +219,6 @@
      */
 }
 
-/*
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-*/
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -236,113 +227,15 @@
     self.title = self.word.name;
     self.wordTitle.text = self.word.name;
     self.wordDetail.text = self.word.detail;
-
-    
-//    [self.trainingSpeakerButton setTitle:self.title forState:UIControlStateNormal];
-//    [self.echoRecordButton setTitle:self.title forState:UIControlStateNormal];
-    [self willAnimateRotationToInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation] duration:0];
-    [super viewDidLoad];
-    
     self.recorder = [[PHOREchoRecorder alloc] init];
-//    [self.recorder addObserver:self forKeyPath:@"microphoneLevel" options:NSKeyValueObservingOptionNew context:nil];
+    [self.recorder addObserver:self forKeyPath:@"microphoneLevel" options:NSKeyValueObservingOptionNew context:nil];
     self.recorder.pan = [NSNumber numberWithFloat:0.5];
     self.recorder.delegate = self;
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.trainingSpeakerButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trainingWaveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
-    
-
-    
-    UIGlossyButton *b;
-    /*
-    b = (UIGlossyButton *) self.trainingSpeakerButton;
-	b.tintColor = [UIColor greenColor];
-	[b useWhiteLabel: YES];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 5.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 12.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-*/
-    
     [self.trainingSpeakerButton addSubview:self.trainingWaveform];
-    
-/*
-    b = (UIGlossyButton*) self.echoRecordButton;
-	b.tintColor = [UIColor grayColor];
-	[b useWhiteLabel: YES];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 5.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 12.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-    
-    b = (UIGlossyButton*) self.workflowButton;
-	b.tintColor = [UIColor whiteColor];
-	[b useWhiteLabel: YES];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 5.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 12.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-  */
-    // Auto play circles
-    b = (UIGlossyButton*) [self.view viewWithTag: 2];
-	b.tintColor = [UIColor greenColor];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 15.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 50.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
-    b = (UIGlossyButton*) [self.view viewWithTag: 3];
-	b.tintColor = [UIColor grayColor];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 15.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 50.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
-    b = (UIGlossyButton*) [self.view viewWithTag: 4];
-	b.tintColor = [UIColor greenColor];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 15.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 50.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
-    b = (UIGlossyButton*) [self.view viewWithTag: 5];
-	b.tintColor = [UIColor grayColor];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 15.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 50.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
-    b = (UIGlossyButton*) [self.view viewWithTag: 6];
-	b.tintColor = [UIColor greenColor];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 15.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 50.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
-    b = (UIGlossyButton*) [self.view viewWithTag: 7];
-	b.tintColor = [UIColor grayColor];
-	b.backgroundOpacity = 0.7;
-	b.innerBorderWidth = 15.0f;
-	b.buttonBorderWidth = 0.0f;
-	b.buttonCornerRadius = 50.0f;
-	[b setGradientType: kUIGlossyButtonGradientTypeSolid];
-	[b setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
-
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.trainingSpeakerButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trainingWaveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
+    [self.playbackButton addSubview:self.playbackWaveform];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.playbackButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.playbackWaveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
     
     NSMutableArray *rightBarButtonItems = [[NSMutableArray alloc] init];
     if ([self.delegate wordPracticeShouldShowNextButton:self]) {
@@ -391,7 +284,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-//    [self.recorder removeObserver:self forKeyPath:@"microphoneLevel"];
+    [self.recorder removeObserver:self forKeyPath:@"microphoneLevel"];
 }
 
 #pragma mark PHOREchoRecorderDelegate
@@ -399,7 +292,10 @@
 - (void)recording:(id)recorder didFinishSuccessfully:(BOOL)success
 {
     if (success) {
-//        self.echoRecordButton.state = PHORRecordButtonStatePlayback;
+        self.recordButton.hidden = YES;
+        self.playbackButton.hidden = NO;
+        self.playbackWaveform.audioURL = [NSURL fileURLWithPath:[self.recorder getAudioDataFilePath]];
+        [self.playbackWaveform setNeedsLayout]; // TODO: BUG UPSTREAM
         
         if (self.workflowState == 3) 
             [self continueNextWorkflowStep:nil];

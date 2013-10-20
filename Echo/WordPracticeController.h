@@ -32,7 +32,7 @@
 @property (strong, nonatomic) IBOutlet UITextView *wordDetail;
 @property (strong, nonatomic) IBOutlet UIButton *trainingSpeakerButton;
 @property (strong, nonatomic) IBOutlet FDWaveformView *trainingWaveform;
-@property (strong, nonatomic) IBOutlet UIButton *recordButton;
+@property (strong, nonatomic) IBOutlet PHOREchoRecordButton *recordButton;
 @property (strong, nonatomic) IBOutlet UIButton *playbackButton;
 @property (strong, nonatomic) IBOutlet FDWaveformView *playbackWaveform;
 @property (weak, nonatomic) id <WordPracticeDataSource> datasource;
@@ -43,6 +43,5 @@
 - (IBAction)playbackButtonPressed;
 - (IBAction)playbackButtonHeld;
 - (IBAction)resetWorkflow;
-- (IBAction)fastForwardPressed:(id)sender;
-
+- (IBAction)fastForwardPressed;
 @end

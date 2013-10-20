@@ -6,9 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "UIGlossyButton.h"
-
-@interface PHOREchoRecordButton : UIGlossyButton
+@interface PHOREchoRecordButton : UIButton
 
 enum PHORRecordButtonState {
     PHORRecordButtonStateRecord,
