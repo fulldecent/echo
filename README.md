@@ -3,9 +3,9 @@ Echo
 
 The best way to practice speaking English or Spanish
 
-<img src="http://learnwithecho.com/splashAssets/ss1.png">
-<img src="http://learnwithecho.com/splashAssets/ss2.png">
-<img src="http://learnwithecho.com/splashAssets/ss3.png">
+<img src="http://learnwithecho.com/splashAssets/ss1.png" style="height:200px">
+<img src="http://learnwithecho.com/splashAssets/ss2.png" style="height:200px">
+<img src="http://learnwithecho.com/splashAssets/ss3.png" style="height:200px">
 
 Development goal
 ====
