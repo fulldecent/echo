@@ -54,14 +54,14 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     return _practiceSet;
 }
 
-- (IBAction)reload {
+- (IBAction)reload
+{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager getUpdatesForLessons:self.lessonSet.lessons
-                       newLessonsSinceID:[NSNumber numberWithInt:0]
+                       newLessonsSinceID:[defaults objectForKey:@"lastUpdateLessonList"]
                          messagesSinceID:[defaults objectForKey:@"lastMessageSeen"]
-                               onSuccess:^
-     (NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages)
+                               onSuccess:^(NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages)
      {
 
          [self.lessonSet setServerVersionsForLessonsWithIDs:lessonsIDsWithNewServerVersions];
@@ -93,7 +93,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
-    [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationReceived:) name:@"pushNotification" object:nil];
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)])
@@ -109,7 +108,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [super viewWillAppear:animated];
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"MainView"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
@@ -121,6 +119,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         [self reload];
     }
     [super viewWillAppear:YES];
+    self.refreshControl.layer.zPosition = self.tableView.backgroundView.layer.zPosition + 1;
     [self.tableView reloadData];
 }
 
@@ -209,7 +208,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case CellNewPractice:
             return 44;
     }
-    assert (0); return 0;
+    assert (0);
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -297,7 +297,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case SectionLessons:
             return self.lessonSet.lessons.count+2;
         case SectionPractice:
-//            return self.practiceSet.lessons.count+3;
             return 3;
     }
     assert(0);
@@ -306,7 +305,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TDBadgedCell *cell; /* Sometimes it is UITableViewCell, you keep track of that */
+    TDBadgedCell *cell; /* Sometimes Interface Builder has a UITableViewCell, you keep track of that */
     Lesson *lesson;
     Profile *me = [Profile currentUserProfile];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -410,7 +409,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                 cell.badgeString = nil;
             return cell;
     }
-    assert (0); return 0;
+    assert (0);
+    return 0;
 }
 
 

@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *learningLangTag;
 @property (strong, nonatomic) NSString *nativeLangTag;
 @property (strong, nonatomic) IBOutlet UIImageView *photo;
-@property (strong, nonatomic) IBOutlet UITextField *location;
+@property (strong, nonatomic) IBOutlet UILabel *location;
 @property (weak, nonatomic) id<DownloadLessonViewControllerDelegate>delegate;
 - (IBAction)checkIn:(id)sender;
 - (IBAction)choosePhoto:(id)sender;

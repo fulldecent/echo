@@ -94,8 +94,6 @@
         [userProfile setObject:UIImagePNGRepresentation(self.photo) forKey:@"photo"];
     if (self.userID)
         [userProfile setObject:self.userID forKey:@"userID"];
-//    if (self.deviceToken)
-//        [userProfile setObject:self.deviceToken forKey:@"deviceToken"];
     [defaults setObject:userProfile forKey:@"userProfile"];
     [defaults synchronize];
 }
@@ -205,7 +203,6 @@
 
 - (NSDictionary *)toDictionary
 {
-#warning todo: dont use me
     Profile *me = [Profile currentUserProfile];
     NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
     [retval setObject:me.username forKey:@"username"];

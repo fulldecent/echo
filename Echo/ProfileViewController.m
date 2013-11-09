@@ -86,13 +86,6 @@
 
 #pragma mark - Table view data source
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-    cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    return cell;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -102,25 +95,20 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.destinationViewController isKindOfClass:[LanguageSelectController class]]) {
         LanguageSelectController *controller = segue.destinationViewController;
-        if ([self.learningLang isDescendantOfView:sender])
+        if ([self.learningLang isDescendantOfView:sender]) {
             self.labelSelectingLanguage = self.learningLang;
-        else
+            LanguageSelectController *controller = segue.destinationViewController;
+            controller.navigationItem.title = @"Learning language";
+        }
+        else {
             self.labelSelectingLanguage = self.nativeLang;
+            LanguageSelectController *controller = segue.destinationViewController;
+            controller.navigationItem.title = @"Native language";
+        }
         controller.delegate = self;
     }
 }
@@ -189,6 +177,7 @@
         self.nativeLang.text = name;
         self.nativeLangTag = tag;
     }
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 #pragma mark - FDTakeController
@@ -230,6 +219,15 @@
 - (void)hudWasHidden:(MBProgressHUD *)hud
 {
     self.hud = nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([cell.reuseIdentifier isEqual:@"photo"])
+        [self choosePhoto:nil];
+    else if ([cell.reuseIdentifier isEqual:@"location"])
+        [self checkIn:nil];
 }
 
 @end

@@ -28,15 +28,6 @@
     return _languages;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -52,11 +43,6 @@
     return 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return NSLocalizedString(@"chooseLanguage", @"Prompt for selection of language");
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.languages.count;
@@ -68,7 +54,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     cell.textLabel.text = [[self.languages objectAtIndex:indexPath.row] objectForKey:@"tag"];
     cell.detailTextLabel.text = [[self.languages objectAtIndex:indexPath.row] objectForKey:@"nativeName"];
-    
     return cell;
 }
 

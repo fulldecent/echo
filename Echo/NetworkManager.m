@@ -245,7 +245,6 @@
     NSString *relativePath = @"users/me/updates";
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:requestParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (successBlock)
-#warning DOES THIS WORK?
             successBlock([responseObject objectForKey:@"updatedLessons"],
                          [responseObject objectForKey:@"newLessons"],
                          [responseObject objectForKey:@"unreadMessages"]);

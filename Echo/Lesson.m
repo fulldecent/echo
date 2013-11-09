@@ -77,8 +77,6 @@
         self.lessonID = lesson.lessonID;
     if (lesson.lessonCode)
         self.lessonCode = lesson.lessonCode;
-    /* else
-        retval.lessonCode = [NSString string]; */
     if (lesson.languageTag)
         self.languageTag = lesson.languageTag;
     if (lesson.name)

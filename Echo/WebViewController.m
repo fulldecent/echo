@@ -46,7 +46,6 @@
 {
     // http://stackoverflow.com/questions/7883344/iphone-make-a-uiwebview-subview-scrolling-to-top-when-user-touches-the-status
     self.webView.scrollView.scrollsToTop = YES;
-//    [(UIScrollView *)[self.webView.subviews objectAtIndex:0] setScrollsToTop:YES];    if (![self.view.window isKeyWindow]) [self.view.window makeKeyWindow];
     
     // http://stackoverflow.com/questions/2238914/how-to-remove-grey-shadow-on-the-top-uiwebview-when-overscroll
     for (UIView *subview in [self.webView.scrollView subviews])
@@ -61,7 +60,6 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-#warning TODO
     if (![request.URL.scheme isEqualToString:@"echo"]) {
         return YES;
     }
@@ -129,6 +127,7 @@
              [self.hud hide:YES];
              [NetworkManager hudFlashError:error];
          }];
+        
     } else if ([actionType isEqualToString:@"markEventAsRead"]) {
         NSNumber *eventID = [JSON objectForKey:@"id"];
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
@@ -154,11 +153,6 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     [[AFNetworkActivityIndicatorManager sharedManager] incrementActivityCount];
-    /* http://stackoverflow.com/questions/1842370/uiwebview-didfinishloading-fires-multiple-times
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.delegate = self;
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-     */
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
