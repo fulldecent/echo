@@ -10,10 +10,6 @@
 #import "Audio.h"
 #import "Lesson.h"
 
-@interface Word()
-+ (NSString *)makeUUID;
-@end
-
 @implementation Word
 @synthesize wordID = _wordID;
 @synthesize wordCode = _wordCode;
@@ -47,18 +43,10 @@
     return retval;
 }
 
-+ (NSString *)makeUUID
-{
-    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-    CFRelease(theUUID);
-    return (__bridge_transfer NSString *)string;
-}
-
 - (NSString *)wordCode
 {
     if (!_wordCode)
-        _wordCode = [Word makeUUID];
+        _wordCode = [[NSUUID UUID] UUIDString];
     return _wordCode;
 }
 

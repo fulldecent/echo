@@ -12,10 +12,6 @@
 #import "Audio.h"
 #import "Profile.h"
 
-@interface Lesson() 
-+ (NSString *)makeUUID;
-@end
-
 @implementation Lesson
 @synthesize lessonID = _lessonID;
 @synthesize lessonCode = _lessonCode;
@@ -51,18 +47,10 @@
 #define kFileID @"fileID"
 #define kFileCode @"fileCode"
 
-+ (NSString *)makeUUID
-{
-    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-    CFRelease(theUUID);
-    return (__bridge_transfer NSString *)string;
-}
-
 - (NSString *)lessonCode
 {
     if (!_lessonCode)
-        _lessonCode = [Lesson makeUUID];
+        _lessonCode = [[NSUUID UUID] UUIDString];
     return _lessonCode;
 }
 
@@ -218,7 +206,7 @@
 
 #pragma NSObject
 
--(NSString *) description {
+- (NSString *) description {
     return [NSString stringWithFormat:@"ID: %d; code: %@; name: %@", [self.lessonID integerValue], self.lessonCode, self.name];
 }
 

@@ -17,8 +17,6 @@
 		772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 772C83B115BF6D1A00E63B9C /* LessonSet.m */; };
 		773FEA66177E198A000AD650 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773FEA65177E198A000AD650 /* Media.xcassets */; };
 		773FEA91177E1B5B000AD650 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BBB7641754DC4A0067787E /* StoreKit.framework */; };
-		77429F4415D4A3730017834F /* iPhoneBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77429F4215D4A3730017834F /* iPhoneBG@2x.png */; };
-		77429F4515D4A3730017834F /* iPhoneBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 77429F4315D4A3730017834F /* iPhoneBG.png */; };
 		7749939715A0C409001DE784 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7749939615A0C409001DE784 /* NetworkManager.m */; };
 		774CDA1F15D080F100B14C45 /* message.png in Resources */ = {isa = PBXBuildFile; fileRef = 774CDA1B15D080F100B14C45 /* message.png */; };
 		774CDA2015D080F100B14C45 /* message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 774CDA1C15D080F100B14C45 /* message@2x.png */; };
@@ -124,8 +122,6 @@
 		772C83B015BF6D1A00E63B9C /* LessonSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonSet.h; sourceTree = "<group>"; };
 		772C83B115BF6D1A00E63B9C /* LessonSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonSet.m; sourceTree = "<group>"; };
 		773FEA65177E198A000AD650 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Echo/Media.xcassets; sourceTree = "<group>"; };
-		77429F4215D4A3730017834F /* iPhoneBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhoneBG@2x.png"; sourceTree = "<group>"; };
-		77429F4315D4A3730017834F /* iPhoneBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneBG.png; sourceTree = "<group>"; };
 		7749939515A0C409001DE784 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		7749939615A0C409001DE784 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		774CDA1B15D080F100B14C45 /* message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message.png; sourceTree = "<group>"; };
@@ -277,15 +273,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		77429F4115D4A1DE0017834F /* Backgrounds */ = {
-			isa = PBXGroup;
-			children = (
-				77429F4215D4A3730017834F /* iPhoneBG@2x.png */,
-				77429F4315D4A3730017834F /* iPhoneBG.png */,
-			);
-			name = Backgrounds;
-			sourceTree = "<group>";
-		};
 		77A50BE4157EEB2B00027CB1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +363,10 @@
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
+				77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */,
+				77D8AD12157ABE53001E2E25 /* PHOREchoRecordButton.m */,
+				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
+				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
 				77DDC70E156DD81F00568CDE /* Classes */,
 				77B51385151970B100F041D7 /* Supporting Files */,
 			);
@@ -385,7 +376,6 @@
 		77B51385151970B100F041D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				77429F4115D4A1DE0017834F /* Backgrounds */,
 				77B5138D151970B100F041D7 /* AppDelegate.h */,
 				77B5138E151970B100F041D7 /* AppDelegate.m */,
 				770AA8B616C4ABC300348FB8 /* gradient.png */,
@@ -457,10 +447,6 @@
 				D9793A8A18131534009F32D5 /* FDWaveformView.m */,
 				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
 				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
-				77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */,
-				77D8AD12157ABE53001E2E25 /* PHOREchoRecordButton.m */,
-				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
-				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
 				77D8AD17157ABF1A001E2E25 /* microphone icon@2x.png */,
 				77D8AD18157ABF1A001E2E25 /* microphone icon.png */,
 				77D8AD19157ABF1A001E2E25 /* speaker icon.png */,
@@ -594,8 +580,6 @@
 				77E9BEF715CE037300BC567B /* like.png in Resources */,
 				774CDA1F15D080F100B14C45 /* message.png in Resources */,
 				774CDA2015D080F100B14C45 /* message@2x.png in Resources */,
-				77429F4415D4A3730017834F /* iPhoneBG@2x.png in Resources */,
-				77429F4515D4A3730017834F /* iPhoneBG.png in Resources */,
 				7761D6A515E2E77E00975F1B /* practiceIcon.png in Resources */,
 				7761D6A615E2E77E00975F1B /* practiceIcon@2x.png in Resources */,
 				7798DE111619138C004EE464 /* flag.png in Resources */,

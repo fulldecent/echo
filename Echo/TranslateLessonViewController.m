@@ -148,7 +148,7 @@
 
 #pragma mark - UIView
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.destinationViewController isKindOfClass:[LanguageSelectController class]]) {
         LanguageSelectController *controller = segue.destinationViewController;

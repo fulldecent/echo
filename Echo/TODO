@@ -52,11 +52,13 @@ Will
  - Share friends, website is free
 
 
+
 ========================================
 BUGS / STUFF TO DO NOW
 ========================================
 
-  Echo Practice page sucks on 3.5" iphone and ipad
+ Practice a word --> crash
+
   TEST ALL UPLOAD FEATURES!!!
  Drop F3BarGuage, UIGlossyButton and use FDWaveformView
 

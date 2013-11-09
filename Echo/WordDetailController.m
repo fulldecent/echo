@@ -49,14 +49,6 @@
 @synthesize delegate = _delegate;
 @synthesize hud = _hud;
 
-+ (NSString *)makeUUID
-{
-    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-    CFRelease(theUUID);
-    return (__bridge_transfer NSString *)string;
-}
-
 - (Word *)word
 {
     if (!_word) _word = [[Word alloc] init];
@@ -446,7 +438,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 #pragma mark - ScrollView
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES]; // fucking nice
 }

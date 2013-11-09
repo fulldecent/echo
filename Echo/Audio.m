@@ -12,18 +12,10 @@
 @synthesize fileID = _fileID;
 @synthesize fileCode = _fileCode;
 
-+ (NSString *)makeUUID
-{
-    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-    CFRelease(theUUID);
-    return (__bridge_transfer NSString *)string;
-}
-
 - (NSString *)fileCode
 {
     if (!_fileCode)
-        _fileCode = [Audio makeUUID];
+        _fileCode = [[NSUUID UUID] UUIDString];
     return _fileCode;
 }
 
