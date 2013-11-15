@@ -17,14 +17,22 @@
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "FDWaveformView.h"
+
+#warning TODO: iVar should be editingWord, then have a save method??
 
 #define NUMBER_OF_RECORDERS 3
+
+typedef enum {SectionInfo, SectionRecordings, SectionCount} Sections;
+typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 
 @interface WordDetailController () <LanguageSelectControllerDelegate, WordDetailControllerDelegate, MBProgressHUDDelegate>
 // Outlets for UI elements
 @property (strong, nonatomic) UILabel *wordLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
-@property (strong, nonatomic) NSMutableDictionary *echoRecordButtons;
+@property (strong, nonatomic) NSMutableDictionary *recordButtons;
+@property (strong, nonatomic) NSMutableDictionary *playButtons;
+@property (strong, nonatomic) NSMutableDictionary *waveforms;
 @property (strong, nonatomic) NSMutableDictionary *resetButtons;
 
 // Model
@@ -42,12 +50,43 @@
 @synthesize wordLabel;
 @synthesize detailLabel;
 @synthesize echoRecorders = _echoRecorders;
-@synthesize echoRecordButtons = _echoRecordButtons;
+@synthesize recordButtons = _recordButtons;
+@synthesize playButtons = _playButtons;
+@synthesize waveforms = _waveforms;
 @synthesize resetButtons = _resetButtons;
 @synthesize editingLanguageTag = _editingLanguageTag;
 @synthesize word = _word;
 @synthesize delegate = _delegate;
 @synthesize hud = _hud;
+
+- (Cells)cellTypeForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case SectionInfo:
+            if (indexPath.row == 0)
+                return CellLanguage;
+            else if (indexPath.row == 1)
+                return CellTitle;
+            else // (indexPath.row == 2)
+                return CellDetail;
+        case SectionRecordings:
+            return CellRecording;
+    }
+    assert (0);
+    return 0;
+}
+
+- (void)makeItBounce:(UIView *)view
+{
+    CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    bounceAnimation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:1], [NSNumber numberWithFloat:1.2], nil];
+    bounceAnimation.duration = 0.15;
+    bounceAnimation.removedOnCompletion = NO;
+    bounceAnimation.repeatCount = 2;
+    bounceAnimation.autoreverses = YES;
+    bounceAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
+}
 
 - (Word *)word
 {
@@ -69,10 +108,22 @@
     return _echoRecorders;
 }
 
-- (NSMutableDictionary *)echoRecordButtons
+- (NSMutableDictionary *)recordButtons
 {
-    if (!_echoRecordButtons) _echoRecordButtons = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
-    return _echoRecordButtons;
+    if (!_recordButtons) _recordButtons = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
+    return _recordButtons;
+}
+
+- (NSMutableDictionary *)waveforms
+{
+    if (!_waveforms) _waveforms = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
+    return _waveforms;
+}
+
+- (NSMutableDictionary *)playButtons
+{
+    if (!_playButtons) _playButtons = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
+    return _playButtons;
 }
 
 - (NSMutableDictionary *)resetButtons
@@ -81,49 +132,27 @@
     return _resetButtons;
 }
 
+- (IBAction)playButtonPressed:(id)sender
+{
+    NSNumber *echoIndex =  [[self.playButtons allKeysForObject:sender] objectAtIndex:0];
+    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
+    [recorder playback];
+    [self makeItBounce:sender];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     NSNumber *echoIndex;
     if ([object isKindOfClass:[PHOREchoRecordButton class]])
-        echoIndex = [[self.echoRecordButtons allKeysForObject:object] objectAtIndex:0];
+        echoIndex = [[self.recordButtons allKeysForObject:object] objectAtIndex:0];
     else if ([object isKindOfClass:[PHOREchoRecorder class]]) 
         echoIndex = [[self.echoRecorders allKeysForObject:object] objectAtIndex:0];
     
     if ([keyPath isEqualToString: @"microphoneLevel"]) {
-        PHOREchoRecordButton *button = [self.echoRecordButtons objectForKey:echoIndex];
+        PHOREchoRecordButton *button = [self.recordButtons objectForKey:echoIndex];
         button.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
 NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKey]);
     }         
-}
-
-- (IBAction)echoButtonPressed:(PHOREchoRecordButton *)sender {
-    NSNumber *echoIndex;
-    echoIndex = [[self.echoRecordButtons allKeysForObject:sender] objectAtIndex:0];
-    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
-    
-    if (sender.state == PHORRecordButtonStateRecord) {
-        [recorder record];
-    } else if (sender.state == PHORRecordButtonStatePlayback || sender.state == PHORRecordButtonStatePlaybackOnly) {
-        [recorder playback];
-    }
-    
-    CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    bounceAnimation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:1], [NSNumber numberWithFloat:1.2], nil];
-    bounceAnimation.duration = 0.15;
-    bounceAnimation.removedOnCompletion = NO;
-    bounceAnimation.repeatCount = 2;
-    bounceAnimation.autoreverses = YES;
-    bounceAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    [sender.layer addAnimation:bounceAnimation forKey:@"bounce"];
-}
-
-- (IBAction)echoButtonReset:(id)sender
-{
-    NSNumber *echoIndex;
-    echoIndex = [[self.echoRecordButtons allKeysForObject:sender] objectAtIndex:0];
-    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
-    [recorder reset];
-    [self validate];
 }
 
 - (IBAction)save
@@ -176,19 +205,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         valid = NO;
     }
     
-    for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
-        PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
-        PHOREchoRecordButton *button = [self.echoRecordButtons objectForKey:[NSNumber numberWithInt:i]];
-        
-        if (recorder.duration) {
-            button.state = PHORRecordButtonStatePlayback;
-        } else {
-            if (button.state != PHORRecordButtonStateRecord) // if statement prevents deadlock with observeValue:
-                button.state = PHORRecordButtonStateRecord;
+    for (PHOREchoRecorder *recorder in self.echoRecorders) {
+#warning CRASHING WHEN RECORD WORD
+        if (!recorder.duration)
             valid = NO;
-        }
     }
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     
     self.actionButton.enabled = valid;
 }
@@ -210,13 +231,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (IBAction)resetButtonPressed:(UIButton *)sender
 {
-    NSNumber *echoIndex;
-    echoIndex = [[self.resetButtons allKeysForObject:sender] objectAtIndex:0];
+    NSNumber *echoIndex = [[self.resetButtons allKeysForObject:sender] objectAtIndex:0];
     PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
-    PHOREchoRecordButton *button = [self.echoRecordButtons objectForKey:echoIndex];
     [recorder reset];
-    [button setValue:PHORRecordButtonStateRecord];
     [self validate];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:echoIndex inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (IBAction)reply:(UIBarButtonItem *)sender {
@@ -299,94 +318,110 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"child viewWillDisappear start");
     for (PHOREchoRecorder *recorder in [self.echoRecorders allValues])
         [recorder removeObserver:self forKeyPath:@"microphoneLevel"];
     [super viewWillDisappear:animated];
-    NSLog(@"child viewWillDisappear returning");
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    NSLog(@"child viewDidDisappear start");
-    [super viewDidDisappear:animated];
-    NSLog(@"child viewDidDisappear returning");    
 }
 
 #pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return SectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) { // Language, Word, Detail
+    if (section == SectionInfo)
         return 3;
-    } else {
+    else
         return NUMBER_OF_RECORDERS;
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
+    UITextField *textField;
     
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
+    switch ([self cellTypeForRowAtIndexPath:indexPath]) {
+        case CellLanguage:
             cell = [tableView dequeueReusableCellWithIdentifier:@"language"];
             cell.detailTextLabel.text = [Languages nativeDescriptionForLanguage:self.editingLanguageTag];
-        } else if (indexPath.row == 1) { // Word
+            return cell;
+        case CellTitle:
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             self.wordLabel = (UILabel *)[cell viewWithTag:1];
             // self.wordLabel.text; // Automatically set
-            UITextField *textField = (UITextField *)[cell viewWithTag:2];
+            textField = (UITextField *)[cell viewWithTag:2];
             textField.text = self.editingName;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
-        } else /*if (indexPath.row == 2)*/ { // Detail
+            return cell;
+        case CellDetail:
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
             self.detailLabel = (UILabel *)[cell viewWithTag:1];
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
-            UITextField *textField = (UITextField *)[cell viewWithTag:2];
+            textField = (UITextField *)[cell viewWithTag:2];
             textField.text = self.editingDetail;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
-        }
-        
-    } else /*if (indexPath.section == 1)*/ {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"record"];
-        UIImageView *checkbox = (UIImageView *)[cell viewWithTag:1];
-        PHOREchoRecordButton *button = (PHOREchoRecordButton *)[cell viewWithTag:2];
-        UIButton *resetButton = (UIButton *)[cell viewWithTag:3];
-        PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:indexPath.row]];
-        [self.echoRecordButtons setObject:button forKey:[NSNumber numberWithInt:indexPath.row]];
-        [self.resetButtons setObject:resetButton forKey:[NSNumber numberWithInt:indexPath.row]];
-        
-        if (![self.delegate wordDetailController:self canEditWord:self.word]) {
-            button.state = PHORRecordButtonStatePlaybackOnly;
-            checkbox.hidden = YES;
+            return cell;
+        case CellRecording:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"record"];
             
-            [(UIButton *)[cell viewWithTag:3] setHidden:YES];
-        } else if (recorder.duration) {
-            button.state = PHORRecordButtonStatePlayback;
-            [checkbox setImage:[UIImage imageNamed:@"Checkbox checked"]];
+            UIButton *playButton = (UIButton *)[cell viewWithTag:1];
+            FDWaveformView *waveform = (FDWaveformView *)[cell viewWithTag:2];
+            PHOREchoRecordButton *recordButton = (PHOREchoRecordButton *)[cell viewWithTag:3];
+            UIButton *checkbox = (UIButton *)[cell viewWithTag:4];
+            PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:indexPath.row]];
             
-            [(UIButton *)[cell viewWithTag:3] setEnabled:YES];
-            [(UIButton *)[cell viewWithTag:3] setImage:[UIImage imageNamed:@"Checkbox checked"] forState:UIControlStateNormal];
-        } else {
-            if (button.state != PHORRecordButtonStateRecord) // if statement prevents deadlock with observeValue:
-                button.state = PHORRecordButtonStateRecord;
-            [checkbox setImage:[UIImage imageNamed:@"Checkbox empty"]];
+            if (indexPath.row < [self.word.files count]) {
+                Audio *file = [self.word.files objectAtIndex:indexPath.row];
             
-            [(UIButton *)[cell viewWithTag:3] setImage:[UIImage imageNamed:@"Checkbox empty"] forState:UIControlStateNormal];
-            [(UIButton *)[cell viewWithTag:3] setEnabled:NO];
-        }
-        
-        [button setTitle:self.editingName forState:UIControlStateNormal];
+                // Workaround because AVURLAsset needs files with file extensions
+                // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
+                NSFileManager *dfm = [NSFileManager defaultManager];
+                NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+                NSString *tmpPath = [[documentPaths lastObject] stringByAppendingPathComponent:@"tmp.caf"];
+                [dfm removeItemAtPath:tmpPath error:nil];
+                [dfm linkItemAtPath:file.filePath toPath:tmpPath error:nil];
+                waveform.audioURL = [NSURL fileURLWithPath:tmpPath];
+            }
+            
+            
+#warning CRASHED HERE FOR RECORDING A WORD
+            long a = waveform.totalSamples;
+            
+            [playButton addSubview:waveform];
+            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:playButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:waveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
+            
+            [self.playButtons setObject:playButton forKey:[NSNumber numberWithInt:indexPath.row]];
+            [self.waveforms setObject:waveform forKey:[NSNumber numberWithInt:indexPath.row]];
+            [self.recordButtons setObject:recordButton forKey:[NSNumber numberWithInt:indexPath.row]];
+            [self.resetButtons setObject:checkbox forKey:[NSNumber numberWithInt:indexPath.row]];
+            
+            if (![self.delegate wordDetailController:self canEditWord:self.word]) {
+                playButton.hidden = NO;
+                recordButton.hidden = YES;
+                checkbox.hidden = YES;
+            } else if (recorder.duration) {
+                playButton.hidden = NO;
+                recordButton.hidden = YES;
+                checkbox.hidden = NO;
+                [checkbox setImage:[UIImage imageNamed:@"Checkbox checked"] forState:UIControlStateNormal];
+            } else {
+                playButton.hidden = YES;
+                recordButton.hidden = NO;
+                checkbox.hidden = NO;
+
+                [checkbox setImage:[UIImage imageNamed:@"Checkbox empty"] forState:UIControlStateNormal];
+                if (recordButton.state != PHORRecordButtonStateRecord) // if statement prevents deadlock with observeValue:
+                    recordButton.state = PHORRecordButtonStateRecord;
+            }
+            return cell;
     }
-    return cell;
+    assert (0);
+    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

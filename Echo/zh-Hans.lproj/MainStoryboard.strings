@@ -178,7 +178,7 @@
 "dhv-3g-vru.text" = "地点";
 
 /* Class = "IBUINavigationItem"; title = "Home"; ObjectID = "dyf-WY-0FO"; */
-"dyf-WY-0FO.title" = "回家";
+"dyf-WY-0FO.title" = "首页";
 
 /* Class = "IBUILabel"; text = "DESCRIPTION IN USER LANGUAGE"; ObjectID = "gYM-br-z9l"; */
 "gYM-br-z9l.text" = "DESCRIPTION IN USER LANGUAGE";

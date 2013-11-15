@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Word Detail Controller - TITLE-->
@@ -112,18 +112,18 @@
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="record" rowHeight="80" id="M8j-vC-FaY">
                                 <rect key="frame" x="0.0" y="187" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8j-vC-FaY" id="LfF-am-NGM">
+                                <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8j-vC-FaY" id="LfF-am-NGM">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bgr-20-pMw" customClass="PHOREchoRecordButton">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bgr-20-pMw" userLabel="Record" customClass="PHOREchoRecordButton">
                                             <rect key="frame" x="83" y="0.0" width="237" height="79"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="237" id="you-6v-bVk"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
-                                            <state key="normal" title="SOME WORD" image="microphone icon.png">
+                                            <state key="normal" image="microphone icon.png">
                                                 <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -131,11 +131,10 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="echoButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="VRr-s8-kll"/>
-                                                <action selector="echoButtonReset:" destination="1fg-Ph-vAv" eventType="valueChanged" id="Fac-FU-Q8K"/>
+                                                <action selector="recordButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="4fA-G0-Fi7"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqL-1U-HUc" customClass="UIGlossyButton">
+                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqL-1U-HUc" userLabel="Check">
                                             <rect key="frame" x="0.0" y="0.0" width="75" height="79"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="79" id="OO4-TK-f7N"/>
@@ -150,40 +149,40 @@
                                             <state key="highlighted">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="backgroundOpacity" value="0.7"/>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="innerBorderWidth">
-                                                    <integer key="value" value="5"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonBorderWidth">
-                                                    <integer key="value" value="0"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="buttonCornerRadius">
-                                                    <integer key="value" value="12"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="gradientType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="extraShadingType">
-                                                    <integer key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                    <color key="value" white="0.50373517335766427" alpha="1" colorSpace="calibratedWhite"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="resetButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="vP1-8l-O0a"/>
+                                                <action selector="resetButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="Q0I-2i-MXq"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qzH-9G-ZDk" userLabel="Playback">
+                                            <rect key="frame" x="83" y="0.0" width="237" height="79"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="speaker icon.png"/>
+                                            <connections>
+                                                <action selector="playButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="bld-EK-0tO"/>
+                                            </connections>
+                                        </button>
+                                        <view userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="id5-HX-kH2" customClass="FDWaveformView">
+                                            <rect key="frame" x="117" y="0.0" width="203" height="79"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="iqL-1U-HUc" secondAttribute="trailing" constant="8" id="2jg-eU-AV1"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="qzH-9G-ZDk" secondAttribute="top" id="CxA-PS-KiJ"/>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="LfF-am-NGM" secondAttribute="bottom" id="D46-DN-jGI"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="bottom" secondItem="id5-HX-kH2" secondAttribute="bottom" id="EcE-a1-Ip9"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="qzH-9G-ZDk" secondAttribute="leading" id="KYz-hl-Z7p"/>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="LfF-am-NGM" secondAttribute="top" id="Kd2-nN-0ln"/>
                                         <constraint firstItem="iqL-1U-HUc" firstAttribute="leading" secondItem="LfF-am-NGM" secondAttribute="leading" id="VbH-2B-dkr"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="top" secondItem="id5-HX-kH2" secondAttribute="top" id="ZMR-Zf-fMJ"/>
                                         <constraint firstItem="iqL-1U-HUc" firstAttribute="top" secondItem="LfF-am-NGM" secondAttribute="top" id="d1G-hM-zQI"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="qzH-9G-ZDk" secondAttribute="bottom" id="dkb-Bs-aVS"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="trailing" secondItem="id5-HX-kH2" secondAttribute="trailing" id="fFt-6z-d0U"/>
                                         <constraint firstItem="iqL-1U-HUc" firstAttribute="bottom" secondItem="LfF-am-NGM" secondAttribute="bottom" id="fK1-AM-YXi"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="leading" secondItem="id5-HX-kH2" secondAttribute="leading" constant="-34" placeholder="YES" id="iBv-op-pMX"/>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="LfF-am-NGM" secondAttribute="trailing" id="oY9-Co-2Tb"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="qzH-9G-ZDk" secondAttribute="trailing" id="rX6-Z1-cE8"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -216,7 +215,7 @@
             <objects>
                 <tableViewController title="Language" id="BTL-qk-7lt" customClass="LanguageSelectController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vT0-Yh-lpD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2025,7 +2024,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="kuh-V1-luU"/>
         <segue reference="cjs-Y6-M9H"/>
-        <segue reference="hRM-D9-ZZF"/>
+        <segue reference="xS9-ES-SEq"/>
         <segue reference="yax-pl-PTe"/>
     </inferredMetricsTieBreakers>
 </document>

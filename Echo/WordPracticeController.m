@@ -212,9 +212,7 @@
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.audioPlayer.pan = 0;
     [self.audioPlayer play];
-    
-    self.echoRecordButton.state = PHORRecordButtonStateRecord;
-    
+        
     [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:self.audioPlayer.duration];
      */
 }

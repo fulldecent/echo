@@ -79,6 +79,12 @@
                                          value:@"2.8"
                                   isRepeatable:NO];
     
+    
+    // http://stackoverflow.com/questions/14770022/nsurlcache-crashes-under-ios-6-1
+    // TODO: temporary
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
+    
     return YES;
 }
 

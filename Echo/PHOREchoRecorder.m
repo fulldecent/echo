@@ -296,9 +296,6 @@
 
 - (void)dealloc
 {
-//    [self.audioRecorder stop];
-//    [self.audioRecorder deleteRecording];
-    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:[self.temporaryAudioFile absoluteString]]) {
         //NSError *error;

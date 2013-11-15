@@ -156,6 +156,7 @@
     
     NSError *error = nil;
     AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
+    if (error) return;
     AVAssetTrack *songTrack = [songAsset.tracks objectAtIndex:0];
     NSDictionary *outputSettingsDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                         [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
