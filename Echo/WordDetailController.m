@@ -9,7 +9,6 @@
 #import "WordDetailController.h"
 #import "Languages.h"
 #import <AVFoundation/AVFoundation.h>
-#import "PHOREchoRecordButton.h"
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
@@ -18,6 +17,7 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 #import "FDWaveformView.h"
+#import "F3BarGauge.h"
 
 #warning TODO: iVar should be editingWord, then have a save method??
 
@@ -31,6 +31,7 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 @property (strong, nonatomic) UILabel *wordLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
 @property (strong, nonatomic) NSMutableDictionary *recordButtons;
+@property (strong, nonatomic) NSMutableDictionary *recordGuages;
 @property (strong, nonatomic) NSMutableDictionary *playButtons;
 @property (strong, nonatomic) NSMutableDictionary *waveforms;
 @property (strong, nonatomic) NSMutableDictionary *resetButtons;
@@ -114,6 +115,12 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
     return _recordButtons;
 }
 
+- (NSMutableDictionary *)recordGuages
+{
+    if (!_recordGuages) _recordGuages = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
+    return _recordGuages;
+}
+
 - (NSMutableDictionary *)waveforms
 {
     if (!_waveforms) _waveforms = [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_RECORDERS];
@@ -143,14 +150,12 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     NSNumber *echoIndex;
-    if ([object isKindOfClass:[PHOREchoRecordButton class]])
-        echoIndex = [[self.recordButtons allKeysForObject:object] objectAtIndex:0];
-    else if ([object isKindOfClass:[PHOREchoRecorder class]]) 
+    if ([object isKindOfClass:[PHOREchoRecorder class]])
         echoIndex = [[self.echoRecorders allKeysForObject:object] objectAtIndex:0];
     
     if ([keyPath isEqualToString: @"microphoneLevel"]) {
-        PHOREchoRecordButton *button = [self.recordButtons objectForKey:echoIndex];
-        button.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+        F3BarGauge *guage = [self.recordGuages objectForKey:echoIndex];
+        guage.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
 NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKey]);
     }         
 }
@@ -218,8 +223,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 {
     self.editingName = sender.text;
     self.title = sender.text;
-//    for (PHOREchoRecordButton *button in [self.echoRecordButtons allValues])
-//        [button setTitle:sender.text forState:UIControlStateNormal];
     [self validate];
 }
 
@@ -371,7 +374,8 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             
             UIButton *playButton = (UIButton *)[cell viewWithTag:1];
             FDWaveformView *waveform = (FDWaveformView *)[cell viewWithTag:2];
-            PHOREchoRecordButton *recordButton = (PHOREchoRecordButton *)[cell viewWithTag:3];
+            UIButton *recordButton = (UIButton *)[cell viewWithTag:3];
+            F3BarGauge *recordGuage = (F3BarGauge *)[cell viewWithTag:10];
             UIButton *checkbox = (UIButton *)[cell viewWithTag:4];
             PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:indexPath.row]];
             
@@ -398,6 +402,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             [self.playButtons setObject:playButton forKey:[NSNumber numberWithInt:indexPath.row]];
             [self.waveforms setObject:waveform forKey:[NSNumber numberWithInt:indexPath.row]];
             [self.recordButtons setObject:recordButton forKey:[NSNumber numberWithInt:indexPath.row]];
+            [self.recordGuages setObject:recordGuage forKey:[NSNumber numberWithInt:indexPath.row]];
             [self.resetButtons setObject:checkbox forKey:[NSNumber numberWithInt:indexPath.row]];
             
             if (![self.delegate wordDetailController:self canEditWord:self.word]) {
@@ -415,8 +420,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
                 checkbox.hidden = NO;
 
                 [checkbox setImage:[UIImage imageNamed:@"Checkbox empty"] forState:UIControlStateNormal];
-                if (recordButton.state != PHORRecordButtonStateRecord) // if statement prevents deadlock with observeValue:
-                    recordButton.state = PHORRecordButtonStateRecord;
             }
             return cell;
     }

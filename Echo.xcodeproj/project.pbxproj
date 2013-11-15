@@ -72,7 +72,6 @@
 		77CB51E915683C2F00BBD4FC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CB51E815683C2F00BBD4FC /* star.png */; };
 		77D8AD0F157AB589001E2E25 /* social.png in Resources */ = {isa = PBXBuildFile; fileRef = 77D8AD0D157AB589001E2E25 /* social.png */; };
 		77D8AD10157AB589001E2E25 /* social@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77D8AD0E157AB589001E2E25 /* social@2x.png */; };
-		77D8AD15157ABE53001E2E25 /* PHOREchoRecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8AD12157ABE53001E2E25 /* PHOREchoRecordButton.m */; };
 		77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */; };
 		77D8AD1D157ABF1A001E2E25 /* microphone icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77D8AD17157ABF1A001E2E25 /* microphone icon@2x.png */; };
 		77D8AD1E157ABF1A001E2E25 /* microphone icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 77D8AD18157ABF1A001E2E25 /* microphone icon.png */; };
@@ -192,8 +191,6 @@
 		77CB51E815683C2F00BBD4FC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		77D8AD0D157AB589001E2E25 /* social.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = social.png; sourceTree = "<group>"; };
 		77D8AD0E157AB589001E2E25 /* social@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "social@2x.png"; sourceTree = "<group>"; };
-		77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHOREchoRecordButton.h; sourceTree = "<group>"; };
-		77D8AD12157ABE53001E2E25 /* PHOREchoRecordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHOREchoRecordButton.m; sourceTree = "<group>"; };
 		77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHOREchoRecorder.h; sourceTree = "<group>"; };
 		77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHOREchoRecorder.m; sourceTree = "<group>"; };
 		77D8AD17157ABF1A001E2E25 /* microphone icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphone icon@2x.png"; sourceTree = "<group>"; };
@@ -363,8 +360,6 @@
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
-				77D8AD11157ABE53001E2E25 /* PHOREchoRecordButton.h */,
-				77D8AD12157ABE53001E2E25 /* PHOREchoRecordButton.m */,
 				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
 				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
 				77DDC70E156DD81F00568CDE /* Classes */,
@@ -647,7 +642,6 @@
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
 				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
-				77D8AD15157ABE53001E2E25 /* PHOREchoRecordButton.m in Sources */,
 				77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */,
 				77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */,
 				77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */,

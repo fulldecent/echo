@@ -34,7 +34,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"microphoneLevel"]) {
-        self.recordButton.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+        self.recordGuage.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
     }  
 }
 
@@ -234,6 +234,8 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.trainingSpeakerButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trainingWaveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
     [self.playbackButton addSubview:self.playbackWaveform];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.playbackButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.playbackWaveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
+    [self.recordButton addSubview:self.recordGuage];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.recordButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.recordGuage attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
     
     NSMutableArray *rightBarButtonItems = [[NSMutableArray alloc] init];
     if ([self.delegate wordPracticeShouldShowNextButton:self]) {
