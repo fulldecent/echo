@@ -116,7 +116,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bgr-20-pMw" userLabel="Record" customClass="PHOREchoRecordButton">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bgr-20-pMw" userLabel="Record">
                                             <rect key="frame" x="83" y="0.0" width="237" height="79"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="237" id="you-6v-bVk"/>
@@ -134,11 +134,15 @@
                                                 <action selector="recordButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="4fA-G0-Fi7"/>
                                             </connections>
                                         </button>
+                                        <view tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FuK-5I-6cK" userLabel="Record guage" customClass="F3BarGauge">
+                                            <rect key="frame" x="133" y="0.0" width="187" height="79"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
                                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqL-1U-HUc" userLabel="Check">
                                             <rect key="frame" x="0.0" y="0.0" width="75" height="79"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="79" id="OO4-TK-f7N"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="UdL-XY-o3D"/>
                                                 <constraint firstAttribute="width" constant="75" id="lLj-o5-VS8"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -162,7 +166,7 @@
                                             </connections>
                                         </button>
                                         <view userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="id5-HX-kH2" customClass="FDWaveformView">
-                                            <rect key="frame" x="117" y="0.0" width="203" height="79"/>
+                                            <rect key="frame" x="133" y="0.0" width="187" height="79"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -177,10 +181,14 @@
                                         <constraint firstItem="iqL-1U-HUc" firstAttribute="leading" secondItem="LfF-am-NGM" secondAttribute="leading" id="VbH-2B-dkr"/>
                                         <constraint firstItem="qzH-9G-ZDk" firstAttribute="top" secondItem="id5-HX-kH2" secondAttribute="top" id="ZMR-Zf-fMJ"/>
                                         <constraint firstItem="iqL-1U-HUc" firstAttribute="top" secondItem="LfF-am-NGM" secondAttribute="top" id="d1G-hM-zQI"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="FuK-5I-6cK" secondAttribute="leading" constant="-50" placeholder="YES" id="dhu-if-d6f"/>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="qzH-9G-ZDk" secondAttribute="bottom" id="dkb-Bs-aVS"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="FuK-5I-6cK" secondAttribute="trailing" id="eZL-1T-NCf"/>
                                         <constraint firstItem="qzH-9G-ZDk" firstAttribute="trailing" secondItem="id5-HX-kH2" secondAttribute="trailing" id="fFt-6z-d0U"/>
                                         <constraint firstItem="iqL-1U-HUc" firstAttribute="bottom" secondItem="LfF-am-NGM" secondAttribute="bottom" id="fK1-AM-YXi"/>
-                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="leading" secondItem="id5-HX-kH2" secondAttribute="leading" constant="-34" placeholder="YES" id="iBv-op-pMX"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="leading" secondItem="id5-HX-kH2" secondAttribute="leading" constant="-50" placeholder="YES" id="iBv-op-pMX"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="FuK-5I-6cK" secondAttribute="top" id="nNN-wI-z1f"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="FuK-5I-6cK" secondAttribute="bottom" id="nr1-0b-zCK"/>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="LfF-am-NGM" secondAttribute="trailing" id="oY9-Co-2Tb"/>
                                         <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="qzH-9G-ZDk" secondAttribute="trailing" id="rX6-Z1-cE8"/>
                                     </constraints>

@@ -147,6 +147,14 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
     [self makeItBounce:sender];
 }
 
+- (IBAction)recordButtonPressed:(id)sender
+{
+    NSNumber *echoIndex = [[self.recordButtons allKeysForObject:sender] objectAtIndex:0];
+    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
+    [recorder record];
+    [self makeItBounce:sender];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     NSNumber *echoIndex;
@@ -210,10 +218,22 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         valid = NO;
     }
     
-    for (PHOREchoRecorder *recorder in self.echoRecorders) {
-#warning CRASHING WHEN RECORD WORD
-        if (!recorder.duration)
+    for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
+        PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
+        UIButton *recordButton = [self.recordButtons objectForKey:[NSNumber numberWithInt:i]];
+        FDWaveformView *waveform = [self.waveforms objectForKey:[NSNumber numberWithInt:i]];
+        UIButton *playButton = [self.playButtons objectForKey:[NSNumber numberWithInt:i]];
+        UIButton *checkButtons = [self.resetButtons objectForKey:[NSNumber numberWithInt:i]];
+        if (!recorder || !recorder.duration) {
             valid = NO;
+            recordButton.hidden = NO;
+            playButton.hidden = YES;
+            checkButtons.hidden = NO;
+        } else {
+            recordButton.hidden = YES;
+            playButton.hidden = NO;
+            checkButtons.hidden = NO;
+        }
     }
     
     self.actionButton.enabled = valid;
@@ -394,10 +414,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             
             
 #warning CRASHED HERE FOR RECORDING A WORD
-            long a = waveform.totalSamples;
             
             [playButton addSubview:waveform];
             [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:playButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:waveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
+            [recordButton addSubview:recordGuage];
+            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:recordButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:recordGuage attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
             
             [self.playButtons setObject:playButton forKey:[NSNumber numberWithInt:indexPath.row]];
             [self.waveforms setObject:waveform forKey:[NSNumber numberWithInt:indexPath.row]];
