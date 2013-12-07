@@ -27,6 +27,7 @@ Minor release process (x.#.0)
 ====
 
  - Code coverage test, mark each function with a breakpoint and run to get to all breakpoints
+ - Fully check that the app works in Chinese
 
 
 Distribute after a release
