@@ -502,6 +502,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         Word *word = [[Word alloc] init];
         word.languageTag = me.learningLanguageTag;
         controller.word = word;
+        
+        UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    target:controller.navigationItem.rightBarButtonItem.target
+                                                                                   action:controller.navigationItem.rightBarButtonItem.action];
+        controller.navigationItem.rightBarButtonItem = newButton;
+        controller.actionButton = newButton;
+        [controller validate];
     } else if ([segue.destinationViewController isKindOfClass:[WebViewController class]]) {
         WebViewController *controller = segue.destinationViewController;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
