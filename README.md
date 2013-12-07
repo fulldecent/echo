@@ -10,7 +10,7 @@ Development goal
 ====
 Make a release every day
 
-Release process
+Point release process (x.x.#)
 ====
 ```
   pod update
@@ -22,6 +22,12 @@ Release process
   git tag -a "v$VERSION" -m "Release v$VERSION"
   git push --tags
 ```
+
+Minor release process (x.#.0) 
+====
+
+ - Code coverage test, mark each function with a breakpoint and run to get to all breakpoints
+
 
 Distribute after a release
 ====
