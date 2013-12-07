@@ -12,8 +12,6 @@
 #import "Audio.h"
 #import "NSData+Base64.h"
 
-#warning TODO: USE SSL Pinning
-
 @interface NetworkManager() <MBProgressHUDDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *requestManager;

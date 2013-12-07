@@ -26,8 +26,6 @@
 @synthesize refreshControl = _refreshControl;
 @synthesize currentWord = _currentWord;
 
-#warning LOOK AT USING UIWebView+AFNetworking HERE
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

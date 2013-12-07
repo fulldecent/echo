@@ -19,8 +19,6 @@
 #import "FDWaveformView.h"
 #import "F3BarGauge.h"
 
-#warning TODO: iVar should be editingWord, then have a save method??
-
 #define NUMBER_OF_RECORDERS 3
 
 typedef enum {SectionInfo, SectionRecordings, SectionCount} Sections;
@@ -221,7 +219,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
         PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
         UIButton *recordButton = [self.recordButtons objectForKey:[NSNumber numberWithInt:i]];
-        FDWaveformView *waveform = [self.waveforms objectForKey:[NSNumber numberWithInt:i]];
         UIButton *playButton = [self.playButtons objectForKey:[NSNumber numberWithInt:i]];
         UIButton *checkButtons = [self.resetButtons objectForKey:[NSNumber numberWithInt:i]];
         if (!recorder || !recorder.duration) {
