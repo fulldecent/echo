@@ -10,7 +10,7 @@ Development goal
 ====
 Make a release every day
 
-Release process
+Point release process (x.x.#)
 ====
 ```
   pod update
@@ -22,6 +22,13 @@ Release process
   git tag -a "v$VERSION" -m "Release v$VERSION"
   git push --tags
 ```
+
+Minor release process (x.#.0) 
+====
+
+ - Code coverage test, mark each function with a breakpoint and run to get to all breakpoints
+ - Fully check that the app works in Chinese
+
 
 Distribute after a release
 ====
@@ -58,3 +65,9 @@ ADD TOKENS
 
 Thank you,
 Will
+
+Notes
+====
+
+ - Competition
+   - https://itunes.apple.com/mz/app/pocket3-chinese/id346703961?mt=8
