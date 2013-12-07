@@ -65,3 +65,9 @@ ADD TOKENS
 
 Thank you,
 Will
+
+Notes
+====
+
+ - Competition
+   - https://itunes.apple.com/mz/app/pocket3-chinese/id346703961?mt=8
