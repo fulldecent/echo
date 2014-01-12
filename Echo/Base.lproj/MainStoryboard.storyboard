@@ -732,10 +732,10 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gradient.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Ah-up-E1a" userLabel="Background">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" image="gradient.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Ah-up-E1a" userLabel="Background">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                             </imageView>
-                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-HF-y3t" userLabel="Training button">
+                            <button opaque="NO" tag="10" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-HF-y3t" userLabel="Training button">
                                 <rect key="frame" x="20" y="20" width="280" height="112"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" image="speaker icon.png">
@@ -750,7 +750,7 @@
                                     <action selector="trainingButtonPressed" destination="3" eventType="touchUpInside" id="tzA-mY-Rr7"/>
                                 </connections>
                             </button>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-b3-kJA" userLabel="Training waveform" customClass="FDWaveformView">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-b3-kJA" userLabel="Training waveform" customClass="FDWaveformView">
                                 <rect key="frame" x="100" y="20" width="200" height="112"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -758,7 +758,7 @@
                                     <constraint firstAttribute="width" constant="200" placeholder="YES" id="WbZ-gF-CpC"/>
                                 </constraints>
                             </view>
-                            <button hidden="YES" opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="5B0-j6-h7B" userLabel="Playback button">
+                            <button hidden="YES" opaque="NO" tag="10" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="5B0-j6-h7B" userLabel="Playback button">
                                 <rect key="frame" x="20" y="284" width="280" height="112"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
@@ -775,7 +775,7 @@
                                     <outletCollection property="gestureRecognizers" destination="sLZ-Xh-wDd" appends="YES" id="VYW-G6-LQP"/>
                                 </connections>
                             </button>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uLl-gl-D01" userLabel="Playback waveform" customClass="FDWaveformView">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uLl-gl-D01" userLabel="Playback waveform" customClass="FDWaveformView">
                                 <rect key="frame" x="140" y="284" width="160" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -783,7 +783,7 @@
                                     <constraint firstAttribute="width" constant="160" placeholder="YES" id="GGQ-8b-zVz"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="vfQ-K9-VSQ" userLabel="Record button">
+                            <button opaque="NO" tag="10" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="vfQ-K9-VSQ" userLabel="Record button">
                                 <rect key="frame" x="20" y="284" width="280" height="112"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" image="microphone icon.png">
@@ -797,18 +797,18 @@
                                     <action selector="recordButtonPressed" destination="3" eventType="touchUpInside" id="Mx6-LZ-11N"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uc0-KQ-CWF" userLabel="Word text box">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uc0-KQ-CWF" userLabel="Word text box">
                                 <rect key="frame" x="20" y="152" width="280" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMw-2Y-imc" userLabel="Word title">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMw-2Y-imc" userLabel="Word title">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="56"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2h4-zK-NNJ" userLabel="Word detail">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2h4-zK-NNJ" userLabel="Word detail">
                                         <rect key="frame" x="0.0" y="56" width="280" height="56"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -828,7 +828,7 @@
                                     <constraint firstAttribute="trailing" secondItem="2h4-zK-NNJ" secondAttribute="trailing" id="vTj-Nz-Xvv"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qhx-Pv-Lff" userLabel="Workflow box">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qhx-Pv-Lff" userLabel="Workflow box">
                                 <rect key="frame" x="340" y="152" width="279" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -951,7 +951,7 @@
                                     <constraint firstItem="hpH-bY-sKv" firstAttribute="width" secondItem="kpQ-R0-iZi" secondAttribute="width" id="xPf-XQ-vWD"/>
                                 </constraints>
                             </view>
-                            <view userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5PG-aj-8rQ" userLabel="Recording guage" customClass="F3BarGauge">
+                            <view userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5PG-aj-8rQ" userLabel="Recording guage" customClass="F3BarGauge">
                                 <rect key="frame" x="100" y="284" width="200" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
