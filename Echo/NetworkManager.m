@@ -87,7 +87,7 @@
 }
 
 - (void)getLessonWithID:(NSNumber *)lessonID asPreviewOnly:(BOOL)preview
-              onSuccess:(void(^)(Lesson *lesson))successBlock
+              onSuccess:(void(^)(Lesson *lesson, NSNumber *modifiedTime))successBlock
               onFailure:(void(^)(NSError *error))failureBlock
 {
     NSString *relativePath;
@@ -95,11 +95,10 @@
         relativePath = [NSString stringWithFormat:@"lessons/%@.json?preview=yes", lessonID];
     else
         relativePath = [NSString stringWithFormat:@"lessons/%@.json", lessonID];
-    AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         Lesson *lesson = [Lesson lessonWithDictionary:responseObject];
-        lesson.version = [NSNumber numberWithInt:0];
         if (successBlock)
-            successBlock(lesson);
+            successBlock(lesson, [responseObject objectForKey:@"modified"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -115,7 +114,6 @@
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *lessons = [NSMutableArray array];
         for (id item in (NSArray *)responseObject) {
-#warning DOES THIS WORK?
             NSData *data = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
             [lessons addObject:[Lesson lessonWithJSON:data]];
         }
@@ -226,8 +224,8 @@
         if (!lesson.lessonID)
             continue;
         [lessonIDsToCheck addObject:lesson.lessonID];
-        if (lesson.serverVersion)
-            [lessonTimestampsToCheck addObject:lesson.serverVersion];
+        if (lesson.serverTimeOfLastCompletedSync)
+            [lessonTimestampsToCheck addObject:lesson.serverTimeOfLastCompletedSync];
         else
             [lessonTimestampsToCheck addObject:[NSNumber numberWithInt:0]];
     }
@@ -285,13 +283,6 @@
             failureBlock(error);
     }];
     [request start];
-}
-
-- (void)deleteWordWithID:(NSNumber *)wordID
-               onSuccess:(void(^)())successBlock
-               onFailure:(void(^)(NSError *error))failureBlock
-{
-#warning TODO: do this
 }
 
 - (void)postWord:(Word *)word AsPracticeWithFilesInPath:(NSString *)filePath
@@ -429,9 +420,9 @@
 {
     for (Lesson *lessonToSync in lessons) {
         // Which direction is this motherfucter syncing?
-        if (lessonToSync.isNewerThanServer)
+        if (lessonToSync.localChangesSinceLastSync)
             [self pushLessonWithFiles:lessonToSync withProgress:progressBlock onFailure:nil];
-        else if (lessonToSync.isOlderThanServer || [[lessonToSync listOfMissingFiles] count])
+        else if (lessonToSync.remoteChangesSinceLastSync || [[lessonToSync listOfMissingFiles] count])
             [self pullLessonWithFiles:lessonToSync withProgress:progressBlock onFailure:nil];
         else {
             NSLog(@"No which way for this lesson to sync: %@", lessonToSync);
@@ -445,7 +436,7 @@
          withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progressBlock
             onFailure:(void(^)(NSError *error))failureBlock
 {
-    [self getLessonWithID:lessonToSync.lessonID asPreviewOnly:NO onSuccess:^(Lesson *retreivedLesson)
+    [self getLessonWithID:lessonToSync.lessonID asPreviewOnly:NO onSuccess:^(Lesson *retreivedLesson, NSNumber *modifiedTime)
      {
          [lessonToSync setToLesson:retreivedLesson];
          NSMutableArray *neededAudios = [[NSMutableArray alloc] init];
@@ -455,7 +446,7 @@
          __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededAudios count]+1];
          
          if ([neededAudios count] == 0)
-             lessonToSync.version = retreivedLesson.serverVersion;
+             lessonToSync.serverTimeOfLastCompletedSync = modifiedTime;
          if (progressBlock)
              progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
          
@@ -474,7 +465,7 @@
                  
                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
                      if ([lessonProgress isEqualToNumber:totalLessonProgress])
-                         lessonToSync.version = retreivedLesson.serverVersion;
+                         lessonToSync.serverTimeOfLastCompletedSync = modifiedTime;
                      if (progressBlock)
                          progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
                  }
@@ -497,8 +488,10 @@
          __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
          __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededWordAndFileCodes count]+1];
          lessonToSync.lessonID = newLessonID;
-         if ([neededWordAndFileCodes count] == 0)
-             lessonToSync.version = lessonToSync.serverVersion = newServerVersion;
+         if ([neededWordAndFileCodes count] == 0) {
+             lessonToSync.serverTimeOfLastCompletedSync = newServerVersion;
+             lessonToSync.localChangesSinceLastSync = NO;
+         }
          if (progressBlock)
              progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
 
@@ -514,8 +507,10 @@
               {
                   if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
                       lessonProgress = [NSNumber numberWithInt:[lessonProgress integerValue]+1];
-                      if ([lessonProgress isEqualToNumber:totalLessonProgress])
-                          lessonToSync.version = lessonToSync.serverVersion = newServerVersion;
+                      if ([lessonProgress isEqualToNumber:totalLessonProgress]) {
+                          lessonToSync.serverTimeOfLastCompletedSync = newServerVersion;
+                          lessonToSync.localChangesSinceLastSync = NO;
+                      }
                       if (progressBlock)
                           progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
                       //TODO: Could do even more accurate progress reporting if we wanted

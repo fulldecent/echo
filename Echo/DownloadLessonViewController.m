@@ -84,7 +84,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[lesson.serverVersion doubleValue]];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[lesson.serverTimeOfLastCompletedSync doubleValue]];
     NSString *formattedDateString = [dateFormatter stringFromDate:date];
     [(UILabel *)[cell viewWithTag:3] setText:formattedDateString];
     if ([lesson.numLikes integerValue]) {

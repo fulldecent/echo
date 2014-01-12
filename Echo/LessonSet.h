@@ -22,6 +22,6 @@
 - (void)deleteLessonAndStopSharing:(Lesson *)lesson
                          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure;
 - (void)addOrUpdateLesson:(Lesson *)lesson;
-- (void)setServerVersionsForLessonsWithIDs:(NSDictionary *)mapping; // NSNumber* -> NSNumber*
+- (void)setRemoteUpdatesForLessonsWithIDs:(NSArray *)newLessonIDs; // NSNumbers of lesson IDs
 
 @end

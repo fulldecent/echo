@@ -50,7 +50,7 @@
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
-        if (lesson.isShared && (lesson.isNewerThanServer || lesson.isOlderThanServer)) {
+        if (lesson.localChangesSinceLastSync || lesson.remoteChangesSinceLastSync) {
             [staleLessons addObject:lesson];
             [self.lessonTransferProgress setObject:[NSNumber numberWithInt:0] forKey:[NSValue valueWithNonretainedObject:lesson]];
             if (progress)
@@ -130,21 +130,11 @@
     [self writeToDisk];
 }
 
-- (NSUInteger)countOfLessonsNeedingSync
+- (void)setRemoteUpdatesForLessonsWithIDs:(NSArray *)newLessonIDs
 {
-    NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons)
-        if (!lesson.isShared && (lesson.isNewerThanServer || lesson.isOlderThanServer))
-            [staleLessons addObject:lesson];
-    return staleLessons.count;
-}
-
-- (void)setServerVersionsForLessonsWithIDs:(NSDictionary *)mapping
-{
-    NSNumber *serverVersion;
-    for (Lesson *lesson in self.lessons)
-        if ((serverVersion = (NSNumber *)[mapping objectForKey:lesson.lessonID]))
-            lesson.serverVersion = serverVersion;
+        if ([newLessonIDs containsObject:lesson.lessonID])
+            lesson.remoteChangesSinceLastSync = YES;
     [self writeToDisk];
 }
 

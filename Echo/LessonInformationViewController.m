@@ -55,7 +55,7 @@
     self.lesson.name = self.editingName;
     self.lesson.detail = self.editingDetail;
     if (self.lesson.isShared)
-        self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+        self.lesson.localChangesSinceLastSync = YES;
     [self.delegate lessonInformationView:self didSaveLesson:self.lesson];
 }
 

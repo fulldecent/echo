@@ -16,8 +16,9 @@
 @property (strong, nonatomic) NSString *languageTag;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *detail;
-@property (strong, nonatomic) NSNumber *version;
-@property (strong, nonatomic) NSNumber *serverVersion;
+@property (strong, nonatomic) NSNumber *serverTimeOfLastCompletedSync;
+@property (nonatomic) BOOL localChangesSinceLastSync;
+@property (nonatomic) BOOL remoteChangesSinceLastSync;
 @property (strong, nonatomic) NSArray *words;
 @property (strong, nonatomic) NSNumber *userID;
 @property (strong, nonatomic) NSString *userName;
@@ -35,8 +36,6 @@
 - (Word *)wordWithCode:(NSString *)wordCode;
 - (Word *)wordWithCode:(NSString *)wordCode translatedTo:(NSString *)langTag;
 
-- (BOOL)isOlderThanServer;
-- (BOOL)isNewerThanServer;
 - (BOOL)isByCurrentUser;
 - (BOOL)isShared;
 

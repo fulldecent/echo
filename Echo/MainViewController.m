@@ -63,8 +63,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                          messagesSinceID:[defaults objectForKey:@"lastMessageSeen"]
                                onSuccess:^(NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages)
      {
-
-         [self.lessonSet setServerVersionsForLessonsWithIDs:lessonsIDsWithNewServerVersions];
+         [self.lessonSet setRemoteUpdatesForLessonsWithIDs:[lessonsIDsWithNewServerVersions allKeys]];
          [defaults setObject:numNewLessons forKey:@"numNewLessons"];
          [defaults setObject:numNewMessages forKey:@"numNewMessages"];
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
@@ -151,10 +150,17 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case SectionLessons:
             if (indexPath.row < self.lessonSet.lessons.count) {
                 Lesson *lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
-                if ([self.lessonSet transferProgressForLesson:lesson] && lesson.isOlderThanServer)
-                    return CellLessonDownload;
-                else if ([self.lessonSet transferProgressForLesson:lesson])
-                    return CellLessonUpload;
+                if ([self.lessonSet transferProgressForLesson:lesson]) {
+                    // COPY PASTE THIS FROM NETWORKMANAGER.M TO MAKE SURE IT'S RIGHT
+                    if (lesson.localChangesSinceLastSync)
+                        return CellLessonUpload;
+                    else
+//                        if (lesson.remoteChangesSinceLastSync || [[lesson listOfMissingFiles] count])
+                        return CellLessonDownload;
+//                    else {
+//                        NSLog(@"No which way for this lesson to sync: %@", lessonToSync);
+//                    }
+                }
                 else if (lesson.isByCurrentUser)
                     return CellLessonEditable;
                 else
@@ -338,7 +344,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             cell.textLabel.text = lesson.name;
             if (lesson.isShared)
-                //TODO: make this "X people now using"
                 cell.detailTextLabel.text = @"Shared online";
             else
                 cell.detailTextLabel.text = @"Not yet shared online";
@@ -592,7 +597,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson
 {
-    lesson.version = [NSNumber numberWithInt:0];
+    lesson.remoteChangesSinceLastSync = YES;
     [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){

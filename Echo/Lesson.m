@@ -13,25 +13,15 @@
 #import "Profile.h"
 
 @implementation Lesson
-@synthesize lessonID = _lessonID;
-@synthesize lessonCode = _lessonCode;
-@synthesize languageTag = _languageTag;
-@synthesize name = _name;
-@synthesize detail = _detail;
-@synthesize version = _version;
-@synthesize serverVersion = _serverVersion;
-@synthesize words = _words;
-@synthesize userID = _userID;
-@synthesize userName = _userName;
 
 #define kLessonID @"lessonID"
 #define kLessonCode @"lessonCode"
 #define kLanguageTag @"languageTag"
 #define kName @"name"
 #define kDetail @"detail"
-#define kVersion @"version"
-#define kServerVersion @"serverVersion"
-#define kUpdated @"updated"
+#define kServerTimeOfLastCompletedSync @"serverTimeOfLastCompletedSync"
+#define kLocalChangesSinceLastSync @"localChangesSinceLastSync"
+#define kRemoteChangesSinceLastSync @"remoteChangesSinceLastSync"
 #define kWords @"words"
 #define kLikes @"likes"
 #define kFlags @"flags"
@@ -83,10 +73,6 @@
         self.name = lesson.name;
     if (lesson.detail)
         self.detail = lesson.detail;
-    if (lesson.version)
-        self.version = lesson.version;
-    if (lesson.serverVersion)
-        self.serverVersion = lesson.serverVersion;
     if (lesson.userID)
         self.userID = lesson.userID;
     if (lesson.userName)
@@ -153,21 +139,6 @@
     return retval;
 }
 
-- (BOOL)isOlderThanServer
-{
-    return [self.version integerValue] < [self.serverVersion integerValue];
-}
-
-- (BOOL)isNewerThanServer
-{
-    return [self.version integerValue] > [self.serverVersion integerValue] || [self.serverVersion integerValue] == 0;
-}
-
-- (BOOL)isUsable
-{
-    return [self.lessonCode length] > 0 || [self.version integerValue] > 0;
-}
-
 - (BOOL)isByCurrentUser
 {
     Profile *me = [Profile currentUserProfile];
@@ -176,7 +147,7 @@
 
 - (BOOL)isShared
 {
-    return [self.lessonID integerValue] || [self.version integerValue];
+    return self.serverTimeOfLastCompletedSync.integerValue;
 }
 
 - (NSNumber *)portionComplete
@@ -229,12 +200,12 @@
         } else
             retval.detail = [packed objectForKey:kDetail];
     }
-    if ([packed objectForKey:kVersion])
-        retval.version = [packed objectForKey:kVersion];
-    if ([packed objectForKey:kServerVersion])
-        retval.serverVersion = [packed objectForKey:kServerVersion];
-    if ([packed objectForKey:kUpdated])
-        retval.serverVersion = [packed objectForKey:kUpdated];
+    if ([packed objectForKey:kServerTimeOfLastCompletedSync])
+        retval.serverTimeOfLastCompletedSync = [packed objectForKey:kServerTimeOfLastCompletedSync];
+    if ([packed objectForKey:kLocalChangesSinceLastSync])
+        retval.localChangesSinceLastSync = [(NSNumber *)[packed objectForKey:kLocalChangesSinceLastSync] boolValue];
+    if ([packed objectForKey:kRemoteChangesSinceLastSync])
+        retval.remoteChangesSinceLastSync = [(NSNumber *)[packed objectForKey:kRemoteChangesSinceLastSync] boolValue];
     if ([packed objectForKey:kUserID])
         retval.userID = [packed objectForKey:kUserID];
     if ([packed objectForKey:kUserName])
@@ -277,10 +248,10 @@
         [retval setObject:self.name forKey:kName];
     if (self.detail)
         [retval setObject:self.detail forKey:kDetail];
-    if (self.version)
-        [retval setObject:self.version forKey:kVersion];
-    if (self.serverVersion)
-        [retval setObject:self.serverVersion forKey:kServerVersion];
+    if (self.serverTimeOfLastCompletedSync)
+        [retval setObject:self.serverTimeOfLastCompletedSync forKey:kServerTimeOfLastCompletedSync];
+    [retval setObject:[NSNumber numberWithBool:self.localChangesSinceLastSync] forKey:kLocalChangesSinceLastSync];
+    [retval setObject:[NSNumber numberWithBool:self.remoteChangesSinceLastSync] forKey:kRemoteChangesSinceLastSync];
     if (self.userID)
         [retval setObject:self.userID forKey:kUserID];
     if (self.userName)

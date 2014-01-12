@@ -129,11 +129,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     [alertView show];
 }
 
-
-
-
 - (IBAction)sharePressed:(id)sender {
-    self.lesson.version = [NSNumber numberWithInt:1];
+    self.lesson.localChangesSinceLastSync = YES;
     [self.delegate lessonView:self wantsToUploadLesson:self.lesson];
 }
 
@@ -165,7 +162,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     if (!self.editingFromSwipe) {
         if (!editing) {
             if ([self.lesson isShared])
-                self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+                self.lesson.localChangesSinceLastSync = YES;
             [self.delegate lessonView:self didSaveLesson:self.lesson];
             self.title = self.lesson.name;
         }
@@ -537,7 +534,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     if ([self.lesson isShared])
-        self.lesson.version = [NSNumber numberWithInt:[self.lesson.serverVersion integerValue] + 1];
+        self.lesson.localChangesSinceLastSync = YES;
     [self.delegate lessonView:self didSaveLesson:self.lesson];
     [controller.navigationController popViewControllerAnimated:YES];
 }
@@ -642,7 +639,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
          self.hud.mode = MBProgressHUDModeDeterminate;
          self.hud.progress = 1;
          [self.hud hide:YES];
-         newLesson.version = newLesson.serverVersion = translationVersion;
+         newLesson.serverTimeOfLastCompletedSync = newLesson.serverTimeOfLastCompletedSync = translationVersion;
          newLesson.lessonID = translationLessonID;
          NSMutableDictionary *translations = [lesson.translations mutableCopy];
          [translations setObject:newLesson forKey:tag];
