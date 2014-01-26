@@ -639,7 +639,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
          self.hud.mode = MBProgressHUDModeDeterminate;
          self.hud.progress = 1;
          [self.hud hide:YES];
-         newLesson.serverTimeOfLastCompletedSync = newLesson.serverTimeOfLastCompletedSync = translationVersion;
+         lesson.serverTimeOfLastCompletedSync = newLesson.serverTimeOfLastCompletedSync = translationVersion;
          newLesson.lessonID = translationLessonID;
          NSMutableDictionary *translations = [lesson.translations mutableCopy];
          [translations setObject:newLesson forKey:tag];

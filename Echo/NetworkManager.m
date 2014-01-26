@@ -98,7 +98,7 @@
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         Lesson *lesson = [Lesson lessonWithDictionary:responseObject];
         if (successBlock)
-            successBlock(lesson, [responseObject objectForKey:@"modified"]);
+            successBlock(lesson, [responseObject objectForKey:@"updated"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -132,7 +132,6 @@
 {
     AFHTTPRequestOperation *request = [self.requestManager POST:@"lessons/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (successBlock)
-#warning DOES THIS WORK?
             successBlock([responseObject objectForKey:@"lessonID"],
                          [responseObject objectForKey:@"updated"],
                          [responseObject objectForKey:@"neededFiles"]);
@@ -152,7 +151,6 @@
                               langTag];
     AFHTTPRequestOperation *request = [self.requestManager PUT:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (successBlock)
-#warning DOES THIS WORK?
             successBlock([responseObject objectForKey:@"lessonID"],
                          [responseObject objectForKey:@"updated"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -445,15 +443,14 @@
          __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
          __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededAudios count]+1];
          
-         if ([neededAudios count] == 0)
+         if ([neededAudios count] == 0) {
              lessonToSync.serverTimeOfLastCompletedSync = modifiedTime;
+             lessonToSync.remoteChangesSinceLastSync = NO;
+         }
          if (progressBlock)
              progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
          
          NSMutableDictionary *progressPerAudioFile = [NSMutableDictionary dictionary];
-         
-         //             [self.lessonTransferProgress setObject:NMprogress forKey:[NSValue valueWithNonretainedObject:NMlesson]];
-
          
          for (Audio *file in neededAudios) {
              [progressPerAudioFile setObject:[NSNumber numberWithFloat:0] forKey:[file fileID]];

@@ -409,9 +409,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
                 waveform.audioURL = [NSURL fileURLWithPath:tmpPath];
             }
             
-            
-#warning CRASHED HERE FOR RECORDING A WORD
-            
             [playButton addSubview:waveform];
             [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:playButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:waveform attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
             [recordButton addSubview:recordGuage];
