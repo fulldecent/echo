@@ -185,12 +185,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    Profile *me = [Profile currentUserProfile];
     switch (section) {
         case SectionLessons:
             return @"Lessons";
         default:
         case SectionPractice:
-            return @"Practice";
+            return me.username;
     }
 }
 
@@ -391,7 +392,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
                 cell.badgeRightOffset = 0.0f;
             
-            cell.textLabel.text = me.username;
+            //cell.textLabel.text = me.username;
             cell.imageView.image = me.photo;
             if (me.profileCompleteness.floatValue < 1) {
                 cell.badgeString = [NSString stringWithFormat:@"%d%% done", (int)(me.profileCompleteness.floatValue*100)];
