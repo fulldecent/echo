@@ -29,6 +29,8 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 // Outlets for UI elements
 @property (strong, nonatomic) UILabel *wordLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
+@property (strong, nonatomic) UITextField *wordField;
+@property (strong, nonatomic) UITextField *detailField;
 @property (strong, nonatomic) NSMutableDictionary *recordButtons;
 @property (strong, nonatomic) NSMutableDictionary *recordGuages;
 @property (strong, nonatomic) NSMutableDictionary *playButtons;
@@ -311,122 +313,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.formModel = [FKFormModel formTableModelForTableView:self.tableView
-                                        navigationController:self.navigationController];
-    
-    [FKFormMapping mappingForClass:[Word class] block:^(FKFormMapping *formMapping) {
-        [formMapping sectionWithTitle:@"Info" identifier:@"info"];
-        [formMapping mapAttribute:@"languageTag"
-                            title:@"Language"
-                     showInPicker:NO
-                selectValuesBlock:^NSArray *(id value, id object, NSInteger *selectedValueIndex){
-                    NSMutableArray *retval = [[NSMutableArray alloc] init];
-                    for (NSDictionary *lang in [Languages languages])
-                        [retval addObject:(NSString *)[lang objectForKey:@"nativeName"]];
-                    return retval;
-                } valueFromSelectBlock:^id(id value, id object, NSInteger selectedValueIndex) {
-                    return [(NSDictionary *)[[Languages languages] objectAtIndex:selectedValueIndex] objectForKey:@"tag"];
-                } labelValueBlock:^id(id value, id object) {
-                    return [Languages nativeDescriptionForLanguage:value];
-                }];
-        [formMapping mapAttribute:@"name" title:@"Name" type:FKFormAttributeMappingTypeText];
-        [formMapping mapAttribute:@"detail" title:@"Detail" type:FKFormAttributeMappingTypeText];
-        
-        [formMapping sectionWithTitle:@"Recording" identifier:@"recordings"];
-        
-        [formMapping mapCustomCell:[UITableViewCell class]
-                        identifier:@"record1"
-              willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  cell.textLabel.text = @"I am a custom cell too !";
-                  cell.imageView.image = [UIImage imageNamed:@"microphone icon"];
-                  F3BarGauge *guage = [[F3BarGauge alloc] init];
-                  [cell.contentView addSubview:guage];
-                  guage.translatesAutoresizingMaskIntoConstraints = NO;
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8]];
-              }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  NSLog(@"You pressed me");
-                  
-              }];
-        
-        [formMapping mapCustomCell:[UITableViewCell class]
-                        identifier:@"record1"
-              willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  cell.textLabel.text = @"I am a custom cell too !";
-                  cell.imageView.image = [UIImage imageNamed:@"microphone icon"];
-                  F3BarGauge *guage = [[F3BarGauge alloc] init];
-                  [cell.contentView addSubview:guage];
-                  guage.translatesAutoresizingMaskIntoConstraints = NO;
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8]];
-              }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  NSLog(@"You pressed me");
-                  
-              }];
-        
-        [formMapping mapCustomCell:[UITableViewCell class]
-                        identifier:@"record1"
-              willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  cell.textLabel.text = @"I am a custom cell too !";
-                  cell.imageView.image = [UIImage imageNamed:@"microphone icon"];
-                  F3BarGauge *guage = [[F3BarGauge alloc] init];
-                  [cell.contentView addSubview:guage];
-                  guage.translatesAutoresizingMaskIntoConstraints = NO;
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
-                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8]];
-              }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  NSLog(@"You pressed me");
-                  
-              }];
-        
-        [formMapping validationForAttribute:@"custom" validBlock:^BOOL(id value, id object) {
-            return NO;
-        } errorMessageBlock:^NSString *(id value, id object) {
-            return @"Error";
-        }];
-        
-        [formMapping validationForAttribute:@"record1" validBlock:^BOOL(id value, id object) {
-            return NO;
-        } errorMessageBlock:^NSString *(id value, id object) {
-            return @"Error";
-        }];
-        
-        [formMapping validationForAttribute:@"title" validBlock:^BOOL(NSString *value, id object) {
-            return value.length < 10;
-            
-        } errorMessageBlock:^NSString *(id value, id object) {
-            return @"Text is too long.";
-        }];
-        
-        [formMapping validationForAttribute:@"releaseDate" validBlock:^BOOL(id value, id object) {
-            return NO;
-        }];
-        
-        [self.formModel registerMapping:formMapping];
-    }];
-    
-    [self.formModel setDidChangeValueWithBlock:^(id object, id value, NSString *keyPath) {
-        NSLog(@"did change model value");
-    }];
-    
-    
-    Word *aWord = [[Word alloc] init];
-    aWord.name = @"WORD NAME";
-    aWord.detail = @"WORD DETAIL";
-    aWord.languageTag=@"en";
-   [self.formModel loadFieldsWithObject:aWord];
-    self.actionButton.enabled = YES;
-
-    return;
-#warning END HERE
-    [super viewDidLoad];
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
@@ -496,18 +382,41 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             return cell;
         case CellTitle:
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
-            self.wordLabel = (UILabel *)[cell viewWithTag:1];
-            // self.wordLabel.text; // Automatically set
-            textField = (UITextField *)[cell viewWithTag:2];
+            self.wordLabel = cell.textLabel;
+            cell.detailTextLabel.hidden = YES;
+            [[cell viewWithTag:3] removeFromSuperview];
+            textField = [[UITextField alloc] init];
+            self.wordField = textField;
+            textField.tag = 3;
+            textField.translatesAutoresizingMaskIntoConstraints = NO;
+            [cell.contentView addSubview:textField];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+            textField.textAlignment = NSTextAlignmentRight;
             textField.text = self.editingName;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
             return cell;
         case CellDetail:
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
-            self.detailLabel = (UILabel *)[cell viewWithTag:1];
+            self.detailLabel = cell.textLabel;
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
-            textField = (UITextField *)[cell viewWithTag:2];
+            cell.detailTextLabel.hidden = YES;
+            self.wordLabel = cell.textLabel;
+            cell.detailTextLabel.hidden = YES;
+            [[cell viewWithTag:3] removeFromSuperview];
+            textField = [[UITextField alloc] init];
+            self.detailField = textField;
+            textField.tag = 3;
+            textField.translatesAutoresizingMaskIntoConstraints = NO;
+            [cell.contentView addSubview:textField];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+            textField.textAlignment = NSTextAlignmentRight;
             textField.text = self.editingDetail;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
@@ -617,14 +526,19 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 #pragma mark - UI Text Field Delegate
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == self.wordField)
+        self.editingName = textField.text;
+    else
+        self.editingDetail = textField.text;
+    [textField resignFirstResponder];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    [textField resignFirstResponder];
 }
 
 #pragma mark - PHOR Echo Recorder Delegate
