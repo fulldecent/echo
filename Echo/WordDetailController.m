@@ -328,46 +328,71 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
                 } valueFromSelectBlock:^id(id value, id object, NSInteger selectedValueIndex) {
                     return [(NSDictionary *)[[Languages languages] objectAtIndex:selectedValueIndex] objectForKey:@"tag"];
                 } labelValueBlock:^id(id value, id object) {
-                    for (NSDictionary *lang in [Languages languages])
-                        if ([(NSString *)value isEqualToString:[lang objectForKey:@"tag"]])
-                            return [Languages nativeDescriptionForLanguage:[lang objectForKey:@"tag"]];
-                    return @"";
+                    return [Languages nativeDescriptionForLanguage:value];
                 }];
         [formMapping mapAttribute:@"name" title:@"Name" type:FKFormAttributeMappingTypeText];
         [formMapping mapAttribute:@"detail" title:@"Detail" type:FKFormAttributeMappingTypeText];
         
         [formMapping sectionWithTitle:@"Recording" identifier:@"recordings"];
         
-        [formMapping mapCustomCell:[FKDisclosureIndicatorAccessoryField class]
-                        identifier:@"custom"
-                         rowHeight:70
+        [formMapping mapCustomCell:[UITableViewCell class]
+                        identifier:@"record1"
               willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
-                  cell.textLabel.text = @"I am a custom cell !";
-                  
+                  cell.textLabel.text = @"I am a custom cell too !";
+                  cell.imageView.image = [UIImage imageNamed:@"microphone icon"];
+                  F3BarGauge *guage = [[F3BarGauge alloc] init];
+                  [cell.contentView addSubview:guage];
+                  guage.translatesAutoresizingMaskIntoConstraints = NO;
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8]];
               }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
                   NSLog(@"You pressed me");
                   
               }];
         
         [formMapping mapCustomCell:[UITableViewCell class]
-                        identifier:@"custom2"
+                        identifier:@"record1"
               willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
                   cell.textLabel.text = @"I am a custom cell too !";
-                  
+                  cell.imageView.image = [UIImage imageNamed:@"microphone icon"];
+                  F3BarGauge *guage = [[F3BarGauge alloc] init];
+                  [cell.contentView addSubview:guage];
+                  guage.translatesAutoresizingMaskIntoConstraints = NO;
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8]];
               }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
                   NSLog(@"You pressed me");
                   
               }];
         
-        [formMapping sectionWithTitle:@"Buttons" identifier:@"saveButton"];
-        
-        [formMapping buttonSave:@"Save" handler:^{
-            NSLog(@"save pressed");
-            NSLog(@"%@", self.word);
-            [self.formModel save];
-        }];
+        [formMapping mapCustomCell:[UITableViewCell class]
+                        identifier:@"record1"
+              willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
+                  cell.textLabel.text = @"I am a custom cell too !";
+                  cell.imageView.image = [UIImage imageNamed:@"microphone icon"];
+                  F3BarGauge *guage = [[F3BarGauge alloc] init];
+                  [cell.contentView addSubview:guage];
+                  guage.translatesAutoresizingMaskIntoConstraints = NO;
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+                  [cell addConstraint:[NSLayoutConstraint constraintWithItem:guage attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8]];
+              }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
+                  NSLog(@"You pressed me");
+                  
+              }];
         
         [formMapping validationForAttribute:@"custom" validBlock:^BOOL(id value, id object) {
+            return NO;
+        } errorMessageBlock:^NSString *(id value, id object) {
+            return @"Error";
+        }];
+        
+        [formMapping validationForAttribute:@"record1" validBlock:^BOOL(id value, id object) {
             return NO;
         } errorMessageBlock:^NSString *(id value, id object) {
             return @"Error";
@@ -394,6 +419,8 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     
     Word *aWord = [[Word alloc] init];
     aWord.name = @"WORD NAME";
+    aWord.detail = @"WORD DETAIL";
+    aWord.languageTag=@"en";
    [self.formModel loadFieldsWithObject:aWord];
     self.actionButton.enabled = YES;
 
