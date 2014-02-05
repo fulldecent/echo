@@ -9,3 +9,4 @@ pod 'UIGlossyButton'
 pod 'NSData+Base64'
 pod 'TDBadgedCell'
 pod 'FDWaveformView'
+pod 'FormKit.m', :git => "https://github.com/brunow/FormKit.m.git", :tag => "0.2.0"

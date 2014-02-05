@@ -18,6 +18,7 @@
 #import "GAIDictionaryBuilder.h"
 #import "FDWaveformView.h"
 #import "F3BarGauge.h"
+#import "FormKit.h"
 
 #define NUMBER_OF_RECORDERS 3
 
@@ -41,6 +42,9 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 @property (strong, nonatomic) NSMutableDictionary *echoRecorders;
 
 @property (strong, nonatomic) MBProgressHUD *hud;
+
+@property (nonatomic, strong) FKFormModel *formModel;
+
 @end
 
 
@@ -168,6 +172,9 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (IBAction)save
 {
+    [self.formModel save];
+    return;
+#warning DOOSOS
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSMutableArray *files = [[NSMutableArray alloc] initWithCapacity:NUMBER_OF_RECORDERS];
     self.word.languageTag = self.editingLanguageTag;
@@ -202,6 +209,9 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (IBAction)validate
 {
+    self.actionButton.enabled = YES;
+    return;
+
     BOOL valid = YES;
     UIColor *goodColor = [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
     UIColor *badColor = [UIColor redColor];
@@ -300,6 +310,95 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
+    self.formModel = [FKFormModel formTableModelForTableView:self.tableView
+                                        navigationController:self.navigationController];
+    
+    [FKFormMapping mappingForClass:[Word class] block:^(FKFormMapping *formMapping) {
+        [formMapping sectionWithTitle:@"Info" identifier:@"info"];
+        [formMapping mapAttribute:@"languageTag"
+                            title:@"Language"
+                     showInPicker:NO
+                selectValuesBlock:^NSArray *(id value, id object, NSInteger *selectedValueIndex){
+                    NSMutableArray *retval = [[NSMutableArray alloc] init];
+                    for (NSDictionary *lang in [Languages languages])
+                        [retval addObject:(NSString *)[lang objectForKey:@"nativeName"]];
+                    return retval;
+                } valueFromSelectBlock:^id(id value, id object, NSInteger selectedValueIndex) {
+                    return [(NSDictionary *)[[Languages languages] objectAtIndex:selectedValueIndex] objectForKey:@"tag"];
+                } labelValueBlock:^id(id value, id object) {
+                    for (NSDictionary *lang in [Languages languages])
+                        if ([(NSString *)value isEqualToString:[lang objectForKey:@"tag"]])
+                            return [Languages nativeDescriptionForLanguage:[lang objectForKey:@"tag"]];
+                    return @"";
+                }];
+        [formMapping mapAttribute:@"name" title:@"Name" type:FKFormAttributeMappingTypeText];
+        [formMapping mapAttribute:@"detail" title:@"Detail" type:FKFormAttributeMappingTypeText];
+        
+        [formMapping sectionWithTitle:@"Recording" identifier:@"recordings"];
+        
+        [formMapping mapCustomCell:[FKDisclosureIndicatorAccessoryField class]
+                        identifier:@"custom"
+                         rowHeight:70
+              willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
+                  cell.textLabel.text = @"I am a custom cell !";
+                  
+              }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
+                  NSLog(@"You pressed me");
+                  
+              }];
+        
+        [formMapping mapCustomCell:[UITableViewCell class]
+                        identifier:@"custom2"
+              willDisplayCellBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
+                  cell.textLabel.text = @"I am a custom cell too !";
+                  
+              }     didSelectBlock:^(UITableViewCell *cell, id object, NSIndexPath *indexPath) {
+                  NSLog(@"You pressed me");
+                  
+              }];
+        
+        [formMapping sectionWithTitle:@"Buttons" identifier:@"saveButton"];
+        
+        [formMapping buttonSave:@"Save" handler:^{
+            NSLog(@"save pressed");
+            NSLog(@"%@", self.word);
+            [self.formModel save];
+        }];
+        
+        [formMapping validationForAttribute:@"custom" validBlock:^BOOL(id value, id object) {
+            return NO;
+        } errorMessageBlock:^NSString *(id value, id object) {
+            return @"Error";
+        }];
+        
+        [formMapping validationForAttribute:@"title" validBlock:^BOOL(NSString *value, id object) {
+            return value.length < 10;
+            
+        } errorMessageBlock:^NSString *(id value, id object) {
+            return @"Text is too long.";
+        }];
+        
+        [formMapping validationForAttribute:@"releaseDate" validBlock:^BOOL(id value, id object) {
+            return NO;
+        }];
+        
+        [self.formModel registerMapping:formMapping];
+    }];
+    
+    [self.formModel setDidChangeValueWithBlock:^(id object, id value, NSString *keyPath) {
+        NSLog(@"did change model value");
+    }];
+    
+    
+    Word *aWord = [[Word alloc] init];
+    aWord.name = @"WORD NAME";
+   [self.formModel loadFieldsWithObject:aWord];
+    self.actionButton.enabled = YES;
+
+    return;
+#warning END HERE
     [super viewDidLoad];
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
