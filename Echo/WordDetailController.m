@@ -206,9 +206,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 {
     BOOL valid = YES;
     UIColor *goodColor = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].textLabel.textColor;
-    
-    
-//    [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
     UIColor *badColor = [UIColor redColor];
     
     if (!self.editingLanguageTag.length)

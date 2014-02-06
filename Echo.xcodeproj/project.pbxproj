@@ -95,6 +95,7 @@
 		77FB0F6D16E296440000D4F5 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB0F6C16E296440000D4F5 /* Profile.m */; };
 		77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FCACF61569E0900039ED77 /* F3BarGauge.m */; };
 		C7991F84AEFB4058AD062485 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1BCA506CBE64FE7852ADA22 /* libPods.a */; };
+		D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
@@ -216,6 +217,8 @@
 		77FCACF51569E0900039ED77 /* F3BarGauge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3BarGauge.h; sourceTree = "<group>"; };
 		77FCACF61569E0900039ED77 /* F3BarGauge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3BarGauge.m; sourceTree = "<group>"; };
 		81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDRightDetailWithTextFieldCell.h; sourceTree = "<group>"; };
+		D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDRightDetailWithTextFieldCell.m; sourceTree = "<group>"; };
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D9956EEA17F4C759008070EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -422,6 +425,8 @@
 		77DDC70E156DD81F00568CDE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */,
+				D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */,
 				D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */,
 				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
 				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
@@ -639,6 +644,7 @@
 				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
 				7769F474173B3B2300BB06D7 /* Audio.m in Sources */,
 				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
+				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,7 @@
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "FDRightDetailWithTextFieldCell.h"
 
 @interface LessonInformationViewController() <LanguageSelectControllerDelegate>
 @property (strong, nonatomic) NSString *editingLanguageTag;
@@ -61,7 +62,7 @@
 
 - (IBAction)validate {
     BOOL valid = YES;
-    UIColor *goodColor = [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
+    UIColor *goodColor = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].textLabel.textColor;
     UIColor *badColor = [UIColor redColor];
 
     if (!self.editingLanguageTag.length)
@@ -91,10 +92,22 @@
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
+    
+    [self.tableView registerClass:[FDRightDetailWithTextFieldCell class] forCellReuseIdentifier:@"lesson"];
+    [self.tableView registerClass:[FDRightDetailWithTextFieldCell class] forCellReuseIdentifier:@"detail"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    FDRightDetailWithTextFieldCell *cell = (FDRightDetailWithTextFieldCell *)[self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    self.lessonName = cell.textField;
+    self.lessonLabel = cell.textLabel;
+    cell = (FDRightDetailWithTextFieldCell *)[self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    self.detailText = cell.textField;
+    self.detailLabel = cell.textLabel;
+    [self.lessonName addTarget:self action:@selector(updateName:) forControlEvents:UIControlEventEditingChanged];
+    [self.detailText addTarget:self action:@selector(updateDetail:) forControlEvents:UIControlEventEditingChanged];
+    
     self.languageName.text = [Languages nativeDescriptionForLanguage:self.editingLanguageTag];
     self.lessonName.text = self.editingName;
     self.detailText.text = self.editingDetail;
