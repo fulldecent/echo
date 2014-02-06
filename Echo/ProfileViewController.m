@@ -26,31 +26,11 @@
 @end
 
 @implementation ProfileViewController
-@synthesize name = _name;
-@synthesize learningLang = _learningLang;
-@synthesize nativeLang = _nativeLang;
-@synthesize learningLangTag = _learningLangTag;
-@synthesize nativeLangTag = _nativeLangTag;
-@synthesize photo = _photo;
-@synthesize location = _location;
-@synthesize labelSelectingLanguage = _labelSelectingLanguage;
-@synthesize takeController = _takeController;
-@synthesize locationManager = _locationManager;
-@synthesize hud = _hud;
 
 - (CLLocationManager *)locationManager
 {
     if (!_locationManager) _locationManager = [[CLLocationManager alloc] init];
     return _locationManager;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 - (void)viewDidLoad
@@ -59,6 +39,23 @@
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
     tempImageView.frame = self.tableView.frame;
     self.tableView.backgroundView = tempImageView;
+    
+    
+    UITextField *textField;
+    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    cell.detailTextLabel.hidden = YES;
+    [[cell viewWithTag:3] removeFromSuperview];
+    textField = [[UITextField alloc] init];
+    self.name = textField;
+    textField.tag = 3;
+    textField.translatesAutoresizingMaskIntoConstraints = NO;
+    [cell.contentView addSubview:textField];
+    [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+    [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+    [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+    [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    textField.textAlignment = NSTextAlignmentRight;
+
     
     Profile *me = [Profile currentUserProfile];
     self.name.text = me.username;
