@@ -28,6 +28,8 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 // Outlets for UI elements
 @property (strong, nonatomic) UILabel *wordLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
+@property (strong, nonatomic) UITextField *wordField;
+@property (strong, nonatomic) UITextField *detailField;
 @property (strong, nonatomic) NSMutableDictionary *recordButtons;
 @property (strong, nonatomic) NSMutableDictionary *recordGuages;
 @property (strong, nonatomic) NSMutableDictionary *playButtons;
@@ -203,7 +205,10 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 - (IBAction)validate
 {
     BOOL valid = YES;
-    UIColor *goodColor = [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
+    UIColor *goodColor = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].textLabel.textColor;
+    
+    
+//    [UIColor colorWithRed:81.0/256 green:102.0/256 blue:145.0/256 alpha:1.0];
     UIColor *badColor = [UIColor redColor];
     
     if (!self.editingLanguageTag.length)
@@ -370,18 +375,40 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             return cell;
         case CellTitle:
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
-            self.wordLabel = (UILabel *)[cell viewWithTag:1];
-            // self.wordLabel.text; // Automatically set
-            textField = (UITextField *)[cell viewWithTag:2];
+            self.wordLabel = cell.textLabel;
+            cell.detailTextLabel.hidden = YES;
+            [[cell viewWithTag:3] removeFromSuperview];
+            textField = [[UITextField alloc] init];
+            self.wordField = textField;
+            textField.tag = 3;
+            textField.translatesAutoresizingMaskIntoConstraints = NO;
+            [cell.contentView addSubview:textField];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+            textField.textAlignment = NSTextAlignmentRight;
             textField.text = self.editingName;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
             return cell;
         case CellDetail:
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
-            self.detailLabel = (UILabel *)[cell viewWithTag:1];
+            self.detailLabel = cell.textLabel;
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
-            textField = (UITextField *)[cell viewWithTag:2];
+            cell.detailTextLabel.hidden = YES;
+            cell.detailTextLabel.hidden = YES;
+            [[cell viewWithTag:3] removeFromSuperview];
+            textField = [[UITextField alloc] init];
+            self.detailField = textField;
+            textField.tag = 3;
+            textField.translatesAutoresizingMaskIntoConstraints = NO;
+            [cell.contentView addSubview:textField];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
+            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+            textField.textAlignment = NSTextAlignmentRight;
             textField.text = self.editingDetail;
             textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
             textField.delegate = self;
@@ -497,7 +524,13 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField{
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == self.wordField)
+        self.editingName = textField.text;
+    else
+        self.editingDetail = textField.text;
+    [self validate];
     [textField resignFirstResponder];
 }
 
