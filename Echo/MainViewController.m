@@ -594,6 +594,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson
 {
+    NSLog(@"GOT STUB LESSON: %@", [lesson lessonID]);
+    NSLog(@"%@",[NSThread callStackSymbols]);
+
     lesson.remoteChangesSinceLastSync = YES;
     [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];

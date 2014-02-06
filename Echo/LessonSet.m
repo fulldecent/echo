@@ -51,6 +51,8 @@
     NSMutableArray *staleLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
         if (lesson.localChangesSinceLastSync || lesson.remoteChangesSinceLastSync) {
+            if ([self transferProgressForLesson:lesson])
+                continue;            
             [staleLessons addObject:lesson];
             [self.lessonTransferProgress setObject:[NSNumber numberWithInt:0] forKey:[NSValue valueWithNonretainedObject:lesson]];
             if (progress)

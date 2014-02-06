@@ -27,7 +27,6 @@
 
 - (void)populateRowsWithSearch:(NSString *)searchString languageTag:(NSString *)tag
 {
-    NSLog(@"search String is %@ and lang is %@",searchString, tag);
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager searchLessonsWithLangTag:tag andSearhText:searchString onSuccess:^(NSArray *lessonPreviews)
      {

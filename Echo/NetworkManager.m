@@ -434,8 +434,14 @@
          withProgress:(void(^)(Lesson *lesson, NSNumber *progress))progressBlock
             onFailure:(void(^)(NSError *error))failureBlock
 {
+    NSLog(@"WANT TO PULL LESSON: %@", [lessonToSync lessonID]);
+    NSLog(@"%@",[NSThread callStackSymbols]);
+
     [self getLessonWithID:lessonToSync.lessonID asPreviewOnly:NO onSuccess:^(Lesson *retreivedLesson, NSNumber *modifiedTime)
      {
+         NSLog(@"PULLING LESSON: %@", [lessonToSync lessonID]);
+         NSLog(@"%@",[NSThread callStackSymbols]);
+         
          [lessonToSync setToLesson:retreivedLesson];
          NSMutableArray *neededAudios = [[NSMutableArray alloc] init];
          for (NSDictionary *audioAndWord in [lessonToSync listOfMissingFiles])
@@ -451,11 +457,13 @@
              progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
          
          NSMutableDictionary *progressPerAudioFile = [NSMutableDictionary dictionary];
+         NSLog(@"NEEDED AUDIOS: %@", neededAudios);
          
          for (Audio *file in neededAudios) {
+//             NSLog(@"PULLING AUDIO: %@", [file fileID]);
              [progressPerAudioFile setObject:[NSNumber numberWithFloat:0] forKey:[file fileID]];
              [self pullAudio:file withProgress:^(NSNumber *fileProgress) {
-                 NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
+//                 NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
                  [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
                  NSNumber *filesProgress = [[progressPerAudioFile allValues] valueForKeyPath:@"@sum.self"];
                  lessonProgress = [NSNumber numberWithFloat:[filesProgress floatValue] + 1];

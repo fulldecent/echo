@@ -42,7 +42,7 @@
     
     
     UITextField *textField;
-    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:(NSIndexPath *)[NSIndexPath indexPathForRow:0 inSection:0]];
     cell.detailTextLabel.hidden = YES;
     [[cell viewWithTag:3] removeFromSuperview];
     textField = [[UITextField alloc] init];
