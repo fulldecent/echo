@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIGlossyButton.h"
 #import "Lesson.h"
 #import "DownloadLessonViewController.h"
 #import "GAITrackedViewController.h"

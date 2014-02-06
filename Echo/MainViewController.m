@@ -263,21 +263,17 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [view addSubview:label];
     [view addSubview:iconView];
     
+    /*
     if (section == SectionLessons) {
-        UIGlossyButton *button = [[UIGlossyButton alloc] initWithFrame:CGRectMake(100, 15, 30, 30)];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(100, 15, 30, 30)];
         [button setTitle:@"?" forState:UIControlStateNormal];
         button.tintColor = [UIColor blackColor];
-        [button useWhiteLabel: YES];
-        button.backgroundOpacity = 0.5;
-        button.innerBorderWidth = 2.0f;
-        button.buttonBorderWidth = 0.0f;
-        button.buttonCornerRadius = 12.0f;
-        [button setGradientType: kUIGlossyButtonGradientTypeSolid];
-        [button setExtraShadingType:kUIGlossyButtonExtraShadingTypeRounded];
+        button.backgroundColor = [UIColor redColor];
         [button addTarget:self action:@selector(loadHelpScreen) forControlEvents:UIControlEventTouchUpInside];
         button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         [view addSubview:button];
     }
+     */
         
     return view;
 }
