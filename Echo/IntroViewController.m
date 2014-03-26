@@ -104,7 +104,11 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    self.name = textField.text;
+    [self.nameField setTitle:self.name forState:UIControlStateNormal];
     [self.alertView dismissWithClickedButtonIndex:self.alertView.firstOtherButtonIndex animated:YES];
+    if (!self.name.length)
+        [self askUserForName];
     return YES;
 }
 

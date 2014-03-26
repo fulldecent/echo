@@ -172,7 +172,7 @@
         if (failureBlock)
             failureBlock(error);
     }];
-    [request setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+    [request setUploadProgressBlock:^(NSUInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
         if (totalBytesExpectedToWrite > 0) {
             if (progressBlock)
                 progressBlock([NSNumber numberWithFloat:(float)totalBytesWritten / totalBytesExpectedToWrite]);
@@ -303,7 +303,7 @@
         if (failureBlock)
             failureBlock(error);
     }];
-    [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+    [request setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
                 progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
@@ -333,7 +333,7 @@
         if (failureBlock)
             failureBlock(error);
     }];
-    [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+    [request setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
                 progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
@@ -400,7 +400,7 @@
         if (failureBlock)
             failureBlock(error);
     }];
-    [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+    [request setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
                 progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);

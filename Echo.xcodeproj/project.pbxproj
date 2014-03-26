@@ -290,7 +290,6 @@
 				77B51384151970B100F041D7 /* Echo */,
 				77B5137D151970B100F041D7 /* Frameworks */,
 				77B5137B151970B100F041D7 /* Products */,
-				D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */,
 				81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -306,6 +305,7 @@
 		77B5137D151970B100F041D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */,
 				D9956EEA17F4C759008070EC /* SenTestingKit.framework */,
 				D936B11317EF76E6003A00BE /* libz.dylib */,
 				D936B11117EF76CD003A00BE /* CoreData.framework */,
