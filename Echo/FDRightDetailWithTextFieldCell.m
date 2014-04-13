@@ -19,7 +19,6 @@
     return self;
 }
 
-/*
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -28,7 +27,6 @@
     }
     return self;
 }
-*/
 
 - (void)awakeFromNib
 {
@@ -36,27 +34,21 @@
     [self setup];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)setup
 {
     self.detailTextLabel.hidden = YES;
-    [[self viewWithTag:3] removeFromSuperview];
+    [[self.contentView viewWithTag:3] removeFromSuperview];
     self.textField = [[UITextField alloc] init];
     self.textField.tag = 3;
+    self.textField.textAlignment = NSTextAlignmentRight;
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.textField];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-    self.textField.textAlignment = NSTextAlignmentRight;
+}
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.textField.frame = self.detailTextLabel.frame;
 }
 
 @end

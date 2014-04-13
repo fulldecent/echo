@@ -98,6 +98,10 @@
 		D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
+		D997E98818F9DA7200C33C38 /* BWCrashReportTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D997E98218F9DA7200C33C38 /* BWCrashReportTextFormatter.m */; };
+		D997E98918F9DA7200C33C38 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D997E98418F9DA7200C33C38 /* BWQuincyManager.m */; };
+		D997E98A18F9DA7200C33C38 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D997E98618F9DA7200C33C38 /* CrashReporter.framework */; };
+		D997E98B18F9DA7300C33C38 /* Quincy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D997E98718F9DA7200C33C38 /* Quincy.bundle */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
@@ -222,6 +226,13 @@
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D9956EEA17F4C759008070EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D997E98118F9DA7200C33C38 /* BWCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		D997E98218F9DA7200C33C38 /* BWCrashReportTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWCrashReportTextFormatter.m; sourceTree = "<group>"; };
+		D997E98318F9DA7200C33C38 /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
+		D997E98418F9DA7200C33C38 /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
+		D997E98518F9DA7200C33C38 /* BWQuincyManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManagerDelegate.h; sourceTree = "<group>"; };
+		D997E98618F9DA7200C33C38 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
+		D997E98718F9DA7200C33C38 /* Quincy.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Quincy.bundle; sourceTree = "<group>"; };
 		D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
 		D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = Echo/libGoogleConversionTracking.a; sourceTree = "<group>"; };
 		F1BCA506CBE64FE7852ADA22 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,13 +243,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D997E98A18F9DA7200C33C38 /* CrashReporter.framework in Frameworks */,
+				774CDA4215D0AEF800B14C45 /* SystemConfiguration.framework in Frameworks */,
 				D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */,
 				D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */,
 				773FEA91177E1B5B000AD650 /* StoreKit.framework in Frameworks */,
 				774CDA4615D0AF0C00B14C45 /* CFNetwork.framework in Frameworks */,
 				774CDA4815D0AF1700B14C45 /* CoreLocation.framework in Frameworks */,
 				776D2BE416AB8D9300EDB4DB /* MobileCoreServices.framework in Frameworks */,
-				774CDA4215D0AEF800B14C45 /* SystemConfiguration.framework in Frameworks */,
 				776D2BE616AB8DA500EDB4DB /* libsqlite3.dylib in Frameworks */,
 				776D2BE216AB8D6900EDB4DB /* Social.framework in Frameworks */,
 				776D2BE016AB8D4F00EDB4DB /* AdSupport.framework in Frameworks */,
@@ -362,6 +374,13 @@
 		77B51385151970B100F041D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D997E98118F9DA7200C33C38 /* BWCrashReportTextFormatter.h */,
+				D997E98218F9DA7200C33C38 /* BWCrashReportTextFormatter.m */,
+				D997E98318F9DA7200C33C38 /* BWQuincyManager.h */,
+				D997E98418F9DA7200C33C38 /* BWQuincyManager.m */,
+				D997E98518F9DA7200C33C38 /* BWQuincyManagerDelegate.h */,
+				D997E98618F9DA7200C33C38 /* CrashReporter.framework */,
+				D997E98718F9DA7200C33C38 /* Quincy.bundle */,
 				77B5138D151970B100F041D7 /* AppDelegate.h */,
 				77B5138E151970B100F041D7 /* AppDelegate.m */,
 				770AA8B616C4ABC300348FB8 /* gradient.png */,
@@ -566,6 +585,7 @@
 				7798DE121619138C004EE464 /* flag@2x.png in Resources */,
 				7798DE1E161A7314004EE464 /* none40.png in Resources */,
 				77E585131699104A00866A43 /* checkon.png in Resources */,
+				D997E98B18F9DA7300C33C38 /* Quincy.bundle in Resources */,
 				77E585141699104A00866A43 /* checkon@2x.png in Resources */,
 				77E58517169910B200866A43 /* check.png in Resources */,
 				77E58518169910B200866A43 /* check@2x.png in Resources */,
@@ -636,6 +656,7 @@
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
 				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
+				D997E98918F9DA7200C33C38 /* BWQuincyManager.m in Sources */,
 				77ED9D111661615D005D10ED /* IntroViewController.m in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
@@ -644,6 +665,7 @@
 				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
 				7769F474173B3B2300BB06D7 /* Audio.m in Sources */,
 				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
+				D997E98818F9DA7200C33C38 /* BWCrashReportTextFormatter.m in Sources */,
 				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,6 +755,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Echo",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
@@ -761,6 +784,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Echo",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";

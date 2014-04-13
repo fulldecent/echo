@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qn1-VN-B6I">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Word Detail Controller - TITLE-->
@@ -38,7 +38,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="word" textLabel="9xd-8s-5Na" detailTextLabel="qAV-Tp-Tcy" style="IBUITableViewCellStyleValue1" id="u2g-kA-lmb">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="word" textLabel="9xd-8s-5Na" detailTextLabel="qAV-Tp-Tcy" style="IBUITableViewCellStyleValue1" id="u2g-kA-lmb" customClass="FDRightDetailWithTextFieldCell">
                                 <rect key="frame" x="0.0" y="99" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u2g-kA-lmb" id="43p-DR-tpO">
@@ -62,7 +62,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="detail" textLabel="Mgr-lc-IcO" detailTextLabel="HeW-UH-nzv" style="IBUITableViewCellStyleValue1" id="Obz-Sk-EvB">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="detail" textLabel="Mgr-lc-IcO" detailTextLabel="HeW-UH-nzv" style="IBUITableViewCellStyleValue1" id="Obz-Sk-EvB" customClass="FDRightDetailWithTextFieldCell">
                                 <rect key="frame" x="0.0" y="143" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Obz-Sk-EvB" id="ice-nl-j9g">
@@ -95,9 +95,6 @@
                                     <subviews>
                                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bgr-20-pMw" userLabel="Record">
                                             <rect key="frame" x="83" y="0.0" width="237" height="79"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="237" id="you-6v-bVk"/>
-                                            </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="40" maxY="0.0"/>
                                             <state key="normal" image="microphone icon.png">
@@ -119,8 +116,7 @@
                                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqL-1U-HUc" userLabel="Check">
                                             <rect key="frame" x="0.0" y="0.0" width="75" height="79"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="79" id="OO4-TK-f7N"/>
-                                                <constraint firstAttribute="width" constant="75" id="lLj-o5-VS8"/>
+                                                <constraint firstAttribute="width" constant="75" id="6pI-Kx-o8B"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" image="Checkbox checked.png">
@@ -149,25 +145,26 @@
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="iqL-1U-HUc" secondAttribute="trailing" constant="8" id="2jg-eU-AV1"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="qzH-9G-ZDk" secondAttribute="top" id="CxA-PS-KiJ"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="LfF-am-NGM" secondAttribute="bottom" id="D46-DN-jGI"/>
-                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="bottom" secondItem="id5-HX-kH2" secondAttribute="bottom" id="EcE-a1-Ip9"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="qzH-9G-ZDk" secondAttribute="leading" id="KYz-hl-Z7p"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="LfF-am-NGM" secondAttribute="top" id="Kd2-nN-0ln"/>
-                                        <constraint firstItem="iqL-1U-HUc" firstAttribute="leading" secondItem="LfF-am-NGM" secondAttribute="leading" id="VbH-2B-dkr"/>
-                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="top" secondItem="id5-HX-kH2" secondAttribute="top" id="ZMR-Zf-fMJ"/>
-                                        <constraint firstItem="iqL-1U-HUc" firstAttribute="top" secondItem="LfF-am-NGM" secondAttribute="top" id="d1G-hM-zQI"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="FuK-5I-6cK" secondAttribute="leading" constant="-50" placeholder="YES" id="dhu-if-d6f"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="qzH-9G-ZDk" secondAttribute="bottom" id="dkb-Bs-aVS"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="FuK-5I-6cK" secondAttribute="trailing" id="eZL-1T-NCf"/>
-                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="trailing" secondItem="id5-HX-kH2" secondAttribute="trailing" id="fFt-6z-d0U"/>
-                                        <constraint firstItem="iqL-1U-HUc" firstAttribute="bottom" secondItem="LfF-am-NGM" secondAttribute="bottom" id="fK1-AM-YXi"/>
-                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="leading" secondItem="id5-HX-kH2" secondAttribute="leading" constant="-50" placeholder="YES" id="iBv-op-pMX"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="FuK-5I-6cK" secondAttribute="top" id="nNN-wI-z1f"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="FuK-5I-6cK" secondAttribute="bottom" id="nr1-0b-zCK"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="LfF-am-NGM" secondAttribute="trailing" id="oY9-Co-2Tb"/>
-                                        <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="qzH-9G-ZDk" secondAttribute="trailing" id="rX6-Z1-cE8"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="trailing" secondItem="FuK-5I-6cK" secondAttribute="trailing" id="1fC-Te-NWo"/>
+                                        <constraint firstItem="FuK-5I-6cK" firstAttribute="trailing" secondItem="bgr-20-pMw" secondAttribute="trailing" id="2MJ-Lw-qFZ"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="iqL-1U-HUc" secondAttribute="bottom" id="89m-Ug-qwU"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="leading" secondItem="iqL-1U-HUc" secondAttribute="trailing" constant="8" symbolic="YES" id="C6r-ft-Jt0"/>
+                                        <constraint firstItem="id5-HX-kH2" firstAttribute="top" secondItem="FuK-5I-6cK" secondAttribute="top" id="Gu7-eO-djZ"/>
+                                        <constraint firstItem="id5-HX-kH2" firstAttribute="bottom" secondItem="qzH-9G-ZDk" secondAttribute="bottom" id="UcH-Ox-CRC"/>
+                                        <constraint firstItem="id5-HX-kH2" firstAttribute="bottom" secondItem="FuK-5I-6cK" secondAttribute="bottom" id="Wpk-fN-y5g"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="trailing" secondItem="id5-HX-kH2" secondAttribute="trailing" id="aWx-8p-mZF"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="bottom" secondItem="FuK-5I-6cK" secondAttribute="bottom" id="d5t-5i-vYO"/>
+                                        <constraint firstAttribute="trailing" secondItem="qzH-9G-ZDk" secondAttribute="trailing" id="exb-OO-xPX"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="top" secondItem="LfF-am-NGM" secondAttribute="top" id="fG7-xM-kpm"/>
+                                        <constraint firstItem="id5-HX-kH2" firstAttribute="leading" secondItem="iqL-1U-HUc" secondAttribute="trailing" constant="58" id="hUh-pS-7BH"/>
+                                        <constraint firstItem="bgr-20-pMw" firstAttribute="baseline" secondItem="qzH-9G-ZDk" secondAttribute="baseline" id="kSo-vr-5Hh"/>
+                                        <constraint firstItem="iqL-1U-HUc" firstAttribute="top" secondItem="bgr-20-pMw" secondAttribute="top" id="lgb-r3-rb8"/>
+                                        <constraint firstAttribute="bottom" secondItem="iqL-1U-HUc" secondAttribute="bottom" id="mEd-4C-ACe"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="top" secondItem="bgr-20-pMw" secondAttribute="top" id="ndi-rT-sWh"/>
+                                        <constraint firstItem="iqL-1U-HUc" firstAttribute="leading" secondItem="LfF-am-NGM" secondAttribute="leading" id="olb-rG-AOH"/>
+                                        <constraint firstItem="FuK-5I-6cK" firstAttribute="top" secondItem="qzH-9G-ZDk" secondAttribute="top" id="rpV-fd-J2H"/>
+                                        <constraint firstItem="qzH-9G-ZDk" firstAttribute="leading" secondItem="iqL-1U-HUc" secondAttribute="trailing" constant="8" symbolic="YES" id="tAH-Gm-W9C"/>
+                                        <constraint firstItem="FuK-5I-6cK" firstAttribute="leading" secondItem="id5-HX-kH2" secondAttribute="leading" id="tzM-p7-FCy"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -200,7 +197,7 @@
             <objects>
                 <tableViewController title="Language" id="BTL-qk-7lt" customClass="LanguageSelectController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vT0-Yh-lpD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -807,7 +804,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="NuC-Cx-ncp" userLabel="Workflow 2">
+                                    <button opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="NuC-Cx-ncp" userLabel="Workflow 2">
                                         <rect key="frame" x="61" y="0.0" width="33" height="112"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
@@ -1893,7 +1890,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="yax-pl-PTe"/>
         <segue reference="cjs-Y6-M9H"/>
-        <segue reference="oRu-yp-vhf"/>
         <segue reference="47Q-7Q-DoP"/>
+        <segue reference="xS9-ES-SEq"/>
     </inferredMetricsTieBreakers>
 </document>
