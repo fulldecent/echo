@@ -67,8 +67,7 @@
         _audioRecorder.meteringEnabled = YES;
         
         if ([_audioRecorder prepareToRecord] == NO){
-            int errorCode = CFSwapInt32HostToBig ([error code]);
-            NSLog(@"Error: %@ [%4.4s])" , [error localizedDescription], (char*)&errorCode);
+            NSLog(@"Error: %@ %ld" , [error localizedDescription], (long)[error code]);
         }
     }
     return _audioRecorder;
@@ -288,7 +287,7 @@
         // make sure and handle this case appropriately
         NSLog(@"AVAssetExportSessionStatusFailed %@", exportSession.error.localizedDescription);
     } else {
-        NSLog(@"Export Session Status: %d", exportSession.status);
+        NSLog(@"Export Session Status: %ld", (long)exportSession.status);
     }
     
     return nil;

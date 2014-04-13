@@ -56,7 +56,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
     if (self.lessonID.intValue)
-        return [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [self.lessonID integerValue]]];
+        return [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.lessonID integerValue]]];
     else
         return [documentsPath stringByAppendingPathComponent:self.lessonCode];
 }
@@ -176,7 +176,7 @@
 #pragma NSObject
 
 - (NSString *) description {
-    return [NSString stringWithFormat:@"ID: %d; code: %@; name: %@", [self.lessonID integerValue], self.lessonCode, self.name];
+    return [NSString stringWithFormat:@"ID: %ld; code: %@; name: %@", (long)[self.lessonID integerValue], self.lessonCode, self.name];
 }
 
 + (Lesson *)lessonWithDictionary:(NSDictionary *)packed

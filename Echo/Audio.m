@@ -22,7 +22,7 @@
 - (NSString *)filePath
 {
     if (self.fileID.intValue)
-        return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [self.fileID integerValue]]];
+        return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.fileID integerValue]]];
     else
         return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.fileCode]];
 }

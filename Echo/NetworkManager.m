@@ -447,7 +447,7 @@
          for (NSDictionary *audioAndWord in [lessonToSync listOfMissingFiles])
              [neededAudios addObject:[audioAndWord objectForKey:@"audio"]];         
          __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
-         __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededAudios count]+1];
+         __block NSNumber *totalLessonProgress = @([neededAudios count]+1);
          
          if ([neededAudios count] == 0) {
              lessonToSync.serverTimeOfLastCompletedSync = modifiedTime;
@@ -490,8 +490,8 @@
 {
     [self postLesson:lessonToSync onSuccess:^(NSNumber *newLessonID, NSNumber *newServerVersion, NSArray *neededWordAndFileCodes)
      {
-         __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
-         __block NSNumber *totalLessonProgress = [NSNumber numberWithInt:[neededWordAndFileCodes count]+1];
+         __block NSNumber *lessonProgress = @(1);
+         __block NSNumber *totalLessonProgress = @([neededWordAndFileCodes count]+1);
          lessonToSync.lessonID = newLessonID;
          if ([neededWordAndFileCodes count] == 0) {
              lessonToSync.serverTimeOfLastCompletedSync = newServerVersion;
@@ -511,7 +511,7 @@
                          withProgress:^(NSNumber *fileProgress)
               {
                   if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                      lessonProgress = [NSNumber numberWithInt:[lessonProgress integerValue]+1];
+                      lessonProgress = @([lessonProgress integerValue]+1);
                       if ([lessonProgress isEqualToNumber:totalLessonProgress]) {
                           lessonToSync.serverTimeOfLastCompletedSync = newServerVersion;
                           lessonToSync.localChangesSinceLastSync = NO;
@@ -537,7 +537,7 @@
      {
          NSArray *neededAudios = [word listOfMissingFiles];
          __block NSNumber *wordProgress = [NSNumber numberWithInt:1];
-         __block NSNumber *totalWordProgress = [NSNumber numberWithInt:[neededAudios count]+1];
+         __block NSNumber *totalWordProgress = @([neededAudios count]+1);
          if (progress)
              progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
          

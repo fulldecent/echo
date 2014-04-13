@@ -195,12 +195,12 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     }
 }
 
-- (float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 40;
 }
 
-- (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLesson:
@@ -404,7 +404,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             
             [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
             if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue]) {
-                cell.badgeString = [NSString stringWithFormat:@"%d", [[defaults objectForKey:@"numNewMessages"] integerValue]];
+                cell.badgeString = [NSString stringWithFormat:@"%ld", (long)[[defaults objectForKey:@"numNewMessages"] integerValue]];
                 if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue] == -1)
                     cell.badgeString = @"New";
             } else

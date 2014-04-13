@@ -83,7 +83,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (IBAction)lessonSharePressed:(id)sender {
     // Create the item to share (in this example, a url)
-    NSString *urlString = [NSString stringWithFormat:@"https://learnwithecho.com/lessons/%d", [self.lesson.lessonID integerValue]];
+    NSString *urlString = [NSString stringWithFormat:@"https://learnwithecho.com/lessons/%ld", (long)[self.lesson.lessonID integerValue]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *title = [NSString stringWithFormat:@"I am practicing a lesson in %@: %@",
                        [Languages nativeDescriptionForLanguage:self.lesson.languageTag],
@@ -286,7 +286,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 {
     UITableViewCell *cell;
     Word *word;
-    int index;
+    NSInteger index;
     Profile *me = [Profile currentUserProfile];
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellNotShared:
@@ -394,7 +394,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 {
     if (indexPath.section == SectionWords) {
         if (editingStyle == UITableViewCellEditingStyleInsert) {
-            self.currentWordIndex = self.lesson.words.count;
+            self.currentWordIndex = (int) self.lesson.words.count;
             [self performSegueWithIdentifier:@"editWord" sender:self];
         } else if (editingStyle == UITableViewCellEditingStyleDelete) {
             NSMutableArray *words = [self.lesson.words mutableCopy];
@@ -460,7 +460,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:indexPath];
             break;
         case CellWord:
-            self.currentWordIndex = indexPath.row - 1;
+            self.currentWordIndex = (int) indexPath.row - 1;
             self.wordListIsShuffled = NO;
             [self performSegueWithIdentifier:@"echoWord" sender:self];
         case CellAuthorByline:
@@ -487,7 +487,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    self.currentWordIndex = indexPath.row-1;
+    self.currentWordIndex = (int) indexPath.row-1;
     self.wordListIsShuffled = NO; 
     [self performSegueWithIdentifier:@"editWord" sender:self];
 }
@@ -577,7 +577,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         target = [self.lesson.translations objectForKey:me.nativeLanguageTag];
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager doFlagLesson:target withReason:buttonIndex onSuccess:^
+    [networkManager doFlagLesson:target withReason:(enum NetworkManagerFlagReason) buttonIndex onSuccess:^
      {
          self.hud.mode = MBProgressHUDModeDeterminate;
          self.hud.progress = 1;

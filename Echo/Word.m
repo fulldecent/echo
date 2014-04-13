@@ -70,7 +70,7 @@
     if (!self.lesson.filePath)
         return NSTemporaryDirectory(); // a practice word
     if (self.wordID)
-        return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", [self.wordID integerValue]]];
+        return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.wordID integerValue]]];
     else
         return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.wordCode]];
 }

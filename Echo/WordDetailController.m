@@ -418,7 +418,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             UIButton *recordButton = (UIButton *)[cell viewWithTag:3];
             F3BarGauge *recordGuage = (F3BarGauge *)[cell viewWithTag:10];
             UIButton *checkbox = (UIButton *)[cell viewWithTag:4];
-            PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:indexPath.row]];
+            PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:@(indexPath.row)];
             
             if (indexPath.row < [self.word.files count]) {
                 Audio *file = [self.word.files objectAtIndex:indexPath.row];
@@ -438,11 +438,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             [recordButton addSubview:recordGuage];
             [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:recordButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:recordGuage attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
             
-            [self.playButtons setObject:playButton forKey:[NSNumber numberWithInt:indexPath.row]];
-            [self.waveforms setObject:waveform forKey:[NSNumber numberWithInt:indexPath.row]];
-            [self.recordButtons setObject:recordButton forKey:[NSNumber numberWithInt:indexPath.row]];
-            [self.recordGuages setObject:recordGuage forKey:[NSNumber numberWithInt:indexPath.row]];
-            [self.resetButtons setObject:checkbox forKey:[NSNumber numberWithInt:indexPath.row]];
+            [self.playButtons setObject:playButton forKey:@(indexPath.row)];
+            [self.waveforms setObject:waveform forKey:@(indexPath.row)];
+            [self.recordButtons setObject:recordButton forKey:@(indexPath.row)];
+            [self.recordGuages setObject:recordGuage forKey:@(indexPath.row)];
+            [self.resetButtons setObject:checkbox forKey:@(indexPath.row)];
             
             if (![self.delegate wordDetailController:self canEditWord:self.word]) {
                 playButton.hidden = NO;
