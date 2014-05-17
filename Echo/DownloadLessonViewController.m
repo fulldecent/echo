@@ -103,7 +103,8 @@
     [(UILabel *)[cell viewWithTag:6] setText:lesson.userName];
     UIImage *placeholder = [UIImage imageNamed:@"none40"];
     NSURL *userPhoto = [networkManager photoURLForUserWithID:lesson.userID];
-    [(UIImageView *)[cell viewWithTag:9] setImageWithURL:userPhoto placeholderImage:placeholder];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:userPhoto];
+    [(UIImageView *)[cell viewWithTag:9] setImageWithURLRequest:request placeholderImage:placeholder success:nil failure:nil];
     
     if (me.nativeLanguageTag) {
         Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];

@@ -321,7 +321,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
             cell.textLabel.text = self.lesson.userName;
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
-            [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [cell.imageView setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"none40"] success:nil failure:nil];
             
             UIButton *flagButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             [flagButton setImage:[UIImage imageNamed:@"flag"] forState:UIControlStateNormal];
@@ -336,7 +337,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             cell.textLabel.text = translation.userName;
             cell.detailTextLabel.text = [NSString stringWithFormat:@"Translated to %@", translation.languageTag];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
-            [cell.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"none40"]];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [cell.imageView setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"none40"] success:nil failure:nil];
             
             UIButton *flagButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             [flagButton setImage:[UIImage imageNamed:@"flag"] forState:UIControlStateNormal];
