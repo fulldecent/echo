@@ -760,7 +760,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
@@ -769,7 +769,6 @@
 				PRODUCT_NAME = Echo;
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
-				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -790,7 +789,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
@@ -798,7 +797,6 @@
 				PRODUCT_NAME = Echo;
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
-				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -316,10 +316,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"lesson"];
-#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
-            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
-                cell.badgeRightOffset = 0.0f;
-            
             lesson = [self.lessonSet.lessons objectAtIndex:indexPath.row];
             cell.textLabel.text = lesson.name;
             cell.detailTextLabel.text = lesson.detail;
@@ -362,10 +358,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             return cell;
         }
         case CellDownloadLesson:
-#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
-            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
-                cell.badgeRightOffset = 0.0f;
-            
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"Get %@ lessons", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]];
             if ([(NSNumber *)[defaults objectForKey:@"newLessonCount"] integerValue]) {
@@ -383,11 +375,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             return cell;
         case CellEditProfile:
             cell = [tableView dequeueReusableCellWithIdentifier:@"editProfile"];
-
-#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
-            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
-                cell.badgeRightOffset = 0.0f;
-            
             //cell.textLabel.text = me.username;
             cell.imageView.image = me.photo;
             if (me.profileCompleteness.floatValue < 1) {
@@ -397,11 +384,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             return cell;
         case CellMeetPeople:
             cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
-            
-#warning TEMPORARY UNTIL THIS FIXES UPSTREAM
-            if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
-                cell.badgeRightOffset = 0.0f;
-            
             [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
             if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue]) {
                 cell.badgeString = [NSString stringWithFormat:@"%ld", (long)[[defaults objectForKey:@"numNewMessages"] integerValue]];
