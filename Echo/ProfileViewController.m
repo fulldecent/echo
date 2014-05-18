@@ -112,7 +112,7 @@
 - (IBAction)choosePhoto:(id)sender {
     self.takeController = [[FDTakeController alloc] init];
     self.takeController.popOverPresentRect = [(UIButton *)sender frame];
-    self.takeController.imagePicker.allowsEditing = YES;
+    self.takeController.allowsEditingPhoto = YES;
     self.takeController.delegate = self;
     [self.takeController takePhotoOrChooseFromLibrary];
 }

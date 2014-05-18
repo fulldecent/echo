@@ -1,4 +1,4 @@
-platform :ios, '6.1'
+platform :ios, '7.0'
 pod 'AFNetworking'
 #pod 'AFNetworking/UIKit+AFNetworking'
 pod 'GoogleAnalytics-iOS-SDK'
