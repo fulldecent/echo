@@ -106,13 +106,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		770715221641E5BD00C9A9AD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		770AA8B616C4ABC300348FB8 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		771CED671764336000EE8A88 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		771CED681764336000EE8A88 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		771CED971764C09F00EE8A88 /* resources.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = resources.html; sourceTree = "<group>"; };
 		7721960F169E5F9200998B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		77219613169E604700998B69 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard.strings"; sourceTree = "<group>"; };
 		772210B3172DD3B60096B23A /* TranslateLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslateLessonViewController.h; sourceTree = "<group>"; };
 		772210B4172DD3B60096B23A /* TranslateLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TranslateLessonViewController.m; sourceTree = "<group>"; };
 		7729FEC115294E5900D2180E /* echo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = echo.png; sourceTree = "<group>"; };
@@ -493,7 +491,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PHOR;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				TargetAttributes = {
 					77B51379151970B100F041D7 = {
 						DevelopmentTeam = 8Q693ZG5RN;
@@ -677,7 +675,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				77B51388151970B100F041D7 /* en */,
-				770715221641E5BD00C9A9AD /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -686,7 +683,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7721960F169E5F9200998B69 /* Base */,
-				77219613169E604700998B69 /* zh-Hans */,
 			);
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
@@ -715,10 +711,10 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -741,6 +737,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};
@@ -765,7 +762,6 @@
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
 				);
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Echo;
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";

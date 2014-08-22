@@ -171,6 +171,7 @@
 {
     self.translatedLesson.languageTag = tag;
     [self.tableView reloadData];
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 #pragma mark - UITextFieldDelegate

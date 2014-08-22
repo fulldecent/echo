@@ -72,6 +72,9 @@
     // Initialize tracker.
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-52764-16"];
     
+#if TARGET_IPHONE_SIMULATOR
+    [[GAI sharedInstance] setDryRun:YES];
+#endif
     
     // http://stackoverflow.com/questions/10111369/unknown-class-zbarreaderview-in-interface-builder-file
     [TDBadgedCell class];

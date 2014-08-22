@@ -124,6 +124,7 @@
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name
 {
     [self saveName:self.name andLanguageWithTag:tag];
+    [controller dismissAnimated:YES];
 }
 
 @end

@@ -152,6 +152,7 @@
 {
     [self populateRowsWithSearch:@"" languageTag:tag];
     self.navigationItem.rightBarButtonItem.title = tag;
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate

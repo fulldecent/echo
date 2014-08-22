@@ -19,7 +19,7 @@
 #define kLanguageTag @"languageTag"
 #define kName @"name"
 #define kDetail @"detail"
-#define kServerTimeOfLastCompletedSync @"serverTimeOfLastCompletedSync"
+#define kServerTimeOfLastCompletedSync @"updated"
 #define kLocalChangesSinceLastSync @"localChangesSinceLastSync"
 #define kRemoteChangesSinceLastSync @"remoteChangesSinceLastSync"
 #define kWords @"words"

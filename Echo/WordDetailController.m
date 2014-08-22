@@ -546,6 +546,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     self.editingLanguageTag = tag;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self validate];
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 #pragma mark - WordDetailControllerDelegate

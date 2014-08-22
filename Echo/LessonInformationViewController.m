@@ -160,6 +160,7 @@
     self.editingLanguageTag = tag;
     [self updateDetail:self.detailText];
     [self.tableView reloadData];
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 #pragma mark - UI Text Field Delegate
