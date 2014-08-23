@@ -29,9 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
-    tempImageView.frame = self.tableView.frame;
-    self.tableView.backgroundView = tempImageView;
     Profile *me = [Profile currentUserProfile];
     self.originalLesson = [self.datasource lessonToTranslateForTranslateLessonView:self];
     self.translatedLesson = [[Lesson alloc] init];

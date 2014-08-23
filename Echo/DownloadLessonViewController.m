@@ -40,9 +40,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
-    tempImageView.frame = self.tableView.frame;
-    self.tableView.backgroundView = tempImageView;
     
     Profile *me = [Profile currentUserProfile];
     self.navigationItem.rightBarButtonItem.title = me.learningLanguageTag;

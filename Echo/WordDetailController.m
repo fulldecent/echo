@@ -303,9 +303,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
-    tempImageView.frame = self.tableView.frame;
-    self.tableView.backgroundView = tempImageView;
     [self setup];
 }
 
