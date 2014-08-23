@@ -286,8 +286,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             return cell;
         case CellEditProfile:
             cell = [tableView dequeueReusableCellWithIdentifier:@"editProfile"];
-            //cell.textLabel.text = me.username;
-            cell.imageView.image = me.photo;
+            cell.textLabel.text = me.username;
             if (me.profileCompleteness.floatValue < 1) {
                 cell.badgeString = [NSString stringWithFormat:@"%d%% done", (int)(me.profileCompleteness.floatValue*100)];
             } else

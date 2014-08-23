@@ -1242,7 +1242,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="social.png" id="ZXz-PF-GdN">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="practiceIcon.png" id="ZXz-PF-GdN">
                                             <rect key="frame" x="15" y="6" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -1786,7 +1786,6 @@
         <image name="none40.png" width="40" height="40"/>
         <image name="practiceIcon.png" width="30" height="30"/>
         <image name="shuffle.png" width="25" height="21"/>
-        <image name="social.png" width="30" height="30"/>
         <image name="speaker icon.png" width="64" height="64"/>
         <image name="up_arrow.png" width="32" height="32"/>
     </resources>
