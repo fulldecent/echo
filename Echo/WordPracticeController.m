@@ -116,6 +116,7 @@
     [self.recorder reset];
     self.recordButton.hidden = NO;
     self.playbackButton.hidden = YES;
+    self.checkbox.hidden = YES;
 }
 
 - (IBAction)continueNextWorkflowStep:(id)sender
@@ -164,14 +165,12 @@
 }
 
 - (IBAction)checkPressed:(id)sender {
-    UIBarButtonItem *check = [self.navigationItem.rightBarButtonItems objectAtIndex:1];
-    
     BOOL checked = ![self.datasource wordCheckedStateForWordPractice:self];
     [self.delegate wordPractice:self setWordCheckedState:checked];
     if (checked)
-        [check setImage:[UIImage imageNamed:@"checkon"]];
+        [self.checkbox setImage:[UIImage imageNamed:@"checkon"] forState:UIControlStateNormal];
     else
-        [check setImage:[UIImage imageNamed:@"check"]];
+        [self.checkbox setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
 }
 
 - (IBAction)fastForwardPressed {
@@ -242,15 +241,6 @@
         UIBarButtonItem *fastForward = self.navigationItem.rightBarButtonItem;
         [rightBarButtonItems addObject:fastForward];
     }
-    if ([self.delegate currentWordCanBeCheckedForWordPractice:self]) {
-        UIImage *checkImage;
-        if ([self.datasource wordCheckedStateForWordPractice:self])
-            checkImage = [UIImage imageNamed:@"checkon"];
-        else
-            checkImage = [UIImage imageNamed:@"check"];
-        UIBarButtonItem *check = [[UIBarButtonItem alloc] initWithImage:checkImage landscapeImagePhone:checkImage style:UIBarButtonItemStylePlain target:self action:@selector(checkPressed:)];
-        [rightBarButtonItems addObject:check];
-    }
     self.navigationItem.rightBarButtonItems = rightBarButtonItems;
     
     /*
@@ -296,6 +286,15 @@
         self.playbackButton.hidden = NO;
         self.playbackWaveform.audioURL = [NSURL fileURLWithPath:[self.recorder getAudioDataFilePath]];
         [self.playbackWaveform setNeedsLayout]; // TODO: BUG UPSTREAM
+        
+        if ([self.delegate currentWordCanBeCheckedForWordPractice:self]) {
+            BOOL checked = [self.datasource wordCheckedStateForWordPractice:self];
+            if (checked)
+                [self.checkbox setImage:[UIImage imageNamed:@"checkon"] forState:UIControlStateNormal];
+            else
+                [self.checkbox setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
+            self.checkbox.hidden = NO;
+        }
         
         if (self.workflowState == 3) 
             [self continueNextWorkflowStep:nil];

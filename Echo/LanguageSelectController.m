@@ -34,6 +34,12 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"LanguageSelect"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+        [self.tableView setContentInset:UIEdgeInsetsMake(20,
+                                                         self.tableView.contentInset.left,
+                                                         self.tableView.contentInset.bottom,
+                                                         self.tableView.contentInset.right)];
 }
 
 #pragma mark - Table view data source

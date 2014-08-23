@@ -18,6 +18,7 @@
 #import "GAIDictionaryBuilder.h"
 #import "FDWaveformView.h"
 #import "F3BarGauge.h"
+#import "FDRightDetailWithTextFieldCell.h"
 
 #define NUMBER_OF_RECORDERS 3
 
@@ -360,6 +361,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
+    FDRightDetailWithTextFieldCell *FDCell;
     UITextField *textField;
     
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
@@ -369,43 +371,20 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             return cell;
         case CellTitle:
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
+            FDCell = (FDRightDetailWithTextFieldCell *)cell;
             self.wordLabel = cell.textLabel;
-            cell.detailTextLabel.hidden = YES;
-            [[cell viewWithTag:3] removeFromSuperview];
-            textField = [[UITextField alloc] init];
-            self.wordField = textField;
-            textField.tag = 3;
-            textField.translatesAutoresizingMaskIntoConstraints = NO;
-            [cell.contentView addSubview:textField];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-            textField.textAlignment = NSTextAlignmentRight;
-            textField.text = self.editingName;
-            textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
-            textField.delegate = self;
+            FDCell.textField.text = self.editingName;
+            FDCell.textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
+            FDCell.textField.delegate = self;
             return cell;
         case CellDetail:
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
+            FDCell = (FDRightDetailWithTextFieldCell *)cell;
             self.detailLabel = cell.textLabel;
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
-            cell.detailTextLabel.hidden = YES;
-            cell.detailTextLabel.hidden = YES;
-            [[cell viewWithTag:3] removeFromSuperview];
-            textField = [[UITextField alloc] init];
-            self.detailField = textField;
-            textField.tag = 3;
-            textField.translatesAutoresizingMaskIntoConstraints = NO;
-            [cell.contentView addSubview:textField];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8]];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:8]];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8]];
-            [cell addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.detailTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-            textField.textAlignment = NSTextAlignmentRight;
-            textField.text = self.editingDetail;
-            textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
-            textField.delegate = self;
+            FDCell.textField.text = self.editingDetail;
+            FDCell.textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
+            FDCell.textField.delegate = self;
             return cell;
         case CellRecording:
             cell = [tableView dequeueReusableCellWithIdentifier:@"record"];

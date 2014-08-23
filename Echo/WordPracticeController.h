@@ -34,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *recordButton;
 @property (weak, nonatomic) IBOutlet F3BarGauge *recordGuage;
 @property (strong, nonatomic) IBOutlet UIButton *playbackButton;
+@property (strong, nonatomic) IBOutlet UIButton *checkbox;
 @property (strong, nonatomic) IBOutlet FDWaveformView *playbackWaveform;
 @property (weak, nonatomic) id <WordPracticeDataSource> datasource;
 @property (weak, nonatomic) id <WordPracticeDelegate> delegate;
@@ -44,4 +45,5 @@
 - (IBAction)playbackButtonHeld;
 - (IBAction)resetWorkflow;
 - (IBAction)fastForwardPressed;
+- (IBAction)checkPressed:(id)sender;
 @end
