@@ -136,6 +136,12 @@
          [self.hud hide:NO];
          [NetworkManager hudFlashError:error];
      }];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
+                                                          action:@"Social"
+                                                           label:@"Saved profile"
+                                                           value:me.profileCompleteness] build]];
 }
 
 - (IBAction)labelIsCallingLanguageSelect:(UILabel *)sender

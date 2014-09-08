@@ -125,6 +125,12 @@
 {
     if (indexPath.row < self.lessons.count) {
         [self.delegate downloadLessonViewController:self gotStubLesson:[self.lessons objectAtIndex:indexPath.row]];
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
+                                                              action:@"Learning"
+                                                               label:@"Download Lesson"
+                                                               value:@(1)] build]];
+        
     } else {
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];

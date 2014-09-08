@@ -11,6 +11,8 @@
 #import "PHOREchoRecorder.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Audio.h"
+#import <GAI.h>
+#import <GAIDictionaryBuilder.h>
 
 
 @interface WordPracticeController () <PHOREchoRecorderDelegate>
@@ -171,6 +173,11 @@
         [self.checkbox setImage:[UIImage imageNamed:@"checkon"] forState:UIControlStateNormal];
     else
         [self.checkbox setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
+                                                          action:@"Learning"
+                                                           label:@"Checked word"
+                                                           value:@(checked)] build]];
 }
 
 - (IBAction)fastForwardPressed {
