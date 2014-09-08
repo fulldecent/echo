@@ -1,0 +1,51 @@
+PODS:
+  - AFNetworking (2.3.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
+  - AFNetworking/NSURLConnection (2.3.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.3.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.3.1)
+  - AFNetworking/Security (2.3.1)
+  - AFNetworking/Serialization (2.3.1)
+  - AFNetworking/UIKit (2.3.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Appirater (2.0.3)
+  - FDTake (0.2.2)
+  - FDWaveformView (0.2.1)
+  - GoogleAnalytics-iOS-SDK (3.0.9)
+  - MBProgressHUD (0.9)
+  - NSData+Base64 (1.0.0)
+  - TDBadgedCell (2.6)
+
+DEPENDENCIES:
+  - AFNetworking
+  - Appirater
+  - FDTake
+  - FDWaveformView
+  - GoogleAnalytics-iOS-SDK
+  - MBProgressHUD
+  - NSData+Base64
+  - TDBadgedCell
+
+SPEC CHECKSUMS:
+  AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
+  Appirater: 793f3723354b1b155f7ddc87fc6017bea889ce50
+  FDTake: 8d7c4f2ac64298017d5b57da023704c6d0afbe35
+  FDWaveformView: 38c4dc38a7dddce732967f921a50540b791432a0
+  GoogleAnalytics-iOS-SDK: d9e198b1f955259a72886769be7377cdfcdb2250
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
+  TDBadgedCell: e683b5557d12ea4e28a8d6ac20b6e394abc2c1fe
+
+COCOAPODS: 0.33.1
