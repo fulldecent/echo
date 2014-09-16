@@ -362,7 +362,6 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 {
     UITableViewCell *cell;
     FDRightDetailWithTextFieldCell *FDCell;
-    UITextField *textField;
     
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellLanguage:

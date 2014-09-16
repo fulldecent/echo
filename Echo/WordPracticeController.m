@@ -282,6 +282,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.recorder removeObserver:self forKeyPath:@"microphoneLevel"];
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark PHOREchoRecorderDelegate
