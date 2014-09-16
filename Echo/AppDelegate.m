@@ -13,7 +13,6 @@
 #import "GAI.h"
 #import "TDBadgedCell.h"
 #import "GoogleConversionPing.h"
-#import "BWQuincyManager.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
@@ -56,8 +55,6 @@
     }
     
     [Appirater appLaunched:YES];
-
-    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://learnwithecho.com/quincy/crash_v300.php"]; [[BWQuincyManager sharedQuincyManager] startManager];
     
     // https://developers.google.com/analytics/devguides/collection/ios/v3/
     // Optional: automatically send uncaught exceptions to Google Analytics.
