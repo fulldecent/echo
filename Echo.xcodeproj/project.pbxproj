@@ -491,7 +491,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PHOR;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				TargetAttributes = {
 					77B51379151970B100F041D7 = {
 						DevelopmentTeam = 8Q693ZG5RN;
@@ -711,6 +711,7 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
