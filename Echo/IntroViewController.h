@@ -15,7 +15,5 @@
 
 @interface IntroViewController : GAITrackedViewController
 @property (weak, nonatomic) id<DownloadLessonViewControllerDelegate> delegate;
-@property (strong, nonatomic) IBOutlet UIButton *nameField;
 - (IBAction)languageButtonClicked:(UIButton *)sender;
-- (IBAction)askUserForName;
 @end

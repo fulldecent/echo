@@ -12,11 +12,8 @@
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
 
-@interface IntroViewController() <MBProgressHUDDelegate, LanguageSelectControllerDelegate, UITextFieldDelegate, UIAlertViewDelegate>
+@interface IntroViewController() <MBProgressHUDDelegate, LanguageSelectControllerDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) UIAlertView *alertView;
-- (void)saveName:(NSString *)name andLanguageWithTag:(NSString *)tag;
 @end
 
 @implementation IntroViewController
@@ -26,17 +23,16 @@
 - (IBAction)languageButtonClicked:(UIButton *)sender
 {
     if (sender.tag == 1)
-        [self saveName:self.name andLanguageWithTag:@"en"];
+        [self saveLanguageWithTag:@"en"];
     if (sender.tag == 2)
-        [self saveName:self.name andLanguageWithTag:@"es"];
+        [self saveLanguageWithTag:@"es"];
     if (sender.tag == 3)
-        [self saveName:self.name andLanguageWithTag:@"cmn"];
+        [self saveLanguageWithTag:@"cmn"];
 }
 
-- (void)saveName:(NSString *)name andLanguageWithTag:(NSString *)tag
+- (void)saveLanguageWithTag:(NSString *)tag
 {
     Profile *me = [Profile currentUserProfile];
-    me.username = name;
     me.learningLanguageTag = tag;
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
@@ -55,34 +51,10 @@
      }];
 }
 
-- (void)askUserForName
-{
-    self.alertView = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"My name is:" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Continue", nil];
-    self.alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [[self.alertView textFieldAtIndex:0] setText:self.name];
-    [[self.alertView textFieldAtIndex:0] setDelegate:self];
-    [self.alertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    self.name = [(UITextField *)[alertView textFieldAtIndex:0] text];
-    [self.nameField setTitle:self.name forState:UIControlStateNormal];
-    if (!self.name.length)
-        [self askUserForName];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.screenName = @"IntroView";
-    [self.nameField setTitle:@"" forState:UIControlStateNormal];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self askUserForName];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -101,17 +73,6 @@
     return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    self.name = textField.text;
-    [self.nameField setTitle:self.name forState:UIControlStateNormal];
-    [self.alertView dismissWithClickedButtonIndex:self.alertView.firstOtherButtonIndex animated:YES];
-    if (!self.name.length)
-        [self askUserForName];
-    return YES;
-}
-
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud
@@ -123,7 +84,7 @@
 
 - (void)languageSelectController:(id)controller didSelectLanguage:(NSString *)tag withNativeName:(NSString *)name
 {
-    [self saveName:self.name andLanguageWithTag:tag];
+    [self saveLanguageWithTag:tag];
     [controller dismissAnimated:YES];
 }
 

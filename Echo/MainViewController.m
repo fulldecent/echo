@@ -121,7 +121,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     [super viewDidAppear:animated];
     Profile *me = [Profile currentUserProfile];
-    if (!me.username)
+    if (!me.learningLanguageTag)
         [self performSegueWithIdentifier:@"intro" sender:self];
 }
 

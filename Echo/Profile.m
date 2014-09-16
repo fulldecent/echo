@@ -37,6 +37,10 @@
     if (!userProfile)
         userProfile = [NSMutableDictionary dictionary];
     sharedInstance.username = [userProfile objectForKey:@"username"];
+    if (!sharedInstance.username) {
+        sharedInstance.username = [NSString stringWithFormat:@"user%d", arc4random()%1000000];
+        needToSync = YES;
+    }    
     sharedInstance.usercode = [userProfile objectForKey:@"usercode"];
     sharedInstance.userID = [userProfile objectForKey:@"userID"];
     if (!sharedInstance.usercode) { // deprecate 1.0.8, clean up backwards compatible
