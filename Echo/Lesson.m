@@ -51,14 +51,14 @@
     return _words;
 }
 
-- (NSString *)filePath
+- (NSURL *)fileURL
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
+    NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                         inDomains:NSUserDomainMask] lastObject];
     if (self.lessonID.intValue)
-        return [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.lessonID integerValue]]];
+        return [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.lessonID integerValue]]];
     else
-        return [documentsPath stringByAppendingPathComponent:self.lessonCode];
+        return [url URLByAppendingPathComponent:self.lessonCode];
 }
 
 - (void)setToLesson:(Lesson *)lesson
@@ -90,35 +90,33 @@
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
-    for (NSString *wordOnDisk in [fileManager contentsOfDirectoryAtPath:self.filePath error:nil]) {
-        NSString *wordPath = [self.filePath stringByAppendingPathComponent:wordOnDisk];
+    for (NSURL *wordOnDiskURL in [fileManager contentsOfDirectoryAtURL:self.fileURL includingPropertiesForKeys:nil options:nil error:nil]) {
         BOOL willKeepWord = NO;
         for (Word *word in self.words) {
-            if ([word.filePath isEqualToString:wordPath]) {
+            if ([word.fileURL isEqual:wordOnDiskURL]) {
                 willKeepWord = YES;
                 break;
             }
             if (willKeepWord) {
-                for (NSString *fileOnDisk in [fileManager contentsOfDirectoryAtPath:wordPath error:nil]) {
-                    NSString *filePath = [wordPath stringByAppendingPathComponent:fileOnDisk];
+                for (NSURL *fileOnDiskURL in [fileManager contentsOfDirectoryAtURL:wordOnDiskURL includingPropertiesForKeys:nil options:nil error:nil]) {
                     BOOL willKeepFile = NO;
                     for (Audio *audio in word.files) {
-                        if ([audio.filePath isEqualToString:filePath]) {
+                        if ([audio.fileURL isEqual:fileOnDiskURL]) {
                             willKeepFile = YES;
                             break;
                         }
                     }
                     if (!willKeepFile) {
-                        if ([fileManager removeItemAtPath:filePath error:&error] == NO) {
-                            NSLog(@"removeItemAtPath %@ error:%@", filePath, error);
+                        if ([fileManager removeItemAtURL:fileOnDiskURL error:&error] == NO) {
+                            NSLog(@"removeItemAtPath %@ error:%@", fileOnDiskURL, error);
                         }
                     }
                 }
             }
         }
         if (!willKeepWord) {
-            if ([fileManager removeItemAtPath:wordPath error:&error] == NO) {
-                NSLog(@"removeItemAtPath %@ error:%@", wordPath, error);
+            if ([fileManager removeItemAtURL:wordOnDiskURL error:&error] == NO) {
+                NSLog(@"removeItemAtPath %@ error:%@", wordOnDiskURL, error);
             }
         }
     }

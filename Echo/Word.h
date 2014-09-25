@@ -27,7 +27,7 @@
 @property (weak, nonatomic) Lesson *lesson;
 @property (strong, nonatomic) NSNumber *completed; // client side data
 
-- (NSString *)filePath;
+- (NSURL *)fileURL;
 - (NSArray *)listOfMissingFiles; // [Audio, ...]
 - (Audio *)fileWithCode:(NSString *)fileCode;
 

@@ -65,14 +65,14 @@
     return nil;
 }
 
-- (NSString *)filePath
+- (NSURL *)fileURL
 {
-    if (!self.lesson.filePath)
-        return NSTemporaryDirectory(); // a practice word
+    if (!self.lesson.fileURL)
+        return [NSURL fileURLWithPath:NSTemporaryDirectory()]; // a practice word
     if (self.wordID)
-        return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.wordID integerValue]]];
+        return [self.lesson.fileURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.wordID integerValue]]];
     else
-        return [self.lesson.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.wordCode]];
+        return [self.lesson.fileURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.wordCode]];
 }
 
 + (Word *)wordWithDictionary:(NSDictionary *)packed

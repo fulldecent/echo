@@ -19,17 +19,16 @@
     return _fileCode;
 }
 
-- (NSString *)filePath
+- (NSURL *)fileURL
 {
     if (self.fileID.intValue)
-        return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.fileID integerValue]]];
+        return [self.word.fileURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)[self.fileID integerValue]]];
     else
-        return [self.word.filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.fileCode]];
+        return [self.word.fileURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.fileCode]];
 }
 
 - (BOOL)fileExistsOnDisk
 {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    return [fileManager fileExistsAtPath:self.filePath];
+    return [self.fileURL checkResourceIsReachableAndReturnError:nil];
 }
 @end

@@ -113,7 +113,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         [self reload];
     }
     [super viewWillAppear:YES];
-    self.refreshControl.layer.zPosition = self.tableView.backgroundView.layer.zPosition + 1;
+ //   self.refreshControl.layer.zPosition = self.tableView.backgroundView.layer.zPosition + 1;
     [self.tableView reloadData];
 }
 

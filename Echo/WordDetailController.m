@@ -186,11 +186,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             audio.word = self.word;
         }
         if (recorder.audioWasModified) {
-            [fileManager removeItemAtPath:audio.filePath error:nil];
-            [fileManager createDirectoryAtPath:self.word.filePath withIntermediateDirectories:YES attributes:nil error:nil];
+            [fileManager removeItemAtURL:audio.fileURL error:nil];
+            [fileManager createDirectoryAtURL:self.word.fileURL withIntermediateDirectories:YES attributes:nil error:nil];
             NSError *error = nil;
             [fileManager moveItemAtPath:[recorder getAudioDataFilePath]
-                                 toPath:audio.filePath
+                                 toPath:[audio.fileURL absoluteString]
                                   error:&error];
             if (error)
                 NSLog(@"Word file copy error: %@", [error localizedDescription]);
@@ -279,7 +279,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         PHOREchoRecorder *recorder;
         if (i < [self.word.files count]) {
             Audio *file = [self.word.files objectAtIndex:i];
-            recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtFilePath:file.filePath];
+            recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtFilePath:[file.fileURL absoluteString]];
         }
         else
             recorder = [[PHOREchoRecorder alloc] init];
@@ -293,9 +293,12 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     //Set the general audio session category
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error:&setCategoryErr];
     
-    //Make the default sound route for the session be to use the speaker
-    UInt32 doChangeDefaultRoute = 1;
-    AudioSessionSetProperty (kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof (doChangeDefaultRoute), &doChangeDefaultRoute);
+    AVAudioSession *audioSession; // get your audio session somehow
+    NSError *error;
+    BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+    if (!success) {
+        NSLog(@"error doing outputaudioportoverride - %@", [error localizedDescription]);
+    }
     
     //Activate the customized audio session
     [[AVAudioSession sharedInstance] setActive: YES error: &activationErr];
@@ -397,15 +400,16 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             
             if (indexPath.row < [self.word.files count]) {
                 Audio *file = [self.word.files objectAtIndex:indexPath.row];
-            
+
                 // Workaround because AVURLAsset needs files with file extensions
                 // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
+                NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                                              inDomains:NSUserDomainMask] lastObject];
+                NSURL *tmpURL = [documentsURL URLByAppendingPathComponent:@"tmp.caf"];
                 NSFileManager *dfm = [NSFileManager defaultManager];
-                NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-                NSString *tmpPath = [[documentPaths lastObject] stringByAppendingPathComponent:@"tmp.caf"];
-                [dfm removeItemAtPath:tmpPath error:nil];
-                [dfm linkItemAtPath:file.filePath toPath:tmpPath error:nil];
-                waveform.audioURL = [NSURL fileURLWithPath:tmpPath];
+                [dfm removeItemAtURL:tmpURL error:nil];
+                [dfm linkItemAtURL:file.fileURL toURL:tmpURL error:nil];
+                waveform.audioURL = tmpURL;
             }
             
             [playButton addSubview:waveform];

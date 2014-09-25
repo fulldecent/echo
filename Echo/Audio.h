@@ -12,7 +12,7 @@
 @interface Audio : NSObject
 @property (strong, nonatomic) NSNumber *fileID;
 @property (strong, nonatomic) NSString *fileCode;
-@property (readonly, strong, nonatomic) NSString *filePath;
+@property (readonly, strong, nonatomic) NSURL *fileURL;
 @property (weak, nonatomic) Word *word;
 - (BOOL)fileExistsOnDisk;
 @end

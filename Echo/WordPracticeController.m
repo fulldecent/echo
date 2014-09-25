@@ -63,21 +63,21 @@
     
     int index = arc4random() % [self.word.files count];
     Audio *chosenAudio = [self.word.files objectAtIndex:index];
-    NSString *filePath = [chosenAudio filePath];
-    NSURL *url = [NSURL fileURLWithPath:filePath];
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    NSURL *fileURL = [chosenAudio fileURL];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     self.audioPlayer.pan = -0.5;
     [self.audioPlayer play];
     
     // Workaround because AVURLAsset needs files with file extensions
     // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
+    NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                                  inDomains:NSUserDomainMask] lastObject];
+    NSURL *tmpURL = [documentsURL URLByAppendingPathComponent:@"tmp.caf"];
     NSFileManager *dfm = [NSFileManager defaultManager];
-    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *tmpPath = [[documentPaths lastObject] stringByAppendingPathComponent:@"tmp.caf"];
-    [dfm removeItemAtPath:tmpPath error:nil];
-    [dfm linkItemAtPath:filePath toPath:tmpPath error:nil];
+    [dfm removeItemAtURL:tmpURL error:nil];
+    [dfm linkItemAtURL:fileURL toURL:tmpURL error:nil];
     
-    self.trainingWaveform.audioURL = [NSURL fileURLWithPath:tmpPath];
+    self.trainingWaveform.audioURL = tmpURL;
     self.trainingWaveform.progressSamples = 0;
     [UIView animateWithDuration:self.audioPlayer.duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.trainingWaveform.progressSamples = self.trainingWaveform.totalSamples;
@@ -263,9 +263,12 @@
     //Set the general audio session category
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: &setCategoryErr];
     
-    //Make the default sound route for the session be to use the speaker
-    UInt32 doChangeDefaultRoute = 1;
-    AudioSessionSetProperty (kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof (doChangeDefaultRoute), &doChangeDefaultRoute);
+    AVAudioSession *audioSession; // get your audio session somehow
+    NSError *error;
+    BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+    if (!success) {
+        NSLog(@"error doing outputaudioportoverride - %@", [error localizedDescription]);
+    }
     
     //Activate the customized audio session
     [[AVAudioSession sharedInstance] setActive: YES error: &activationErr];

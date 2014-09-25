@@ -293,7 +293,7 @@
         for (Audio *file in word.files) {
             fileNum++;
             NSString *fileName = [NSString stringWithFormat:@"file%d", fileNum];
-            NSData *fileData = [NSData dataWithContentsOfFile:[file filePath]];
+            NSData *fileData = [NSData dataWithContentsOfURL:file.fileURL];
             [formData appendPartWithFileData:fileData name:fileName fileName:fileName mimeType:@"audio/mp4a-latm"];
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -323,7 +323,7 @@
         for (Audio *file in word.files) {
             fileNum++;
             NSString *fileName = [NSString stringWithFormat:@"file%d", fileNum];
-            NSData *fileData = [NSData dataWithContentsOfFile:[file filePath]];
+            NSData *fileData = [NSData dataWithContentsOfURL:file.fileURL];
             [formData appendPartWithFileData:fileData name:fileName fileName:fileName mimeType:@"audio/mp4a-latm"];
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -407,9 +407,12 @@
         }
     }];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *dirname = [audio.filePath stringByDeletingLastPathComponent];
-    [fileManager createDirectoryAtPath:dirname withIntermediateDirectories:YES attributes:nil error:nil];
-    request.outputStream = [NSOutputStream outputStreamToFileAtPath:audio.filePath append:NO];
+    NSURL *dirURL = [audio.fileURL URLByDeletingLastPathComponent];
+    NSError *error;
+    [fileManager createDirectoryAtURL:dirURL withIntermediateDirectories:YES attributes:nil error:&error];
+    NSOutputStream *out = [NSOutputStream outputStreamWithURL:audio.fileURL append:NO];
+    [out open];
+    request.outputStream = out;
     [request start];
 }
 
@@ -504,7 +507,7 @@
              Word *word = [lessonToSync wordWithCode:[wordAndFileCode objectForKey:@"wordCode"]];
              Audio *file = [word fileWithCode:[wordAndFileCode objectForKey:@"fileCode"]];
 
-             [self putAudioFileAtPath:file.filePath
+             [self putAudioFileAtPath:[file.fileURL absoluteString]
                             forLesson:lessonToSync
                              withWord:word
                             usingCode:file.fileCode

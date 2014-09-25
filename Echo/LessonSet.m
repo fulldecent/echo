@@ -81,12 +81,12 @@
 - (void)deleteLesson:(Lesson *)lesson
 {
     // Remove files
-    NSString *lessonPath = lesson.filePath;
+    NSURL *lessonURL = lesson.fileURL;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
-    if ([fileManager fileExistsAtPath:lessonPath]) {
-        if ([fileManager removeItemAtPath:lessonPath error:&error] == NO) {
-            NSLog(@"removeItemAtPath %@ error:%@", lessonPath, error);
+    if ([lessonURL checkResourceIsReachableAndReturnError:nil]) {
+        if ([fileManager removeItemAtURL:lessonURL error:&error] == NO) {
+            NSLog(@"removeItemAtPath %@ error:%@", lessonURL, error);
         }
     }
     

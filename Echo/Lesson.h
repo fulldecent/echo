@@ -27,7 +27,7 @@
 @property (strong, nonatomic) NSNumber *numUsers;
 @property (strong, nonatomic) NSDictionary *translations; // {"en":Lesson *,...}
 
-@property (readonly, strong, nonatomic) NSString *filePath;
+@property (readonly, strong, nonatomic) NSURL *fileURL;
 
 - (void)setToLesson:(Lesson *)lesson;
 - (void)removeStaleFiles;
