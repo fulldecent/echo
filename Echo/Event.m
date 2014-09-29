@@ -18,14 +18,14 @@
 #define kHtmlDescription @"description"
 #define kWasRead @"wasRead"
 
-#define kEventTypePostLesson @"EventTypePostLesson"
-#define kEventTypeLikeLesson @"EventTypeLikeLesson"
-#define kEventTypeFlagLesson @"EventTypeFlagLesson"
-#define kEventTypeFlagUser @"EventTypeFlagUser"
-#define kEventTypeUpdateUser @"EventTypeUpdateUser"
-#define kEventTypePostPractice @"EventTypePostPractice"
-#define kEventTypeFeedbackLesson @"EventTypeFeedbackLesson"
-#define kEventTypeReplyPractice @"EventTypeReplyPractice"
+#define kEventTypePostLesson @"postLesson"
+#define kEventTypeLikeLesson @"likeLesson"
+#define kEventTypeFlagLesson @"flagLesson"
+#define kEventTypeFlagUser @"flagUser"
+#define kEventTypeUpdateUser @"updateUser"
+#define kEventTypePostPractice @"postPractice"
+#define kEventTypeFeedbackLesson @"feedbackLesson"
+#define kEventTypeReplyPractice @"replyPractice"
 
 @implementation Event
 

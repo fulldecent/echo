@@ -334,6 +334,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell = [tableView dequeueReusableCellWithIdentifier:@"social"];
             event = [self eventForRowAtIndexPath:indexPath];
             
+            cell.selectionStyle = event.eventType == EventTypePostPractice ?
+            UITableViewCellSelectionStyleDefault :
+            UITableViewCellSelectionStyleNone;
+            
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
             [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -355,6 +359,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                                                                   documentAttributes:nil error:nil];
  */
 
+            cell.accessoryType = event.eventType == EventTypePostPractice ? UITableViewCellAccessoryDisclosureIndicator: UITableViewCellAccessoryNone;
             return cell;
         }
     }
@@ -386,6 +391,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
             Event *event = [self eventForRowAtIndexPath:indexPath];
             NSNumber *practiceID = event.targetWordID;
+
+            if (event.eventType != EventTypePostPractice)
+                return;
+            
             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             self.hud.delegate = self;
             self.hud.mode = MBProgressHUDModeAnnularDeterminate;
@@ -408,8 +417,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                  [self.hud hide:YES];
                  [NetworkManager hudFlashError:error];
              }];
-            
-            
         }
     }
 }
