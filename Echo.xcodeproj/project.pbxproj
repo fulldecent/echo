@@ -98,6 +98,7 @@
 		D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
+		D9EC6F4519D9010500B07301 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EC6F4419D9010500B07301 /* Event.m */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
@@ -220,6 +221,8 @@
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D9956EEA17F4C759008070EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D9EC6F4319D9010500B07301 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		D9EC6F4419D9010500B07301 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
 		D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = Echo/libGoogleConversionTracking.a; sourceTree = "<group>"; };
 		F1BCA506CBE64FE7852ADA22 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -275,6 +278,8 @@
 				77BBFE0F157C189600511CEC /* Languages.m */,
 				77FB0F6B16E296440000D4F5 /* Profile.h */,
 				77FB0F6C16E296440000D4F5 /* Profile.m */,
+				D9EC6F4319D9010500B07301 /* Event.h */,
+				D9EC6F4419D9010500B07301 /* Event.m */,
 				7749939515A0C409001DE784 /* NetworkManager.h */,
 				7749939615A0C409001DE784 /* NetworkManager.m */,
 			);
@@ -632,6 +637,7 @@
 				77A50BE7157EEB6500027CB1 /* Word.m in Sources */,
 				77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
+				D9EC6F4519D9010500B07301 /* Event.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
 				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
 				77ED9D111661615D005D10ED /* IntroViewController.m in Sources */,

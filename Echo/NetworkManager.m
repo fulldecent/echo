@@ -11,6 +11,7 @@
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import "Audio.h"
 #import "NSData+Base64.h"
+#import "Event.h"
 
 @interface NetworkManager() <MBProgressHUDDelegate>
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -376,8 +377,31 @@
                             onFailure:(void(^)(NSError *error))failureBlock
 {
     AFHTTPRequestOperation *request = [self.requestManager GET:@"events/eventsTargetingMe/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray *events = [NSMutableArray array];
+        for (id item in (NSArray *)responseObject) {
+            NSData *data = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
+            [events addObject:[Event eventWithJSON:data]];
+        }
         if (successBlock)
-            successBlock(responseObject);
+            successBlock(events);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failureBlock)
+            failureBlock(error);
+    }];
+    [request start];
+}
+
+- (void)getEventsIMayBeInterestedInOnSuccess:(void(^)(NSArray *events))successBlock
+                                   onFailure:(void(^)(NSError *error))failureBlock
+{
+    AFHTTPRequestOperation *request = [self.requestManager GET:@"events/eventsIMayBeInterestedIn/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray *events = [NSMutableArray array];
+        for (id item in (NSArray *)responseObject) {
+            NSData *data = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
+            [events addObject:[Event eventWithJSON:data]];
+        }
+        if (successBlock)
+            successBlock(events);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);

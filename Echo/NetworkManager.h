@@ -72,6 +72,9 @@ onFailure:(void(^)(NSError *error))failureBlock;
 - (void)getEventsTargetingMeOnSuccess:(void(^)(NSArray *events))successBlock
                             onFailure:(void(^)(NSError *error))failureBlock;
 
+- (void)getEventsIMayBeInterestedInOnSuccess:(void(^)(NSArray *events))successBlock
+                                   onFailure:(void(^)(NSError *error))failureBlock;
+
 
 /* HELPER FUNCTIONS */
 

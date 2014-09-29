@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Appirater (2.0.3)
+  - Appirater (2.0.4)
   - FDTake (0.2.2)
   - FDWaveformView (0.2.2)
   - GoogleAnalytics-iOS-SDK (3.0.9)
@@ -40,7 +40,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Appirater: 793f3723354b1b155f7ddc87fc6017bea889ce50
+  Appirater: cbdb7f305562cfde585300bfff86da01ae559deb
   FDTake: 8d7c4f2ac64298017d5b57da023704c6d0afbe35
   FDWaveformView: aa6a5882bf00864c9876c629597734df921e1ac1
   GoogleAnalytics-iOS-SDK: d9e198b1f955259a72886769be7377cdfcdb2250

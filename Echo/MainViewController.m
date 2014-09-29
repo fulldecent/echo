@@ -25,15 +25,21 @@
 #import "GAIDictionaryBuilder.h"
 #import "TDBadgedCell.h"
 #import <NSData+Base64.h>
+#import "Event.h"
+#import "UIImageView+AFNetworking.h"
 
-typedef enum {SectionLessons, SectionPractice, SectionCount} Sections;
-typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople} Cells;
+typedef enum {SectionLessons, SectionPractice, SectionSocial, SectionCount} Sections;
+typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople, CellEvent} Cells;
 
 @interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) NSArray *myEvents;
+@property (strong, nonatomic) NSArray *otherEvents;
+@property (strong, nonatomic) Word *currentWord;
+
 @end
 
 @implementation MainViewController
@@ -80,6 +86,22 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          [self.refreshControl endRefreshing];
          [NetworkManager hudFlashError:error];
      }];
+    
+    [networkManager getEventsIMayBeInterestedInOnSuccess:^(NSArray *events) {
+        self.otherEvents = events;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionSocial] withRowAnimation:UITableViewRowAnimationAutomatic];
+        ;
+    } onFailure:^(NSError *error) {
+        ;
+    }];
+    
+    [networkManager getEventsTargetingMeOnSuccess:^(NSArray *events) {
+        self.myEvents = events;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionPractice] withRowAnimation:UITableViewRowAnimationAutomatic];
+        ;
+    } onFailure:^(NSError *error) {
+        ;
+    }];
 }
 
 #pragma mark - UITableViewController
@@ -166,9 +188,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                 return CellEditProfile;
             else if (indexPath.row == 1)
                 return CellNewPractice;
-            else if (indexPath.row == 2)
-                return CellMeetPeople;
-            break;
+            else
+                return CellEvent;
+        case SectionSocial:
+            return CellEvent;
     }
     assert (0);
     return 0;
@@ -189,6 +212,17 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     return [NSIndexPath indexPathForRow:index+2 inSection:SectionLessons];
 }
 
+- (Event *)eventForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == SectionPractice)
+        return [self.myEvents objectAtIndex:indexPath.row - 2];
+    else if (indexPath.section == SectionSocial)
+        return [self.otherEvents objectAtIndex:indexPath.row];
+    return nil;
+}
+
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return SectionCount;
@@ -200,7 +234,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case SectionLessons:
             return self.lessonSet.lessons.count + 2;
         case SectionPractice:
-            return 3;
+            return self.myEvents.count + 2;
+        case SectionSocial:
+            return self.otherEvents.count;
     }
     assert(0);
     return 0;
@@ -221,6 +257,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     TDBadgedCell *cell; /* Sometimes Interface Builder has a UITableViewCell, you keep track of that */
     Lesson *lesson;
+    Event *event;
     Profile *me = [Profile currentUserProfile];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
@@ -302,6 +339,34 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             } else
                 cell.badgeString = nil;
             return cell;
+        case CellEvent:
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"social"];
+            event = [self eventForRowAtIndexPath:indexPath];
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[event.timestamp doubleValue]];
+            NSString *formattedDateString = [dateFormatter stringFromDate:date];
+            cell.detailTextLabel.text = formattedDateString;
+            
+            NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+            UIImage *placeholder = [UIImage imageNamed:@"none40"];
+            NSURL *userPhoto = [networkManager photoURLForUserWithID:event.actingUserID];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:userPhoto];
+            [cell.imageView setImageWithURLRequest:request placeholderImage:placeholder success:nil failure:nil];
+
+            cell.textLabel.text = event.htmlDescription;
+/*
+            cell.textLabel.attributedText = [[NSAttributedString alloc] initWithData:[event.htmlDescription dataUsingEncoding:NSUTF8StringEncoding]
+                                                                             options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                       NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                                  documentAttributes:nil error:nil];
+ */
+
+            return cell;
+        }
     }
     assert (0);
     return 0;
@@ -327,6 +392,37 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case CellEditProfile:
         case CellMeetPeople:
             break;
+        case CellEvent:
+        {
+            NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
+            Event *event = [self eventForRowAtIndexPath:indexPath];
+            NSNumber *practiceID = event.targetWordID;
+            self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.hud.delegate = self;
+            self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+            
+            [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress) {
+                self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+                self.hud.progress = [progress floatValue];
+                if ([progress floatValue] == 1.0) {
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                    WordPracticeController *controller = (WordPracticeController *)[storyboard instantiateViewControllerWithIdentifier:@"WordPractice"];
+                    //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
+                    self.currentWord = word;
+                    controller.datasource = self;
+                    controller.delegate = self;
+                    [self.navigationController pushViewController:controller animated:YES];
+                    [self.hud hide:YES];
+                }
+            }
+                                   onFailure:^(NSError *error)
+             {
+                 [self.hud hide:YES];
+                 [NetworkManager hudFlashError:error];
+             }];
+            
+            
+        }
     }
 }
 
@@ -541,5 +637,52 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [self.navigationController popToRootViewControllerAnimated:YES];
     [self performSegueWithIdentifier:@"meetPeople" sender:self];
 }
+
+// FROM WEB VIEW CONTROLLER..................
+
+#pragma mark - WordDetailViewControllerDelegate
+
+/*
+- (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word
+{
+    return NO;
+}
+ */
+
+- (BOOL)wordDetailController:(WordDetailController *)controller canReplyWord:(Word *)word
+{
+    return YES;
+}
+
+#pragma mark - WordPracticeViewController
+
+- (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice
+{
+    return self.currentWord;
+}
+
+- (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice
+{
+    return false;
+}
+
+- (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice
+{
+}
+
+- (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice
+{
+    return false;
+}
+
+- (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state
+{
+}
+
+- (BOOL)wordPracticeShouldShowNextButton:(WordPracticeController *)wordPractice;
+{
+    return false;
+}
+
 
 @end

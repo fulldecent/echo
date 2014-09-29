@@ -63,16 +63,6 @@
     controller.delegate = self;
 }
 
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if ([textField.text length] + [string length] - range.length > 16)
-        return NO;
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^[-a-zA-Z0-9]?$" options:0 error:nil];
-    return [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)] > 0;
-}
-
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud
