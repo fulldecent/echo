@@ -189,9 +189,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             [fileManager removeItemAtURL:audio.fileURL error:nil];
             [fileManager createDirectoryAtURL:self.word.fileURL withIntermediateDirectories:YES attributes:nil error:nil];
             NSError *error = nil;
-            [fileManager moveItemAtPath:[recorder getAudioDataFilePath]
-                                 toPath:[audio.fileURL absoluteString]
-                                  error:&error];
+            [fileManager moveItemAtURL:[recorder getAudioDataURL] toURL:audio.fileURL error:&error];
             if (error)
                 NSLog(@"Word file copy error: %@", [error localizedDescription]);
             [files addObject:audio];
@@ -279,7 +277,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
         PHOREchoRecorder *recorder;
         if (i < [self.word.files count]) {
             Audio *file = [self.word.files objectAtIndex:i];
-            recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtFilePath:[file.fileURL absoluteString]];
+            recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtURL:file.fileURL];
         }
         else
             recorder = [[PHOREchoRecorder alloc] init];
@@ -293,7 +291,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     //Set the general audio session category
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error:&setCategoryErr];
     
-    AVAudioSession *audioSession; // get your audio session somehow
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *error;
     BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
     if (!success) {
@@ -375,18 +373,26 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             FDCell = (FDRightDetailWithTextFieldCell *)cell;
             self.wordLabel = cell.textLabel;
-            FDCell.textField.text = self.editingName;
-            FDCell.textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
-            FDCell.textField.delegate = self;
+            self.wordField = FDCell.textField;
+            self.wordField.text = self.editingName;
+            self.wordField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
+            self.wordField.delegate = self;
+            [self.wordField addTarget:self
+                               action:@selector(textFieldDidChange:)
+                     forControlEvents:UIControlEventEditingChanged];
             return cell;
         case CellDetail:
             cell = [tableView dequeueReusableCellWithIdentifier:@"detail"];
             FDCell = (FDRightDetailWithTextFieldCell *)cell;
             self.detailLabel = cell.textLabel;
+            self.detailField = FDCell.textField;
             self.detailLabel.text = [NSString stringWithFormat:@"Detail (%@)", self.editingLanguageTag];
-            FDCell.textField.text = self.editingDetail;
-            FDCell.textField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
-            FDCell.textField.delegate = self;
+            self.detailField.text = self.editingDetail;
+            self.detailField.enabled = [self.delegate wordDetailController:self canEditWord:self.word];
+            self.detailField.delegate = self;
+            [self.detailField addTarget:self
+                                 action:@selector(textFieldDidChange:)
+                       forControlEvents:UIControlEventEditingChanged];
             return cell;
         case CellRecording:
             cell = [tableView dequeueReusableCellWithIdentifier:@"record"];
@@ -502,13 +508,18 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [textField resignFirstResponder];
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
     if (textField == self.wordField)
         self.editingName = textField.text;
     else
         self.editingDetail = textField.text;
     [self validate];
-    [textField resignFirstResponder];
 }
+
 
 #pragma mark - PHOR Echo Recorder Delegate
 

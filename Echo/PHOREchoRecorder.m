@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSTimer *updateTimer;
 @property (strong, nonatomic) NSMutableArray *history;
 @property (nonatomic) double speakingBeginTime;
-@property (strong, nonatomic) NSURL *temporaryAudioFile;
+@property (strong, nonatomic) NSURL *temporaryAudioURL;
 @end
 
 @implementation PHOREchoRecorder
@@ -27,7 +27,7 @@
 @synthesize updateTimer = _updateTimer;
 @synthesize history = _history;
 @synthesize speakingBeginTime = _speakingBeginTime;
-@synthesize temporaryAudioFile = _temporaryAudioFile;
+@synthesize temporaryAudioURL = _temporaryAudioURL;
 @synthesize pan = _pan;
 @synthesize duration = _duration;
 @synthesize delegate = _delegate;
@@ -62,7 +62,7 @@
          nil];
         
         NSError *error = nil;
-        _audioRecorder = [[ AVAudioRecorder alloc] initWithURL:self.temporaryAudioFile settings:recordSettings error:&error];
+        _audioRecorder = [[ AVAudioRecorder alloc] initWithURL:self.temporaryAudioURL settings:recordSettings error:&error];
         _audioRecorder.delegate = self;
         _audioRecorder.meteringEnabled = YES;
         
@@ -73,14 +73,15 @@
     return _audioRecorder;
 }
 
-- (NSURL *)temporaryAudioFile
+- (NSURL *)temporaryAudioURL
 {
-    if (!_temporaryAudioFile) {
+    if (!_temporaryAudioURL) {
         NSString *file = [NSString stringWithFormat:@"recording%x.caf", arc4random()];
-        _temporaryAudioFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent: file]];
-        NSLog(@"Opened recording file for writing: %@", _temporaryAudioFile);
+        NSURL *tmpDir = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
+        _temporaryAudioURL = [tmpDir URLByAppendingPathComponent:file];
+        NSLog(@"Opened recording file for writing: %@", _temporaryAudioURL);
     }
-    return _temporaryAudioFile;
+    return _temporaryAudioURL;
 }
 
 // DESIGNATED INITIALIZER
@@ -91,18 +92,18 @@
     return self;
 }
 
-- (id)initWithAudioDataAtFilePath:(NSString *)filePath
+- (id)initWithAudioDataAtURL:(NSURL *)url
 {
     self = [self init];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    while ([fileManager fileExistsAtPath:[self.temporaryAudioFile absoluteString]]) {
-        self.temporaryAudioFile = nil;
+    while ([fileManager fileExistsAtPath:[self.temporaryAudioURL absoluteString]]) {
+        self.temporaryAudioURL = nil;
     }
 
     NSError *error = nil;
-    if (![[NSFileManager defaultManager] copyItemAtURL:[NSURL fileURLWithPath:filePath] toURL:self.temporaryAudioFile error:&error])
+    if (![[NSFileManager defaultManager] copyItemAtURL:url toURL:self.temporaryAudioURL error:&error])
         NSLog(@"%@", error);
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioFile error:&error];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioURL error:&error];
     self.duration = [NSNumber numberWithDouble:self.audioPlayer.duration]; 
     return self;
 }
@@ -208,27 +209,28 @@
 
 - (void)playback
 {
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioFile error:nil];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioURL error:nil];
     self.audioPlayer.currentTime = self.speakingBeginTime;
     self.audioPlayer.pan = [self.pan floatValue];
     [self.audioPlayer play];
 }
 
-- (NSString *)getAudioDataFilePath
+- (NSURL *)getAudioDataURL
 {
     // Prepare output 
     NSString *trimmedAudioFileBaseName = [NSString stringWithFormat:@"recordingConverted%x.caf", arc4random()];
-    NSString *trimmedAudioFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:trimmedAudioFileBaseName];
+    NSURL *tmpDir = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
+    NSURL *trimmedAudioURL = [tmpDir URLByAppendingPathComponent:trimmedAudioFileBaseName];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:trimmedAudioFilePath]) {
+    if ([trimmedAudioURL checkResourceIsReachableAndReturnError:nil]) {
         NSError *error;
-        if ([fileManager removeItemAtPath:trimmedAudioFilePath error:&error] == NO) {
-            NSLog(@"removeItemAtPath %@ error:%@", trimmedAudioFilePath, error);
+        if ([fileManager removeItemAtURL:trimmedAudioURL error:&error] == NO) {
+            NSLog(@"removeItemAtPath %@ error:%@", trimmedAudioURL, error);
         }
     }
-    NSLog(@"Converting %@", self.temporaryAudioFile);
+    NSLog(@"Converting %@", self.temporaryAudioURL);
     
-    AVAsset *avAsset = [AVAsset assetWithURL:self.temporaryAudioFile];
+    AVAsset *avAsset = [AVAsset assetWithURL:self.temporaryAudioURL];
     
     // get the first audio track
     NSArray *tracks = [avAsset tracksWithMediaType:AVMediaTypeAudio];
@@ -265,7 +267,7 @@
                                       arrayWithObject:exportAudioMixInputParameters]; 
     
     // configure export session  output with all our parameters
-    exportSession.outputURL = [NSURL fileURLWithPath:trimmedAudioFilePath]; // output path
+    exportSession.outputURL = trimmedAudioURL; // output path
     exportSession.outputFileType = AVFileTypeAppleM4A; // output file type
     exportSession.timeRange = exportTimeRange; // trim time range
     exportSession.audioMix = exportAudioMix; // fade in audio mix
@@ -279,8 +281,8 @@
     //dispatch_release(semaphore);
     
     if (AVAssetExportSessionStatusCompleted == exportSession.status) {
-        NSLog(@"AVAssetExportSessionStatusCompleted: %@", trimmedAudioFilePath);
-        return trimmedAudioFilePath;
+        NSLog(@"AVAssetExportSessionStatusCompleted: %@", trimmedAudioURL);
+        return trimmedAudioURL;
     } else if (AVAssetExportSessionStatusFailed == exportSession.status) {
         // a failure may happen because of an event out of your control
         // for example, an interruption like a phone call comming in
@@ -296,10 +298,10 @@
 - (void)dealloc
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:[self.temporaryAudioFile absoluteString]]) {
+    if ([fileManager fileExistsAtPath:[self.temporaryAudioURL absoluteString]]) {
         //NSError *error;
-        if ([fileManager removeItemAtPath:[self.temporaryAudioFile absoluteString] error:nil] == NO) {
-        //    NSLog(@"removeItemAtPath %@ error:%@", [self.temporaryAudioFile absoluteString], error);
+        if ([fileManager removeItemAtPath:[self.temporaryAudioURL absoluteString] error:nil] == NO) {
+        //    NSLog(@"removeItemAtPath %@ error:%@", [self.temporaryAudioURL absoluteString], error);
         }
     }
 }

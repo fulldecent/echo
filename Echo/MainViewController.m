@@ -29,7 +29,7 @@
 #import "UIImageView+AFNetworking.h"
 
 typedef enum {SectionLessons, SectionPractice, SectionSocial, SectionCount} Sections;
-typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellMeetPeople, CellEvent} Cells;
+typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellEvent} Cells;
 
 @interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
@@ -329,16 +329,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             } else
                 cell.badgeString = nil;
             return cell;
-        case CellMeetPeople:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"meetPeople"];
-            [(UILabel *)[cell viewWithTag:2] setText:@"And read messages"];
-            if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue]) {
-                cell.badgeString = [NSString stringWithFormat:@"%ld", (long)[[defaults objectForKey:@"numNewMessages"] integerValue]];
-                if ([(NSNumber *)[defaults objectForKey:@"numNewMessages"] integerValue] == -1)
-                    cell.badgeString = @"New";
-            } else
-                cell.badgeString = nil;
-            return cell;
         case CellEvent:
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"social"];
@@ -390,7 +380,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         case CellCreateLesson:
         case CellNewPractice:
         case CellEditProfile:
-        case CellMeetPeople:
             break;
         case CellEvent:
         {
@@ -406,10 +395,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                 self.hud.progress = [progress floatValue];
                 if ([progress floatValue] == 1.0) {
                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                    WordPracticeController *controller = (WordPracticeController *)[storyboard instantiateViewControllerWithIdentifier:@"WordPractice"];
-                    //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
+                    WordDetailController *controller = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
                     self.currentWord = word;
-                    controller.datasource = self;
+                    controller.word = word;
                     controller.delegate = self;
                     [self.navigationController pushViewController:controller animated:YES];
                     [self.hud hide:YES];

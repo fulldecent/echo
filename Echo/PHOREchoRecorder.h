@@ -15,7 +15,7 @@
 @end
 
 @interface PHOREchoRecorder : NSObject
-- (id)initWithAudioDataAtFilePath:(NSString *)filePath;
+- (id)initWithAudioDataAtURL:(NSURL *)url;
 @property (strong, nonatomic) NSNumber *microphoneLevel;
 @property (strong, nonatomic) NSNumber *duration;
 @property (strong, nonatomic) NSNumber *pan;
@@ -25,5 +25,5 @@
 - (void)stopRecordingAndKeepResult:(BOOL)save;
 - (void)playback;
 - (void)reset;
-- (NSString *)getAudioDataFilePath;
+- (NSURL *)getAudioDataURL;
 @end

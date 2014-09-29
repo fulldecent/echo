@@ -263,7 +263,7 @@
     //Set the general audio session category
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: &setCategoryErr];
     
-    AVAudioSession *audioSession; // get your audio session somehow
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *error;
     BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
     if (!success) {
@@ -295,7 +295,7 @@
     if (success) {
         self.recordButton.hidden = YES;
         self.playbackButton.hidden = NO;
-        self.playbackWaveform.audioURL = [NSURL fileURLWithPath:[self.recorder getAudioDataFilePath]];
+        self.playbackWaveform.audioURL = [self.recorder getAudioDataURL];
         [self.playbackWaveform setNeedsLayout]; // TODO: BUG UPSTREAM
         
         if ([self.delegate currentWordCanBeCheckedForWordPractice:self]) {
