@@ -43,7 +43,6 @@
 		779F86881586BFD500EDD3BA /* 37x-BigX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */; };
 		779F86891586BFD500EDD3BA /* 37x-BigX.png in Resources */ = {isa = PBXBuildFile; fileRef = 779F86871586BFD500EDD3BA /* 37x-BigX.png */; };
 		77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C27C151E6451006F2B69 /* QuartzCore.framework */; };
-		77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */; };
 		77A50BE0157C4E1B00027CB1 /* iphone_delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */; };
 		77A50BE3157C59BE00027CB1 /* Checkbox checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BE2157C59BE00027CB1 /* Checkbox checked.png */; };
 		77A50BE7157EEB6500027CB1 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE6157EEB6500027CB1 /* Word.m */; };
@@ -145,8 +144,6 @@
 		779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-BigX@2x.png"; sourceTree = "<group>"; };
 		779F86871586BFD500EDD3BA /* 37x-BigX.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-BigX.png"; sourceTree = "<group>"; };
 		77A1C27C151E6451006F2B69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonInformationViewController.h; sourceTree = "<group>"; };
-		77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonInformationViewController.m; sourceTree = "<group>"; };
 		77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone_delete_button.png; sourceTree = "<group>"; };
 		77A50BE2157C59BE00027CB1 /* Checkbox checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox checked.png"; sourceTree = "<group>"; };
 		77A50BE5157EEB6500027CB1 /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
@@ -406,8 +403,6 @@
 			children = (
 				77D8AD2D157AE373001E2E25 /* LessonViewController.h */,
 				77D8AD2E157AE373001E2E25 /* LessonViewController.m */,
-				77A2DA6E15DFE9660032BDE0 /* LessonInformationViewController.h */,
-				77A2DA6F15DFE9660032BDE0 /* LessonInformationViewController.m */,
 				772210B3172DD3B60096B23A /* TranslateLessonViewController.h */,
 				772210B4172DD3B60096B23A /* TranslateLessonViewController.m */,
 				77B5139D151970B100F041D7 /* WordPracticeController.h */,
@@ -649,7 +644,6 @@
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				D9EC6F4519D9010500B07301 /* Event.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
-				77A2DA7015DFE9660032BDE0 /* LessonInformationViewController.m in Sources */,
 				77ED9D111661615D005D10ED /* IntroViewController.m in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,

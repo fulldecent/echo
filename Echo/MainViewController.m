@@ -10,7 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "LessonSet.h"
 #import "LessonViewController.h"
-#import "LessonInformationViewController.h"
 #import "Profile.h"
 #import "IntroViewController.h"
 #import "DownloadLessonViewController.h"
@@ -31,7 +30,7 @@
 typedef enum {SectionLessons, SectionPractice, SectionSocial, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellEvent} Cells;
 
-@interface MainViewController () <LessonViewDelegate, LessonInformationViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
+@interface MainViewController () <LessonViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
 @property (strong, nonatomic) LessonSet *practiceSet;
 @property (strong, nonatomic) Lesson *currentLesson;
@@ -458,9 +457,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         LessonViewController *controller = segue.destinationViewController;
         controller.lesson = self.currentLesson;
         controller.delegate = self;
-    } else if ([segue.destinationViewController isKindOfClass:[LessonInformationViewController class]]) {
-        LessonInformationViewController *controller = segue.destinationViewController;
-        controller.delegate = self;
+        
         if ([segue.identifier isEqualToString:@"createLesson"]) {
             Profile *me = [Profile currentUserProfile];
             Lesson *lesson = [[Lesson alloc] init];
@@ -468,8 +465,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             lesson.userID = me.userID;
             lesson.userName = me.username;
             controller.lesson = lesson;
-        } else
-            controller.lesson = self.currentLesson;
+        }
+        
     } else if ([segue.destinationViewController isKindOfClass:[IntroViewController class]]) {
         IntroViewController *controller = segue.destinationViewController;
         controller.delegate = self;
@@ -559,17 +556,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     self.currentLesson = nil;
-}
-
-#pragma mark - LessonInformationViewDelegate
-    
-- (void)lessonInformationView:(LessonInformationViewController *)controller didSaveLesson:(Lesson *)lesson
-{
-    [self.lessonSet addOrUpdateLesson:lesson];
-    [self.tableView reloadData];
-    self.currentLesson = lesson;
-    [self.navigationController popToRootViewControllerAnimated:NO];
-    [self performSegueWithIdentifier:@"lesson" sender:self];
 }
 
 #pragma mark - DownloadLessonViewControllerDelegate

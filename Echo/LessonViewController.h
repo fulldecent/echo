@@ -10,6 +10,7 @@
 #import "WordPracticeController.h"
 #import "Lesson.h"
 #import "Word.h"
+#import "FDRightDetailWithTextFieldCell.h"
 
 @class LessonViewController;
 

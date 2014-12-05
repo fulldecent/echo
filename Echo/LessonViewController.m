@@ -17,8 +17,8 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
-typedef enum {SectionActions, SectionWords, SectionByline, SectionCount} Sections;
-typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction, CellEditTranslation} Cells;
+typedef enum {SectionActions, SectionEditingInfo, SectionWords, SectionByline, SectionCount} Sections;
+typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction, CellEditTranslation, CellEditLanguage, CellEditTitle, CellEditDescription} Cells;
 
 @interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate, TranslateLessonDataSource>
 @property (nonatomic) int currentWordIndex;
@@ -27,17 +27,12 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
 @property (nonatomic) BOOL actionIsToLessonAuthor;
+
+
+
 @end
 
 @implementation LessonViewController
-@synthesize lesson = _lesson;
-@synthesize currentWordIndex = _currentIndex;
-@synthesize wordListIsShuffled = _wordListIsShuffled;
-@synthesize delegate = _delegate;
-@synthesize editingFromSwipe = _editingFromSwipe;
-@synthesize hud = _hud;
-@synthesize actionSheet = _actionSheet;
-@synthesize actionIsToLessonAuthor = _actionIsToLessonAuthor;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -159,6 +154,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         }
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionActions] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionByline] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionEditingInfo] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [self.tableView endUpdates];
 }
@@ -224,6 +220,13 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
                 else // (translation && translation.isEditable)
                     return CellEditTranslation;
             }
+        case SectionEditingInfo:
+            if (indexPath.row == 0) {
+                return CellEditLanguage;
+            } else if (indexPath.row == 1) {
+                return CellEditTitle;
+            } else
+                return CellEditDescription;
         case SectionWords:
             if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
                 return CellShuffle;
@@ -260,7 +263,13 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
                 return 0;
             else if (me.nativeLanguageTag && ![me.nativeLanguageTag isEqualToString:self.lesson.languageTag])
                 return 2;
-            else return 1;
+            else
+                return 1;
+        case SectionEditingInfo:
+            if (self.editing && !self.editingFromSwipe)
+                return 3;
+            else
+                return 0;
         case SectionWords:
             if ([self.lesson.words count] || (self.tableView.editing && !self.editingFromSwipe))
                 return [self.lesson.words count] + 1; // add or shuffle button
@@ -276,6 +285,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
+    FDRightDetailWithTextFieldCell *fdCell;
     Word *word;
     NSInteger index;
     Profile *me = [Profile currentUserProfile];
@@ -347,9 +357,36 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             cell = [tableView dequeueReusableCellWithIdentifier:@"editTranslation"];
             [(UILabel *)[cell viewWithTag:1] setText:[NSString stringWithFormat:@"You translated this lesson to %@", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]]];
             return cell;
+        case CellEditLanguage:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"editLanguage"];
+            cell.detailTextLabel.text = [Languages nativeDescriptionForLanguage:self.lesson.languageTag];
+            return cell;
+        case CellEditTitle:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"editTitle"];
+            fdCell = (FDRightDetailWithTextFieldCell *)cell;
+            fdCell.textField.text = self.lesson.name;
+            [fdCell.textField addTarget:self action:@selector(nameTextFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+            return cell;
+        case CellEditDescription:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"editDetail"];
+            fdCell = (FDRightDetailWithTextFieldCell *)cell;
+            fdCell.textField.text = self.lesson.detail;
+            [fdCell.textField addTarget:self action:@selector(detailTextFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+            return cell;
     }
     assert(0); return 0;
 }
+
+- (void)nameTextFieldDidChange:(UITextField *)textField
+{
+    self.lesson.name = textField.text;
+}
+
+- (void)detailTextFieldDidChange:(UITextField *)textField
+{
+    self.lesson.detail = textField.text;
+}
+
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
