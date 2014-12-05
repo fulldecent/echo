@@ -48,7 +48,6 @@
 		77A50BE3157C59BE00027CB1 /* Checkbox checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BE2157C59BE00027CB1 /* Checkbox checked.png */; };
 		77A50BE7157EEB6500027CB1 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE6157EEB6500027CB1 /* Word.m */; };
 		77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE9157EF1B800027CB1 /* Lesson.m */; };
-		77B5137F151970B100F041D7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
 		77B51381151970B100F041D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51380151970B100F041D7 /* Foundation.framework */; };
 		77B51383151970B100F041D7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51382151970B100F041D7 /* CoreGraphics.framework */; };
 		77B5138B151970B100F041D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138A151970B100F041D7 /* main.m */; };
@@ -98,11 +97,13 @@
 		D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
+		D93A898F1A1AB576001C2306 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
 		D9EC6F4519D9010500B07301 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EC6F4419D9010500B07301 /* Event.m */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4BDFBED5E039232248E8582F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		770AA8B616C4ABC300348FB8 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		771CED671764336000EE8A88 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		771CED681764336000EE8A88 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
@@ -215,7 +216,7 @@
 		77FB0F6C16E296440000D4F5 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		77FCACF51569E0900039ED77 /* F3BarGauge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3BarGauge.h; sourceTree = "<group>"; };
 		77FCACF61569E0900039ED77 /* F3BarGauge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3BarGauge.m; sourceTree = "<group>"; };
-		81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		96AE4D6A7E9DC2CFF79BD9C6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDRightDetailWithTextFieldCell.h; sourceTree = "<group>"; };
 		D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDRightDetailWithTextFieldCell.m; sourceTree = "<group>"; };
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -233,6 +234,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				776D2BE016AB8D4F00EDB4DB /* AdSupport.framework in Frameworks */,
+				D93A898F1A1AB576001C2306 /* UIKit.framework in Frameworks */,
 				774CDA4215D0AEF800B14C45 /* SystemConfiguration.framework in Frameworks */,
 				D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */,
 				D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */,
@@ -242,7 +245,6 @@
 				776D2BE416AB8D9300EDB4DB /* MobileCoreServices.framework in Frameworks */,
 				776D2BE616AB8DA500EDB4DB /* libsqlite3.dylib in Frameworks */,
 				776D2BE216AB8D6900EDB4DB /* Social.framework in Frameworks */,
-				776D2BE016AB8D4F00EDB4DB /* AdSupport.framework in Frameworks */,
 				776D2BDD16AB8C1E00EDB4DB /* Accounts.framework in Frameworks */,
 				77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */,
 				774CDA4C15D0AF2E00B14C45 /* CoreFoundation.framework in Frameworks */,
@@ -253,7 +255,6 @@
 				D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */,
 				77B771AA1569ADA600E0F012 /* MessageUI.framework in Frameworks */,
 				772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */,
-				77B5137F151970B100F041D7 /* UIKit.framework in Frameworks */,
 				77B51381151970B100F041D7 /* Foundation.framework in Frameworks */,
 				77B51383151970B100F041D7 /* CoreGraphics.framework in Frameworks */,
 				C7991F84AEFB4058AD062485 /* libPods.a in Frameworks */,
@@ -293,7 +294,7 @@
 				77B51384151970B100F041D7 /* Echo */,
 				77B5137D151970B100F041D7 /* Frameworks */,
 				77B5137B151970B100F041D7 /* Products */,
-				81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */,
+				9C15600BDD372A53FBB55FC0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -448,6 +449,15 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		9C15600BDD372A53FBB55FC0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				96AE4D6A7E9DC2CFF79BD9C6 /* Pods.debug.xcconfig */,
+				4BDFBED5E039232248E8582F /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -477,7 +487,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PHOR;
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					77B51379151970B100F041D7 = {
 						DevelopmentTeam = 8Q693ZG5RN;
@@ -600,7 +610,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C7F7B4F4EEDA4AB1A242040C /* Check Pods Manifest.lock */ = {
@@ -677,10 +687,8 @@
 		77B513A4151970B100F041D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -689,29 +697,23 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
 		77B513A5151970B100F041D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
@@ -721,18 +723,15 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};
 		77B513A7151970B100F041D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */;
+			baseConfigurationReference = 96AE4D6A7E9DC2CFF79BD9C6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -742,7 +741,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
@@ -757,11 +756,10 @@
 		};
 		77B513A8151970B100F041D7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 81A4EEAE65D84CD381BA68C8 /* Pods.xcconfig */;
+			baseConfigurationReference = 4BDFBED5E039232248E8582F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,7 +769,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
