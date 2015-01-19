@@ -27,7 +27,7 @@
 #import "Event.h"
 #import "UIImageView+AFNetworking.h"
 
-typedef enum {SectionLessons, SectionPractice, SectionSocial, SectionCount} Sections;
+typedef enum {SectionPractice, SectionLessons, SectionSocial, SectionCount} Sections;
 typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellEvent} Cells;
 
 @interface MainViewController () <LessonViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
@@ -567,7 +567,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
     lesson.remoteChangesSinceLastSync = YES;
     [self.lessonSet addOrUpdateLesson:lesson]; // may or may not add a row
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionLessons] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
         NSIndexPath *path = [self indexPathForLesson:lesson];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
