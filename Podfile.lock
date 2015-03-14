@@ -1,23 +1,23 @@
 PODS:
-  - AFNetworking (2.5.0):
-    - AFNetworking/NSURLConnection (= 2.5.0)
-    - AFNetworking/NSURLSession (= 2.5.0)
-    - AFNetworking/Reachability (= 2.5.0)
-    - AFNetworking/Security (= 2.5.0)
-    - AFNetworking/Serialization (= 2.5.0)
-    - AFNetworking/UIKit (= 2.5.0)
-  - AFNetworking/NSURLConnection (2.5.0):
+  - AFNetworking (2.5.1):
+    - AFNetworking/NSURLConnection (= 2.5.1)
+    - AFNetworking/NSURLSession (= 2.5.1)
+    - AFNetworking/Reachability (= 2.5.1)
+    - AFNetworking/Security (= 2.5.1)
+    - AFNetworking/Serialization (= 2.5.1)
+    - AFNetworking/UIKit (= 2.5.1)
+  - AFNetworking/NSURLConnection (2.5.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.0):
+  - AFNetworking/NSURLSession (2.5.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.0)
-  - AFNetworking/Security (2.5.0)
-  - AFNetworking/Serialization (2.5.0)
-  - AFNetworking/UIKit (2.5.0):
+  - AFNetworking/Reachability (2.5.1)
+  - AFNetworking/Security (2.5.1)
+  - AFNetworking/Serialization (2.5.1)
+  - AFNetworking/UIKit (2.5.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Appirater (2.0.4)
@@ -28,7 +28,7 @@ PODS:
   - GoogleAnalytics-iOS-SDK/Core (3.10)
   - MBProgressHUD (0.9)
   - NSData+Base64 (1.0.0)
-  - TDBadgedCell (2.6)
+  - TDBadgedCell (3.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -41,13 +41,13 @@ DEPENDENCIES:
   - TDBadgedCell
 
 SPEC CHECKSUMS:
-  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
+  AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   Appirater: cbdb7f305562cfde585300bfff86da01ae559deb
   FDTake: caea3b794995e04d70696212970a85155107815e
   FDWaveformView: aa6a5882bf00864c9876c629597734df921e1ac1
   GoogleAnalytics-iOS-SDK: f422062075d9ccb1ea8d783fc5ba3829461e9502
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
-  TDBadgedCell: e683b5557d12ea4e28a8d6ac20b6e394abc2c1fe
+  TDBadgedCell: 4e45754cea40fdc104fbe84cac4c64335737801b
 
-COCOAPODS: 0.36.0.beta.1
+COCOAPODS: 0.36.0

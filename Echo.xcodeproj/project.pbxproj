@@ -97,6 +97,7 @@
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
 		D93A898F1A1AB576001C2306 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
+		D93F0BF31AB4A46000CAAC8C /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */; };
 		D9EC6F4519D9010500B07301 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EC6F4419D9010500B07301 /* Event.m */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
@@ -218,6 +219,7 @@
 		D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDRightDetailWithTextFieldCell.m; sourceTree = "<group>"; };
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		D9956EEA17F4C759008070EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D9EC6F4319D9010500B07301 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		D9EC6F4419D9010500B07301 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
+				D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */,
 				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
 				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
 				77DDC70E156DD81F00568CDE /* Classes */,
@@ -555,6 +558,7 @@
 				77D8AD20157ABF1A001E2E25 /* speaker icon@2x.png in Resources */,
 				77D8AD21157ABF1A001E2E25 /* Ready to record.m4a in Resources */,
 				773FEA66177E198A000AD650 /* Media.xcassets in Resources */,
+				D93F0BF31AB4A46000CAAC8C /* Launch Screen.xib in Resources */,
 				77D8AD22157ABF1A001E2E25 /* Record failed.m4a in Resources */,
 				77BBFDFB157BDC4500511CEC /* Languages.plist in Resources */,
 				77BBFE17157C3BF100511CEC /* Checkbox empty.png in Resources */,
@@ -695,7 +699,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -712,7 +716,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -725,7 +729,6 @@
 			baseConfigurationReference = 96AE4D6A7E9DC2CFF79BD9C6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -735,7 +738,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,
@@ -753,7 +756,6 @@
 			baseConfigurationReference = 4BDFBED5E039232248E8582F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -763,7 +765,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/williamentriken/Developer/Echo/Echo,

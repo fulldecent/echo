@@ -343,7 +343,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[event.timestamp doubleValue]];
             NSString *formattedDateString = [dateFormatter stringFromDate:date];
             cell.detailTextLabel.text = formattedDateString;
-            
+
             NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
             UIImage *placeholder = [UIImage imageNamed:@"none40"];
             NSURL *userPhoto = [networkManager photoURLForUserWithID:event.actingUserID];
