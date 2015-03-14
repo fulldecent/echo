@@ -20,6 +20,10 @@ typedef enum {EventTypePostLesson, EventTypeLikeLesson, EventTypeFlagLesson, Eve
 @property (strong, nonatomic) NSNumber *targetLessonID;
 @property (strong, nonatomic) NSString *htmlDescription;
 @property (strong, nonatomic) NSNumber *wasRead;
+
+@property (nonatomic) NSString *actingUserName; // hack
+@property (nonatomic) NSString *targetWordName; // hack
+
 + (Event *)eventWithDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)toDictionary;
 + (Event *)eventWithJSON:(NSData *)data;

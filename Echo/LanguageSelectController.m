@@ -58,8 +58,8 @@
 {
     static NSString *CellIdentifier = @"leftDetail";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    cell.textLabel.text = [[self.languages objectAtIndex:indexPath.row] objectForKey:@"tag"];
-    cell.detailTextLabel.text = [[self.languages objectAtIndex:indexPath.row] objectForKey:@"nativeName"];
+    cell.textLabel.text = (self.languages)[indexPath.row][@"tag"];
+    cell.detailTextLabel.text = (self.languages)[indexPath.row][@"nativeName"];
     return cell;
 }
 
@@ -67,7 +67,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate languageSelectController:self didSelectLanguage:[[self.languages objectAtIndex:indexPath.row] objectForKey:@"tag"] withNativeName:[[self.languages objectAtIndex:indexPath.row] objectForKey:@"nativeName"]];
+    [self.delegate languageSelectController:self didSelectLanguage:(self.languages)[indexPath.row][@"tag"] withNativeName:(self.languages)[indexPath.row][@"nativeName"]];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

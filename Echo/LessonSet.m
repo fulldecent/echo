@@ -54,16 +54,16 @@
             if ([self transferProgressForLesson:lesson])
                 continue;            
             [staleLessons addObject:lesson];
-            [self.lessonTransferProgress setObject:[NSNumber numberWithInt:0] forKey:[NSValue valueWithNonretainedObject:lesson]];
+            (self.lessonTransferProgress)[[NSValue valueWithNonretainedObject:lesson]] = @0;
             if (progress)
-                progress(lesson, [NSNumber numberWithInt:0]);
+                progress(lesson, @0);
         }
     }
     [networkManager syncLessons:staleLessons
                    withProgress:^(Lesson *NMlesson, NSNumber *NMprogress)
      {
          if ([NMprogress floatValue] < 1.0)
-             [self.lessonTransferProgress setObject:NMprogress forKey:[NSValue valueWithNonretainedObject:NMlesson]];
+             (self.lessonTransferProgress)[[NSValue valueWithNonretainedObject:NMlesson]] = NMprogress;
          else {
              [self.lessonTransferProgress removeObjectForKey:[NSValue valueWithNonretainedObject:NMlesson]];
              [self writeToDisk];
@@ -75,7 +75,7 @@
 
 - (NSNumber *)transferProgressForLesson:(Lesson *)lesson // nil or 0.0 to 1.0
 {
-    return [self.lessonTransferProgress objectForKey:[NSValue valueWithNonretainedObject:lesson]];
+    return (self.lessonTransferProgress)[[NSValue valueWithNonretainedObject:lesson]];
 }
 
 - (void)deleteLesson:(Lesson *)lesson
@@ -121,8 +121,8 @@
         return;
     } else if ([lesson.lessonID integerValue]) {
         for (int i=0; i<[self.lessons count]; i++) {
-            if ([[(Lesson *)[self.lessons objectAtIndex:i] lessonID] isEqualToNumber:lesson.lessonID]) {
-                [self.lessons replaceObjectAtIndex:i withObject:lesson];
+            if ([[(Lesson *)(self.lessons)[i] lessonID] isEqualToNumber:lesson.lessonID]) {
+                (self.lessons)[i] = lesson;
                 [self writeToDisk];
                 return;
             }

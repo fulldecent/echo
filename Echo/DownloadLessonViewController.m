@@ -72,7 +72,7 @@
         return [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
     
     Profile *me = [Profile currentUserProfile];
-    Lesson *lesson = [self.lessons objectAtIndex:indexPath.row];
+    Lesson *lesson = (self.lessons)[indexPath.row];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
     [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
@@ -104,7 +104,7 @@
     [(UIImageView *)[cell viewWithTag:9] setImageWithURLRequest:request placeholderImage:placeholder success:nil failure:nil];
     
     if (me.nativeLanguageTag) {
-        Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
+        Lesson *translatedLesson = (lesson.translations)[me.nativeLanguageTag];
         if (translatedLesson.name)
             [(UILabel *)[cell viewWithTag:2] setText:translatedLesson.name];
     }
@@ -124,7 +124,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row < self.lessons.count) {
-        [self.delegate downloadLessonViewController:self gotStubLesson:[self.lessons objectAtIndex:indexPath.row]];
+        [self.delegate downloadLessonViewController:self gotStubLesson:(self.lessons)[indexPath.row]];
         id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
         [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
                                                               action:@"Learning"
@@ -136,7 +136,7 @@
             MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
             picker.mailComposeDelegate = self;
             [picker setSubject:[NSString stringWithFormat:@"Idea for Echo lesson/%@", self.navigationItem.rightBarButtonItem.title]];
-            [picker setToRecipients:[NSArray arrayWithObject:@"echo@phor.net"]];
+            [picker setToRecipients:@[@"echo@phor.net"]];
             [picker setMessageBody:@"(TYPE YOUR IDEA IN HERE)" isHTML:NO];
             [self presentViewController:picker animated:YES completion:nil];
         }

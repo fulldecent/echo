@@ -32,7 +32,7 @@
     Profile *me = [Profile currentUserProfile];
     self.originalLesson = [self.datasource lessonToTranslateForTranslateLessonView:self];
     self.translatedLesson = [[Lesson alloc] init];
-    [self.translatedLesson setToLesson:[self.originalLesson.translations objectForKey:me.nativeLanguageTag]];
+    [self.translatedLesson setToLesson:(self.originalLesson.translations)[me.nativeLanguageTag]];
     self.translatedLesson.languageTag = me.nativeLanguageTag;
     self.translatedLesson.lessonCode = self.originalLesson.lessonCode;
     self.translatedLesson.userID = me.userID;
@@ -101,8 +101,8 @@
             textField.placeholder = self.originalLesson.detail;
             textField.text = self.translatedLesson.detail;
         } else {
-            textField.placeholder = [(Word *)[self.originalLesson.words objectAtIndex:indexPath.row] name];
-            textField.text = [(Word *)[self.translatedLesson.words objectAtIndex:indexPath.row] name];
+            textField.placeholder = [(Word *)(self.originalLesson.words)[indexPath.row] name];
+            textField.text = [(Word *)(self.translatedLesson.words)[indexPath.row] name];
         }
         textField.delegate = self;
         if (textField.text.length)
@@ -123,7 +123,7 @@
     else if (indexPath.section == 0 && indexPath.row == 2)
         self.translatedLesson.detail = sender.text;
     else
-        [(Word *)[self.translatedLesson.words objectAtIndex:indexPath.row] setName:sender.text];
+        [(Word *)(self.translatedLesson.words)[indexPath.row] setName:sender.text];
     if (sender.text.length)
         sender.backgroundColor = [UIColor whiteColor];
     else

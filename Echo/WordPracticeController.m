@@ -36,14 +36,14 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"microphoneLevel"]) {
-        self.recordGuage.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+        self.recordGuage.value = [change[NSKeyValueChangeNewKey] floatValue];
     }  
 }
 
 - (void)makeItBounce:(UIView *)view
 {
     CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    bounceAnimation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:1], [NSNumber numberWithFloat:1.2], nil];
+    bounceAnimation.values = @[@1.0f, @1.2f];
     bounceAnimation.duration = 0.15;
     bounceAnimation.removedOnCompletion = NO;
     bounceAnimation.repeatCount = 2;
@@ -62,7 +62,7 @@
     }
     
     int index = arc4random() % [self.word.files count];
-    Audio *chosenAudio = [self.word.files objectAtIndex:index];
+    Audio *chosenAudio = (self.word.files)[index];
     NSURL *fileURL = [chosenAudio fileURL];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     self.audioPlayer.pan = -0.5;
@@ -233,7 +233,7 @@
     self.wordDetail.text = self.word.detail;
     self.recorder = [[PHOREchoRecorder alloc] init];
     [self.recorder addObserver:self forKeyPath:@"microphoneLevel" options:NSKeyValueObservingOptionNew context:nil];
-    self.recorder.pan = [NSNumber numberWithFloat:0.5];
+    self.recorder.pan = @0.5f;
     self.recorder.delegate = self;
     
     [self.trainingSpeakerButton addSubview:self.trainingWaveform];

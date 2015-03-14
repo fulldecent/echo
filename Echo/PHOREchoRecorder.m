@@ -53,13 +53,11 @@
         // USE kAudioFormatLinearPCM
         // SEE IMA4 vs M4A http://stackoverflow.com/questions/3509921/recorder-works-on-iphone-3gs-but-not-on-iphone-3g
         NSDictionary *recordSettings =
-        [[NSDictionary alloc] initWithObjectsAndKeys:
-         [NSNumber numberWithFloat: RECORDING_SAMPLES_PER_SEC],               AVSampleRateKey,
-         [NSNumber numberWithInt: kAudioFormatLinearPCM], AVFormatIDKey,
-         [NSNumber numberWithInt: 1],                     AVNumberOfChannelsKey,
-         [NSNumber numberWithBool:NO],                    AVLinearPCMIsFloatKey,
-         [NSNumber numberWithInt: AVAudioQualityMax],     AVEncoderAudioQualityKey,
-         nil];
+        @{AVSampleRateKey: [NSNumber numberWithFloat: RECORDING_SAMPLES_PER_SEC],
+         AVFormatIDKey: @(kAudioFormatLinearPCM),
+         AVNumberOfChannelsKey: @1,
+         AVLinearPCMIsFloatKey: @NO,
+         AVEncoderAudioQualityKey: @(AVAudioQualityMax)};
         
         NSError *error = nil;
         _audioRecorder = [[ AVAudioRecorder alloc] initWithURL:self.temporaryAudioURL settings:recordSettings error:&error];
@@ -85,14 +83,14 @@
 }
 
 // DESIGNATED INITIALIZER
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     self.history = [NSMutableArray arrayWithCapacity:RECORDING_AVERAGING_WINDOW_SIZE];
     return self;
 }
 
-- (id)initWithAudioDataAtURL:(NSURL *)url
+- (instancetype)initWithAudioDataAtURL:(NSURL *)url
 {
     self = [self init];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -104,7 +102,7 @@
     if (![[NSFileManager defaultManager] copyItemAtURL:url toURL:self.temporaryAudioURL error:&error])
         NSLog(@"%@", error);
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioURL error:&error];
-    self.duration = [NSNumber numberWithDouble:self.audioPlayer.duration]; 
+    self.duration = @(self.audioPlayer.duration); 
     return self;
 }
 
@@ -113,9 +111,9 @@
     [self.audioPlayer stop];
     self.isRecordingInProgress = YES;
     if (self.audioRecorder.recording) return;
-    self.microphoneLevel = [NSNumber numberWithFloat:0];
+    self.microphoneLevel = @0.0f;
     self.speakingBeginTime = 0;
-    self.duration = [NSNumber numberWithFloat:0];
+    self.duration = @0.0f;
     
     NSURL *url = [[NSURL alloc] initFileURLWithPath: [[NSBundle mainBundle] pathForResource:@"Ready to record" ofType:@"m4a"]];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
@@ -152,13 +150,13 @@
     [self.audioRecorder updateMeters];
     float peak = [self.audioRecorder peakPowerForChannel:0];
     float currentLevel = [self.audioRecorder averagePowerForChannel:0];
-    self.microphoneLevel = [NSNumber numberWithFloat:currentLevel/80+1];
+    self.microphoneLevel = @(currentLevel/80+1);
     
     if (peak-currentLevel > RECORDING_STOP_TRIGGER_DB && self.audioRecorder.currentTime > RECORDING_MINIMUM_TIME) {
         [self stopRecordingAndKeepResult:YES];
     }
     
-    [self.history addObject:[NSNumber numberWithFloat:currentLevel]];
+    [self.history addObject:@(currentLevel)];
     if (self.history.count > RECORDING_AVERAGING_WINDOW_SIZE)
         [self.history removeObjectAtIndex:0];
 
@@ -192,7 +190,7 @@
         self.audioWasModified = YES;
     }
     [self.audioRecorder stop];
-    self.microphoneLevel = [NSNumber numberWithFloat:0];
+    self.microphoneLevel = @0.0f;
     
     [self.delegate recording:self didFinishSuccessfully:save];
 }
@@ -202,7 +200,7 @@
     [self.updateTimer invalidate];
     self.isRecordingInProgress = NO;
     [self.audioRecorder stop];
-    self.microphoneLevel = [NSNumber numberWithFloat:0];
+    self.microphoneLevel = @0.0f;
     self.duration = nil;
     [self.delegate recording:self didFinishSuccessfully:NO];
 }
@@ -235,7 +233,7 @@
     // get the first audio track
     NSArray *tracks = [avAsset tracksWithMediaType:AVMediaTypeAudio];
     //if ([tracks count] == 0) return nil;
-    AVAssetTrack *track = [tracks objectAtIndex:0];
+    AVAssetTrack *track = tracks[0];
     
     // create the export session
     // no need for a retain here, the session will be retained by the
@@ -263,8 +261,7 @@
     
     [exportAudioMixInputParameters setVolumeRampFromStartVolume:0.0 toEndVolume:1.0
                                                       timeRange:fadeInTimeRange]; 
-    exportAudioMix.inputParameters = [NSArray
-                                      arrayWithObject:exportAudioMixInputParameters]; 
+    exportAudioMix.inputParameters = @[exportAudioMixInputParameters]; 
     
     // configure export session  output with all our parameters
     exportSession.outputURL = trimmedAudioURL; // output path

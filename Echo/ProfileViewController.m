@@ -172,7 +172,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    CLLocation *location = [locations objectAtIndex:0];
+    CLLocation *location = locations[0];
     [manager stopUpdatingLocation];
     self.location.text = [NSString stringWithFormat:@"%+3.2f, %+3.2f", location.coordinate.latitude, location.coordinate.longitude];
     [self.hud hide:YES];

@@ -125,8 +125,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         return;
     
     [self.tableView beginUpdates];
-    NSArray *shuffleRow = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:SectionWords]];
-    NSArray *addRow = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[self.lesson.words count] inSection:SectionWords]];
+    NSArray *shuffleRow = @[[NSIndexPath indexPathForRow:0 inSection:SectionWords]];
+    NSArray *addRow = @[[NSIndexPath indexPathForRow:[self.lesson.words count] inSection:SectionWords]];
     
     if (!self.editingFromSwipe) {
         if (editing) {
@@ -162,12 +162,12 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 #pragma mark - WordPracticeDataSource
 - (Word *)currentWordForWordPractice:(WordPracticeController *)wordPractice
 {
-    return [self.lesson.words objectAtIndex:self.currentWordIndex];
+    return (self.lesson.words)[self.currentWordIndex];
 }
 
 - (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice
 {
-    Word *word = [self.lesson.words objectAtIndex:self.currentWordIndex];
+    Word *word = (self.lesson.words)[self.currentWordIndex];
     return [word.completed boolValue];
 }
 
@@ -192,11 +192,11 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (void)wordPractice:(WordPracticeController *)wordPractice setWordCheckedState:(BOOL)state
 {
-    Word *word = [self.lesson.words objectAtIndex:self.currentWordIndex];
-    word.completed = [NSNumber numberWithBool:state];
+    Word *word = (self.lesson.words)[self.currentWordIndex];
+    word.completed = @(state);
     [self.delegate lessonView:self didSaveLesson:self.lesson];
     NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentWordIndex+1 inSection:SectionWords];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table view data source
@@ -212,7 +212,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
                     return CellAuthorByline;
             } else {
                 Profile *me = [Profile currentUserProfile];
-                Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+                Lesson *translation = (self.lesson.translations)[me.nativeLanguageTag];
                 if (!translation)
                     return CellTranslateAction;
                 else if (translation && !translation.isByCurrentUser)
@@ -301,7 +301,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         case CellWord: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"word"];
             index = (self.tableView.editing && !self.editingFromSwipe) ? indexPath.row : indexPath.row-1;
-            word = [self.lesson.words objectAtIndex:index];
+            word = (self.lesson.words)[index];
             cell.textLabel.text = word.name;
             cell.detailTextLabel.text = word.detail;
             if (me.nativeLanguageTag) {
@@ -334,7 +334,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         }
         case CellTranslatorByline: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"translator"];
-            Lesson *translation = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+            Lesson *translation = (self.lesson.translations)[me.nativeLanguageTag];
             cell.textLabel.text = translation.userName;
             cell.detailTextLabel.text = [NSString stringWithFormat:@"Translated to %@", translation.languageTag];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
@@ -414,7 +414,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     NSMutableArray *words = [self.lesson.words mutableCopy];
-    Word *word = [words objectAtIndex:sourceIndexPath.row];
+    Word *word = words[sourceIndexPath.row];
     [words removeObjectAtIndex:sourceIndexPath.row];
     [words insertObject:word atIndex:destinationIndexPath.row];
     self.lesson.words = [words copy];
@@ -432,9 +432,9 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             [self.tableView beginUpdates];
             [words removeObjectAtIndex:index];
             self.lesson.words = [words copy];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             if (![words count])
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:SectionWords]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:SectionWords]] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
             [self.lesson removeStaleFiles];
         }
@@ -534,7 +534,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         WordDetailController *controller = segue.destinationViewController;
         controller.delegate = self;
         if (self.currentWordIndex < [self.lesson.words count]) {
-            controller.word = [self.lesson.words objectAtIndex:self.currentWordIndex];
+            controller.word = (self.lesson.words)[self.currentWordIndex];
         } else {
             Word *word = [[Word alloc] init];
             word.languageTag = self.lesson.languageTag;
@@ -556,12 +556,12 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.currentWordIndex inSection:SectionWords];
     if (self.currentWordIndex == self.lesson.words.count) {
         self.lesson.words = [self.lesson.words arrayByAddingObject:word];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else {
         NSMutableArray *words = [self.lesson.words mutableCopy];
-        [words replaceObjectAtIndex:self.currentWordIndex withObject:word];
+        words[self.currentWordIndex] = word;
         self.lesson.words = [words copy];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     if ([self.lesson isShared])
         self.lesson.localChangesSinceLastSync = YES;
@@ -604,7 +604,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     if (self.actionIsToLessonAuthor)
         target = self.lesson;
     else
-        target = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+        target = (self.lesson.translations)[me.nativeLanguageTag];
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager doFlagLesson:target withReason:(enum NetworkManagerFlagReason) buttonIndex onSuccess:^
@@ -634,7 +634,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         if (self.actionIsToLessonAuthor)
             target = self.lesson;
         else
-            target = [self.lesson.translations objectForKey:me.nativeLanguageTag];
+            target = (self.lesson.translations)[me.nativeLanguageTag];
 
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSString *message = [alertView textFieldAtIndex:0].text;
@@ -672,7 +672,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
          lesson.serverTimeOfLastCompletedSync = newLesson.serverTimeOfLastCompletedSync = translationVersion;
          newLesson.lessonID = translationLessonID;
          NSMutableDictionary *translations = [lesson.translations mutableCopy];
-         [translations setObject:newLesson forKey:tag];
+         translations[tag] = newLesson;
          lesson.translations = translations;
          [self.navigationController popToViewController:self animated:YES];
      } onFailure:^(NSError *error) {

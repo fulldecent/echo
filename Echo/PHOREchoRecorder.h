@@ -15,7 +15,7 @@
 @end
 
 @interface PHOREchoRecorder : NSObject
-- (id)initWithAudioDataAtURL:(NSURL *)url;
+- (instancetype)initWithAudioDataAtURL:(NSURL *)url;
 @property (strong, nonatomic) NSNumber *microphoneLevel;
 @property (strong, nonatomic) NSNumber *duration;
 @property (strong, nonatomic) NSNumber *pan;

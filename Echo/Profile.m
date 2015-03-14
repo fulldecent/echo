@@ -36,13 +36,13 @@
     NSMutableDictionary *userProfile = [defaults objectForKey:@"userProfile"];
     if (!userProfile)
         userProfile = [NSMutableDictionary dictionary];
-    sharedInstance.username = [userProfile objectForKey:@"username"];
+    sharedInstance.username = userProfile[@"username"];
     if (!sharedInstance.username) {
         sharedInstance.username = [NSString stringWithFormat:@"user%d", arc4random()%1000000];
         needToSync = YES;
     }    
-    sharedInstance.usercode = [userProfile objectForKey:@"usercode"];
-    sharedInstance.userID = [userProfile objectForKey:@"userID"];
+    sharedInstance.usercode = userProfile[@"usercode"];
+    sharedInstance.userID = userProfile[@"userID"];
     if (!sharedInstance.usercode) { // deprecate 1.0.8, clean up backwards compatible
         sharedInstance.usercode = [defaults objectForKey:@"userGUID"];
         needToSync = YES;
@@ -55,11 +55,11 @@
         sharedInstance.usercode = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
         needToSync = YES;
     }
-    sharedInstance.learningLanguageTag = [userProfile objectForKey:@"learningLanguageTag"];
-    sharedInstance.nativeLanguageTag = [userProfile objectForKey:@"nativeLanguageTag"];
-    sharedInstance.location = [userProfile objectForKey:@"location"];
-    if ([userProfile objectForKey:@"photo"])
-        sharedInstance.photo = [UIImage imageWithData:[userProfile objectForKey:@"photo"]];
+    sharedInstance.learningLanguageTag = userProfile[@"learningLanguageTag"];
+    sharedInstance.nativeLanguageTag = userProfile[@"nativeLanguageTag"];
+    sharedInstance.location = userProfile[@"location"];
+    if (userProfile[@"photo"])
+        sharedInstance.photo = [UIImage imageWithData:userProfile[@"photo"]];
     if (needToSync)
         [sharedInstance syncToDisk];
     return sharedInstance;
@@ -85,19 +85,19 @@
 - (void)syncToDisk{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *userProfile = [NSMutableDictionary dictionary];
-    [userProfile setObject:self.usercode forKey:@"usercode"];
+    userProfile[@"usercode"] = self.usercode;
     if (self.username)
-        [userProfile setObject:self.username forKey:@"username"];
+        userProfile[@"username"] = self.username;
     if (self.learningLanguageTag)
-        [userProfile setObject:self.learningLanguageTag forKey:@"learningLanguageTag"];
+        userProfile[@"learningLanguageTag"] = self.learningLanguageTag;
     if (self.nativeLanguageTag)
-        [userProfile setObject:self.nativeLanguageTag forKey:@"nativeLanguageTag"];
+        userProfile[@"nativeLanguageTag"] = self.nativeLanguageTag;
     if (self.location)
-        [userProfile setObject:self.location forKey:@"location"];
+        userProfile[@"location"] = self.location;
     if (self.photo)
-        [userProfile setObject:UIImagePNGRepresentation(self.photo) forKey:@"photo"];
+        userProfile[@"photo"] = UIImagePNGRepresentation(self.photo);
     if (self.userID)
-        [userProfile setObject:self.userID forKey:@"userID"];
+        userProfile[@"userID"] = self.userID;
     [defaults setObject:userProfile forKey:@"userProfile"];
     [defaults synchronize];
 }
@@ -111,7 +111,7 @@
     if (self.nativeLanguageTag.length) numerator++;
     if (self.location.length) numerator++;
     if (self.photo) numerator++;
-    return [NSNumber numberWithFloat:numerator/denominator];
+    return @(numerator/denominator);
 }
 
 // http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
@@ -209,20 +209,20 @@
 {
     Profile *me = [Profile currentUserProfile];
     NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
-    [retval setObject:me.username forKey:@"username"];
-    [retval setObject:me.usercode forKey:@"userCode"];
+    retval[@"username"] = me.username;
+    retval[@"userCode"] = me.usercode;
     if (me.learningLanguageTag)
-        [retval setObject:me.learningLanguageTag forKey:@"learningLanguageTag"];
+        retval[@"learningLanguageTag"] = me.learningLanguageTag;
     if (me.nativeLanguageTag)
-        [retval setObject:me.nativeLanguageTag forKey:@"nativeLanguageTag"];
+        retval[@"nativeLanguageTag"] = me.nativeLanguageTag;
     if (me.location)
-        [retval setObject:me.location forKey:@"location"];
+        retval[@"location"] = me.location;
     if (me.deviceToken)
-        [retval setObject:me.deviceToken forKey:@"deviceToken"];
+        retval[@"deviceToken"] = me.deviceToken;
     if (me.photo) {
         UIImage *thumbnail = [Profile imageWithImage:me.photo scaledToSizeWithSameAspectRatio:CGSizeMake(100, 100)];
         NSData *JPEGdata = UIImageJPEGRepresentation(thumbnail, 0.8);
-        [retval setObject:[JPEGdata base64EncodedString] forKey:@"photo"];
+        retval[@"photo"] = [JPEGdata base64EncodedString];
     }
     return retval;
 }

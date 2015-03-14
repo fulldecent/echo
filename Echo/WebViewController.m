@@ -64,7 +64,7 @@
     
     // echo://action#json_parameters
     NSString *actionType = request.URL.host;
-    NSDictionary *JSON = [NSDictionary dictionary];
+    NSDictionary *JSON = @{};
     if (request.URL.fragment) {
         NSString *JSONString = [request.URL.fragment stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
         NSError *error = nil;
@@ -74,7 +74,7 @@
     
     if ([actionType isEqualToString:@"downloadPractice"]) {
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        NSNumber *practiceID = [JSON objectForKey:@"id"];
+        NSNumber *practiceID = JSON[@"id"];
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
         self.hud.mode = MBProgressHUDModeIndeterminate;
@@ -101,7 +101,7 @@
         
     } else if ([actionType isEqualToString:@"downloadPracticeReply"]) {
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-        NSNumber *practiceID = [JSON objectForKey:@"id"];
+        NSNumber *practiceID = JSON[@"id"];
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
         self.hud.mode = MBProgressHUDModeAnnularDeterminate;
@@ -127,7 +127,7 @@
          }];
         
     } else if ([actionType isEqualToString:@"markEventAsRead"]) {
-        NSNumber *eventID = [JSON objectForKey:@"id"];
+        NSNumber *eventID = JSON[@"id"];
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;

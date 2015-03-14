@@ -77,7 +77,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
          [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[numNewMessages intValue]];         
          [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
              NSIndexPath *path = [self indexPathForLesson:lesson];
-             [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+             [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
          }];
      }
                                onFailure:^
@@ -201,7 +201,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     if (indexPath.section != SectionLessons)
         return nil;
     if (indexPath.row > 1 && indexPath.row < self.lessonSet.lessons.count + 2)
-        return [self.lessonSet.lessons objectAtIndex:indexPath.row - 2];
+        return (self.lessonSet.lessons)[indexPath.row - 2];
     return nil;
 }
 
@@ -214,9 +214,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 - (Event *)eventForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == SectionPractice)
-        return [self.myEvents objectAtIndex:indexPath.row - 2];
+        return (self.myEvents)[indexPath.row - 2];
     else if (indexPath.section == SectionSocial)
-        return [self.otherEvents objectAtIndex:indexPath.row];
+        return (self.otherEvents)[indexPath.row];
     return nil;
 }
 
@@ -267,7 +267,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell.textLabel.text = lesson.name;
             cell.detailTextLabel.text = lesson.detail;
             if (me.nativeLanguageTag) {
-                Lesson *translatedLesson = [lesson.translations objectForKey:me.nativeLanguageTag];
+                Lesson *translatedLesson = (lesson.translations)[me.nativeLanguageTag];
                 if (translatedLesson.name)
                     cell.detailTextLabel.text = translatedLesson.detail;
             }
@@ -343,6 +343,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[event.timestamp doubleValue]];
             NSString *formattedDateString = [dateFormatter stringFromDate:date];
             cell.detailTextLabel.text = formattedDateString;
+            
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ / %@", event.actingUserName, formattedDateString];
 
             NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
             UIImage *placeholder = [UIImage imageNamed:@"none40"];
@@ -351,6 +353,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             [cell.imageView setImageWithURLRequest:request placeholderImage:placeholder success:nil failure:nil];
 
             cell.textLabel.text = event.htmlDescription;
+            
+            cell.textLabel.text = event.targetWordName;
 /*
             cell.textLabel.attributedText = [[NSAttributedString alloc] initWithData:[event.htmlDescription dataUsingEncoding:NSUTF8StringEncoding]
                                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
@@ -444,7 +448,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
         [confirmDeleteLesson showInView:self.view];
     } else {
         [self.lessonSet deleteLesson:[self lessonForRowAtIndexPath:indexPath]];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         self.currentLesson = nil;
     }
 }
@@ -523,7 +527,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 {
     [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
         NSIndexPath *path = [self indexPathForLesson:lesson];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
     }];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -570,7 +574,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SectionLessons] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
         NSIndexPath *path = [self indexPathForLesson:lesson];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
     }];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -592,7 +596,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
              UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
              WordDetailController *newController = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
              newController.delegate = self;
-             newController.word = [[(Lesson *)[self.practiceSet.lessons objectAtIndex:0] words] objectAtIndex:0];
+             newController.word = [(Lesson *)(self.practiceSet.lessons)[0] words][0];
              
              // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
              dispatch_async(dispatch_get_main_queue(), ^{

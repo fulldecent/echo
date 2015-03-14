@@ -53,7 +53,7 @@
 - (NSArray *)files
 {
     if (!_files)
-        _files = [NSArray array];
+        _files = @[];
     return _files;
 }
 
@@ -79,23 +79,23 @@
 {
     Word *retval = [[Word alloc] init];
     NSAssert([packed isKindOfClass:[NSDictionary class]], @"trying to deserialize Word from something other than a dictionary");
-    retval.wordID = [packed objectForKey:kWordID];
-    if ([packed objectForKey:kWordCode])
-        retval.wordCode = [packed objectForKey:kWordCode];
+    retval.wordID = packed[kWordID];
+    if (packed[kWordCode])
+        retval.wordCode = packed[kWordCode];
     else
         retval.wordCode = [NSString string];
-    retval.languageTag = [packed objectForKey:kLanguageTag];
-    retval.name = [packed objectForKey:kName];
-    if ([[packed objectForKey:kDetail] isKindOfClass:[NSString class]])
-        retval.detail = [packed objectForKey:kDetail];
-    else if ([[packed objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) // Backwards compatibility <= 1.0.9
-        retval.detail = [(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag];
-    retval.userID = [packed objectForKey:kUserID];
-    retval.userName = [packed objectForKey:kUserName];
-    retval.completed = [packed objectForKey:kCompleted];
+    retval.languageTag = packed[kLanguageTag];
+    retval.name = packed[kName];
+    if ([packed[kDetail] isKindOfClass:[NSString class]])
+        retval.detail = packed[kDetail];
+    else if ([packed[kDetail] isKindOfClass:[NSDictionary class]]) // Backwards compatibility <= 1.0.9
+        retval.detail = ((NSDictionary *)packed[kDetail])[retval.languageTag];
+    retval.userID = packed[kUserID];
+    retval.userName = packed[kUserName];
+    retval.completed = packed[kCompleted];
     
     NSMutableArray *newFiles = [[NSMutableArray alloc] init];
-    for (id packedFile in [packed objectForKey:kFiles]) {
+    for (id packedFile in packed[kFiles]) {
         Audio *file = [[Audio alloc] init];
         file.word = retval;
         if ([packedFile isKindOfClass:[NSString class]]) // backwards compatability
@@ -103,8 +103,8 @@
         else if ([packedFile isKindOfClass:[NSNumber class]]) // backwards compatability
             file.fileID = packedFile;
         else if ([packedFile isKindOfClass:[NSDictionary class]]) {
-            file.fileID = [packedFile objectForKey:@"fileID"];
-            file.fileCode = [packedFile objectForKey:@"fileCode"];
+            file.fileID = packedFile[@"fileID"];
+            file.fileCode = packedFile[@"fileCode"];
         } else
             NSLog(@"Malformed word file %@ with class %@", file, [file class]);
         [newFiles addObject:file];
@@ -117,31 +117,31 @@
 {
     NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
     if (self.wordID)
-        [retval setObject:self.wordID forKey:kWordID];
+        retval[kWordID] = self.wordID;
     if (self.wordCode)
-        [retval setObject:self.wordCode forKey:kWordCode];
+        retval[kWordCode] = self.wordCode;
     if (self.languageTag)
-        [retval setObject:self.languageTag forKey:kLanguageTag];
+        retval[kLanguageTag] = self.languageTag;
     if (self.name)
-        [retval setObject:self.name forKey:kName];
+        retval[kName] = self.name;
     if (self.detail)
-        [retval setObject:self.detail forKey:kDetail];
+        retval[kDetail] = self.detail;
     if (self.userName)
-        [retval setObject:self.userName forKey:kUserName];
+        retval[kUserName] = self.userName;
     if (self.userID)
-        [retval setObject:self.userID forKey:kUserID];
+        retval[kUserID] = self.userID;
     NSMutableArray *packedFiles = [[NSMutableArray alloc] init];
     for (Audio *file in self.files) {
         NSMutableDictionary *fileDict = [[NSMutableDictionary alloc] init];
         if (file.fileID)
-            [fileDict setObject:file.fileID forKey:kFileID];
+            fileDict[kFileID] = file.fileID;
         if (file.fileCode)
-            [fileDict setObject:file.fileCode forKey:kFileCode];
+            fileDict[kFileCode] = file.fileCode;
         [packedFiles addObject:fileDict];
     }
-    [retval setObject:packedFiles forKey:kFiles];
+    retval[kFiles] = packedFiles;
     if (self.completed && self.completed.boolValue)
-        [retval setObject:self.completed forKey:kCompleted];
+        retval[kCompleted] = self.completed;
     return retval;
 }
 

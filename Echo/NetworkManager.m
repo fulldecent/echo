@@ -99,7 +99,7 @@
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         Lesson *lesson = [Lesson lessonWithDictionary:responseObject];
         if (successBlock)
-            successBlock(lesson, [responseObject objectForKey:@"updated"]);
+            successBlock(lesson, responseObject[@"updated"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -133,9 +133,9 @@
 {
     AFHTTPRequestOperation *request = [self.requestManager POST:@"lessons/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (successBlock)
-            successBlock([responseObject objectForKey:@"lessonID"],
-                         [responseObject objectForKey:@"updated"],
-                         [responseObject objectForKey:@"neededFiles"]);
+            successBlock(responseObject[@"lessonID"],
+                         responseObject[@"updated"],
+                         responseObject[@"neededFiles"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -152,8 +152,8 @@
                               langTag];
     AFHTTPRequestOperation *request = [self.requestManager PUT:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (successBlock)
-            successBlock([responseObject objectForKey:@"lessonID"],
-                         [responseObject objectForKey:@"updated"]);
+            successBlock(responseObject[@"lessonID"],
+                         responseObject[@"updated"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -168,7 +168,7 @@
     NSString *relativePath =[NSString stringWithFormat:@"lessons/%@/words/%@/files/%@.caf", lesson.lessonCode, word.wordCode, code];
     AFHTTPRequestOperation *request = [self.requestManager PUT:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (progressBlock)
-            progressBlock([NSNumber numberWithInt:1]);
+            progressBlock(@1);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -176,7 +176,7 @@
     [request setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         if (totalBytesExpectedToWrite > 0) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:(float)totalBytesWritten / totalBytesExpectedToWrite]);
+                progressBlock(@((float)totalBytesWritten / totalBytesExpectedToWrite));
         }
     }];
     [request start];
@@ -195,10 +195,10 @@
     NSDictionary *JSONDict = [NSJSONSerialization JSONObjectWithData:[[Profile currentUserProfile] JSON] options:nil error:nil];
     
     AFHTTPRequestOperation *request = [self.requestManager POST:@"users" parameters:JSONDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *username = [(NSDictionary *)responseObject objectForKey:@"username"];
-        NSNumber *userID = [(NSDictionary *)responseObject objectForKey:@"userID"];
+        NSString *username = ((NSDictionary *)responseObject)[@"username"];
+        NSNumber *userID = ((NSDictionary *)responseObject)[@"userID"];
         NSMutableArray *recommendedLessons = [[NSMutableArray alloc] init];
-        for (id lessonJSONDecoded in [(NSDictionary *)responseObject objectForKey:@"recommendedLessons"]) {
+        for (id lessonJSONDecoded in ((NSDictionary *)responseObject)[@"recommendedLessons"]) {
             NSData *lessonJSON = [NSJSONSerialization dataWithJSONObject:lessonJSONDecoded options:0 error:nil];
             [recommendedLessons addObject:[Lesson lessonWithJSON:lessonJSON]];
         }
@@ -226,23 +226,23 @@
         if (lesson.serverTimeOfLastCompletedSync)
             [lessonTimestampsToCheck addObject:lesson.serverTimeOfLastCompletedSync];
         else
-            [lessonTimestampsToCheck addObject:[NSNumber numberWithInt:0]];
+            [lessonTimestampsToCheck addObject:@0];
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *requestParams = [[NSMutableDictionary alloc] init];
-    [requestParams setObject:lessonIDsToCheck forKey:@"lessonIDs"];
-    [requestParams setObject:lessonTimestampsToCheck forKey:@"lessonTimestamps"];
+    requestParams[@"lessonIDs"] = lessonIDsToCheck;
+    requestParams[@"lessonTimestamps"] = lessonTimestampsToCheck;
     if ([defaults objectForKey:@"lastLessonSeen"])
-        [requestParams setObject:[defaults objectForKey:@"lastLessonSeen"] forKey:@"lastLessonSeen"];
+        requestParams[@"lastLessonSeen"] = [defaults objectForKey:@"lastLessonSeen"];
     if ([defaults objectForKey:@"lastMessageSeen"])
-        [requestParams setObject:[defaults objectForKey:@"lastMessageSeen"] forKey:@"lastMessageSeen"];
+        requestParams[@"lastMessageSeen"] = [defaults objectForKey:@"lastMessageSeen"];
     NSString *relativePath = @"users/me/updates";
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:requestParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (successBlock)
-            successBlock([responseObject objectForKey:@"updatedLessons"],
-                         [responseObject objectForKey:@"newLessons"],
-                         [responseObject objectForKey:@"unreadMessages"]);
+            successBlock(responseObject[@"updatedLessons"],
+                         responseObject[@"newLessons"],
+                         responseObject[@"unreadMessages"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -299,7 +299,7 @@
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (progressBlock)
-            progressBlock([NSNumber numberWithInt:1]);
+            progressBlock(@1);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -307,7 +307,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
+                progressBlock(@((float)totalBytesRead / totalBytesExpectedToRead));
         }
     }];
     [request start];
@@ -329,7 +329,7 @@
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (progressBlock)
-            progressBlock([NSNumber numberWithInt:1]);
+            progressBlock(@1);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -337,7 +337,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
+                progressBlock(@((float)totalBytesRead / totalBytesExpectedToRead));
         }
     }];
     [request start];
@@ -419,7 +419,7 @@
     NSString *relativePath =[NSString stringWithFormat:@"audio/%@.caf", [audio fileID]];
     AFHTTPRequestOperation *request = [self.requestManager GET:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (progressBlock)
-            progressBlock([NSNumber numberWithInt:1]);
+            progressBlock(@1);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
@@ -427,7 +427,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
-                progressBlock([NSNumber numberWithFloat:(float)totalBytesRead / totalBytesExpectedToRead]);
+                progressBlock(@((float)totalBytesRead / totalBytesExpectedToRead));
         }
     }];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -452,7 +452,7 @@
         else {
             NSLog(@"No which way for this lesson to sync: %@", lessonToSync);
             if (progressBlock)
-                progressBlock(lessonToSync, [NSNumber numberWithInt:1]);
+                progressBlock(lessonToSync, @1);
         }
     }
 }
@@ -472,8 +472,8 @@
          [lessonToSync setToLesson:retreivedLesson];
          NSMutableArray *neededAudios = [[NSMutableArray alloc] init];
          for (NSDictionary *audioAndWord in [lessonToSync listOfMissingFiles])
-             [neededAudios addObject:[audioAndWord objectForKey:@"audio"]];         
-         __block NSNumber *lessonProgress = [NSNumber numberWithInt:1];
+             [neededAudios addObject:audioAndWord[@"audio"]];         
+         __block NSNumber *lessonProgress = @1;
          __block NSNumber *totalLessonProgress = @([neededAudios count]+1);
          
          if ([neededAudios count] == 0) {
@@ -481,25 +481,25 @@
              lessonToSync.remoteChangesSinceLastSync = NO;
          }
          if (progressBlock)
-             progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+             progressBlock(lessonToSync, @([lessonProgress floatValue]/[totalLessonProgress floatValue]));
          
          NSMutableDictionary *progressPerAudioFile = [NSMutableDictionary dictionary];
          NSLog(@"NEEDED AUDIOS: %@", neededAudios);
          
          for (Audio *file in neededAudios) {
 //             NSLog(@"PULLING AUDIO: %@", [file fileID]);
-             [progressPerAudioFile setObject:[NSNumber numberWithFloat:0] forKey:[file fileID]];
+             progressPerAudioFile[[file fileID]] = @0.0f;
              [self pullAudio:file withProgress:^(NSNumber *fileProgress) {
 //                 NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
-                 [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
+                 progressPerAudioFile[[file fileID]] = fileProgress;
                  NSNumber *filesProgress = [[progressPerAudioFile allValues] valueForKeyPath:@"@sum.self"];
-                 lessonProgress = [NSNumber numberWithFloat:[filesProgress floatValue] + 1];
+                 lessonProgress = @([filesProgress floatValue] + 1);
                  
-                 if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                 if ([fileProgress isEqualToNumber:@1]) {
                      if ([lessonProgress isEqualToNumber:totalLessonProgress])
                          lessonToSync.serverTimeOfLastCompletedSync = modifiedTime;
                      if (progressBlock)
-                         progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+                         progressBlock(lessonToSync, @([lessonProgress floatValue]/[totalLessonProgress floatValue]));
                  }
              } onFailure:^(NSError *error) {
              }];
@@ -525,11 +525,11 @@
              lessonToSync.localChangesSinceLastSync = NO;
          }
          if (progressBlock)
-             progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+             progressBlock(lessonToSync, @([lessonProgress floatValue]/[totalLessonProgress floatValue]));
 
          for (NSDictionary *wordAndFileCode in neededWordAndFileCodes) {
-             Word *word = [lessonToSync wordWithCode:[wordAndFileCode objectForKey:@"wordCode"]];
-             Audio *file = [word fileWithCode:[wordAndFileCode objectForKey:@"fileCode"]];
+             Word *word = [lessonToSync wordWithCode:wordAndFileCode[@"wordCode"]];
+             Audio *file = [word fileWithCode:wordAndFileCode[@"fileCode"]];
 
              [self putAudioFileAtPath:[file.fileURL absoluteString]
                             forLesson:lessonToSync
@@ -537,14 +537,14 @@
                             usingCode:file.fileCode
                          withProgress:^(NSNumber *fileProgress)
               {
-                  if ([fileProgress isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                  if ([fileProgress isEqualToNumber:@1]) {
                       lessonProgress = @([lessonProgress integerValue]+1);
                       if ([lessonProgress isEqualToNumber:totalLessonProgress]) {
                           lessonToSync.serverTimeOfLastCompletedSync = newServerVersion;
                           lessonToSync.localChangesSinceLastSync = NO;
                       }
                       if (progressBlock)
-                          progressBlock(lessonToSync, [NSNumber numberWithFloat:[lessonProgress floatValue]/[totalLessonProgress floatValue]]);
+                          progressBlock(lessonToSync, @([lessonProgress floatValue]/[totalLessonProgress floatValue]));
                       //TODO: Could do even more accurate progress reporting if we wanted
                   }
               } onFailure:^(NSError *error)
@@ -563,23 +563,23 @@
     [self getWordWithID:wordID onSuccess:^(Word *word)
      {
          NSArray *neededAudios = [word listOfMissingFiles];
-         __block NSNumber *wordProgress = [NSNumber numberWithInt:1];
+         __block NSNumber *wordProgress = @1;
          __block NSNumber *totalWordProgress = @([neededAudios count]+1);
          if (progress)
-             progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
+             progress(word, @([wordProgress floatValue]/[totalWordProgress floatValue]));
          
          NSMutableDictionary *progressPerAudioFile = [NSMutableDictionary dictionary];
          
          for (Audio *file in neededAudios) {
-             [progressPerAudioFile setObject:[NSNumber numberWithFloat:0] forKey:[file fileID]];
+             progressPerAudioFile[[file fileID]] = @0.0f;
 
              [self pullAudio:file withProgress:^(NSNumber *fileProgress) {
                  NSLog(@"FILE PROGRESS: %@ %@", [file fileID], fileProgress);
-                 [progressPerAudioFile setObject:fileProgress forKey:[file fileID]];
+                 progressPerAudioFile[[file fileID]] = fileProgress;
                  NSNumber *filesProgress = [[progressPerAudioFile allValues] valueForKeyPath:@"@sum.self"];
-                 wordProgress = [NSNumber numberWithFloat:[filesProgress floatValue] + 1];
+                 wordProgress = @([filesProgress floatValue] + 1);
                  if (progress)
-                     progress(word, [NSNumber numberWithFloat:[wordProgress floatValue]/[totalWordProgress floatValue]]);
+                     progress(word, @([wordProgress floatValue]/[totalWordProgress floatValue]));
              } onFailure:^(NSError *error) {
              }];
          }

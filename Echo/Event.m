@@ -18,6 +18,10 @@
 #define kHtmlDescription @"description"
 #define kWasRead @"wasRead"
 
+// hacks
+#define kActingUserName @"actingUserName"
+#define kTargetWordName @"targetWordName"
+
 #define kEventTypePostLesson @"postLesson"
 #define kEventTypeLikeLesson @"likeLesson"
 #define kEventTypeFlagLesson @"flagLesson"
@@ -32,28 +36,34 @@
 + (Event *)eventWithDictionary:(NSDictionary *)packed
 {
     Event *retval = [[Event alloc] init];
-    if ([packed objectForKey:kEventID])
-        retval.eventID = [packed objectForKey:kEventID];
-    if ([packed objectForKey:kTimestamp])
-        retval.timestamp = [packed objectForKey:kTimestamp];
-    if ([packed objectForKey:kActingUserID])
-        retval.actingUserID = [packed objectForKey:kActingUserID];
-    if ([packed objectForKey:kTargetUserID])
-        retval.targetUserID = [packed objectForKey:kTargetUserID];
-    if ([packed objectForKey:kTargetWordID])
-        retval.targetWordID = [packed objectForKey:kTargetWordID];
-    if ([packed objectForKey:kTargetLessonID])
-        retval.targetLessonID = [packed objectForKey:kTargetLessonID];
-    if ([packed objectForKey:kHtmlDescription])
-        retval.htmlDescription = [packed objectForKey:kHtmlDescription];
-    if ([packed objectForKey:kWasRead])
-        retval.wasRead = [packed objectForKey:kWasRead];
+    if (packed[kEventID])
+        retval.eventID = packed[kEventID];
+    if (packed[kTimestamp])
+        retval.timestamp = packed[kTimestamp];
+    if (packed[kActingUserID])
+        retval.actingUserID = packed[kActingUserID];
+    if (packed[kTargetUserID])
+        retval.targetUserID = packed[kTargetUserID];
+    if (packed[kTargetWordID])
+        retval.targetWordID = packed[kTargetWordID];
+    if (packed[kTargetLessonID])
+        retval.targetLessonID = packed[kTargetLessonID];
+    if (packed[kHtmlDescription])
+        retval.htmlDescription = packed[kHtmlDescription];
+    if (packed[kWasRead])
+        retval.wasRead = packed[kWasRead];
+
+    // hacks
+    if (packed[kActingUserName])
+        retval.actingUserName = packed[kActingUserName];
+    if (packed[kTargetWordName])
+        retval.targetWordName = packed[kTargetWordName];
     
-    if ([packed objectForKey:kEventType]) {
-        if ([[packed objectForKey:kEventType] isKindOfClass:[NSNumber class]]) {
-            retval.eventType = [(NSNumber *)[packed objectForKey:kEventType] intValue];
-        } else if ([[packed objectForKey:kEventType] isKindOfClass:[NSString class]]) {
-            NSString *type = (NSString *)[packed objectForKey:kEventType];
+    if (packed[kEventType]) {
+        if ([packed[kEventType] isKindOfClass:[NSNumber class]]) {
+            retval.eventType = [(NSNumber *)packed[kEventType] intValue];
+        } else if ([packed[kEventType] isKindOfClass:[NSString class]]) {
+            NSString *type = (NSString *)packed[kEventType];
             if ([type isEqualToString:kEventTypePostLesson])
                 retval.eventType = EventTypePostLesson;
             else if ([type isEqualToString:kEventTypeLikeLesson])
@@ -80,47 +90,47 @@
 {
     NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
     if (self.eventID)
-        [retval setObject:self.eventID forKey:kEventID];
+        retval[kEventID] = self.eventID;
     if (self.timestamp)
-        [retval setObject:self.timestamp forKey:kTimestamp];
+        retval[kTimestamp] = self.timestamp;
     if (self.actingUserID)
-        [retval setObject:self.actingUserID forKey:kActingUserID];
+        retval[kActingUserID] = self.actingUserID;
     if (self.targetUserID)
-        [retval setObject:self.targetUserID forKey:kTargetUserID];
+        retval[kTargetUserID] = self.targetUserID;
     if (self.targetWordID)
-        [retval setObject:self.targetWordID forKey:kTargetWordID];
+        retval[kTargetWordID] = self.targetWordID;
     if (self.targetLessonID)
-        [retval setObject:self.targetLessonID forKey:kTargetLessonID];
+        retval[kTargetLessonID] = self.targetLessonID;
     if (self.htmlDescription)
-        [retval setObject:self.htmlDescription forKey:kHtmlDescription];
+        retval[kHtmlDescription] = self.htmlDescription;
     if (self.wasRead)
-        [retval setObject:self.wasRead forKey:kWasRead];
+        retval[kWasRead] = self.wasRead;
 
     if (self.eventType) {
         switch (self.eventType) {
             case EventTypePostLesson:
-                [retval setObject:kEventTypePostLesson forKey:kEventType];
+                retval[kEventType] = kEventTypePostLesson;
                 break;
             case EventTypeLikeLesson:
-                [retval setObject:kEventTypeLikeLesson forKey:kEventType];
+                retval[kEventType] = kEventTypeLikeLesson;
                 break;
             case EventTypeFlagLesson:
-                [retval setObject:kEventTypeFlagLesson forKey:kEventType];
+                retval[kEventType] = kEventTypeFlagLesson;
                 break;
             case EventTypeFlagUser:
-                [retval setObject:kEventTypeFlagUser forKey:kEventType];
+                retval[kEventType] = kEventTypeFlagUser;
                 break;
             case EventTypeUpdateUser:
-                [retval setObject:kEventTypeUpdateUser forKey:kEventType];
+                retval[kEventType] = kEventTypeUpdateUser;
                 break;
             case EventTypePostPractice:
-                [retval setObject:kEventTypePostPractice forKey:kEventType];
+                retval[kEventType] = kEventTypePostPractice;
                 break;
             case EventTypeFeedbackLesson:
-                [retval setObject:kEventTypeFeedbackLesson forKey:kEventType];
+                retval[kEventType] = kEventTypeFeedbackLesson;
                 break;
             case EventTypeReplyPractice:
-                [retval setObject:kEventTypeReplyPractice forKey:kEventType];
+                retval[kEventType] = kEventTypeReplyPractice;
                 break;
             default:
                 break;

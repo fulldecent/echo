@@ -22,8 +22,8 @@
 + (NSString *)nativeDescriptionForLanguage:(NSString *)langTag
 {
     for (NSDictionary *lang in [self languages]) {
-        if ([(NSString *)[lang objectForKey:@"tag"] isEqualToString:langTag])
-            return [lang objectForKey:@"nativeName"];
+        if ([(NSString *)lang[@"tag"] isEqualToString:langTag])
+            return lang[@"nativeName"];
     }
 
     return nil;
@@ -34,8 +34,8 @@
     NSMutableArray *retval = [[NSMutableArray alloc] init];
     
     for (NSDictionary *lang in [Languages languages]) 
-        if ([langTags containsObject:[lang objectForKey:@"tag"]])
-            [retval addObject:(NSString *)[lang objectForKey:@"tag"]];
+        if ([langTags containsObject:lang[@"tag"]])
+            [retval addObject:(NSString *)lang[@"tag"]];
     return retval;
 }
 

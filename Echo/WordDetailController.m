@@ -81,7 +81,7 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 - (void)makeItBounce:(UIView *)view
 {
     CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    bounceAnimation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:1], [NSNumber numberWithFloat:1.2], nil];
+    bounceAnimation.values = @[@1.0f, @1.2f];
     bounceAnimation.duration = 0.15;
     bounceAnimation.removedOnCompletion = NO;
     bounceAnimation.repeatCount = 2;
@@ -142,16 +142,16 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 
 - (IBAction)playButtonPressed:(id)sender
 {
-    NSNumber *echoIndex =  [[self.playButtons allKeysForObject:sender] objectAtIndex:0];
-    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
+    NSNumber *echoIndex =  [self.playButtons allKeysForObject:sender][0];
+    PHOREchoRecorder *recorder = (self.echoRecorders)[echoIndex];
     [recorder playback];
     [self makeItBounce:sender];
 }
 
 - (IBAction)recordButtonPressed:(id)sender
 {
-    NSNumber *echoIndex = [[self.recordButtons allKeysForObject:sender] objectAtIndex:0];
-    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
+    NSNumber *echoIndex = [self.recordButtons allKeysForObject:sender][0];
+    PHOREchoRecorder *recorder = (self.echoRecorders)[echoIndex];
     [recorder record];
     [self makeItBounce:sender];
 }
@@ -160,12 +160,12 @@ typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
 {
     NSNumber *echoIndex;
     if ([object isKindOfClass:[PHOREchoRecorder class]])
-        echoIndex = [[self.echoRecorders allKeysForObject:object] objectAtIndex:0];
+        echoIndex = [self.echoRecorders allKeysForObject:object][0];
     
     if ([keyPath isEqualToString: @"microphoneLevel"]) {
-        F3BarGauge *guage = [self.recordGuages objectForKey:echoIndex];
-        guage.value = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
-NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKey]);
+        F3BarGauge *guage = (self.recordGuages)[echoIndex];
+        guage.value = [change[NSKeyValueChangeNewKey] floatValue];
+NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
     }         
 }
 
@@ -177,10 +177,10 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     self.word.name = self.editingName;
     self.word.detail = self.editingDetail;
     for (int i=0; i<[self.echoRecorders count]; i++) {
-        PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
+        PHOREchoRecorder *recorder = (self.echoRecorders)[@(i)];
         Audio *audio;
         if (self.word.files.count > i)
-            audio = [self.word.files objectAtIndex:i];
+            audio = (self.word.files)[i];
         else {
             audio = [[Audio alloc] init];
             audio.word = self.word;
@@ -194,7 +194,7 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
                 NSLog(@"Word file copy error: %@", [error localizedDescription]);
             [files addObject:audio];
         } else {
-            [files addObject:[self.word.files objectAtIndex:i]];
+            [files addObject:(self.word.files)[i]];
         }
     }
     self.word.files = files;
@@ -218,10 +218,10 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     }
     
     for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
-        PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:[NSNumber numberWithInt:i]];
-        UIButton *recordButton = [self.recordButtons objectForKey:[NSNumber numberWithInt:i]];
-        UIButton *playButton = [self.playButtons objectForKey:[NSNumber numberWithInt:i]];
-        UIButton *checkButtons = [self.resetButtons objectForKey:[NSNumber numberWithInt:i]];
+        PHOREchoRecorder *recorder = (self.echoRecorders)[@(i)];
+        UIButton *recordButton = (self.recordButtons)[@(i)];
+        UIButton *playButton = (self.playButtons)[@(i)];
+        UIButton *checkButtons = (self.resetButtons)[@(i)];
         if (!recorder || !recorder.duration) {
             valid = NO;
             recordButton.hidden = NO;
@@ -252,11 +252,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
 
 - (IBAction)resetButtonPressed:(UIButton *)sender
 {
-    NSNumber *echoIndex = [[self.resetButtons allKeysForObject:sender] objectAtIndex:0];
-    PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:echoIndex];
+    NSNumber *echoIndex = [self.resetButtons allKeysForObject:sender][0];
+    PHOREchoRecorder *recorder = (self.echoRecorders)[echoIndex];
     [recorder reset];
     [self validate];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:echoIndex inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:echoIndex inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (IBAction)reply:(UIBarButtonItem *)sender {
@@ -276,13 +276,13 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
     for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
         PHOREchoRecorder *recorder;
         if (i < [self.word.files count]) {
-            Audio *file = [self.word.files objectAtIndex:i];
+            Audio *file = (self.word.files)[i];
             recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtURL:file.fileURL];
         }
         else
             recorder = [[PHOREchoRecorder alloc] init];
         recorder.delegate = self;
-        [self.echoRecorders setObject:recorder forKey:[NSNumber numberWithInt:i]];
+        (self.echoRecorders)[@(i)] = recorder;
     }
     
     // see http://stackoverflow.com/questions/2246374/low-recording-volume-in-combination-with-avaudiosessioncategoryplayandrecord
@@ -402,10 +402,10 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             UIButton *recordButton = (UIButton *)[cell viewWithTag:3];
             F3BarGauge *recordGuage = (F3BarGauge *)[cell viewWithTag:10];
             UIButton *checkbox = (UIButton *)[cell viewWithTag:4];
-            PHOREchoRecorder *recorder = [self.echoRecorders objectForKey:@(indexPath.row)];
+            PHOREchoRecorder *recorder = (self.echoRecorders)[@(indexPath.row)];
             
             if (indexPath.row < [self.word.files count]) {
-                Audio *file = [self.word.files objectAtIndex:indexPath.row];
+                Audio *file = (self.word.files)[indexPath.row];
 
                 // Workaround because AVURLAsset needs files with file extensions
                 // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
@@ -423,11 +423,11 @@ NSLog(@"observed microphoneLevel %@", [change objectForKey:NSKeyValueChangeNewKe
             [recordButton addSubview:recordGuage];
             [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:recordButton.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:recordGuage attribute:NSLayoutAttributeLeft multiplier:1 constant:8]];
             
-            [self.playButtons setObject:playButton forKey:@(indexPath.row)];
-            [self.waveforms setObject:waveform forKey:@(indexPath.row)];
-            [self.recordButtons setObject:recordButton forKey:@(indexPath.row)];
-            [self.recordGuages setObject:recordGuage forKey:@(indexPath.row)];
-            [self.resetButtons setObject:checkbox forKey:@(indexPath.row)];
+            (self.playButtons)[@(indexPath.row)] = playButton;
+            (self.waveforms)[@(indexPath.row)] = waveform;
+            (self.recordButtons)[@(indexPath.row)] = recordButton;
+            (self.recordGuages)[@(indexPath.row)] = recordGuage;
+            (self.resetButtons)[@(indexPath.row)] = checkbox;
             
             if (![self.delegate wordDetailController:self canEditWord:self.word]) {
                 playButton.hidden = NO;

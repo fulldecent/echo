@@ -47,7 +47,7 @@
 - (NSArray *)words
 {
     if (!_words)
-        _words = [NSArray array];
+        _words = @[];
     return _words;
 }
 
@@ -129,8 +129,8 @@
         NSArray *wordMissingFiles = [word listOfMissingFiles];
         for (Audio *file in wordMissingFiles) {
             NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
-            [entry setObject:file forKey:@"audio"];
-            [entry setObject:word forKey:@"word"];
+            entry[@"audio"] = file;
+            entry[@"word"] = word;
             [retval addObject:entry];
         }
     }
@@ -154,7 +154,7 @@
     for (Word *word in self.words)
         if (word.completed && word.completed.boolValue)
             numerator++;
-    return [NSNumber numberWithFloat:(float)numerator/self.words.count];    
+    return @((float)numerator/self.words.count);    
 }
 
 - (Word *)wordWithCode:(NSString *)wordCode
@@ -167,7 +167,7 @@
 
 - (Word *)wordWithCode:(NSString *)wordCode translatedTo:(NSString *)langTag
 {
-    Lesson *translation = [self.translations objectForKey:langTag];
+    Lesson *translation = (self.translations)[langTag];
     return [translation wordWithCode:wordCode];    
 }
 
@@ -180,41 +180,41 @@
 + (Lesson *)lessonWithDictionary:(NSDictionary *)packed
 {
     Lesson *retval = [[Lesson alloc] init];
-    if ([packed objectForKey:kLessonID])
-        retval.lessonID = [packed objectForKey:kLessonID];
-    if ([packed objectForKey:kLessonCode])
-        retval.lessonCode = [packed objectForKey:kLessonCode];
+    if (packed[kLessonID])
+        retval.lessonID = packed[kLessonID];
+    if (packed[kLessonCode])
+        retval.lessonCode = packed[kLessonCode];
     else
         retval.lessonCode = [NSString string];
-    if ([packed objectForKey:kLanguageTag])
-        retval.languageTag = [packed objectForKey:kLanguageTag];
-    if ([packed objectForKey:kName])
-        retval.name = [packed objectForKey:kName];
-    if ([packed objectForKey:kDetail]) {
+    if (packed[kLanguageTag])
+        retval.languageTag = packed[kLanguageTag];
+    if (packed[kName])
+        retval.name = packed[kName];
+    if (packed[kDetail]) {
         // Backwards compatibility from version <= 1.0.9
-        if ([[packed objectForKey:kDetail] isKindOfClass:[NSDictionary class]]) {
-            if ([(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag])
-                retval.detail = [(NSDictionary *)[packed objectForKey:kDetail] objectForKey:retval.languageTag];
+        if ([packed[kDetail] isKindOfClass:[NSDictionary class]]) {
+            if (((NSDictionary *)packed[kDetail])[retval.languageTag])
+                retval.detail = ((NSDictionary *)packed[kDetail])[retval.languageTag];
         } else
-            retval.detail = [packed objectForKey:kDetail];
+            retval.detail = packed[kDetail];
     }
-    if ([packed objectForKey:kServerTimeOfLastCompletedSync])
-        retval.serverTimeOfLastCompletedSync = [packed objectForKey:kServerTimeOfLastCompletedSync];
-    if ([packed objectForKey:kLocalChangesSinceLastSync])
-        retval.localChangesSinceLastSync = [(NSNumber *)[packed objectForKey:kLocalChangesSinceLastSync] boolValue];
-    if ([packed objectForKey:kRemoteChangesSinceLastSync])
-        retval.remoteChangesSinceLastSync = [(NSNumber *)[packed objectForKey:kRemoteChangesSinceLastSync] boolValue];
-    if ([packed objectForKey:kUserID])
-        retval.userID = [packed objectForKey:kUserID];
-    if ([packed objectForKey:kUserName])
-        retval.userName = [packed objectForKey:kUserName];
-    if ([packed objectForKey:kLikes])
-        retval.numLikes = [packed objectForKey:kLikes];
-    if ([packed objectForKey:kFlags])
-        retval.numFlags = [packed objectForKey:kFlags];
+    if (packed[kServerTimeOfLastCompletedSync])
+        retval.serverTimeOfLastCompletedSync = packed[kServerTimeOfLastCompletedSync];
+    if (packed[kLocalChangesSinceLastSync])
+        retval.localChangesSinceLastSync = [(NSNumber *)packed[kLocalChangesSinceLastSync] boolValue];
+    if (packed[kRemoteChangesSinceLastSync])
+        retval.remoteChangesSinceLastSync = [(NSNumber *)packed[kRemoteChangesSinceLastSync] boolValue];
+    if (packed[kUserID])
+        retval.userID = packed[kUserID];
+    if (packed[kUserName])
+        retval.userName = packed[kUserName];
+    if (packed[kLikes])
+        retval.numLikes = packed[kLikes];
+    if (packed[kFlags])
+        retval.numFlags = packed[kFlags];
     NSMutableArray *words = [[NSMutableArray alloc] init];
-    if ([[packed objectForKey:kWords] isKindOfClass:[NSArray class]]) {
-        for (NSDictionary *packedWord in [packed objectForKey:kWords]) {
+    if ([packed[kWords] isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *packedWord in packed[kWords]) {
             Word *newWord = [Word wordWithDictionary:packedWord];
             newWord.lesson = retval;
             [words addObject:newWord];
@@ -222,11 +222,11 @@
     }
     retval.words = words;
     NSMutableDictionary *translatedLessons = [[NSMutableDictionary alloc] init];
-    if ([[packed objectForKey:kTranslations] isKindOfClass:[NSDictionary class]]) {
-        for (NSString *langTag in [packed objectForKey:kTranslations]) {
-            NSDictionary *packedTranslation = [[packed objectForKey:kTranslations] objectForKey:langTag];
+    if ([packed[kTranslations] isKindOfClass:[NSDictionary class]]) {
+        for (NSString *langTag in packed[kTranslations]) {
+            NSDictionary *packedTranslation = packed[kTranslations][langTag];
             Lesson *newTranslation = [Lesson lessonWithDictionary:packedTranslation];
-            [translatedLessons setObject:newTranslation forKey:langTag];
+            translatedLessons[langTag] = newTranslation;
         }
     }
     retval.translations = translatedLessons;
@@ -237,37 +237,37 @@
 {
     NSMutableDictionary *retval = [[NSMutableDictionary alloc] init];
     if (self.lessonID)
-        [retval setObject:self.lessonID forKey:kLessonID];
+        retval[kLessonID] = self.lessonID;
     if (self.lessonCode)
-        [retval setObject:self.lessonCode forKey:kLessonCode];
+        retval[kLessonCode] = self.lessonCode;
     if (self.languageTag)
-        [retval setObject:self.languageTag forKey:kLanguageTag];
+        retval[kLanguageTag] = self.languageTag;
     if (self.name)
-        [retval setObject:self.name forKey:kName];
+        retval[kName] = self.name;
     if (self.detail)
-        [retval setObject:self.detail forKey:kDetail];
+        retval[kDetail] = self.detail;
     if (self.serverTimeOfLastCompletedSync)
-        [retval setObject:self.serverTimeOfLastCompletedSync forKey:kServerTimeOfLastCompletedSync];
-    [retval setObject:[NSNumber numberWithBool:self.localChangesSinceLastSync] forKey:kLocalChangesSinceLastSync];
-    [retval setObject:[NSNumber numberWithBool:self.remoteChangesSinceLastSync] forKey:kRemoteChangesSinceLastSync];
+        retval[kServerTimeOfLastCompletedSync] = self.serverTimeOfLastCompletedSync;
+    retval[kLocalChangesSinceLastSync] = @(self.localChangesSinceLastSync);
+    retval[kRemoteChangesSinceLastSync] = @(self.remoteChangesSinceLastSync);
     if (self.userID)
-        [retval setObject:self.userID forKey:kUserID];
+        retval[kUserID] = self.userID;
     if (self.userName)
-        [retval setObject:self.userName forKey:kUserName];
+        retval[kUserName] = self.userName;
     NSMutableArray *packedWords = [[NSMutableArray alloc] init];
     for (Word *word in self.words) {
         NSDictionary *packedWord = [word toDictionary];
         [packedWords addObject:packedWord];
     }
-    [retval setObject:packedWords forKey:kWords];
+    retval[kWords] = packedWords;
     if (self.translations.count) {
         NSMutableDictionary *packedTranslations = [[NSMutableDictionary alloc] init];
         for (NSString *langTag in self.translations) {
-            Lesson *translation = [self.translations objectForKey:langTag];
+            Lesson *translation = (self.translations)[langTag];
             NSDictionary *packedTranslation = [translation toDictionary];
-            [packedTranslations setObject:packedTranslation forKey:langTag];
+            packedTranslations[langTag] = packedTranslation;
         }
-        [retval setObject:packedTranslations forKey:kTranslations];
+        retval[kTranslations] = packedTranslations;
     }
     return retval;
 }
