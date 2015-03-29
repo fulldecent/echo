@@ -26,7 +26,7 @@ PODS:
   - GoogleAnalytics-iOS-SDK (3.10):
     - GoogleAnalytics-iOS-SDK/Core (= 3.10)
   - GoogleAnalytics-iOS-SDK/Core (3.10)
-  - MBProgressHUD (0.9)
+  - MBProgressHUD (0.9.1)
   - NSData+Base64 (1.0.0)
   - TDBadgedCell (3.0)
 
@@ -46,7 +46,7 @@ SPEC CHECKSUMS:
   FDTake: caea3b794995e04d70696212970a85155107815e
   FDWaveformView: aa6a5882bf00864c9876c629597734df921e1ac1
   GoogleAnalytics-iOS-SDK: f422062075d9ccb1ea8d783fc5ba3829461e9502
-  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  MBProgressHUD: f3747dcbd45a9e855a6b0674550651e0b7ed250c
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   TDBadgedCell: 4e45754cea40fdc104fbe84cac4c64335737801b
 

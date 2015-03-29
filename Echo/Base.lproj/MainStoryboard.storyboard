@@ -942,7 +942,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Echo" image="echo.png" id="NjY-9Y-8iQ"/>
+                    <tabBarItem key="tabBarItem" title="Echo" image="lesson.png" id="NjY-9Y-8iQ"/>
                     <navigationItem key="navigationItem" title="SOME WORD" id="iPr-iF-usT">
                         <barButtonItem key="rightBarButtonItem" systemItem="fastForward" id="uq4-p6-PI0">
                             <connections>
@@ -1089,7 +1089,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.95686274509803915" green="0.85882352941176465" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lesson" textLabel="HJl-y2-gzJ" detailTextLabel="YmH-Vp-nzp" rowHeight="65" style="IBUITableViewCellStyleSubtitle" id="OZA-iZ-pup" customClass="TDBadgedCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lesson" textLabel="HJl-y2-gzJ" detailTextLabel="YmH-Vp-nzp" style="IBUITableViewCellStyleSubtitle" id="OZA-iZ-pup" customClass="TDBadgedCell">
                                 <rect key="frame" x="0.0" y="55" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OZA-iZ-pup" id="z7D-2z-YpA">
@@ -1112,8 +1112,13 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="badgeColor">
+                                        <color key="value" red="0.5490196078431373" green="0.11372549019607843" blue="0.29411764705882354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lessonEditable" textLabel="kuP-59-vOo" detailTextLabel="CTb-4v-yKA" rowHeight="65" style="IBUITableViewCellStyleSubtitle" id="iGH-lR-7h8" customClass="TDBadgedCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lessonEditable" textLabel="kuP-59-vOo" detailTextLabel="CTb-4v-yKA" style="IBUITableViewCellStyleSubtitle" id="iGH-lR-7h8" customClass="TDBadgedCell">
                                 <rect key="frame" x="0.0" y="120" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iGH-lR-7h8" id="jtP-c6-kPW">
@@ -1137,7 +1142,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lessonDownload" textLabel="B3y-xB-ikW" detailTextLabel="9jy-Lu-4vn" imageView="Xj9-Tb-zov" rowHeight="65" style="IBUITableViewCellStyleSubtitle" id="qM5-hx-2JX" customClass="TDBadgedCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lessonDownload" textLabel="B3y-xB-ikW" detailTextLabel="9jy-Lu-4vn" imageView="Xj9-Tb-zov" style="IBUITableViewCellStyleSubtitle" id="qM5-hx-2JX" customClass="TDBadgedCell">
                                 <rect key="frame" x="0.0" y="185" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qM5-hx-2JX" id="4PZ-kP-SP1">
@@ -1158,14 +1163,14 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="down_arrow.png" id="Xj9-Tb-zov">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="down.png" id="Xj9-Tb-zov">
                                             <rect key="frame" x="15" y="16" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lessonUpload" textLabel="0ea-q9-RVB" detailTextLabel="stI-Qy-5Af" imageView="RnD-yK-zwX" rowHeight="65" style="IBUITableViewCellStyleSubtitle" id="Ki9-FJ-HLl" customClass="TDBadgedCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lessonUpload" textLabel="0ea-q9-RVB" detailTextLabel="stI-Qy-5Af" imageView="RnD-yK-zwX" style="IBUITableViewCellStyleSubtitle" id="Ki9-FJ-HLl" customClass="TDBadgedCell">
                                 <rect key="frame" x="0.0" y="250" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ki9-FJ-HLl" id="QtB-Nj-oOG">
@@ -1186,7 +1191,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="up_arrow.png" id="RnD-yK-zwX">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="up.png" id="RnD-yK-zwX">
                                             <rect key="frame" x="15" y="16" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -1214,7 +1219,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="echo.png" id="Oxt-bP-tFb">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="lesson.png" id="Oxt-bP-tFb">
                                             <rect key="frame" x="15" y="6" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -1238,7 +1243,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="echo.png" id="sBq-EY-ESq">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="lesson.png" id="sBq-EY-ESq">
                                             <rect key="frame" x="15" y="6" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -1669,16 +1674,16 @@
     <resources>
         <image name="Checkbox checked.png" width="22" height="40"/>
         <image name="checkon.png" width="18" height="20"/>
-        <image name="down_arrow.png" width="32" height="32"/>
-        <image name="echo.png" width="30" height="30"/>
+        <image name="down.png" width="128" height="128"/>
         <image name="flag.png" width="32" height="32"/>
+        <image name="lesson.png" width="128" height="128"/>
         <image name="like.png" width="32" height="32"/>
         <image name="microphone icon.png" width="64" height="64"/>
         <image name="none40.png" width="40" height="40"/>
         <image name="practiceIcon.png" width="30" height="30"/>
         <image name="shuffle.png" width="25" height="21"/>
         <image name="speaker icon.png" width="64" height="64"/>
-        <image name="up_arrow.png" width="32" height="32"/>
+        <image name="up.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

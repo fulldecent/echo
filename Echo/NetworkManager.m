@@ -427,7 +427,7 @@
     [request setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if (totalBytesExpectedToRead > 0) {
             if (progressBlock)
-                progressBlock(@((float)totalBytesRead / totalBytesExpectedToRead));
+                progressBlock(@((float)(totalBytesRead) / (totalBytesExpectedToRead + 1)));
         }
     }];
     NSFileManager *fileManager = [NSFileManager defaultManager];

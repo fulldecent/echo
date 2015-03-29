@@ -617,26 +617,17 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     return !word.name; // edit new, virgin word
 }
 
+- (BOOL)wordDetailController:(WordDetailController *)controller canReplyWord:(Word *)word
+{
+    return YES;
+}
+
+#pragma mark - PUSH
+
 - (void)pushNotificationReceived:(NSNotification*)aNotification
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
     [self performSegueWithIdentifier:@"meetPeople" sender:self];
-}
-
-// FROM WEB VIEW CONTROLLER..................
-
-#pragma mark - WordDetailViewControllerDelegate
-
-/*
-- (BOOL)wordDetailController:(WordDetailController *)controller canEditWord:(Word *)word
-{
-    return NO;
-}
- */
-
-- (BOOL)wordDetailController:(WordDetailController *)controller canReplyWord:(Word *)word
-{
-    return YES;
 }
 
 #pragma mark - WordPracticeViewController
