@@ -10,9 +10,9 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "Profile.h"
 #import "Appirater.h"
+#import <Google/Analytics.h>
 #import "GAI.h"
 #import "TDBadgedCell.h"
-#import "GoogleConversionPing.h"
 
 @implementation AppDelegate
 @synthesize window = _window;
@@ -29,9 +29,6 @@
 {
     //    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
-    // Handle "please rate me"
-    [Appirater setAppId:@"558585608"];
-    
     // Deprecate 1.0.8, for upgrade
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"learningLanguageTag"];
@@ -45,8 +42,7 @@
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 
     // Let the device know we want to receive push notifications
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
 
     // Handle remote notification
     NSDictionary* userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -54,33 +50,27 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:nil userInfo:userInfo];
     }
     
+    // Handle "please rate me"
+    [Appirater setAppId:@"558585608"];
     [Appirater appLaunched:YES];
     
-    // https://developers.google.com/analytics/devguides/collection/ios/v3/
-    // Optional: automatically send uncaught exceptions to Google Analytics.
-    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
-    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-    [GAI sharedInstance].dispatchInterval = 20;
-    
-    // Optional: set Logger to VERBOSE for debug information.
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-    
-    // Initialize tracker.
-    [[GAI sharedInstance] trackerWithTrackingId:@"UA-52764-16"];
+    // Optional: configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
 #if TARGET_IPHONE_SIMULATOR
-    [[GAI sharedInstance] setDryRun:YES];
+    gai.dryRun = YES;
 #endif
     
     // http://stackoverflow.com/questions/10111369/unknown-class-zbarreaderview-in-interface-builder-file
     [TDBadgedCell class];
     
-    [GoogleConversionPing pingWithConversionId:@"1070788746"
-                                         label:@"jTQnCLzisQcQiuHL_gM"
-                                         value:@"2.8"
-                                  isRepeatable:NO];
-
     return YES;
 }
 
