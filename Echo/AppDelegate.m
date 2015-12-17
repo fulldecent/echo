@@ -65,7 +65,7 @@
     gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
 #if TARGET_IPHONE_SIMULATOR
-    gai.dryRun = YES;
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
 #endif
     
     // http://stackoverflow.com/questions/10111369/unknown-class-zbarreaderview-in-interface-builder-file

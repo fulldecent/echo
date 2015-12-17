@@ -12,8 +12,7 @@
 #import "Word.h"
 #import "Profile.h"
 
-//#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0/"
-#define SERVER_ECHO_API_URL @"http://learnwithecho.com/api/2.0/"
+#define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0/"
 
 enum NetworkManagerFlagReason {
     NetworkManagerFlagReasonInappropriateTitle,
@@ -26,8 +25,8 @@ enum NetworkManagerFlagReason {
 + (NetworkManager *)sharedNetworkManager;
 
 - (void)deleteLessonWithID:(NSNumber *)lessonID
-onSuccess:(void(^)())successBlock
-onFailure:(void(^)(NSError *error))failureBlock;
+                 onSuccess:(void(^)())successBlock
+                 onFailure:(void(^)(NSError *error))failureBlock;
 
 - (void)searchLessonsWithLangTag:(NSString *)langTag andSearhText:(NSString *)searchText
                        onSuccess:(void(^)(NSArray *lessonPreviews))successBlock
