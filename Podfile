@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
-pod 'AFNetworking'
+pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
 pod 'Appirater'
 pod 'FDTake'
