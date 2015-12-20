@@ -25,7 +25,6 @@
 		774CDA4C15D0AF2E00B14C45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDA4B15D0AF2E00B14C45 /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7761D6A515E2E77E00975F1B /* practiceIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A315E2E77E00975F1B /* practiceIcon.png */; };
 		7761D6A615E2E77E00975F1B /* practiceIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */; };
-		7769F474173B3B2300BB06D7 /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 7769F473173B3B2300BB06D7 /* Audio.m */; };
 		776D2BDD16AB8C1E00EDB4DB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776D2BDC16AB8C1E00EDB4DB /* Accounts.framework */; };
 		776D2BE016AB8D4F00EDB4DB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776D2BDF16AB8D4F00EDB4DB /* AdSupport.framework */; };
 		776D2BE216AB8D6900EDB4DB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776D2BE116AB8D6900EDB4DB /* Social.framework */; };
@@ -42,7 +41,6 @@
 		77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C27C151E6451006F2B69 /* QuartzCore.framework */; };
 		77A50BE0157C4E1B00027CB1 /* iphone_delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */; };
 		77A50BE3157C59BE00027CB1 /* Checkbox checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BE2157C59BE00027CB1 /* Checkbox checked.png */; };
-		77A50BE7157EEB6500027CB1 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE6157EEB6500027CB1 /* Word.m */; };
 		77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE9157EF1B800027CB1 /* Lesson.m */; };
 		77B51381151970B100F041D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51380151970B100F041D7 /* Foundation.framework */; };
 		77B51383151970B100F041D7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51382151970B100F041D7 /* CoreGraphics.framework */; };
@@ -91,6 +89,7 @@
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
 		D93A898F1A1AB576001C2306 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
 		D93F0BF31AB4A46000CAAC8C /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */; };
+		D95C70E11C26720A00F74E66 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C70E01C26720A00F74E66 /* Word.swift */; };
 		D98786C51AC8C33B00C3686E /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786BF1AC8C33B00C3686E /* up.png */; };
 		D98786C61AC8C33B00C3686E /* up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786C01AC8C33B00C3686E /* up@2x.png */; };
 		D98786C71AC8C33B00C3686E /* down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786C11AC8C33B00C3686E /* down@2x.png */; };
@@ -99,6 +98,7 @@
 		D98786CA1AC8C33B00C3686E /* lesson.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786C41AC8C33B00C3686E /* lesson.png */; };
 		D9EC6F4519D9010500B07301 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EC6F4419D9010500B07301 /* Event.m */; };
 		D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C2181C2349B2003654D4 /* IntroViewController.swift */; };
+		D9F5C21B1C235F9A003654D4 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C21A1C235F9A003654D4 /* Audio.swift */; };
 		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
@@ -126,8 +126,6 @@
 		774CDA4B15D0AF2E00B14C45 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		7761D6A315E2E77E00975F1B /* practiceIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = practiceIcon.png; sourceTree = "<group>"; };
 		7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "practiceIcon@2x.png"; sourceTree = "<group>"; };
-		7769F472173B3B2300BB06D7 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Audio.h; sourceTree = "<group>"; };
-		7769F473173B3B2300BB06D7 /* Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Audio.m; sourceTree = "<group>"; };
 		776D2BDC16AB8C1E00EDB4DB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		776D2BDF16AB8D4F00EDB4DB /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		776D2BE116AB8D6900EDB4DB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -144,8 +142,6 @@
 		77A1C27C151E6451006F2B69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone_delete_button.png; sourceTree = "<group>"; };
 		77A50BE2157C59BE00027CB1 /* Checkbox checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox checked.png"; sourceTree = "<group>"; };
-		77A50BE5157EEB6500027CB1 /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
-		77A50BE6157EEB6500027CB1 /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
 		77A50BE8157EF1B800027CB1 /* Lesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lesson.h; sourceTree = "<group>"; };
 		77A50BE9157EF1B800027CB1 /* Lesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lesson.m; sourceTree = "<group>"; };
 		77B5137A151970B100F041D7 /* Echo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Echo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,6 +208,7 @@
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		D95C70E01C26720A00F74E66 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		D98786BF1AC8C33B00C3686E /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		D98786C01AC8C33B00C3686E /* up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "up@2x.png"; sourceTree = "<group>"; };
 		D98786C11AC8C33B00C3686E /* down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down@2x.png"; sourceTree = "<group>"; };
@@ -223,6 +220,7 @@
 		D9EC6F4419D9010500B07301 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		D9F5C2171C2349B2003654D4 /* Echo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Echo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D9F5C2181C2349B2003654D4 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		D9F5C21A1C235F9A003654D4 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
 		D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = Echo/libGoogleConversionTracking.a; sourceTree = "<group>"; };
 		F1BCA506CBE64FE7852ADA22 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,10 +264,8 @@
 		77A50BE4157EEB2B00027CB1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7769F472173B3B2300BB06D7 /* Audio.h */,
-				7769F473173B3B2300BB06D7 /* Audio.m */,
-				77A50BE5157EEB6500027CB1 /* Word.h */,
-				77A50BE6157EEB6500027CB1 /* Word.m */,
+				D9F5C21A1C235F9A003654D4 /* Audio.swift */,
+				D95C70E01C26720A00F74E66 /* Word.swift */,
 				77A50BE8157EF1B800027CB1 /* Lesson.h */,
 				77A50BE9157EF1B800027CB1 /* Lesson.m */,
 				772C83B015BF6D1A00E63B9C /* LessonSet.h */,
@@ -650,6 +646,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9F5C21B1C235F9A003654D4 /* Audio.swift in Sources */,
 				77B5138B151970B100F041D7 /* main.m in Sources */,
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
 				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
@@ -659,18 +656,17 @@
 				77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */,
 				77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */,
 				77BBFE10157C189600511CEC /* Languages.m in Sources */,
-				77A50BE7157EEB6500027CB1 /* Word.m in Sources */,
 				77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				D9EC6F4519D9010500B07301 /* Event.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
 				D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
+				D95C70E11C26720A00F74E66 /* Word.swift in Sources */,
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
 				77FB0F6D16E296440000D4F5 /* Profile.m in Sources */,
 				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
 				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
-				7769F474173B3B2300BB06D7 /* Audio.m in Sources */,
 				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
 				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,
 			);

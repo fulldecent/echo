@@ -168,7 +168,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 - (BOOL)wordCheckedStateForWordPractice:(WordPracticeController *)wordPractice
 {
     Word *word = (self.lesson.words)[self.currentWordIndex];
-    return [word.completed boolValue];
+    return word.completed;
 }
 
 #pragma mark - WordPracticeDelegate
@@ -312,7 +312,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
             if (self.lesson.isByCurrentUser)
                 cell.accessoryType = UITableViewCellAccessoryNone;
-            else if ([word.completed boolValue])
+            else if (word.completed)
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             else
                 cell.accessoryType = UITableViewCellAccessoryNone;

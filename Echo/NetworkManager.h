@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "LessonSet.h"
 #import "Lesson.h"
-#import "Word.h"
 #import "Profile.h"
 
 #define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0/"
