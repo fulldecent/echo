@@ -25,7 +25,6 @@
 @property (strong, nonatomic) NSNumber *numLikes;
 @property (strong, nonatomic) NSNumber *numFlags;
 @property (strong, nonatomic) NSNumber *numUsers;
-@property (strong, nonatomic) NSDictionary *translations; // {"en":Lesson *,...}
 
 @property (readonly, strong, nonatomic) NSURL *fileURL;
 
@@ -34,7 +33,6 @@
 - (NSArray *)listOfMissingFiles; // return: [{"word":Word *,"audio":Audio *},...]
 - (NSNumber *)portionComplete;
 - (Word *)wordWithCode:(NSString *)wordCode;
-- (Word *)wordWithCode:(NSString *)wordCode translatedTo:(NSString *)langTag;
 
 - (BOOL)isByCurrentUser;
 - (BOOL)isShared;

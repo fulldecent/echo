@@ -31,10 +31,6 @@ enum NetworkManagerFlagReason {
                        onSuccess:(void(^)(NSArray *lessonPreviews))successBlock
                        onFailure:(void(^)(NSError *error))failureBlock;
 
-- (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)id
-             onSuccess:(void(^)(NSNumber *translationLessonID, NSNumber *translationVersion))successBlock
-             onFailure:(void(^)(NSError *error))failureBlock;
-
 - (NSURL *)photoURLForUserWithID:(NSNumber *)userID;
 
 - (void)postUserProfile:(Profile *)profile

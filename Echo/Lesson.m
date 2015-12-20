@@ -24,7 +24,6 @@
 #define kWords @"words"
 #define kLikes @"likes"
 #define kFlags @"flags"
-#define kTranslations @"translations"
 
 #define kWordID @"wordID"
 #define kWordCode @"wordCode"
@@ -81,8 +80,6 @@
     for (Word *word in lesson.words) {
         word.lesson = self;
     }
-    if (lesson.translations)
-        self.translations = lesson.translations;
 }
 
 - (void)removeStaleFiles
@@ -164,12 +161,6 @@
     return nil;
 }
 
-- (Word *)wordWithCode:(NSString *)wordCode translatedTo:(NSString *)langTag
-{
-    Lesson *translation = (self.translations)[langTag];
-    return [translation wordWithCode:wordCode];    
-}
-
 #pragma NSObject
 
 - (NSString *) description {
@@ -220,15 +211,6 @@
         }
     }
     retval.words = words;
-    NSMutableDictionary *translatedLessons = [[NSMutableDictionary alloc] init];
-    if ([packed[kTranslations] isKindOfClass:[NSDictionary class]]) {
-        for (NSString *langTag in packed[kTranslations]) {
-            NSDictionary *packedTranslation = packed[kTranslations][langTag];
-            Lesson *newTranslation = [Lesson lessonWithDictionary:packedTranslation];
-            translatedLessons[langTag] = newTranslation;
-        }
-    }
-    retval.translations = translatedLessons;
     return retval;
 }
 
@@ -259,15 +241,6 @@
         [packedWords addObject:packedWord];
     }
     retval[kWords] = packedWords;
-    if (self.translations.count) {
-        NSMutableDictionary *packedTranslations = [[NSMutableDictionary alloc] init];
-        for (NSString *langTag in self.translations) {
-            Lesson *translation = (self.translations)[langTag];
-            NSDictionary *packedTranslation = [translation toDictionary];
-            packedTranslations[langTag] = packedTranslation;
-        }
-        retval[kTranslations] = packedTranslations;
-    }
     return retval;
 }
 

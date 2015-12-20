@@ -29,8 +29,6 @@
 - (IBAction)lessonSharePressed:(id)sender;
 - (IBAction)lessonReplyAuthorPressed:(id)sender;
 - (IBAction)lessonFlagPressed:(id)sender;
-- (IBAction)translationReplyAuthorPressed:(id)sender;
-- (IBAction)translationFlagPressed:(id)sender;
 - (IBAction)sharePressed:(id)sender;
 
 #pragma mark - WordPracticeDataSource

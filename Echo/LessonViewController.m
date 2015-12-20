@@ -12,15 +12,14 @@
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "TranslateLessonViewController.h"
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
 typedef enum {SectionActions, SectionEditingInfo, SectionWords, SectionByline, SectionCount} Sections;
-typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellTranslatorByline, CellTranslateAction, CellEditTranslation, CellEditLanguage, CellEditTitle, CellEditDescription} Cells;
+typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellEditLanguage, CellEditTitle, CellEditDescription} Cells;
 
-@interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate, TranslateLessonDataSource>
+@interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property (nonatomic) int currentWordIndex;
 @property (nonatomic) BOOL wordListIsShuffled;
 @property (nonatomic) BOOL editingFromSwipe;
@@ -82,29 +81,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (IBAction)lessonReplyAuthorPressed:(id)sender {
     self.actionIsToLessonAuthor = YES;
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Send feedback"
-                                                        message:nil
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Send", nil];
-    alertView.tag = 0;
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertView show];
-}
-
-- (IBAction)translationFlagPressed:(id)sender {
-    self.actionIsToLessonAuthor = NO;
-    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Flagging a translation is public and will delete your copy of the lesson. To continue, choose a reason."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                     destructiveButtonTitle:nil
-                                          otherButtonTitles:@"Inappropriate title", @"Inaccurate content", @"Poor quality", nil];
-    self.actionSheet.tag = 0;
-    [self.actionSheet showInView:self.view];
-}
-
-- (IBAction)translationReplyAuthorPressed:(id)sender {
-    self.actionIsToLessonAuthor = NO;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Send feedback"
                                                         message:nil
                                                        delegate:self
@@ -205,21 +181,10 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 {
     switch (indexPath.section) {
         case SectionActions:
-            if (indexPath.row == 0) {
-                if ([self.lesson isByCurrentUser])
-                    return self.lesson.isShared ? CellShared : CellNotShared;
-                else
-                    return CellAuthorByline;
-            } else {
-                Profile *me = [Profile currentUserProfile];
-                Lesson *translation = (self.lesson.translations)[me.nativeLanguageTag];
-                if (!translation)
-                    return CellTranslateAction;
-                else if (translation && !translation.isByCurrentUser)
-                    return CellTranslatorByline;
-                else // (translation && translation.isEditable)
-                    return CellEditTranslation;
-            }
+            if ([self.lesson isByCurrentUser])
+                return self.lesson.isShared ? CellShared : CellNotShared;
+            else
+                return CellAuthorByline;
         case SectionEditingInfo:
             if (indexPath.row == 0) {
                 return CellEditLanguage;
@@ -256,13 +221,10 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    Profile *me = [Profile currentUserProfile];
     switch (section) {
         case SectionActions:
             if (self.editing && !self.editingFromSwipe)
                 return 0;
-            else if (me.nativeLanguageTag && ![me.nativeLanguageTag isEqualToString:self.lesson.languageTag])
-                return 2;
             else
                 return 1;
         case SectionEditingInfo:
@@ -288,7 +250,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     FDRightDetailWithTextFieldCell *fdCell;
     Word *word;
     NSInteger index;
-    Profile *me = [Profile currentUserProfile];
     switch ([self cellTypeForRowAtIndexPath:indexPath]) {
         case CellNotShared:
             return [tableView dequeueReusableCellWithIdentifier:@"notShared"];
@@ -304,11 +265,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             word = (self.lesson.words)[index];
             cell.textLabel.text = word.name;
             cell.detailTextLabel.text = word.detail;
-            if (me.nativeLanguageTag) {
-                Word *translatedWord = [self.lesson wordWithCode:word.wordCode translatedTo:me.nativeLanguageTag];
-                if (translatedWord.name)
-                    cell.detailTextLabel.text = translatedWord.name;
-            }
 
             if (self.lesson.isByCurrentUser)
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -332,31 +288,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             cell.accessoryView = flagButton;
             return cell;
         }
-        case CellTranslatorByline: {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"translator"];
-            Lesson *translation = (self.lesson.translations)[me.nativeLanguageTag];
-            cell.textLabel.text = translation.userName;
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Translated to %@", translation.languageTag];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",translation.userID]];
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-            [cell.imageView setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"none40"] success:nil failure:nil];
-            
-            UIButton *flagButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [flagButton setImage:[UIImage imageNamed:@"flag"] forState:UIControlStateNormal];
-            [flagButton setFrame:CGRectMake(0, 0, 40, 40)];
-            [flagButton addTarget:self action:@selector(translationFlagPressed:) forControlEvents:UIControlEventTouchUpInside];
-            cell.accessoryView = flagButton;
-            return cell;
-        }
-        case CellTranslateAction:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"translateAction"];
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ subtitles", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Help improve translation"];
-            return cell;
-        case CellEditTranslation:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"editTranslation"];
-            [(UILabel *)[cell viewWithTag:1] setText:[NSString stringWithFormat:@"You translated this lesson to %@", [Languages nativeDescriptionForLanguage:me.nativeLanguageTag]]];
-            return cell;
         case CellEditLanguage:
             cell = [tableView dequeueReusableCellWithIdentifier:@"editLanguage"];
             cell.detailTextLabel.text = [Languages nativeDescriptionForLanguage:self.lesson.languageTag];
@@ -466,8 +397,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         }
     } else {
         switch ([self cellTypeForRowAtIndexPath:indexPath]) {
-            case CellTranslateAction:
-            case CellEditTranslation:
             case CellWord:
             case CellShuffle:
             case CellAddWord:
@@ -494,8 +423,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             self.wordListIsShuffled = NO;
             [self performSegueWithIdentifier:@"echoWord" sender:self];
         case CellAuthorByline:
-            break;//TODO LOAD AUTHOR PAGE FROM WEBVIEW HERE
-        case CellTranslatorByline:
             break;//TODO LOAD AUTHOR PAGE FROM WEBVIEW HERE
         default:
             break;
@@ -541,10 +468,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             word.lesson = self.lesson;
             controller.word = word;
         }
-    } else if ([segue.destinationViewController isKindOfClass:[TranslateLessonViewController class]])
-    {
-        TranslateLessonViewController *controller = segue.destinationViewController;
-        controller.datasource = self;
     }
 }
 
@@ -600,11 +523,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Sending...";
     Lesson *target;
-    Profile *me = [Profile currentUserProfile];
     if (self.actionIsToLessonAuthor)
         target = self.lesson;
-    else
-        target = (self.lesson.translations)[me.nativeLanguageTag];
     
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     [networkManager doFlagLesson:target withReason:(enum NetworkManagerFlagReason) buttonIndex onSuccess:^
@@ -630,11 +550,8 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         self.hud.mode = MBProgressHUDModeIndeterminate;
         self.hud.labelText = @"Sending...";
         Lesson *target;
-        Profile *me = [Profile currentUserProfile];
         if (self.actionIsToLessonAuthor)
             target = self.lesson;
-        else
-            target = (self.lesson.translations)[me.nativeLanguageTag];
 
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSString *message = [alertView textFieldAtIndex:0].text;
@@ -649,36 +566,6 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
              [NetworkManager hudFlashError:error];
          }];
     };
-}
-
-#pragma mark - TranslateLessonDatasource
-
-- (Lesson *)lessonToTranslateForTranslateLessonView:(TranslateLessonViewController *)controller
-{
-    return self.lesson;
-}
-
-- (void)translateLessonView:(TranslateLessonViewController *)controller didTranslate:(Lesson *)lesson into:(Lesson *)newLesson withLanguageTag:(NSString *)tag
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-    self.hud.labelText = @"Sending...";
-    NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager putTranslation:newLesson asLangTag:tag versionOfLessonWithID:lesson.lessonID onSuccess:^(NSNumber *translationLessonID, NSNumber *translationVersion)
-     {
-         self.hud.mode = MBProgressHUDModeDeterminate;
-         self.hud.progress = 1;
-         [self.hud hide:YES];
-         lesson.serverTimeOfLastCompletedSync = newLesson.serverTimeOfLastCompletedSync = translationVersion;
-         newLesson.lessonID = translationLessonID;
-         NSMutableDictionary *translations = [lesson.translations mutableCopy];
-         translations[tag] = newLesson;
-         lesson.translations = translations;
-         [self.navigationController popToViewController:self animated:YES];
-     } onFailure:^(NSError *error) {
-         [self.hud hide:NO];
-         [NetworkManager hudFlashError:error];
-     }];
 }
 
 @end

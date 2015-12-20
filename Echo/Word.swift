@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class Word: NSObject {
     private let kLanguageTag = "languageTag"
     private let kName = "name"

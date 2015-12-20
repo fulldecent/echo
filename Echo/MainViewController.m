@@ -266,11 +266,6 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             lesson = [self lessonForRowAtIndexPath:indexPath];
             cell.textLabel.text = lesson.name;
             cell.detailTextLabel.text = lesson.detail;
-            if (me.nativeLanguageTag) {
-                Lesson *translatedLesson = (lesson.translations)[me.nativeLanguageTag];
-                if (translatedLesson.name)
-                    cell.detailTextLabel.text = translatedLesson.detail;
-            }
             
             if (lesson.portionComplete.floatValue == 0)
                 cell.badgeString = @"New";

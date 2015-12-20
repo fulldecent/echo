@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		771CED691764336000EE8A88 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771CED681764336000EE8A88 /* WebViewController.m */; };
 		771CED981764C09F00EE8A88 /* resources.html in Resources */ = {isa = PBXBuildFile; fileRef = 771CED971764C09F00EE8A88 /* resources.html */; };
-		772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772210B4172DD3B60096B23A /* TranslateLessonViewController.m */; };
 		772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772C822E151E26E500F255EF /* AVFoundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 772C83B115BF6D1A00E63B9C /* LessonSet.m */; };
 		773FEA66177E198A000AD650 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773FEA65177E198A000AD650 /* Media.xcassets */; };
@@ -108,8 +107,6 @@
 		771CED681764336000EE8A88 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		771CED971764C09F00EE8A88 /* resources.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = resources.html; sourceTree = "<group>"; };
 		7721960F169E5F9200998B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		772210B3172DD3B60096B23A /* TranslateLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslateLessonViewController.h; sourceTree = "<group>"; };
-		772210B4172DD3B60096B23A /* TranslateLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TranslateLessonViewController.m; sourceTree = "<group>"; };
 		772C822E151E26E500F255EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		772C83B015BF6D1A00E63B9C /* LessonSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonSet.h; sourceTree = "<group>"; };
 		772C83B115BF6D1A00E63B9C /* LessonSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonSet.m; sourceTree = "<group>"; };
@@ -404,8 +401,6 @@
 			children = (
 				77D8AD2D157AE373001E2E25 /* LessonViewController.h */,
 				77D8AD2E157AE373001E2E25 /* LessonViewController.m */,
-				772210B3172DD3B60096B23A /* TranslateLessonViewController.h */,
-				772210B4172DD3B60096B23A /* TranslateLessonViewController.m */,
 				77B5139D151970B100F041D7 /* WordPracticeController.h */,
 				77B5139E151970B100F041D7 /* WordPracticeController.m */,
 				77BBFE0B157C11C900511CEC /* WordDetailController.h */,
@@ -666,7 +661,6 @@
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
 				77FB0F6D16E296440000D4F5 /* Profile.m in Sources */,
 				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
-				772210B5172DD3B60096B23A /* TranslateLessonViewController.m in Sources */,
 				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
 				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,
 			);

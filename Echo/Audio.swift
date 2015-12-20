@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class Audio: NSObject {
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"
@@ -60,17 +59,4 @@ class Audio: NSObject {
         }
         return url.checkResourceIsReachableAndReturnError(nil)
     }
-    
-    /*
-    func toDictionary() -> [String : AnyObject] {
-        var retval = [String : AnyObject]()
-        if self.serverId > 0 {
-            fileDict[kFileID] = self.serverId
-        }
-        if self.uuid != "" {
-            fileDict[kFileCode] = self.uuid
-        }
-        return retval
-    }
-    */
 }

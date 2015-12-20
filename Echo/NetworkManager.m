@@ -53,7 +53,6 @@
  //      GET     lessons/175.json[?preview=yes]
  //      GET     lessons/fr/[?search=bonjour]
  //      POST    lessons/
- //      PUT     lessons/175/translations/fr
  //      PUT     lessons/LESSONCODE/words/WORDCODE/files/FILECODE[.m4a]
  //      GET     users/172.png
  //      POST    users/
@@ -136,24 +135,6 @@
             successBlock(responseObject[@"lessonID"],
                          responseObject[@"updated"],
                          responseObject[@"neededFiles"]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (failureBlock)
-            failureBlock(error);
-    }];
-    [request start];
-}
-
-- (void)putTranslation:(Lesson *)translation asLangTag:(NSString *)langTag versionOfLessonWithID:(NSNumber *)lessonID
-             onSuccess:(void(^)(NSNumber *translationLessonID, NSNumber *translationVersion))successBlock
-             onFailure:(void(^)(NSError *error))failureBlock
-{
-    NSString *relativePath = [NSString stringWithFormat:@"lessons/%d/translations/%@",
-                              lessonID.intValue,
-                              langTag];
-    AFHTTPRequestOperation *request = [self.requestManager PUT:relativePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (successBlock)
-            successBlock(responseObject[@"lessonID"],
-                         responseObject[@"updated"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock)
             failureBlock(error);
