@@ -98,7 +98,6 @@
 		D9EC6F4519D9010500B07301 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EC6F4419D9010500B07301 /* Event.m */; };
 		D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C2181C2349B2003654D4 /* IntroViewController.swift */; };
 		D9F5C21B1C235F9A003654D4 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C21A1C235F9A003654D4 /* Audio.swift */; };
-		D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -218,8 +217,6 @@
 		D9F5C2171C2349B2003654D4 /* Echo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Echo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D9F5C2181C2349B2003654D4 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		D9F5C21A1C235F9A003654D4 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
-		D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
-		D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = Echo/libGoogleConversionTracking.a; sourceTree = "<group>"; };
 		F1BCA506CBE64FE7852ADA22 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -246,7 +243,6 @@
 				774CDA4415D0AF0000B14C45 /* Security.framework in Frameworks */,
 				77D8AD24157ABF48001E2E25 /* CoreMedia.framework in Frameworks */,
 				777667C21569F41C0099996B /* AudioToolbox.framework in Frameworks */,
-				D9FE11B11804B01F0000F135 /* libGoogleConversionTracking.a in Frameworks */,
 				77B771AA1569ADA600E0F012 /* MessageUI.framework in Frameworks */,
 				772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */,
 				77B51381151970B100F041D7 /* Foundation.framework in Frameworks */,
@@ -301,7 +297,6 @@
 		77B5137D151970B100F041D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D9FE11B01804B01F0000F135 /* libGoogleConversionTracking.a */,
 				D9956EEA17F4C759008070EC /* SenTestingKit.framework */,
 				D936B11317EF76E6003A00BE /* libz.dylib */,
 				D936B11117EF76CD003A00BE /* CoreData.framework */,
@@ -420,7 +415,6 @@
 			children = (
 				D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */,
 				D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */,
-				D9FE11AF1804B0130000F135 /* GoogleConversionPing.h */,
 				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
 				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
 				77D8AD17157ABF1A001E2E25 /* microphone icon@2x.png */,
@@ -708,7 +702,7 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -742,15 +736,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/fulldecent/Developer/Echo/Echo,
-				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Echo;
@@ -770,15 +761,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Echo/Echo-Prefix.pch";
 				INFOPLIST_FILE = "Echo/Echo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/williamentriken/Developer/Echo/Echo,
-				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Echo;
