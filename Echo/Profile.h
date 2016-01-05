@@ -21,6 +21,6 @@
 + (Profile *)currentUserProfile;
 - (void)syncOnlineOnSuccess:(void(^)(NSArray *recommendedLessons))success onFailure:(void(^)(NSError *error))failure;
 - (void)syncToDisk;
-- (NSNumber *)profileCompleteness;
-- (NSData *)JSON;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSNumber *profileCompleteness;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *JSON;
 @end

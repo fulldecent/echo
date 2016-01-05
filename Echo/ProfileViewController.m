@@ -54,7 +54,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    id tracker = [[GAI sharedInstance] defaultTracker];
+    id tracker = [GAI sharedInstance].defaultTracker;
     [tracker set:kGAIScreenName value:@"ProfileView"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
@@ -108,7 +108,7 @@
 
 - (IBAction)choosePhoto:(id)sender {
     self.takeController = [[FDTakeController alloc] init];
-    self.takeController.popOverPresentRect = [(UIButton *)sender frame];
+    self.takeController.popOverPresentRect = ((UIButton *)sender).frame;
     self.takeController.allowsEditingPhoto = YES;
     self.takeController.delegate = self;
     [self.takeController takePhotoOrChooseFromLibrary];
@@ -137,7 +137,7 @@
          [NetworkManager hudFlashError:error];
      }];
     
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    id<GAITracker> tracker = [GAI sharedInstance].defaultTracker;
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
                                                           action:@"Social"
                                                            label:@"Saved profile"

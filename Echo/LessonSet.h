@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Lesson.h"
+
+@class Lesson; // implemented in Swift
 
 @interface LessonSet : NSObject
 @property (readonly, strong, nonatomic) NSString *name;

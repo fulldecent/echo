@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "LessonSet.h"
-#import "Lesson.h"
 #import "Profile.h"
+
+@class Word; // implemented in Swift
+@class Lesson; // implemented in Swift
 
 #define SERVER_ECHO_API_URL @"https://learnwithecho.com/api/2.0/"
 

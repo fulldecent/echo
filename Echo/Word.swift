@@ -21,47 +21,49 @@ class Word: NSObject {
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"
 
-    // Synched with server
-    var wordID: Int = 0
-    lazy var wordCode: String  = {
+    weak var lesson: Lesson?
+
+    lazy var uuid: String  = {
         return NSUUID().UUIDString
     }()
 
-    // TOOD some of these should be required and not ""!
+    //TODO: make this an optional instead of arbitrary 0=not on server
+    //TODO: rename to serverId
+    var wordID: Int = 0
+
+    //TOOD: make detail, user* optional and others required, do not initialize to ""
     var languageTag: String = ""
     var name: String = ""
     var detail: String = ""
     var userID: String = ""
     var userName: String = ""
-    var files = [Audio]()
-    
-    weak var lesson: Lesson?
+    var audios = [Audio]()
 
     // client side data
     var completed: Bool = false
     
     func fileURL() -> NSURL? {
-        let base = self.lesson?.fileURL
+        let base = self.lesson?.fileURL()
         if self.wordID > 0 { //TODO temp hack, should test NIL
             return base?.URLByAppendingPathComponent(String(self.wordID))
         }
-        return base?.URLByAppendingPathComponent(self.wordCode)
+        return base?.URLByAppendingPathComponent(self.uuid)
     }
     
-    func listOfMissingFiles() -> [AnyObject] {
+    func listOfMissingFiles() -> [Audio] {
         var retval = [Audio]()
-        for file: Audio in self.files {
-            if !file.fileExistsOnDisk() {
-                retval.append(file)
+        for audio in self.audios {
+            if !audio.fileExistsOnDisk() {
+                retval.append(audio)
             }
         }
         return retval
     }
     
     func fileWithCode(fileCode: String) -> Audio? {
-        for file: Audio in self.files {
-            if (file.uuid == fileCode) {
-                return file
+        for audio in self.audios {
+            if (audio.uuid == fileCode) {
+                return audio
             }
         }
         return nil
@@ -73,8 +75,8 @@ class Word: NSObject {
         if let wordID = packed[kWordID] as? Int {
             self.wordID = wordID
         }
-        if let wordCode = packed[kWordCode] as? String {
-            self.wordCode = wordCode
+        if let uuid = packed[kWordCode] as? String {
+            self.uuid = uuid
         }
         if let languageTag = packed[kLanguageTag] as? String {
             self.languageTag = languageTag
@@ -104,7 +106,7 @@ class Word: NSObject {
                 if let fileCode = file[kFileCode] as? String {
                     audio.uuid = fileCode
                 }
-                self.files.append(audio)
+                self.audios.append(audio)
             }
         }
     }
@@ -124,9 +126,7 @@ class Word: NSObject {
         if self.wordID > 0 {
             retval[kWordID] = self.wordID
         }
-        if self.wordCode != "" {
-            retval[kWordCode] = self.wordCode
-        }
+        retval[kWordCode] = self.uuid
         retval[kLanguageTag] = self.languageTag
         retval[kName] = self.name
         retval[kDetail] = self.detail
@@ -134,16 +134,17 @@ class Word: NSObject {
         retval[kUserID] = self.userID
 
         var packedFiles = [AnyObject]()
-        for file: Audio in self.files {
+        for audio in self.audios {
             var fileDict = [String : AnyObject]()
-            if file.serverId > 0 {
-                fileDict[kFileID] = file.serverId
+            if audio.serverId > 0 {
+                fileDict[kFileID] = audio.serverId
             }
-            if file.uuid != "" {
-                fileDict[kFileCode] = file.uuid
+            if audio.uuid != "" {
+                fileDict[kFileCode] = audio.uuid
             }
-            packedFiles.append(fileDict)
+            packedFiles.append(fileDict)            
         }
+        
         retval[kFiles] = packedFiles
         if self.completed {
             retval[kCompleted] = self.completed

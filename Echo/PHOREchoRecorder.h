@@ -25,5 +25,5 @@
 - (void)stopRecordingAndKeepResult:(BOOL)save;
 - (void)playback;
 - (void)reset;
-- (NSURL *)getAudioDataURL;
+@property (NS_NONATOMIC_IOSONLY, getter=getAudioDataURL, readonly, copy) NSURL *audioDataURL;
 @end

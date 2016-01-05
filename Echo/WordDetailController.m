@@ -22,8 +22,8 @@
 
 #define NUMBER_OF_RECORDERS 3
 
-typedef enum {SectionInfo, SectionRecordings, SectionCount} Sections;
-typedef enum {CellLanguage, CellTitle, CellDetail, CellRecording} Cells;
+typedef NS_ENUM(unsigned int, Sections) {SectionInfo, SectionRecordings, SectionCount};
+typedef NS_ENUM(unsigned int, Cells) {CellLanguage, CellTitle, CellDetail, CellRecording};
 
 @interface WordDetailController () <LanguageSelectControllerDelegate, WordDetailControllerDelegate, MBProgressHUDDelegate>
 // Outlets for UI elements
@@ -176,11 +176,11 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
     self.word.languageTag = self.editingLanguageTag;
     self.word.name = self.editingName;
     self.word.detail = self.editingDetail;
-    for (int i=0; i<[self.echoRecorders count]; i++) {
+    for (int i=0; i<(self.echoRecorders).count; i++) {
         PHOREchoRecorder *recorder = (self.echoRecorders)[@(i)];
         Audio *audio;
-        if (self.word.files.count > i)
-            audio = (self.word.files)[i];
+        if (self.word.audios.count > i)
+            audio = (self.word.audios)[i];
         else {
             audio = [[Audio alloc] init];
             audio.word = self.word;
@@ -191,13 +191,13 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
             NSError *error = nil;
             [fileManager moveItemAtURL:[recorder getAudioDataURL] toURL:audio.fileURL error:&error];
             if (error)
-                NSLog(@"Word file copy error: %@", [error localizedDescription]);
+                NSLog(@"Word file copy error: %@", error.localizedDescription);
             [files addObject:audio];
         } else {
-            [files addObject:(self.word.files)[i]];
+            [files addObject:(self.word.audios)[i]];
         }
     }
-    self.word.files = files;
+    self.word.audios = files;
     [self.delegate wordDetailController:self didSaveWord:self.word];
 }
 
@@ -275,8 +275,8 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
 {
     for (int i=0; i<NUMBER_OF_RECORDERS; i++) {
         PHOREchoRecorder *recorder;
-        if (i < [self.word.files count]) {
-            Audio *file = (self.word.files)[i];
+        if (i < (self.word.audios).count) {
+            Audio *file = (self.word.audios)[i];
             recorder = [[PHOREchoRecorder alloc] initWithAudioDataAtURL:file.fileURL];
         }
         else
@@ -295,7 +295,7 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
     NSError *error;
     BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
     if (!success) {
-        NSLog(@"error doing outputaudioportoverride - %@", [error localizedDescription]);
+        NSLog(@"error doing outputaudioportoverride - %@", error.localizedDescription);
     }
     
     //Activate the customized audio session
@@ -311,7 +311,7 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    for (PHOREchoRecorder *recorder in [self.echoRecorders allValues])
+    for (PHOREchoRecorder *recorder in (self.echoRecorders).allValues)
         [recorder addObserver:self forKeyPath:@"microphoneLevel" options:NSKeyValueObservingOptionNew context:nil];
     self.title = self.word.name;
     if (![self.delegate wordDetailController:self canEditWord:self.word]) {
@@ -322,7 +322,7 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
             self.navigationItem.rightBarButtonItem = nil;
     }
 
-    id tracker = [[GAI sharedInstance] defaultTracker];
+    id tracker = [GAI sharedInstance].defaultTracker;
     [tracker set:kGAIScreenName value:@"WordDetail"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
@@ -339,7 +339,7 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    for (PHOREchoRecorder *recorder in [self.echoRecorders allValues])
+    for (PHOREchoRecorder *recorder in (self.echoRecorders).allValues)
         [recorder removeObserver:self forKeyPath:@"microphoneLevel"];
     [super viewWillDisappear:animated];
 }
@@ -404,13 +404,13 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
             UIButton *checkbox = (UIButton *)[cell viewWithTag:4];
             PHOREchoRecorder *recorder = (self.echoRecorders)[@(indexPath.row)];
             
-            if (indexPath.row < [self.word.files count]) {
-                Audio *file = (self.word.files)[indexPath.row];
+            if (indexPath.row < (self.word.audios).count) {
+                Audio *file = (self.word.audios)[indexPath.row];
 
                 // Workaround because AVURLAsset needs files with file extensions
                 // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
-                NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
-                                                                              inDomains:NSUserDomainMask] lastObject];
+                NSURL *documentsURL = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                                              inDomains:NSUserDomainMask].lastObject;
                 NSURL *tmpURL = [documentsURL URLByAppendingPathComponent:@"tmp.caf"];
                 NSFileManager *dfm = [NSFileManager defaultManager];
                 [dfm removeItemAtURL:tmpURL error:nil];

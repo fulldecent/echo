@@ -33,7 +33,7 @@ class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, Lang
         self.hud?.labelText = "Sending..."
         me.syncOnlineOnSuccess({(recommendedLessons: [AnyObject]!) -> Void in
             for item in recommendedLessons {
-                // TODO IMPROVE API TO OBVIATE DOWNCAST
+                //TODO: IMPROVE API TO OBVIATE DOWNCAST
                 if let lesson = item as? Lesson {
                     self.delegate?.downloadLessonViewController(self, gotStubLesson: lesson)
                 }

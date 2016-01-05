@@ -56,13 +56,13 @@
     [self.recorder stopRecordingAndKeepResult:NO];
     [self makeItBounce:self.trainingSpeakerButton];
   
-    if (!self.word.files.count) {
+    if (!self.word.audios.count) {
         [self.navigationController popViewControllerAnimated:NO];
         return;
     }
     
-    int index = arc4random() % [self.word.files count];
-    Audio *chosenAudio = (self.word.files)[index];
+    int index = arc4random() % (self.word.audios).count;
+    Audio *chosenAudio = (self.word.audios)[index];
     NSURL *fileURL = [chosenAudio fileURL];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     self.audioPlayer.pan = -0.5;
@@ -70,8 +70,8 @@
     
     // Workaround because AVURLAsset needs files with file extensions
     // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
-    NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
-                                                                  inDomains:NSUserDomainMask] lastObject];
+    NSURL *documentsURL = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                                  inDomains:NSUserDomainMask].lastObject;
     NSURL *tmpURL = [documentsURL URLByAppendingPathComponent:@"tmp.caf"];
     NSFileManager *dfm = [NSFileManager defaultManager];
     [dfm removeItemAtURL:tmpURL error:nil];
@@ -95,7 +95,7 @@
     [self makeItBounce:self.recordButton];
     [self.recorder record];
     if (self.workflowState == 5 || self.workflowState == 7)
-        [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:[self.recorder.duration doubleValue]];
+        [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:(self.recorder.duration).doubleValue];
 }
 
 - (IBAction)playbackButtonPressed
@@ -103,7 +103,7 @@
     [self makeItBounce:self.playbackButton];
     [self.recorder playback];
     if (self.workflowState == 5 || self.workflowState == 7)
-        [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:[self.recorder.duration doubleValue]];
+        [self performSelector:@selector(continueNextWorkflowStep:) withObject:nil afterDelay:(self.recorder.duration).doubleValue];
 
     [UIView animateWithDuration:self.audioPlayer.duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.playbackWaveform.progressSamples = self.playbackWaveform.totalSamples;
@@ -173,7 +173,7 @@
         [self.checkbox setImage:[UIImage imageNamed:@"checkon"] forState:UIControlStateNormal];
     else
         [self.checkbox setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    id<GAITracker> tracker = [GAI sharedInstance].defaultTracker;
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
                                                           action:@"Learning"
                                                            label:@"Checked word"
@@ -267,7 +267,7 @@
     NSError *error;
     BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
     if (!success) {
-        NSLog(@"error doing outputaudioportoverride - %@", [error localizedDescription]);
+        NSLog(@"error doing outputaudioportoverride - %@", error.localizedDescription);
     }
     
     //Activate the customized audio session

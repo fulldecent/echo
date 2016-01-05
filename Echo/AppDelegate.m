@@ -65,7 +65,7 @@
     gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
 #if TARGET_IPHONE_SIMULATOR
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
+    [GAI sharedInstance].logger.logLevel = kGAILogLevelNone;
 #endif
     
     // http://stackoverflow.com/questions/10111369/unknown-class-zbarreaderview-in-interface-builder-file
@@ -77,7 +77,7 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     Profile *me = [Profile currentUserProfile];
-    NSString *deviceTokenTrimmed = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    NSString *deviceTokenTrimmed = [deviceToken.description stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     deviceTokenTrimmed = [deviceTokenTrimmed stringByReplacingOccurrencesOfString:@" " withString:@""];
     me.deviceToken = deviceTokenTrimmed;
     [me syncToDisk];

@@ -65,7 +65,7 @@
         _audioRecorder.meteringEnabled = YES;
         
         if ([_audioRecorder prepareToRecord] == NO){
-            NSLog(@"Error: %@ %ld" , [error localizedDescription], (long)[error code]);
+            NSLog(@"Error: %@ %ld" , error.localizedDescription, (long)error.code);
         }
     }
     return _audioRecorder;
@@ -94,7 +94,7 @@
 {
     self = [self init];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    while ([fileManager fileExistsAtPath:[self.temporaryAudioURL absoluteString]]) {
+    while ([fileManager fileExistsAtPath:(self.temporaryAudioURL).absoluteString]) {
         self.temporaryAudioURL = nil;
     }
 
@@ -162,9 +162,9 @@
 
     double runningTotal = 0.0;
     for (NSNumber *number in self.history) {
-        runningTotal += [number doubleValue]; //TODO: USE LOG MATH
+        runningTotal += number.doubleValue; //TODO: USE LOG MATH
     }
-    double movingAverage = runningTotal / [self.history count];
+    double movingAverage = runningTotal / (self.history).count;
     
     if (!self.updateTimer.isValid) return;
     
@@ -209,7 +209,7 @@
 {
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.temporaryAudioURL error:nil];
     self.audioPlayer.currentTime = self.speakingBeginTime;
-    self.audioPlayer.pan = [self.pan floatValue];
+    self.audioPlayer.pan = (self.pan).floatValue;
     [self.audioPlayer play];
 }
 
@@ -245,7 +245,7 @@
     
     // create trim time range
     CMTime startTime = CMTimeMake(self.speakingBeginTime*RECORDING_SAMPLES_PER_SEC, RECORDING_SAMPLES_PER_SEC);
-    CMTime stopTime = CMTimeMake((self.speakingBeginTime+[self.duration doubleValue])*RECORDING_SAMPLES_PER_SEC, RECORDING_SAMPLES_PER_SEC);
+    CMTime stopTime = CMTimeMake((self.speakingBeginTime+(self.duration).doubleValue)*RECORDING_SAMPLES_PER_SEC, RECORDING_SAMPLES_PER_SEC);
     CMTimeRange exportTimeRange = CMTimeRangeFromTimeToTime(startTime, stopTime);
     
     // create fade in time range
@@ -295,9 +295,9 @@
 - (void)dealloc
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:[self.temporaryAudioURL absoluteString]]) {
+    if ([fileManager fileExistsAtPath:(self.temporaryAudioURL).absoluteString]) {
         //NSError *error;
-        if ([fileManager removeItemAtPath:[self.temporaryAudioURL absoluteString] error:nil] == NO) {
+        if ([fileManager removeItemAtPath:(self.temporaryAudioURL).absoluteString error:nil] == NO) {
         //    NSLog(@"removeItemAtPath %@ error:%@", [self.temporaryAudioURL absoluteString], error);
         }
     }

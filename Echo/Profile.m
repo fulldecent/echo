@@ -52,7 +52,7 @@
         [defaults synchronize];
     }
     if (!sharedInstance.usercode) {
-        sharedInstance.usercode = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        sharedInstance.usercode = [UIDevice currentDevice].identifierForVendor.UUIDString;
         needToSync = YES;
     }
     sharedInstance.learningLanguageTag = userProfile[@"learningLanguageTag"];
@@ -150,7 +150,7 @@
         }
     }
     
-    CGImageRef imageRef = [sourceImage CGImage];
+    CGImageRef imageRef = sourceImage.CGImage;
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
     CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
     

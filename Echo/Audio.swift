@@ -18,9 +18,7 @@ class Audio: NSObject {
         return NSUUID().UUIDString
     }()
     
-    //WARNING
-    //TODO THIS NEEDS TO BE NOT OPTIONAL SO IT CAN BE USED IN OBJECTIVE-C
-    // temporary fix: 0 means undefined
+    //TODO: make this an optional instead of arbitrary 0=not on server
     var serverId: Int = 0 {
         didSet {
             guard let oldUrl = self.word?.fileURL()?.URLByAppendingPathComponent(self.uuid) else {
@@ -47,7 +45,7 @@ class Audio: NSObject {
 
     func fileURL() -> NSURL? {
         let base = self.word?.fileURL()
-        if self.serverId > 0 { //TODO temp hack, should test NIL
+        if self.serverId > 0 {
             return base?.URLByAppendingPathComponent(String(self.serverId))
         }
         return base?.URLByAppendingPathComponent(self.uuid)

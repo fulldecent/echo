@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {EventTypePostLesson, EventTypeLikeLesson, EventTypeFlagLesson, EventTypeFlagUser, EventTypeUpdateUser, EventTypePostPractice, EventTypeFeedbackLesson, EventTypeReplyPractice} EventTypes;
+typedef NS_ENUM(unsigned int, EventTypes) {EventTypePostLesson, EventTypeLikeLesson, EventTypeFlagLesson, EventTypeFlagUser, EventTypeUpdateUser, EventTypePostPractice, EventTypeFeedbackLesson, EventTypeReplyPractice};
 
 @interface Event : NSObject
 @property (strong, nonatomic) NSNumber *eventID;
@@ -25,7 +25,7 @@ typedef enum {EventTypePostLesson, EventTypeLikeLesson, EventTypeFlagLesson, Eve
 @property (nonatomic) NSString *targetWordName; // hack
 
 + (Event *)eventWithDictionary:(NSDictionary *)dictionary;
-- (NSDictionary *)toDictionary;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *toDictionary;
 + (Event *)eventWithJSON:(NSData *)data;
-- (NSData *)JSON;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *JSON;
 @end

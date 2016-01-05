@@ -27,8 +27,8 @@
 #import "Event.h"
 #import "UIImageView+AFNetworking.h"
 
-typedef enum {SectionPractice, SectionLessons, SectionSocial, SectionCount} Sections;
-typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellEvent} Cells;
+typedef NS_ENUM(unsigned int, Sections) {SectionPractice, SectionLessons, SectionSocial, SectionCount};
+typedef NS_ENUM(unsigned int, Cells) {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUpload, CellDownloadLesson, CellCreateLesson, CellNewPractice, CellEditProfile, CellEvent};
 
 @interface MainViewController () <LessonViewDelegate, DownloadLessonViewControllerDelegate, WordDetailControllerDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
 @property (strong, nonatomic) LessonSet *lessonSet;
@@ -68,13 +68,13 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
                          messagesSinceID:[defaults objectForKey:@"lastMessageSeen"]
                                onSuccess:^(NSDictionary *lessonsIDsWithNewServerVersions, NSNumber *numNewLessons, NSNumber *numNewMessages)
      {
-         [self.lessonSet setRemoteUpdatesForLessonsWithIDs:[lessonsIDsWithNewServerVersions allKeys]];
+         [self.lessonSet setRemoteUpdatesForLessonsWithIDs:lessonsIDsWithNewServerVersions.allKeys];
          [defaults setObject:numNewLessons forKey:@"numNewLessons"];
          [defaults setObject:numNewMessages forKey:@"numNewMessages"];
          [defaults setObject:[NSDate date] forKey:@"lastUpdateLessonList"];
          [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
          [self.refreshControl endRefreshing];
-         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[numNewMessages intValue]];         
+         [UIApplication sharedApplication].applicationIconBadgeNumber = numNewMessages.intValue;         
          [self.lessonSet syncStaleLessonsWithProgress:^(Lesson *lesson, NSNumber *progress){
              NSIndexPath *path = [self indexPathForLesson:lesson];
              [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
@@ -113,24 +113,24 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)])
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244.0/255 green:219.0/255 blue:0 alpha:1];
 
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
-        [self.tableView setContentInset:UIEdgeInsetsMake(20,
+    if ([[UIDevice currentDevice].systemVersion compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
+        (self.tableView).contentInset = UIEdgeInsetsMake(20,
                                                          self.tableView.contentInset.left,
                                                          self.tableView.contentInset.bottom,
-                                                         self.tableView.contentInset.right)];
+                                                         self.tableView.contentInset.right);
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    id tracker = [[GAI sharedInstance] defaultTracker];
+    id tracker = [GAI sharedInstance].defaultTracker;
     [tracker set:kGAIScreenName value:@"MainView"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdateLessonList = [defaults objectForKey:@"lastUpdateLessonList"];
-    if (!lastUpdateLessonList || [lastUpdateLessonList timeIntervalSinceNow] < -5*60) {
-        NSLog(@"Auto-update lesson list %f", [lastUpdateLessonList timeIntervalSinceNow]);
+    if (!lastUpdateLessonList || lastUpdateLessonList.timeIntervalSinceNow < -5*60) {
+        NSLog(@"Auto-update lesson list %f", lastUpdateLessonList.timeIntervalSinceNow);
         [self reload];
     }
     [super viewWillAppear:YES];
@@ -267,10 +267,10 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             cell.textLabel.text = lesson.name;
             cell.detailTextLabel.text = lesson.detail;
             
-            if (lesson.portionComplete.floatValue == 0)
+            if (lesson.portionComplete == 0)
                 cell.badgeString = @"New";
-            else if (lesson.portionComplete.floatValue < 1.0)
-                cell.badgeString = [NSString stringWithFormat:@"%d%% done", (int)([lesson.portionComplete floatValue]*100)];
+            else if (lesson.portionComplete < 1.0)
+                cell.badgeString = [NSString stringWithFormat:@"%d%% done", (int)(100*lesson.portionComplete)];
             else
                 cell.badgeString = nil;
             return cell;
@@ -288,7 +288,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             lesson = [self lessonForRowAtIndexPath:indexPath];
             cell.textLabel.text = lesson.name;
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Downloading – %d%%", (int)([percent floatValue]*100)];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Downloading – %d%%", (int)(percent.floatValue*100)];
             return cell;
         }
         case CellLessonUpload: {
@@ -296,14 +296,14 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             lesson = [self lessonForRowAtIndexPath:indexPath];
             cell.textLabel.text = lesson.name;
             NSNumber *percent = [self.lessonSet transferProgressForLesson:lesson];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Uploading – %d%%", (int)([percent floatValue]*100)];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Uploading – %d%%", (int)(percent.floatValue*100)];
             return cell;
         }
         case CellDownloadLesson:
             cell = [tableView dequeueReusableCellWithIdentifier:@"downloadLesson"];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"New %@ lesson", [Languages nativeDescriptionForLanguage:me.learningLanguageTag]];
-            if ([(NSNumber *)[defaults objectForKey:@"newLessonCount"] integerValue]) {
-                cell.badgeString = [(NSNumber *)[defaults objectForKey:@"newLessonCount"] stringValue];
+            if (((NSNumber *)[defaults objectForKey:@"newLessonCount"]).integerValue) {
+                cell.badgeString = ((NSNumber *)[defaults objectForKey:@"newLessonCount"]).stringValue;
                 cell.badgeRightOffset = 8;
             } else {
                 cell.badgeString = nil;
@@ -333,9 +333,9 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             UITableViewCellSelectionStyleNone;
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[event.timestamp doubleValue]];
+            dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+            dateFormatter.timeStyle = NSDateFormatterNoStyle;
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:(event.timestamp).doubleValue];
             NSString *formattedDateString = [dateFormatter stringFromDate:date];
             cell.detailTextLabel.text = formattedDateString;
             
@@ -399,8 +399,8 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
             
             [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress) {
                 self.hud.mode = MBProgressHUDModeAnnularDeterminate;
-                self.hud.progress = [progress floatValue];
-                if ([progress floatValue] == 1.0) {
+                self.hud.progress = progress.floatValue;
+                if (progress.floatValue == 1.0) {
                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
                     WordDetailController *controller = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
                     self.currentWord = word;
@@ -561,7 +561,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
 
 - (void)downloadLessonViewController:(DownloadLessonViewController *)controller gotStubLesson:(Lesson *)lesson
 {
-    NSLog(@"GOT STUB LESSON: %@", [lesson lessonID]);
+    NSLog(@"GOT STUB LESSON: %ld", (long)lesson.lessonID);
     NSLog(@"%@",[NSThread callStackSymbols]);
 
     lesson.remoteChangesSinceLastSync = YES;
@@ -591,7 +591,7 @@ typedef enum {CellLesson, CellLessonEditable, CellLessonDownload, CellLessonUplo
              UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
              WordDetailController *newController = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
              newController.delegate = self;
-             newController.word = [(Lesson *)(self.practiceSet.lessons)[0] words][0];
+             newController.word = ((Lesson *)(self.practiceSet.lessons)[0]).words[0];
              
              // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
              dispatch_async(dispatch_get_main_queue(), ^{

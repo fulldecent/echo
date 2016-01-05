@@ -16,8 +16,8 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
-typedef enum {SectionActions, SectionEditingInfo, SectionWords, SectionByline, SectionCount} Sections;
-typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellEditLanguage, CellEditTitle, CellEditDescription} Cells;
+typedef NS_ENUM(unsigned int, Sections) {SectionActions, SectionEditingInfo, SectionWords, SectionByline, SectionCount};
+typedef NS_ENUM(unsigned int, Cells) {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellEditLanguage, CellEditTitle, CellEditDescription};
 
 @interface LessonViewController () <WordDetailControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property (nonatomic) int currentWordIndex;
@@ -36,7 +36,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    id tracker = [[GAI sharedInstance] defaultTracker];
+    id tracker = [GAI sharedInstance].defaultTracker;
     [tracker set:kGAIScreenName value:@"LessonView"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
@@ -68,7 +68,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
 - (IBAction)lessonSharePressed:(id)sender {
     // Create the item to share (in this example, a url)
-    NSString *urlString = [NSString stringWithFormat:@"https://learnwithecho.com/lessons/%ld", (long)[self.lesson.lessonID integerValue]];
+    NSString *urlString = [NSString stringWithFormat:@"https://learnwithecho.com/lessons/%ld", (long)(self.lesson.lessonID)];
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *title = [NSString stringWithFormat:@"I am practicing a lesson in %@: %@",
                        [Languages nativeDescriptionForLanguage:self.lesson.languageTag],
@@ -102,17 +102,17 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     
     [self.tableView beginUpdates];
     NSArray *shuffleRow = @[[NSIndexPath indexPathForRow:0 inSection:SectionWords]];
-    NSArray *addRow = @[[NSIndexPath indexPathForRow:[self.lesson.words count] inSection:SectionWords]];
+    NSArray *addRow = @[[NSIndexPath indexPathForRow:(self.lesson.words).count inSection:SectionWords]];
     
     if (!self.editingFromSwipe) {
         if (editing) {
-            if ([self.lesson.words count])
+            if ((self.lesson.words).count)
                 [self.tableView deleteRowsAtIndexPaths:shuffleRow withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView insertRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.navigationItem setHidesBackButton:YES animated:YES];
         } else {
             [self.tableView deleteRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationAutomatic];
-            if ([self.lesson.words count])
+            if ((self.lesson.words).count)
                 [self.tableView insertRowsAtIndexPaths:shuffleRow withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.navigationItem setHidesBackButton:NO animated:YES];
         }
@@ -151,9 +151,9 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 - (void)skipToNextWordForWordPractice:(WordPracticeController *)wordPractice
 {
     if (self.wordListIsShuffled)
-        self.currentWordIndex = arc4random() % [self.lesson.words count];
+        self.currentWordIndex = arc4random() % (self.lesson.words).count;
     else
-        self.currentWordIndex = (self.currentWordIndex + 1) % [self.lesson.words count];
+        self.currentWordIndex = (self.currentWordIndex + 1) % (self.lesson.words).count;
 }
 
 - (BOOL)currentWordCanBeCheckedForWordPractice:(WordPracticeController *)wordPractice
@@ -195,7 +195,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         case SectionWords:
             if (indexPath.row == 0 && !(self.tableView.editing && !self.editingFromSwipe))
                 return CellShuffle;
-            else if (indexPath.row == [self.lesson.words count] && (self.tableView.editing && !self.editingFromSwipe))
+            else if (indexPath.row == (self.lesson.words).count && (self.tableView.editing && !self.editingFromSwipe))
                 return CellAddWord;
             else
                 return CellWord;
@@ -233,10 +233,10 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             else
                 return 0;
         case SectionWords:
-            if ([self.lesson.words count] || (self.tableView.editing && !self.editingFromSwipe))
-                return [self.lesson.words count] + 1; // add or shuffle button
+            if ((self.lesson.words).count || (self.tableView.editing && !self.editingFromSwipe))
+                return (self.lesson.words).count + 1; // add or shuffle button
             else
-                return [self.lesson.words count];
+                return (self.lesson.words).count;
         case SectionByline:
             return 0;
     }
@@ -277,13 +277,13 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
         case CellAuthorByline: {
             cell = [tableView dequeueReusableCellWithIdentifier:@"author"];
             cell.textLabel.text = self.lesson.userName;
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%@.png",self.lesson.userID]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://learnwithecho.com/avatarFiles/%ld.png",(long)self.lesson.userID]];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
             [cell.imageView setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"none40"] success:nil failure:nil];
             
             UIButton *flagButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             [flagButton setImage:[UIImage imageNamed:@"flag"] forState:UIControlStateNormal];
-            [flagButton setFrame:CGRectMake(0, 0, 40, 40)];
+            flagButton.frame = CGRectMake(0, 0, 40, 40);
             [flagButton addTarget:self action:@selector(lessonFlagPressed:) forControlEvents:UIControlEventTouchUpInside];
             cell.accessoryView = flagButton;
             return cell;
@@ -364,7 +364,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
             [words removeObjectAtIndex:index];
             self.lesson.words = [words copy];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            if (![words count])
+            if (!words.count)
                 [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:SectionWords]] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
             [self.lesson removeStaleFiles];
@@ -460,7 +460,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
     } else if ([segue.destinationViewController isKindOfClass:[WordDetailController class]]) {
         WordDetailController *controller = segue.destinationViewController;
         controller.delegate = self;
-        if (self.currentWordIndex < [self.lesson.words count]) {
+        if (self.currentWordIndex < (self.lesson.words).count) {
             controller.word = (self.lesson.words)[self.currentWordIndex];
         } else {
             Word *word = [[Word alloc] init];
@@ -555,7 +555,7 @@ typedef enum {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, Cel
 
         NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
         NSString *message = [alertView textFieldAtIndex:0].text;
-        [networkManager postFeedback:message toAuthorOfLessonWithID:target.lessonID
+        [networkManager postFeedback:message toAuthorOfLessonWithID:@(target.lessonID)
                            onSuccess:^
          {
              self.hud.mode = MBProgressHUDModeDeterminate;

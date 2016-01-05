@@ -61,7 +61,7 @@
     
     if (packed[kEventType]) {
         if ([packed[kEventType] isKindOfClass:[NSNumber class]]) {
-            retval.eventType = [(NSNumber *)packed[kEventType] intValue];
+            retval.eventType = ((NSNumber *)packed[kEventType]).intValue;
         } else if ([packed[kEventType] isKindOfClass:[NSString class]]) {
             NSString *type = (NSString *)packed[kEventType];
             if ([type isEqualToString:kEventTypePostLesson])

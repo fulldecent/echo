@@ -171,9 +171,9 @@
   
   // Save it, then update the thresholds
   m_iNumBars = a_iNumBars;
-  [self setValue:m_flValue];
-  [self setWarnThreshold:m_flWarnThreshold];
-  [self setDangerThreshold:m_flDangerThreshold];
+  self.value = m_flValue;
+  self.warnThreshold = m_flWarnThreshold;
+  self.dangerThreshold = m_flDangerThreshold;
 }
 
 
@@ -237,7 +237,7 @@
 -(void) setDefaults
 {
   // Set view background to clear
-  [self setBackgroundColor:[UIColor clearColor]];
+  self.backgroundColor = [UIColor clearColor];
   
   // Configure limits
   m_flMaxLimit  = 1.0f;
@@ -252,8 +252,8 @@
   m_iPeakBarIdx       = -1;
   m_fLitEffect        = YES;
   m_fReverseDirection = NO;
-  [self setWarnThreshold:0.60f];
-  [self setDangerThreshold:0.80f];
+  self.warnThreshold = 0.60f;
+  self.dangerThreshold = 0.80f;
   
   // Set default colors
   m_clrBackground       = [UIColor blackColor];

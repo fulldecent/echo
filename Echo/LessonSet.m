@@ -9,6 +9,8 @@
 #import "LessonSet.h"
 #import "NetworkManager.h"
 
+#import "Echo-Swift.h"
+
 @interface LessonSet()
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSMutableDictionary *lessonTransferProgress; // NSValue: Lesson *
@@ -27,7 +29,7 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (NSString *lessonJSON in [defaults objectForKey:[@"lessons-" stringByAppendingString:name]]) {
-        Lesson *lesson = [Lesson lessonWithJSON:[lessonJSON dataUsingEncoding:NSUTF8StringEncoding]];
+        Lesson *lesson = [[Lesson alloc] initWithJSONString:lessonJSON];
         [lessonSet.lessons addObject:lesson];
     }
     return lessonSet;
@@ -38,7 +40,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *savedLessons = [[NSMutableArray alloc] init];
     for (Lesson *lesson in self.lessons) {
-        NSString *lessonJSON = [[NSString alloc] initWithData:[lesson JSON] encoding:NSUTF8StringEncoding];
+        NSString *lessonJSON = [[NSString alloc] initWithData:[lesson toJSON] encoding:NSUTF8StringEncoding];
         [savedLessons addObject:lessonJSON];
     }
     [defaults setObject:savedLessons forKey:[@"lessons-" stringByAppendingString:self.name]];
@@ -62,7 +64,7 @@
     [networkManager syncLessons:staleLessons
                    withProgress:^(Lesson *NMlesson, NSNumber *NMprogress)
      {
-         if ([NMprogress floatValue] < 1.0)
+         if (NMprogress.floatValue < 1.0)
              (self.lessonTransferProgress)[[NSValue valueWithNonretainedObject:NMlesson]] = NMprogress;
          else {
              [self.lessonTransferProgress removeObjectForKey:[NSValue valueWithNonretainedObject:NMlesson]];
@@ -100,7 +102,7 @@
                          onSuccess:(void(^)())success onFailure:(void(^)(NSError *error))failure
 {
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
-    [networkManager deleteLessonWithID:lesson.lessonID
+    [networkManager deleteLessonWithID:@(lesson.lessonID)
                              onSuccess:^
      {
          [self deleteLesson:lesson];
@@ -119,9 +121,9 @@
     if ([self.lessons containsObject:lesson]) {
         [self writeToDisk];
         return;
-    } else if ([lesson.lessonID integerValue]) {
-        for (int i=0; i<[self.lessons count]; i++) {
-            if ([[(Lesson *)(self.lessons)[i] lessonID] isEqualToNumber:lesson.lessonID]) {
+    } else if (lesson.lessonID) {
+        for (int i=0; i<(self.lessons).count; i++) {
+            if (((Lesson *)(self.lessons)[i]).lessonID == lesson.lessonID) {
                 (self.lessons)[i] = lesson;
                 [self writeToDisk];
                 return;
@@ -135,7 +137,7 @@
 - (void)setRemoteUpdatesForLessonsWithIDs:(NSArray *)newLessonIDs
 {
     for (Lesson *lesson in self.lessons)
-        if ([newLessonIDs containsObject:lesson.lessonID])
+        if ([newLessonIDs containsObject:@(lesson.lessonID)])
             lesson.remoteChangesSinceLastSync = YES;
     [self writeToDisk];
 }

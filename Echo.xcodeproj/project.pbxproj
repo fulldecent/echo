@@ -40,7 +40,6 @@
 		77A1C27D151E6451006F2B69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C27C151E6451006F2B69 /* QuartzCore.framework */; };
 		77A50BE0157C4E1B00027CB1 /* iphone_delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */; };
 		77A50BE3157C59BE00027CB1 /* Checkbox checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A50BE2157C59BE00027CB1 /* Checkbox checked.png */; };
-		77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A50BE9157EF1B800027CB1 /* Lesson.m */; };
 		77B51381151970B100F041D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51380151970B100F041D7 /* Foundation.framework */; };
 		77B51383151970B100F041D7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B51382151970B100F041D7 /* CoreGraphics.framework */; };
 		77B5138B151970B100F041D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138A151970B100F041D7 /* main.m */; };
@@ -89,6 +88,7 @@
 		D93A898F1A1AB576001C2306 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
 		D93F0BF31AB4A46000CAAC8C /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */; };
 		D95C70E11C26720A00F74E66 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C70E01C26720A00F74E66 /* Word.swift */; };
+		D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D963BDE01C3A2CD200EED217 /* Lesson.swift */; };
 		D98786C51AC8C33B00C3686E /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786BF1AC8C33B00C3686E /* up.png */; };
 		D98786C61AC8C33B00C3686E /* up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786C01AC8C33B00C3686E /* up@2x.png */; };
 		D98786C71AC8C33B00C3686E /* down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786C11AC8C33B00C3686E /* down@2x.png */; };
@@ -138,8 +138,6 @@
 		77A1C27C151E6451006F2B69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone_delete_button.png; sourceTree = "<group>"; };
 		77A50BE2157C59BE00027CB1 /* Checkbox checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox checked.png"; sourceTree = "<group>"; };
-		77A50BE8157EF1B800027CB1 /* Lesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lesson.h; sourceTree = "<group>"; };
-		77A50BE9157EF1B800027CB1 /* Lesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lesson.m; sourceTree = "<group>"; };
 		77B5137A151970B100F041D7 /* Echo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Echo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77B5137E151970B100F041D7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		77B51380151970B100F041D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -205,6 +203,7 @@
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		D95C70E01C26720A00F74E66 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		D963BDE01C3A2CD200EED217 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		D98786BF1AC8C33B00C3686E /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		D98786C01AC8C33B00C3686E /* up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "up@2x.png"; sourceTree = "<group>"; };
 		D98786C11AC8C33B00C3686E /* down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down@2x.png"; sourceTree = "<group>"; };
@@ -259,8 +258,7 @@
 			children = (
 				D9F5C21A1C235F9A003654D4 /* Audio.swift */,
 				D95C70E01C26720A00F74E66 /* Word.swift */,
-				77A50BE8157EF1B800027CB1 /* Lesson.h */,
-				77A50BE9157EF1B800027CB1 /* Lesson.m */,
+				D963BDE01C3A2CD200EED217 /* Lesson.swift */,
 				772C83B015BF6D1A00E63B9C /* LessonSet.h */,
 				772C83B115BF6D1A00E63B9C /* LessonSet.m */,
 				77BBFE0E157C189600511CEC /* Languages.h */,
@@ -640,12 +638,12 @@
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
 				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
+				D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */,
 				77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */,
 				77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */,
 				77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */,
 				77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */,
 				77BBFE10157C189600511CEC /* Languages.m in Sources */,
-				77A50BEA157EF1B800027CB1 /* Lesson.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				D9EC6F4519D9010500B07301 /* Event.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,
@@ -702,7 +700,6 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

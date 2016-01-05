@@ -8,7 +8,6 @@
 
 #import "DownloadLessonViewController.h"
 #import "Profile.h"
-#import "Lesson.h"
 #import "NetworkManager.h"
 #import "LanguageSelectController.h"
 #import "UIImageView+AFNetworking.h"
@@ -16,6 +15,7 @@
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "Echo-Swift.h"
 
 @interface DownloadLessonViewController () <LanguageSelectControllerDelegate, MFMailComposeViewControllerDelegate>
 @property (strong, nonatomic) NSArray *lessons;
@@ -49,7 +49,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    id tracker = [[GAI sharedInstance] defaultTracker];
+    id tracker = [GAI sharedInstance].defaultTracker;
     [tracker set:kGAIScreenName value:@"DownloadLesson"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
@@ -74,31 +74,31 @@
     Lesson *lesson = (self.lessons)[indexPath.row];
     NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lesson" forIndexPath:indexPath];
-    [(UILabel *)[cell viewWithTag:1] setText:lesson.name];
-    [(UILabel *)[cell viewWithTag:2] setText:lesson.detail];
+    ((UILabel *)[cell viewWithTag:1]).text = lesson.name;
+    ((UILabel *)[cell viewWithTag:2]).text = lesson.detail;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[lesson.serverTimeOfLastCompletedSync doubleValue]];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:lesson.serverTimeOfLastCompletedSync];
     NSString *formattedDateString = [dateFormatter stringFromDate:date];
-    [(UILabel *)[cell viewWithTag:3] setText:formattedDateString];
-    if ([lesson.numLikes integerValue]) {
-        [(UILabel *)[cell viewWithTag:4] setText:[NSString stringWithFormat:@"%@", lesson.numLikes]];
+    ((UILabel *)[cell viewWithTag:3]).text = formattedDateString;
+    if (lesson.numLikes) {
+        ((UILabel *)[cell viewWithTag:4]).text = [NSString stringWithFormat:@"%ld", (long)lesson.numLikes];
         [(UIImageView *)[cell viewWithTag:7] setHidden:NO];
     } else {
-        [(UILabel *)[cell viewWithTag:4] setText:@""];
+        ((UILabel *)[cell viewWithTag:4]).text = @"";
         [(UIImageView *)[cell viewWithTag:7] setHidden:YES];
     }
-    if ([lesson.numFlags integerValue]) {
-        [(UILabel *)[cell viewWithTag:5] setText:[NSString stringWithFormat:@"%@", lesson.numFlags]];
+    if (lesson.numFlags) {
+        ((UILabel *)[cell viewWithTag:5]).text = [NSString stringWithFormat:@"%ld", (long)lesson.numFlags];
         [(UIImageView *)[cell viewWithTag:8] setHidden:NO];
     } else {
-        [(UILabel *)[cell viewWithTag:5] setText:@""];
+        ((UILabel *)[cell viewWithTag:5]).text = @"";
         [(UIImageView *)[cell viewWithTag:8] setHidden:YES];
     }
-    [(UILabel *)[cell viewWithTag:6] setText:lesson.userName];
+    ((UILabel *)[cell viewWithTag:6]).text = lesson.userName;
     UIImage *placeholder = [UIImage imageNamed:@"none40"];
-    NSURL *userPhoto = [networkManager photoURLForUserWithID:lesson.userID];
+    NSURL *userPhoto = [networkManager photoURLForUserWithID:@(lesson.userID)];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:userPhoto];
     [(UIImageView *)[cell viewWithTag:9] setImageWithURLRequest:request placeholderImage:placeholder success:nil failure:nil];
     return cell;
@@ -118,7 +118,7 @@
 {
     if (indexPath.row < self.lessons.count) {
         [self.delegate downloadLessonViewController:self gotStubLesson:(self.lessons)[indexPath.row]];
-        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        id<GAITracker> tracker = [GAI sharedInstance].defaultTracker;
         [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Usage"
                                                               action:@"Learning"
                                                                label:@"Download Lesson"

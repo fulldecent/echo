@@ -46,7 +46,7 @@
     self.webView.scrollView.scrollsToTop = YES;
     
     // http://stackoverflow.com/questions/2238914/how-to-remove-grey-shadow-on-the-top-uiwebview-when-overscroll
-    for (UIView *subview in [self.webView.scrollView subviews])
+    for (UIView *subview in (self.webView.scrollView).subviews)
         if ([subview isKindOfClass:[UIImageView class]])
             subview.hidden = YES;
     self.screenName = @"WebView";
@@ -82,8 +82,8 @@
         [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress)
          {
              self.hud.mode = MBProgressHUDModeAnnularDeterminate;
-             self.hud.progress = [progress floatValue];
-             if ([progress floatValue] == 1.0) {
+             self.hud.progress = progress.floatValue;
+             if (progress.floatValue == 1.0) {
                  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
                  WordDetailController *wordDetail = (WordDetailController *)[storyboard instantiateViewControllerWithIdentifier:@"WordDetailController"];
                  //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
@@ -108,8 +108,8 @@
         
         [networkManager getWordWithFiles:practiceID withProgress:^(Word *word, NSNumber *progress) {
             self.hud.mode = MBProgressHUDModeAnnularDeterminate;
-            self.hud.progress = [progress floatValue];
-            if ([progress floatValue] == 1.0) {
+            self.hud.progress = progress.floatValue;
+            if (progress.floatValue == 1.0) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
                 WordPracticeController *controller = (WordPracticeController *)[storyboard instantiateViewControllerWithIdentifier:@"WordPractice"];
                 //[vc setModalPresentationStyle:UIModalPresentationFullScreen];
