@@ -7,10 +7,10 @@
 //
 
 #import "LanguageSelectController.h"
-#import "Languages.h"
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "Echo-Swift.h"
 
 @interface LanguageSelectController ()
 @property (strong, nonatomic) NSArray *languages;

@@ -8,13 +8,13 @@
 
 #import "LessonViewController.h"
 #import "WordDetailController.h"
-#import "Languages.h"
 #import "NetworkManager.h"
 #import "MBProgressHUD.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "Echo-Swift.h"
 
 typedef NS_ENUM(unsigned int, Sections) {SectionActions, SectionEditingInfo, SectionWords, SectionByline, SectionCount};
 typedef NS_ENUM(unsigned int, Cells) {CellShared, CellNotShared, CellShuffle, CellWord, CellAddWord, CellAuthorByline, CellEditLanguage, CellEditTitle, CellEditDescription};

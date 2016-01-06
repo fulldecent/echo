@@ -8,7 +8,6 @@
 
 #import "ProfileViewController.h"
 #import "Profile.h"
-#import "Languages.h"
 #import "LanguageSelectController.h"
 #import "FDTakeController.h"
 #import <CoreLocation/CoreLocation.h>
@@ -18,6 +17,7 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 #import "FDRightDetailWithTextFieldCell.h"
+#import "Echo-Swift.h"
 
 @interface ProfileViewController () <LanguageSelectControllerDelegate, FDTakeDelegate, CLLocationManagerDelegate, MBProgressHUDDelegate>
 @property (strong, nonatomic) UILabel *labelSelectingLanguage;

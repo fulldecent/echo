@@ -50,7 +50,6 @@
 		77BBFDFB157BDC4500511CEC /* Languages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFDFA157BDC4500511CEC /* Languages.plist */; };
 		77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE09157C0DB900511CEC /* LanguageSelectController.m */; };
 		77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0C157C11C900511CEC /* WordDetailController.m */; };
-		77BBFE10157C189600511CEC /* Languages.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0F157C189600511CEC /* Languages.m */; };
 		77BBFE17157C3BF100511CEC /* Checkbox empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFE15157C3BF100511CEC /* Checkbox empty.png */; };
 		77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C7042D16F52FF400C3A13A /* ProfileViewController.m */; };
 		77C7043316F533C200C3A13A /* checkin.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C7043116F533C200C3A13A /* checkin.png */; };
@@ -98,6 +97,7 @@
 		D9EC6F4519D9010500B07301 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EC6F4419D9010500B07301 /* Event.m */; };
 		D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C2181C2349B2003654D4 /* IntroViewController.swift */; };
 		D9F5C21B1C235F9A003654D4 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C21A1C235F9A003654D4 /* Audio.swift */; };
+		D9FC2E381C3C9F6400B92E1E /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC2E371C3C9F6400B92E1E /* Languages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,8 +157,6 @@
 		77BBFE09157C0DB900511CEC /* LanguageSelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageSelectController.m; sourceTree = "<group>"; };
 		77BBFE0B157C11C900511CEC /* WordDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordDetailController.h; sourceTree = "<group>"; };
 		77BBFE0C157C11C900511CEC /* WordDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordDetailController.m; sourceTree = "<group>"; };
-		77BBFE0E157C189600511CEC /* Languages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Languages.h; sourceTree = "<group>"; };
-		77BBFE0F157C189600511CEC /* Languages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Languages.m; sourceTree = "<group>"; };
 		77BBFE15157C3BF100511CEC /* Checkbox empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox empty.png"; sourceTree = "<group>"; };
 		77C7042C16F52FF400C3A13A /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		77C7042D16F52FF400C3A13A /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
@@ -216,6 +214,7 @@
 		D9F5C2171C2349B2003654D4 /* Echo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Echo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D9F5C2181C2349B2003654D4 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		D9F5C21A1C235F9A003654D4 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		D9FC2E371C3C9F6400B92E1E /* Languages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		F1BCA506CBE64FE7852ADA22 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -259,10 +258,9 @@
 				D9F5C21A1C235F9A003654D4 /* Audio.swift */,
 				D95C70E01C26720A00F74E66 /* Word.swift */,
 				D963BDE01C3A2CD200EED217 /* Lesson.swift */,
+				D9FC2E371C3C9F6400B92E1E /* Languages.swift */,
 				772C83B015BF6D1A00E63B9C /* LessonSet.h */,
 				772C83B115BF6D1A00E63B9C /* LessonSet.m */,
-				77BBFE0E157C189600511CEC /* Languages.h */,
-				77BBFE0F157C189600511CEC /* Languages.m */,
 				77FB0F6B16E296440000D4F5 /* Profile.h */,
 				77FB0F6C16E296440000D4F5 /* Profile.m */,
 				D9EC6F4319D9010500B07301 /* Event.h */,
@@ -642,8 +640,8 @@
 				77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */,
 				77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */,
 				77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */,
+				D9FC2E381C3C9F6400B92E1E /* Languages.swift in Sources */,
 				77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */,
-				77BBFE10157C189600511CEC /* Languages.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				D9EC6F4519D9010500B07301 /* Event.m in Sources */,
 				772C83B215BF6D1A00E63B9C /* LessonSet.m in Sources */,

@@ -7,7 +7,6 @@
 //
 
 #import "WordDetailController.h"
-#import "Languages.h"
 #import <AVFoundation/AVFoundation.h>
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
@@ -19,6 +18,7 @@
 #import "FDWaveformView.h"
 #import "F3BarGauge.h"
 #import "FDRightDetailWithTextFieldCell.h"
+#import "Echo-Swift.h"
 
 #define NUMBER_OF_RECORDERS 3
 
