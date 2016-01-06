@@ -65,6 +65,13 @@ class Lesson: NSObject {
         return url.URLByAppendingPathComponent("\(self.lessonCode)")
     }
     
+    func deleteFromDisk() {
+        let fileManager: NSFileManager = NSFileManager.defaultManager()
+        if let url: NSURL = self.fileURL() {
+            _ = try? fileManager.removeItemAtURL(url)
+        }
+    }
+    
     func setToLesson(target: Lesson) {
         self.lessonID = target.lessonID
         self.lessonCode = target.lessonCode
@@ -243,6 +250,7 @@ class Lesson: NSObject {
         return retval
     }
     
+    //TODO: this should return a string?
     func toJSON() -> NSData? {
         return try? NSJSONSerialization.dataWithJSONObject(self.toDictionary(), options: [])
     }

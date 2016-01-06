@@ -9,7 +9,6 @@
 #import "MBProgressHUD.h"
 #import "LanguageSelectController.h"
 #import "NetworkManager.h"
-#import "LessonSet.h"
 
 // Models
 //#import "Word.h"

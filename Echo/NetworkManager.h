@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LessonSet.h"
 #import "Profile.h"
 
 @class Word; // implemented in Swift
