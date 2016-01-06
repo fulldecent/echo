@@ -22,7 +22,6 @@
 #import "GAIDictionaryBuilder.h"
 #import "TDBadgedCell.h"
 #import <NSData+Base64.h>
-#import "Event.h"
 #import "UIImageView+AFNetworking.h"
 
 typedef NS_ENUM(unsigned int, Sections) {SectionPractice, SectionLessons, SectionSocial, SectionCount};
@@ -327,14 +326,14 @@ typedef NS_ENUM(unsigned int, Cells) {CellLesson, CellLessonEditable, CellLesson
             cell = [tableView dequeueReusableCellWithIdentifier:@"social"];
             event = [self eventForRowAtIndexPath:indexPath];
             
-            cell.selectionStyle = event.eventType == EventTypePostPractice ?
+            cell.selectionStyle = event.eventTypeIsPractice ?
             UITableViewCellSelectionStyleDefault :
             UITableViewCellSelectionStyleNone;
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateStyle = NSDateFormatterMediumStyle;
             dateFormatter.timeStyle = NSDateFormatterNoStyle;
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:(event.timestamp).doubleValue];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:event.timestamp];
             NSString *formattedDateString = [dateFormatter stringFromDate:date];
             cell.detailTextLabel.text = formattedDateString;
             
@@ -342,21 +341,15 @@ typedef NS_ENUM(unsigned int, Cells) {CellLesson, CellLessonEditable, CellLesson
 
             NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
             UIImage *placeholder = [UIImage imageNamed:@"none40"];
-            NSURL *userPhoto = [networkManager photoURLForUserWithID:event.actingUserID];
+            NSURL *userPhoto = [networkManager photoURLForUserWithID:@(event.actingUserID)];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:userPhoto];
             [cell.imageView setImageWithURLRequest:request placeholderImage:placeholder success:nil failure:nil];
 
             cell.textLabel.text = event.htmlDescription;
             
             cell.textLabel.text = event.targetWordName;
-/*
-            cell.textLabel.attributedText = [[NSAttributedString alloc] initWithData:[event.htmlDescription dataUsingEncoding:NSUTF8StringEncoding]
-                                                                             options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                       NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                  documentAttributes:nil error:nil];
- */
 
-            cell.accessoryType = event.eventType == EventTypePostPractice ? UITableViewCellAccessoryDisclosureIndicator: UITableViewCellAccessoryNone;
+            cell.accessoryType = event.eventTypeIsPractice ? UITableViewCellAccessoryDisclosureIndicator: UITableViewCellAccessoryNone;
             return cell;
         }
     }
@@ -387,9 +380,9 @@ typedef NS_ENUM(unsigned int, Cells) {CellLesson, CellLessonEditable, CellLesson
         {
             NetworkManager *networkManager = [NetworkManager sharedNetworkManager];
             Event *event = [self eventForRowAtIndexPath:indexPath];
-            NSNumber *practiceID = event.targetWordID;
+            NSNumber *practiceID = @(event.targetWordID);
 
-            if (event.eventType != EventTypePostPractice)
+            if (!event.eventTypeIsPractice)
                 return;
             
             self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
