@@ -7,7 +7,6 @@
 //
 
 #import "DownloadLessonViewController.h"
-#import "Profile.h"
 #import "NetworkManager.h"
 #import "LanguageSelectController.h"
 #import "UIImageView+AFNetworking.h"

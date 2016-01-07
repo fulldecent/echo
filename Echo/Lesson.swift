@@ -142,8 +142,7 @@ class Lesson: NSObject {
     }
     
     func isByCurrentUser() -> Bool {
-        let me: Profile = Profile.currentUserProfile()
-        return me.userID.integerValue > 0 && self.userID == me.userID.integerValue
+        return Profile.currentUser.userID == self.userID
     }
     
     func isShared() -> Bool {

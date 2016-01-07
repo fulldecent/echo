@@ -76,11 +76,11 @@
 		77EB10C41560ACF500C00842 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = 77EB10C31560ACF500C00842 /* Next.aif */; };
 		77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */; };
 		77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D2A16643D3F005D10ED /* MainViewController.m */; };
-		77FB0F6D16E296440000D4F5 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB0F6C16E296440000D4F5 /* Profile.m */; };
 		77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FCACF61569E0900039ED77 /* F3BarGauge.m */; };
 		C7991F84AEFB4058AD062485 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1BCA506CBE64FE7852ADA22 /* libPods.a */; };
 		D90E42F81B8A351B00F1D5F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */; };
 		D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */; };
+		D91FBD161C3E09B900A040F4 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FBD151C3E09B900A040F4 /* Profile.swift */; };
 		D936B11217EF76CD003A00BE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11117EF76CD003A00BE /* CoreData.framework */; };
 		D936B11417EF76E6003A00BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D936B11317EF76E6003A00BE /* libz.dylib */; };
 		D93A898F1A1AB576001C2306 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B5137E151970B100F041D7 /* UIKit.framework */; };
@@ -187,14 +187,13 @@
 		77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadLessonViewController.m; sourceTree = "<group>"; };
 		77ED9D2916643D3F005D10ED /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		77ED9D2A16643D3F005D10ED /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		77FB0F6B16E296440000D4F5 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
-		77FB0F6C16E296440000D4F5 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		77FCACF51569E0900039ED77 /* F3BarGauge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3BarGauge.h; sourceTree = "<group>"; };
 		77FCACF61569E0900039ED77 /* F3BarGauge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3BarGauge.m; sourceTree = "<group>"; };
 		96AE4D6A7E9DC2CFF79BD9C6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDRightDetailWithTextFieldCell.h; sourceTree = "<group>"; };
 		D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDRightDetailWithTextFieldCell.m; sourceTree = "<group>"; };
+		D91FBD151C3E09B900A040F4 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		D936B11117EF76CD003A00BE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D936B11317EF76E6003A00BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
@@ -258,9 +257,8 @@
 				D963BDE01C3A2CD200EED217 /* Lesson.swift */,
 				D9FC2E371C3C9F6400B92E1E /* Languages.swift */,
 				D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */,
-				77FB0F6B16E296440000D4F5 /* Profile.h */,
-				77FB0F6C16E296440000D4F5 /* Profile.m */,
 				D9CA757E1C3DC643003ECFE7 /* Event.swift */,
+				D91FBD151C3E09B900A040F4 /* Profile.swift */,
 				7749939515A0C409001DE784 /* NetworkManager.h */,
 				7749939615A0C409001DE784 /* NetworkManager.m */,
 			);
@@ -630,6 +628,7 @@
 				D9628A4F1C3CC22900F82BE5 /* LessonSet.swift in Sources */,
 				D9F5C21B1C235F9A003654D4 /* Audio.swift in Sources */,
 				77B5138B151970B100F041D7 /* main.m in Sources */,
+				D91FBD161C3E09B900A040F4 /* Profile.swift in Sources */,
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
 				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
@@ -645,7 +644,6 @@
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
 				D95C70E11C26720A00F74E66 /* Word.swift in Sources */,
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
-				77FB0F6D16E296440000D4F5 /* Profile.m in Sources */,
 				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
 				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
 				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,

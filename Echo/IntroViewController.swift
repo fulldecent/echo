@@ -31,7 +31,7 @@ class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, Lang
         self.hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true)
         self.hud?.mode = MBProgressHUDMode.Indeterminate
         self.hud?.labelText = "Sending..."
-        me.syncOnlineOnSuccess({(recommendedLessons: [AnyObject]!) -> Void in
+        me.syncOnlineOnSuccess({ (recommendedLessons) -> Void in
             for item in recommendedLessons {
                 //TODO: IMPROVE API TO OBVIATE DOWNCAST
                 if let lesson = item as? Lesson {
@@ -41,11 +41,12 @@ class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, Lang
             self.hud?.hide(true)
             me.syncToDisk()
             self.dismissViewControllerAnimated(true, completion: { _ in })
-            
-            }, onFailure: {(error: NSError!) -> Void in
+
+            }) { (error) -> Void in
                 self.hud?.hide(false)
                 NetworkManager.hudFlashError(error)
-        })
+       
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

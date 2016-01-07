@@ -171,7 +171,7 @@
               onSuccess:(void(^)(NSString *username, NSNumber *userID, NSArray *recommendedLessons))successBlock
               onFailure:(void(^)(NSError *error))failureBlock
 {
-    NSDictionary *JSONDict = [NSJSONSerialization JSONObjectWithData:[[Profile currentUserProfile] JSON] options:nil error:nil];
+    NSDictionary *JSONDict = [[Profile currentUserProfile] toDictionary];
     
     AFHTTPRequestOperation *request = [self.requestManager POST:@"users" parameters:JSONDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *username = ((NSDictionary *)responseObject)[@"username"];

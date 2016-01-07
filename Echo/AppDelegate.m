@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
-#import "Profile.h"
+#import "Echo-Swift.h"
 #import "Appirater.h"
 #import <Google/Analytics.h>
 #import "GAI.h"

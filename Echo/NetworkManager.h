@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Profile.h"
+
+@class Profile; //FROM SWIFT
 
 @class Word; // implemented in Swift
 @class Lesson; // implemented in Swift
