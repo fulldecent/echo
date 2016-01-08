@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Word: NSObject {
+public class Word: NSObject {
     private let kLanguageTag = "languageTag"
     private let kName = "name"
     private let kDetail = "detail"
@@ -21,28 +21,28 @@ class Word: NSObject {
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"
 
-    weak var lesson: Lesson?
+    public weak var lesson: Lesson?
 
-    lazy var uuid: String  = {
+    public lazy var uuid: String  = {
         return NSUUID().UUIDString
     }()
 
     //TODO: make this an optional instead of arbitrary 0=not on server
     //TODO: rename to serverId
-    var wordID: Int = 0
+    public var wordID: Int = 0
 
     //TOOD: make detail, user* optional and others required, do not initialize to ""
-    var languageTag: String = ""
-    var name: String = ""
-    var detail: String = ""
-    var userID: String = ""
-    var userName: String = ""
-    var audios = [Audio]()
+    public var languageTag: String = ""
+    public var name: String = ""
+    public var detail: String = ""
+    public var userID: String = ""
+    public var userName: String = ""
+    public var audios = [Audio]()
 
     // client side data
-    var completed: Bool = false
+    public var completed: Bool = false
     
-    func fileURL() -> NSURL? {
+    public func fileURL() -> NSURL? {
         let base = self.lesson?.fileURL()
         if self.wordID > 0 { //TODO temp hack, should test NIL
             return base?.URLByAppendingPathComponent(String(self.wordID))
@@ -50,7 +50,7 @@ class Word: NSObject {
         return base?.URLByAppendingPathComponent(self.uuid)
     }
     
-    func listOfMissingFiles() -> [Audio] {
+    public func listOfMissingFiles() -> [Audio] {
         var retval = [Audio]()
         for audio in self.audios {
             if !audio.fileExistsOnDisk() {
@@ -60,7 +60,7 @@ class Word: NSObject {
         return retval
     }
     
-    func fileWithCode(fileCode: String) -> Audio? {
+    public func fileWithCode(fileCode: String) -> Audio? {
         for audio in self.audios {
             if (audio.uuid == fileCode) {
                 return audio
@@ -69,7 +69,7 @@ class Word: NSObject {
         return nil
     }
     
-    init(packed: [String : AnyObject]) {
+    public init(packed: [String : AnyObject]) {
         super.init()
         
         if let wordID = packed[kWordID] as? Int {
@@ -111,7 +111,7 @@ class Word: NSObject {
         }
     }
     
-    convenience init?(JSONString: String) {
+    public convenience init?(JSONString: String) {
         guard let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
             return nil
         }
@@ -121,7 +121,7 @@ class Word: NSObject {
         self.init(packed: JSONDictionary!)
     }
     
-    func toDictionary() -> [String : AnyObject] {
+    public func toDictionary() -> [String : AnyObject] {
         var retval = [String : AnyObject]()
         if self.wordID > 0 {
             retval[kWordID] = self.wordID
@@ -152,7 +152,7 @@ class Word: NSObject {
         return retval
     }
 
-    func toJSON() -> NSData? {
+    public func toJSON() -> NSData? {
         return try? NSJSONSerialization.dataWithJSONObject(self.toDictionary(), options: [])
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Lesson: NSObject {
+public class Lesson: NSObject {
     
     private let kLessonID = "lessonID"
     private let kLessonCode = "lessonCode"

@@ -8,18 +8,18 @@
 
 import Foundation
 
-class Audio: NSObject {
+public class Audio: NSObject {
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"
     
     weak var word: Echo.Word?
 
-    lazy var uuid = {
+    public lazy var uuid = {
         return NSUUID().UUIDString
     }()
     
     //TODO: make this an optional instead of arbitrary 0=not on server
-    var serverId: Int = 0 {
+    public var serverId: Int = 0 {
         didSet {
             guard let oldUrl = self.word?.fileURL()?.URLByAppendingPathComponent(self.uuid) else {
                 return
@@ -38,12 +38,12 @@ class Audio: NSObject {
         }
     }
     
-    init(word: Word) {
+    public init(word: Word) {
         self.word = word
         super.init()
     }
 
-    func fileURL() -> NSURL? {
+    public func fileURL() -> NSURL? {
         let base = self.word?.fileURL()
         if self.serverId > 0 {
             return base?.URLByAppendingPathComponent(String(self.serverId))
@@ -51,7 +51,7 @@ class Audio: NSObject {
         return base?.URLByAppendingPathComponent(self.uuid)
     }
     
-    func fileExistsOnDisk() -> Bool {
+    public func fileExistsOnDisk() -> Bool {
         guard let url = self.fileURL() else {
             return false
         }
