@@ -8,6 +8,8 @@
 
 import Foundation
 
+//TODO: make this and other model classes into structs?
+//TODO: uuid should not be lazy, it should be created only during one type of initializer which is used when we are creating files locally (not pulling from the server)
 public class Audio: NSObject {
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"

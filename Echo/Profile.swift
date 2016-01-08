@@ -65,7 +65,7 @@ class Profile: NSObject {
         return Profile.currentUser
     }
     
-    private override init() {
+    override init() {
         super.init()
     }
     
