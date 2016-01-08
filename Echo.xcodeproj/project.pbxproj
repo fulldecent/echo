@@ -358,37 +358,61 @@
 		77B51384151970B100F041D7 /* Echo */ = {
 			isa = PBXGroup;
 			children = (
-				D9F5C2181C2349B2003654D4 /* IntroViewController.swift */,
+				77B5138A151970B100F041D7 /* main.m */,
+				77B51387151970B100F041D7 /* InfoPlist.strings */,
+				77B51386151970B100F041D7 /* Echo-Info.plist */,
+				77B5138C151970B100F041D7 /* Echo-Prefix.pch */,
+				77BBFDFA157BDC4500511CEC /* Languages.plist */,
+				D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */,
+				D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */,
+				D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */,
+				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
+				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
+				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
+				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
+				77B5138D151970B100F041D7 /* AppDelegate.h */,
+				77B5138E151970B100F041D7 /* AppDelegate.m */,
+				77A50BE4157EEB2B00027CB1 /* Models */,
 				77ED9D2916643D3F005D10ED /* MainViewController.h */,
 				77ED9D2A16643D3F005D10ED /* MainViewController.m */,
 				77EC14C316C9B10700D5B4C0 /* DownloadLessonViewController.h */,
 				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
+				D9F5C2181C2349B2003654D4 /* IntroViewController.swift */,
 				D95C59A41C404EE9003D5BD1 /* ProfileViewController.swift */,
-				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
 				D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */,
-				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
-				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
-				77DDC70E156DD81F00568CDE /* Classes */,
-				77B51385151970B100F041D7 /* Supporting Files */,
+				77B51385151970B100F041D7 /* Media */,
 				D9F5C2171C2349B2003654D4 /* Echo-Bridging-Header.h */,
 			);
 			path = Echo;
 			sourceTree = "<group>";
 		};
-		77B51385151970B100F041D7 /* Supporting Files */ = {
+		77B51385151970B100F041D7 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				77A50BE2157C59BE00027CB1 /* Checkbox checked.png */,
+				77BBFE15157C3BF100511CEC /* Checkbox empty.png */,
+				7761D6A315E2E77E00975F1B /* practiceIcon.png */,
+				7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */,
+				77D8AD17157ABF1A001E2E25 /* microphone icon@2x.png */,
+				77D8AD18157ABF1A001E2E25 /* microphone icon.png */,
+				77D8AD19157ABF1A001E2E25 /* speaker icon.png */,
+				77D8AD1A157ABF1A001E2E25 /* speaker icon@2x.png */,
+				77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */,
+				77D8AD1B157ABF1A001E2E25 /* Ready to record.m4a */,
+				77D8AD1C157ABF1A001E2E25 /* Record failed.m4a */,
+				77EB10C31560ACF500C00842 /* Next.aif */,
+				779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */,
+				779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */,
+				779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */,
+				779F86871586BFD500EDD3BA /* 37x-BigX.png */,
 				D98786BF1AC8C33B00C3686E /* up.png */,
 				D98786C01AC8C33B00C3686E /* up@2x.png */,
 				D98786C11AC8C33B00C3686E /* down@2x.png */,
 				D98786C21AC8C33B00C3686E /* down.png */,
 				D98786C31AC8C33B00C3686E /* lesson@2x.png */,
 				D98786C41AC8C33B00C3686E /* lesson.png */,
-				77B5138D151970B100F041D7 /* AppDelegate.h */,
-				77B5138E151970B100F041D7 /* AppDelegate.m */,
-				77EB10C31560ACF500C00842 /* Next.aif */,
 				77D8AD0D157AB589001E2E25 /* social.png */,
 				77D8AD0E157AB589001E2E25 /* social@2x.png */,
 				77E58515169910B200866A43 /* check.png */,
@@ -396,25 +420,19 @@
 				77E5850F1699104A00866A43 /* checkon.png */,
 				77E585101699104A00866A43 /* checkon@2x.png */,
 				77CB51E215683A6D00BBD4FC /* shuffle.png */,
-				77B51386151970B100F041D7 /* Echo-Info.plist */,
-				77B51387151970B100F041D7 /* InfoPlist.strings */,
 				7798DE1D161A7314004EE464 /* none40.png */,
-				77B5138A151970B100F041D7 /* main.m */,
 				7798DE0F1619138C004EE464 /* flag.png */,
 				7798DE101619138C004EE464 /* flag@2x.png */,
 				77E9BEF315CE037300BC567B /* like.png */,
 				77E9BEF215CE037300BC567B /* like@2x.png */,
 				774CDA1B15D080F100B14C45 /* message.png */,
 				774CDA1C15D080F100B14C45 /* message@2x.png */,
-				77B5138C151970B100F041D7 /* Echo-Prefix.pch */,
-				77BBFDFA157BDC4500511CEC /* Languages.plist */,
 				77C7043116F533C200C3A13A /* checkin.png */,
 				77C7043216F533C200C3A13A /* checkin@2x.png */,
 				77C7043516F5366000C3A13A /* camera.png */,
 				77C7043616F5366000C3A13A /* camera@2x.png */,
-				D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */,
 			);
-			name = "Supporting Files";
+			name = Media;
 			sourceTree = "<group>";
 		};
 		77DDC70C156DD45300568CDE /* Lesson UI */ = {
@@ -428,34 +446,8 @@
 				77BBFE0C157C11C900511CEC /* WordDetailController.m */,
 				77BBFE08157C0DB900511CEC /* LanguageSelectController.h */,
 				77BBFE09157C0DB900511CEC /* LanguageSelectController.m */,
-				77A50BE2157C59BE00027CB1 /* Checkbox checked.png */,
-				77BBFE15157C3BF100511CEC /* Checkbox empty.png */,
-				7761D6A315E2E77E00975F1B /* practiceIcon.png */,
-				7761D6A415E2E77E00975F1B /* practiceIcon@2x.png */,
 			);
 			name = "Lesson UI";
-			sourceTree = "<group>";
-		};
-		77DDC70E156DD81F00568CDE /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				D916DE6218A43AFE00657805 /* FDRightDetailWithTextFieldCell.h */,
-				D916DE6318A43AFE00657805 /* FDRightDetailWithTextFieldCell.m */,
-				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
-				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
-				77D8AD17157ABF1A001E2E25 /* microphone icon@2x.png */,
-				77D8AD18157ABF1A001E2E25 /* microphone icon.png */,
-				77D8AD19157ABF1A001E2E25 /* speaker icon.png */,
-				77D8AD1A157ABF1A001E2E25 /* speaker icon@2x.png */,
-				77A50BDF157C4E1B00027CB1 /* iphone_delete_button.png */,
-				77D8AD1B157ABF1A001E2E25 /* Ready to record.m4a */,
-				77D8AD1C157ABF1A001E2E25 /* Record failed.m4a */,
-				779F86821586BBAC00EDD3BA /* 37x-Checkmark.png */,
-				779F86831586BBAC00EDD3BA /* 37x-Checkmark@2x.png */,
-				779F86861586BFD500EDD3BA /* 37x-BigX@2x.png */,
-				779F86871586BFD500EDD3BA /* 37x-BigX.png */,
-			);
-			name = Classes;
 			sourceTree = "<group>";
 		};
 		D9B92CAD1C3F30F800F5ACC0 /* EchoTests */ = {
