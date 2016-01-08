@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		771CED691764336000EE8A88 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771CED681764336000EE8A88 /* WebViewController.m */; };
-		771CED981764C09F00EE8A88 /* resources.html in Resources */ = {isa = PBXBuildFile; fileRef = 771CED971764C09F00EE8A88 /* resources.html */; };
 		772C822F151E26E500F255EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772C822E151E26E500F255EF /* AVFoundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		773FEA66177E198A000AD650 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773FEA65177E198A000AD650 /* Media.xcassets */; };
 		773FEA91177E1B5B000AD650 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BBB7641754DC4A0067787E /* StoreKit.framework */; };
@@ -113,9 +111,6 @@
 
 /* Begin PBXFileReference section */
 		4BDFBED5E039232248E8582F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		771CED671764336000EE8A88 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		771CED681764336000EE8A88 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		771CED971764C09F00EE8A88 /* resources.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = resources.html; sourceTree = "<group>"; };
 		7721960F169E5F9200998B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		772C822E151E26E500F255EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		773FEA65177E198A000AD650 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Echo/Media.xcassets; sourceTree = "<group>"; };
@@ -348,9 +343,6 @@
 				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
 				77C7042C16F52FF400C3A13A /* ProfileViewController.h */,
 				77C7042D16F52FF400C3A13A /* ProfileViewController.m */,
-				771CED671764336000EE8A88 /* WebViewController.h */,
-				771CED681764336000EE8A88 /* WebViewController.m */,
-				771CED971764C09F00EE8A88 /* resources.html */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
 				77B51390151970B100F041D7 /* MainStoryboard.storyboard */,
@@ -622,7 +614,6 @@
 				77C7043416F533C200C3A13A /* checkin@2x.png in Resources */,
 				77C7043716F5366000C3A13A /* camera.png in Resources */,
 				77C7043816F5366000C3A13A /* camera@2x.png in Resources */,
-				771CED981764C09F00EE8A88 /* resources.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,7 +699,6 @@
 				D95C70E11C26720A00F74E66 /* Word.swift in Sources */,
 				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
 				77C7042E16F52FF500C3A13A /* ProfileViewController.m in Sources */,
-				771CED691764336000EE8A88 /* WebViewController.m in Sources */,
 				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -955,6 +945,7 @@
 				D9B92CB51C3F30F800F5ACC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

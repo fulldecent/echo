@@ -15,7 +15,6 @@
 #import "WordDetailController.h"
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
-#import "WebViewController.h"
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
@@ -236,17 +235,6 @@ typedef NS_ENUM(unsigned int, Cells) {CellLesson, CellLessonEditable, CellLesson
     }
     assert(0);
     return 0;
-}
-
-- (void)loadHelpScreen
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    WebViewController *controller = (WebViewController *)[storyboard instantiateViewControllerWithIdentifier:@"WebViewController"];
-    controller.delegate = self;
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"resources" ofType:@"html"]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [self.navigationController pushViewController:controller animated:YES];
-    [controller loadRequest:request];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -481,23 +469,6 @@ typedef NS_ENUM(unsigned int, Cells) {CellLesson, CellLessonEditable, CellLesson
         controller.navigationItem.rightBarButtonItem = newButton;
         controller.actionButton = newButton;
         [controller validate];
-    } else if ([segue.destinationViewController isKindOfClass:[WebViewController class]]) {
-        WebViewController *controller = segue.destinationViewController;
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        Profile *me = [Profile currentUserProfile];
-
-        NSMutableString *url = [[SERVER_ECHO_API_URL stringByAppendingPathComponent:@"iPhone/social"] mutableCopy];
-        [url appendFormat:@"?lastMessageSeen=%@", [defaults objectForKey:@"lastMessageSeen"]];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"xx", me.usercode];
-        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedString]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
-
-        [controller loadRequest:request];
-        [defaults setObject:[NSDate date] forKey:@"lastUpdateSocial"];
-        [defaults synchronize];
     }
 }
 
