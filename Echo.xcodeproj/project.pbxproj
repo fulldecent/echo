@@ -42,7 +42,6 @@
 		77B5138B151970B100F041D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138A151970B100F041D7 /* main.m */; };
 		77B5138F151970B100F041D7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5138E151970B100F041D7 /* AppDelegate.m */; };
 		77B51392151970B100F041D7 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77B51390151970B100F041D7 /* MainStoryboard.storyboard */; };
-		77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5139E151970B100F041D7 /* WordPracticeController.m */; };
 		77B771AA1569ADA600E0F012 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B771A91569ADA600E0F012 /* MessageUI.framework */; };
 		77BBFDFB157BDC4500511CEC /* Languages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFDFA157BDC4500511CEC /* Languages.plist */; };
 		77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0C157C11C900511CEC /* WordDetailController.m */; };
@@ -84,6 +83,7 @@
 		D95C59A51C404EE9003D5BD1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C59A41C404EE9003D5BD1 /* ProfileViewController.swift */; };
 		D95C70E11C26720A00F74E66 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C70E01C26720A00F74E66 /* Word.swift */; };
 		D95DC3001C436A2600DFCCA4 /* LanguageSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */; };
+		D95DC3021C4465E000DFCCA4 /* WordPracticeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */; };
 		D9628A4F1C3CC22900F82BE5 /* LessonSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */; };
 		D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D963BDE01C3A2CD200EED217 /* Lesson.swift */; };
 		D98786C51AC8C33B00C3686E /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786BF1AC8C33B00C3686E /* up.png */; };
@@ -152,8 +152,6 @@
 		77B5138C151970B100F041D7 /* Echo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Echo-Prefix.pch"; sourceTree = "<group>"; };
 		77B5138D151970B100F041D7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		77B5138E151970B100F041D7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		77B5139D151970B100F041D7 /* WordPracticeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordPracticeController.h; sourceTree = "<group>"; };
-		77B5139E151970B100F041D7 /* WordPracticeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WordPracticeController.m; sourceTree = "<group>"; };
 		77B771A91569ADA600E0F012 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		77BBB7641754DC4A0067787E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		77BBFDFA157BDC4500511CEC /* Languages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Languages.plist; sourceTree = "<group>"; };
@@ -210,6 +208,7 @@
 		D95C59A41C404EE9003D5BD1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D95C70E01C26720A00F74E66 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelectController.swift; sourceTree = "<group>"; };
+		D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPracticeController.swift; sourceTree = "<group>"; };
 		D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonSet.swift; sourceTree = "<group>"; };
 		D963BDE01C3A2CD200EED217 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		D98786BF1AC8C33B00C3686E /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
@@ -439,10 +438,9 @@
 			children = (
 				77D8AD2D157AE373001E2E25 /* LessonViewController.h */,
 				77D8AD2E157AE373001E2E25 /* LessonViewController.m */,
-				77B5139D151970B100F041D7 /* WordPracticeController.h */,
-				77B5139E151970B100F041D7 /* WordPracticeController.m */,
 				77BBFE0B157C11C900511CEC /* WordDetailController.h */,
 				77BBFE0C157C11C900511CEC /* WordDetailController.m */,
+				D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */,
 				D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */,
 			);
 			name = "Lesson UI";
@@ -686,7 +684,6 @@
 				77B5138B151970B100F041D7 /* main.m in Sources */,
 				D91FBD161C3E09B900A040F4 /* Profile.swift in Sources */,
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
-				77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */,
 				D95C59A51C404EE9003D5BD1 /* ProfileViewController.swift in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
 				D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */,
@@ -695,6 +692,7 @@
 				D9CA757F1C3DC643003ECFE7 /* Event.swift in Sources */,
 				77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */,
 				D9FC2E381C3C9F6400B92E1E /* Languages.swift in Sources */,
+				D95DC3021C4465E000DFCCA4 /* WordPracticeController.swift in Sources */,
 				77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */,

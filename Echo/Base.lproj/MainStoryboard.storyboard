@@ -501,7 +501,7 @@
         <!--Word Practice Controller-->
         <scene sceneID="13">
             <objects>
-                <viewController storyboardIdentifier="WordPractice" title="Second" id="3" userLabel="Word Practice Controller" customClass="WordPracticeController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WordPractice" title="Second" id="3" userLabel="Word Practice Controller" customClass="WordPracticeController" customModule="Echo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dTj-8T-Izr"/>
                         <viewControllerLayoutGuide type="bottom" id="Cir-xp-IZM"/>

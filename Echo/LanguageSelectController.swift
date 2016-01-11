@@ -14,6 +14,7 @@ import Foundation
 
 class LanguageSelectController: UITableViewController {
     let languages = Languages.languages
+    //TODO: THIS IS TEMPORARY OBJC
 @objc    weak var delegate: LanguageSelectControllerDelegate?
 
     override func viewWillAppear(animated: Bool) {

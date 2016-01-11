@@ -7,6 +7,8 @@
 #import "GAITrackedViewController.h"
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
+#import <FDWaveformView.h>
+#import "F3BarGauge.h"
 
 #import "FDTakeController.h"
 #import "MBProgressHUD.h"
@@ -15,6 +17,8 @@
 #import "GAIDictionaryBuilder.h"
 #import "GAITracker.h"
 #import "GAIFields.h"
+
+#import "PHOREchoRecorder.h"
 
 //#import "WordPracticeController.h"
 //#import "WordPracticeController.h"
