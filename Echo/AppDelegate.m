@@ -76,12 +76,11 @@
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    Profile *me = [Profile currentUserProfile];
     NSString *deviceTokenTrimmed = [deviceToken.description stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     deviceTokenTrimmed = [deviceTokenTrimmed stringByReplacingOccurrencesOfString:@" " withString:@""];
-    me.deviceToken = deviceTokenTrimmed;
-    [me syncToDisk];
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:deviceTokenTrimmed forKey:@"deviceToken"];
+    [defaults synchronize];
 	NSLog(@"My token is: %@", deviceTokenTrimmed);
 }
 

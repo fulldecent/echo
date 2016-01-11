@@ -20,7 +20,6 @@ class Profile: NSObject {
     var nativeLanguageTag: String = ""
     var location: String = ""
     var photo: UIImage = UIImage()
-    var deviceToken: String = ""
     
     static var currentUser: Profile = {
         let retval: Profile = Profile();
@@ -134,7 +133,6 @@ class Profile: NSObject {
         retval["learningLanguageTag"] = learningLanguageTag
         retval["nativeLanguageTag"] = nativeLanguageTag
         retval["location"] = location
-        retval["deviceToken"] = deviceToken
         let thumbnail = Profile.imageWithImage(photo, scaledToSizeWithSameAspectRatio: CGSizeMake(100, 100))
         let jpegData = UIImageJPEGRepresentation(thumbnail, 0.8)
         //TODO the modification should happen when SAVING the photo not here

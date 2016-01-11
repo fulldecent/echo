@@ -204,7 +204,7 @@
         <!--Language-->
         <scene sceneID="Qht-7X-406">
             <objects>
-                <tableViewController title="Language" id="BTL-qk-7lt" customClass="LanguageSelectController" sceneMemberID="viewController">
+                <tableViewController title="Language" id="BTL-qk-7lt" customClass="LanguageSelectController" customModule="Echo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vT0-Yh-lpD">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

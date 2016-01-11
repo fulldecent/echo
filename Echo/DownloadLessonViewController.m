@@ -8,7 +8,6 @@
 
 #import "DownloadLessonViewController.h"
 #import "NetworkManager.h"
-#import "LanguageSelectController.h"
 #import "UIImageView+AFNetworking.h"
 #import <MessageUI/MessageUI.h>
 #import "GAI.h"

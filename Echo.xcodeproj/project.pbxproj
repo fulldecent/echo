@@ -45,7 +45,6 @@
 		77B5139F151970B100F041D7 /* WordPracticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B5139E151970B100F041D7 /* WordPracticeController.m */; };
 		77B771AA1569ADA600E0F012 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B771A91569ADA600E0F012 /* MessageUI.framework */; };
 		77BBFDFB157BDC4500511CEC /* Languages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFDFA157BDC4500511CEC /* Languages.plist */; };
-		77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE09157C0DB900511CEC /* LanguageSelectController.m */; };
 		77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BBFE0C157C11C900511CEC /* WordDetailController.m */; };
 		77BBFE17157C3BF100511CEC /* Checkbox empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 77BBFE15157C3BF100511CEC /* Checkbox empty.png */; };
 		77C7043316F533C200C3A13A /* checkin.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C7043116F533C200C3A13A /* checkin.png */; };
@@ -84,6 +83,7 @@
 		D93F0BF31AB4A46000CAAC8C /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D93F0BF21AB4A46000CAAC8C /* Launch Screen.xib */; };
 		D95C59A51C404EE9003D5BD1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C59A41C404EE9003D5BD1 /* ProfileViewController.swift */; };
 		D95C70E11C26720A00F74E66 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C70E01C26720A00F74E66 /* Word.swift */; };
+		D95DC3001C436A2600DFCCA4 /* LanguageSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */; };
 		D9628A4F1C3CC22900F82BE5 /* LessonSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */; };
 		D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D963BDE01C3A2CD200EED217 /* Lesson.swift */; };
 		D98786C51AC8C33B00C3686E /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786BF1AC8C33B00C3686E /* up.png */; };
@@ -157,8 +157,6 @@
 		77B771A91569ADA600E0F012 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		77BBB7641754DC4A0067787E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		77BBFDFA157BDC4500511CEC /* Languages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Languages.plist; sourceTree = "<group>"; };
-		77BBFE08157C0DB900511CEC /* LanguageSelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageSelectController.h; sourceTree = "<group>"; };
-		77BBFE09157C0DB900511CEC /* LanguageSelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageSelectController.m; sourceTree = "<group>"; };
 		77BBFE0B157C11C900511CEC /* WordDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordDetailController.h; sourceTree = "<group>"; };
 		77BBFE0C157C11C900511CEC /* WordDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordDetailController.m; sourceTree = "<group>"; };
 		77BBFE15157C3BF100511CEC /* Checkbox empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox empty.png"; sourceTree = "<group>"; };
@@ -211,6 +209,7 @@
 		D95755011C407435003A5B0A /* libTDBadgedCell.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTDBadgedCell.a; path = "Pods/../build/Debug-iphoneos/libTDBadgedCell.a"; sourceTree = "<group>"; };
 		D95C59A41C404EE9003D5BD1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D95C70E01C26720A00F74E66 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelectController.swift; sourceTree = "<group>"; };
 		D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonSet.swift; sourceTree = "<group>"; };
 		D963BDE01C3A2CD200EED217 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		D98786BF1AC8C33B00C3686E /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
@@ -444,8 +443,7 @@
 				77B5139E151970B100F041D7 /* WordPracticeController.m */,
 				77BBFE0B157C11C900511CEC /* WordDetailController.h */,
 				77BBFE0C157C11C900511CEC /* WordDetailController.m */,
-				77BBFE08157C0DB900511CEC /* LanguageSelectController.h */,
-				77BBFE09157C0DB900511CEC /* LanguageSelectController.m */,
+				D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */,
 			);
 			name = "Lesson UI";
 			sourceTree = "<group>";
@@ -692,10 +690,10 @@
 				D95C59A51C404EE9003D5BD1 /* ProfileViewController.swift in Sources */,
 				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
 				D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */,
+				D95DC3001C436A2600DFCCA4 /* LanguageSelectController.swift in Sources */,
 				77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */,
 				D9CA757F1C3DC643003ECFE7 /* Event.swift in Sources */,
 				77D8AD2F157AE373001E2E25 /* LessonViewController.m in Sources */,
-				77BBFE0A157C0DB900511CEC /* LanguageSelectController.m in Sources */,
 				D9FC2E381C3C9F6400B92E1E /* Languages.swift in Sources */,
 				77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
@@ -765,6 +763,7 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -808,7 +807,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Echo;
 				PROVISIONING_PROFILE = "";
@@ -837,7 +835,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Echo;
 				PROVISIONING_PROFILE = "";

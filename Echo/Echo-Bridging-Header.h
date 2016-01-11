@@ -6,14 +6,18 @@
 #import "DownloadLessonViewController.h"
 #import "GAITrackedViewController.h"
 #import "MBProgressHUD.h"
-#import "LanguageSelectController.h"
 #import "NetworkManager.h"
 
 #import "FDTakeController.h"
 #import "MBProgressHUD.h"
 #import "FDRightDetailWithTextFieldCell.h"
 #import "GAI.h"
-#import <Google/Analytics.h>
+#import "GAIDictionaryBuilder.h"
+#import "GAITracker.h"
+#import "GAIFields.h"
+
+//#import "WordPracticeController.h"
+//#import "WordPracticeController.h"
 
 // Models
 //#import "Word.h"
