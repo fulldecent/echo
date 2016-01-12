@@ -34,7 +34,7 @@ class WordPracticeController: GAITrackedViewController {
     @IBOutlet var trainingSpeakerButton: UIButton!
     @IBOutlet var trainingWaveform: FDWaveformView!
     @IBOutlet var recordButton: UIButton!
-    @IBOutlet var recordGuage: F3BarGauge!
+    @IBOutlet var recordGuage: FDBarGauge!
     @IBOutlet var playbackButton: UIButton!
     @IBOutlet var checkbox: UIButton!
     @IBOutlet var playbackWaveform: FDWaveformView!
@@ -48,7 +48,7 @@ class WordPracticeController: GAITrackedViewController {
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if (keyPath == "microphoneLevel") {
-            self.recordGuage.value = change?[NSKeyValueChangeNewKey] as! Float
+            self.recordGuage.value = change?[NSKeyValueChangeNewKey] as! Double
         }
     }
     

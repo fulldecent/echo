@@ -109,7 +109,7 @@
                                                 <action selector="recordButtonPressed:" destination="1fg-Ph-vAv" eventType="touchUpInside" id="4fA-G0-Fi7"/>
                                             </connections>
                                         </button>
-                                        <view userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FuK-5I-6cK" userLabel="Record guage" customClass="F3BarGauge">
+                                        <view userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FuK-5I-6cK" userLabel="Record guage" customClass="FDBarGauge" customModule="Echo" customModuleProvider="target">
                                             <rect key="frame" x="133" y="0.0" width="187" height="79"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <userDefinedRuntimeAttributes>
@@ -721,7 +721,7 @@
                                     <constraint firstItem="hpH-bY-sKv" firstAttribute="width" secondItem="kpQ-R0-iZi" secondAttribute="width" id="xPf-XQ-vWD"/>
                                 </constraints>
                             </view>
-                            <view userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5PG-aj-8rQ" userLabel="Recording guage" customClass="F3BarGauge">
+                            <view userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5PG-aj-8rQ" userLabel="Recording guage" customClass="FDBarGauge" customModule="Echo" customModuleProvider="target">
                                 <rect key="frame" x="100" y="284" width="200" height="112"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>

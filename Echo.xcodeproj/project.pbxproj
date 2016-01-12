@@ -70,7 +70,6 @@
 		77E9BEF715CE037300BC567B /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF315CE037300BC567B /* like.png */; };
 		77EB10C41560ACF500C00842 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = 77EB10C31560ACF500C00842 /* Next.aif */; };
 		77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D2A16643D3F005D10ED /* MainViewController.m */; };
-		77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FCACF61569E0900039ED77 /* F3BarGauge.m */; };
 		9FC44A07E1010C587FA31AEF /* libPods-Echo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CF8FA65A86733B8B1EDD0C /* libPods-Echo.a */; };
 		D90E42F81B8A351B00F1D5F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */; };
 		D91FBD161C3E09B900A040F4 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FBD151C3E09B900A040F4 /* Profile.swift */; };
@@ -84,6 +83,7 @@
 		D95DC3021C4465E000DFCCA4 /* WordPracticeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */; };
 		D95DC3041C44785900DFCCA4 /* DownloadLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC3031C44785900DFCCA4 /* DownloadLessonViewController.swift */; };
 		D95DC3061C447E4700DFCCA4 /* FDRightDetailWithTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC3051C447E4700DFCCA4 /* FDRightDetailWithTextFieldCell.swift */; };
+		D95DC34B1C45901100DFCCA4 /* FDBarGuage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC34A1C45901100DFCCA4 /* FDBarGuage.swift */; };
 		D9628A4F1C3CC22900F82BE5 /* LessonSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */; };
 		D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D963BDE01C3A2CD200EED217 /* Lesson.swift */; };
 		D98786C51AC8C33B00C3686E /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786BF1AC8C33B00C3686E /* up.png */; };
@@ -185,8 +185,6 @@
 		77EB10C31560ACF500C00842 /* Next.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Next.aif; sourceTree = "<group>"; };
 		77ED9D2916643D3F005D10ED /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		77ED9D2A16643D3F005D10ED /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		77FCACF51569E0900039ED77 /* F3BarGauge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3BarGauge.h; sourceTree = "<group>"; };
-		77FCACF61569E0900039ED77 /* F3BarGauge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3BarGauge.m; sourceTree = "<group>"; };
 		A20F84C78CCB9223759EB983 /* Pods-Echo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Echo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Echo/Pods-Echo.debug.xcconfig"; sourceTree = "<group>"; };
 		D4CF8FA65A86733B8B1EDD0C /* libPods-Echo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Echo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -207,6 +205,7 @@
 		D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPracticeController.swift; sourceTree = "<group>"; };
 		D95DC3031C44785900DFCCA4 /* DownloadLessonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadLessonViewController.swift; sourceTree = "<group>"; };
 		D95DC3051C447E4700DFCCA4 /* FDRightDetailWithTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FDRightDetailWithTextFieldCell.swift; sourceTree = "<group>"; };
+		D95DC34A1C45901100DFCCA4 /* FDBarGuage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FDBarGuage.swift; sourceTree = "<group>"; };
 		D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonSet.swift; sourceTree = "<group>"; };
 		D963BDE01C3A2CD200EED217 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		D98786BF1AC8C33B00C3686E /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
@@ -361,10 +360,9 @@
 				77BBFDFA157BDC4500511CEC /* Languages.plist */,
 				D90E42F71B8A351B00F1D5F1 /* GoogleService-Info.plist */,
 				D95DC3051C447E4700DFCCA4 /* FDRightDetailWithTextFieldCell.swift */,
+				D95DC34A1C45901100DFCCA4 /* FDBarGuage.swift */,
 				77D8AD13157ABE53001E2E25 /* PHOREchoRecorder.h */,
 				77D8AD14157ABE53001E2E25 /* PHOREchoRecorder.m */,
-				77FCACF51569E0900039ED77 /* F3BarGauge.h */,
-				77FCACF61569E0900039ED77 /* F3BarGauge.m */,
 				77B5138D151970B100F041D7 /* AppDelegate.h */,
 				77B5138E151970B100F041D7 /* AppDelegate.m */,
 				77A50BE4157EEB2B00027CB1 /* Models */,
@@ -682,7 +680,6 @@
 				D91FBD161C3E09B900A040F4 /* Profile.swift in Sources */,
 				77B5138F151970B100F041D7 /* AppDelegate.m in Sources */,
 				D95C59A51C404EE9003D5BD1 /* ProfileViewController.swift in Sources */,
-				77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */,
 				D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */,
 				D95DC3001C436A2600DFCCA4 /* LanguageSelectController.swift in Sources */,
 				77D8AD16157ABE53001E2E25 /* PHOREchoRecorder.m in Sources */,
@@ -692,6 +689,7 @@
 				D95DC3021C4465E000DFCCA4 /* WordPracticeController.swift in Sources */,
 				77BBFE0D157C11C900511CEC /* WordDetailController.m in Sources */,
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
+				D95DC34B1C45901100DFCCA4 /* FDBarGuage.swift in Sources */,
 				D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
 				D95DC3041C44785900DFCCA4 /* DownloadLessonViewController.swift in Sources */,

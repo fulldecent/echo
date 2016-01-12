@@ -15,7 +15,6 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 #import "FDWaveformView.h"
-#import "F3BarGauge.h"
 #import "Echo-Swift.h"
 
 #define NUMBER_OF_RECORDERS 3
@@ -161,7 +160,7 @@ typedef NS_ENUM(unsigned int, Cells) {CellLanguage, CellTitle, CellDetail, CellR
         echoIndex = [self.echoRecorders allKeysForObject:object][0];
     
     if ([keyPath isEqualToString: @"microphoneLevel"]) {
-        F3BarGauge *guage = (self.recordGuages)[echoIndex];
+        FDBarGauge *guage = (self.recordGuages)[echoIndex];
         guage.value = [change[NSKeyValueChangeNewKey] floatValue];
 NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
     }         
@@ -398,7 +397,7 @@ NSLog(@"observed microphoneLevel %@", change[NSKeyValueChangeNewKey]);
             UIButton *playButton = (UIButton *)[cell viewWithTag:1];
             FDWaveformView *waveform = (FDWaveformView *)[cell viewWithTag:2];
             UIButton *recordButton = (UIButton *)[cell viewWithTag:3];
-            F3BarGauge *recordGuage = (F3BarGauge *)[cell viewWithTag:10];
+            FDBarGauge *recordGuage = (FDBarGauge *)[cell viewWithTag:10];
             UIButton *checkbox = (UIButton *)[cell viewWithTag:4];
             PHOREchoRecorder *recorder = (self.echoRecorders)[@(indexPath.row)];
             
