@@ -11,7 +11,6 @@
 
 #import "FDTakeController.h"
 #import "MBProgressHUD.h"
-#import "FDRightDetailWithTextFieldCell.h"
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAITracker.h"

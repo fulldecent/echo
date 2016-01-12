@@ -16,7 +16,6 @@
 #import "GAIDictionaryBuilder.h"
 #import "FDWaveformView.h"
 #import "F3BarGauge.h"
-#import "FDRightDetailWithTextFieldCell.h"
 #import "Echo-Swift.h"
 
 #define NUMBER_OF_RECORDERS 3

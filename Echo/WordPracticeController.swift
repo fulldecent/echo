@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import AVFoundation
 
+//TODO: what to do with workflow?
+//TODO: what about checkmarks??!
+
 //TODO: delete all objc
 @objc protocol WordPracticeDataSource: class {
     func currentWordForWordPractice(wordPractice: WordPracticeController) -> Word

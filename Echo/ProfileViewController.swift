@@ -25,17 +25,17 @@ class ProfileViewController: UITableViewController {
 
     // Controllers
     var hud: MBProgressHUD? = nil
-    let locationManager: CLLocationManager = {
+    lazy var locationManager: CLLocationManager = {
         let retval = CLLocationManager()
-        retval.delegate = (self as! CLLocationManagerDelegate)
+        retval.delegate = self
         retval.desiredAccuracy = kCLLocationAccuracyKilometer
         retval.distanceFilter = kCLDistanceFilterNone
         return retval
     }()
-    let takeController: FDTakeController = {
+    lazy var takeController: FDTakeController = {
         let retval = FDTakeController()
         retval.allowsEditingPhoto = true
-        retval.delegate = (self as! FDTakeDelegate)
+        retval.delegate = self
         return retval
     }()
     
