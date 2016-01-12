@@ -69,7 +69,6 @@
 		77E9BEF615CE037300BC567B /* like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF215CE037300BC567B /* like@2x.png */; };
 		77E9BEF715CE037300BC567B /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E9BEF315CE037300BC567B /* like.png */; };
 		77EB10C41560ACF500C00842 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = 77EB10C31560ACF500C00842 /* Next.aif */; };
-		77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */; };
 		77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ED9D2A16643D3F005D10ED /* MainViewController.m */; };
 		77FCACF71569E0910039ED77 /* F3BarGauge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FCACF61569E0900039ED77 /* F3BarGauge.m */; };
 		9FC44A07E1010C587FA31AEF /* libPods-Echo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CF8FA65A86733B8B1EDD0C /* libPods-Echo.a */; };
@@ -84,6 +83,7 @@
 		D95C70E11C26720A00F74E66 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C70E01C26720A00F74E66 /* Word.swift */; };
 		D95DC3001C436A2600DFCCA4 /* LanguageSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */; };
 		D95DC3021C4465E000DFCCA4 /* WordPracticeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */; };
+		D95DC3041C44785900DFCCA4 /* DownloadLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DC3031C44785900DFCCA4 /* DownloadLessonViewController.swift */; };
 		D9628A4F1C3CC22900F82BE5 /* LessonSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */; };
 		D963BDE11C3A2CD200EED217 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D963BDE01C3A2CD200EED217 /* Lesson.swift */; };
 		D98786C51AC8C33B00C3686E /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = D98786BF1AC8C33B00C3686E /* up.png */; };
@@ -183,8 +183,6 @@
 		77E9BEF215CE037300BC567B /* like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like@2x.png"; sourceTree = "<group>"; };
 		77E9BEF315CE037300BC567B /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
 		77EB10C31560ACF500C00842 /* Next.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Next.aif; sourceTree = "<group>"; };
-		77EC14C316C9B10700D5B4C0 /* DownloadLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadLessonViewController.h; sourceTree = "<group>"; };
-		77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadLessonViewController.m; sourceTree = "<group>"; };
 		77ED9D2916643D3F005D10ED /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		77ED9D2A16643D3F005D10ED /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		77FCACF51569E0900039ED77 /* F3BarGauge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3BarGauge.h; sourceTree = "<group>"; };
@@ -209,6 +207,7 @@
 		D95C70E01C26720A00F74E66 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		D95DC2FF1C436A2600DFCCA4 /* LanguageSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelectController.swift; sourceTree = "<group>"; };
 		D95DC3011C4465E000DFCCA4 /* WordPracticeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPracticeController.swift; sourceTree = "<group>"; };
+		D95DC3031C44785900DFCCA4 /* DownloadLessonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadLessonViewController.swift; sourceTree = "<group>"; };
 		D9628A4E1C3CC22900F82BE5 /* LessonSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonSet.swift; sourceTree = "<group>"; };
 		D963BDE01C3A2CD200EED217 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		D98786BF1AC8C33B00C3686E /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
@@ -373,8 +372,7 @@
 				77A50BE4157EEB2B00027CB1 /* Models */,
 				77ED9D2916643D3F005D10ED /* MainViewController.h */,
 				77ED9D2A16643D3F005D10ED /* MainViewController.m */,
-				77EC14C316C9B10700D5B4C0 /* DownloadLessonViewController.h */,
-				77EC14C416C9B10700D5B4C0 /* DownloadLessonViewController.m */,
+				D95DC3031C44785900DFCCA4 /* DownloadLessonViewController.swift */,
 				D9F5C2181C2349B2003654D4 /* IntroViewController.swift */,
 				D95C59A41C404EE9003D5BD1 /* ProfileViewController.swift */,
 				77DDC70C156DD45300568CDE /* Lesson UI */,
@@ -697,8 +695,8 @@
 				7749939715A0C409001DE784 /* NetworkManager.m in Sources */,
 				D9F5C2191C2349B2003654D4 /* IntroViewController.swift in Sources */,
 				77ED9D2B16643D3F005D10ED /* MainViewController.m in Sources */,
+				D95DC3041C44785900DFCCA4 /* DownloadLessonViewController.swift in Sources */,
 				D95C70E11C26720A00F74E66 /* Word.swift in Sources */,
-				77EC14C516C9B10700D5B4C0 /* DownloadLessonViewController.m in Sources */,
 				D916DE6418A43AFE00657805 /* FDRightDetailWithTextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

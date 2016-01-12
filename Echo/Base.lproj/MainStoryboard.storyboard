@@ -206,7 +206,7 @@
             <objects>
                 <tableViewController title="Language" id="BTL-qk-7lt" customClass="LanguageSelectController" customModule="Echo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vT0-Yh-lpD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1358,7 +1358,7 @@
         <!--Download Lesson View Controller Scene-->
         <scene sceneID="0ag-CD-m2N">
             <objects>
-                <tableViewController id="UOx-4n-Bw4" userLabel="Download Lesson View Controller Scene" customClass="DownloadLessonViewController" sceneMemberID="viewController">
+                <tableViewController id="UOx-4n-Bw4" userLabel="Download Lesson View Controller Scene" customClass="DownloadLessonViewController" customModule="Echo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="eYa-3h-Egq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1537,9 +1537,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="vM0-AW-LIM"/>
         <segue reference="kuh-V1-luU"/>
-        <segue reference="hRM-D9-ZZF"/>
+        <segue reference="vM0-AW-LIM"/>
+        <segue reference="xDv-b1-jlt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.56862747669219971" green="0.51372551918029785" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
 </document>

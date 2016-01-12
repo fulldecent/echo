@@ -3,7 +3,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DownloadLessonViewController.h"
 #import "GAITrackedViewController.h"
 #import "MBProgressHUD.h"
 #import "NetworkManager.h"
@@ -19,6 +18,8 @@
 #import "GAIFields.h"
 
 #import "PHOREchoRecorder.h"
+#import "UIImageView+AFNetworking.h"
+
 
 //#import "WordPracticeController.h"
 //#import "WordPracticeController.h"
