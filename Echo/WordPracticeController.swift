@@ -10,25 +10,33 @@ import Foundation
 import UIKit
 import AVFoundation
 
-//TODO: what to do with workflow?
 //TODO: what about checkmarks??!
 
-//TODO: delete all objc
-@objc protocol WordPracticeDataSource: class {
+protocol WordPracticeDataSource: class {
     func currentWordForWordPractice(wordPractice: WordPracticeController) -> Word
     func wordCheckedStateForWordPractice(wordPractice: WordPracticeController) -> Bool
 }
 
-@objc protocol WordPracticeDelegate: class {
+protocol WordPracticeDelegate: class {
     func skipToNextWordForWordPractice(wordPractice: WordPracticeController)
     func currentWordCanBeCheckedForWordPractice(wordPractice: WordPracticeController) -> Bool
     func wordPracticeShouldShowNextButton(wordPractice: WordPracticeController) -> Bool
     func wordPractice(wordPractice: WordPracticeController, setWordCheckedState state: Bool)
 }
 
-//TODO: google analytics event for each PLAY or WORKFLOW PLAY
-
 class WordPracticeController: GAITrackedViewController {
+    enum WorkflowState {
+        case Ready
+        case DoAnimationAndSetup
+        case ListenFirstTime
+        case RecordFirstTime
+        case ListenSecondTime
+        case EchoFirstTime
+        case ListenThirdTime
+        case EchoSecondTime
+        case DoAnimationAndBreakdown
+    }
+    
     @IBOutlet var wordTitle: UILabel!
     @IBOutlet var wordDetail: UITextView!
     @IBOutlet var trainingSpeakerButton: UIButton!
@@ -38,11 +46,11 @@ class WordPracticeController: GAITrackedViewController {
     @IBOutlet var playbackButton: UIButton!
     @IBOutlet var checkbox: UIButton!
     @IBOutlet var playbackWaveform: FDWaveformView!
-    weak var datasource: WordPracticeDataSource? //TODO: OBJ-C
+    weak var datasource: WordPracticeDataSource?
     weak var delegate: WordPracticeDelegate?
     var audioPlayer: AVAudioPlayer? = nil
     var recorder: PHOREchoRecorder? = nil
-    var workflowState = 0
+    var workflowState = WorkflowState.Ready
     var word: Word!
     let WORKFLOW_DELAY = 0.3
     
@@ -93,7 +101,7 @@ class WordPracticeController: GAITrackedViewController {
                     self.trainingWaveform.progressSamples = 0
                 }
         })
-        if self.workflowState == 2 || self.workflowState == 4 || self.workflowState == 6 {
+        if self.workflowState != .Ready {
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(self.audioPlayer!.duration * Double(NSEC_PER_SEC)))
             dispatch_after(time, dispatch_get_main_queue()) {
                 self.continueNextWorkflowStep(NSNull)
@@ -104,8 +112,8 @@ class WordPracticeController: GAITrackedViewController {
     @IBAction func recordButtonPressed() {
         self.makeItBounce(self.recordButton)
         self.recorder!.record()
-        if self.workflowState == 5 || self.workflowState == 7 {
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(self.recorder!.duration.doubleValue * Double(NSEC_PER_SEC)))
+        if self.workflowState != .Ready {
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(self.recorder!.duration * Double(NSEC_PER_SEC)))
             dispatch_after(time, dispatch_get_main_queue()) {
                 self.continueNextWorkflowStep(NSNull)
             }
@@ -115,8 +123,8 @@ class WordPracticeController: GAITrackedViewController {
     @IBAction func playbackButtonPressed() {
         self.makeItBounce(self.playbackButton)
         self.recorder!.playback()
-        if self.workflowState == 5 || self.workflowState == 7 {
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(self.recorder!.duration.doubleValue * Double(NSEC_PER_SEC)))
+        if self.workflowState != .Ready {
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(self.recorder!.duration * Double(NSEC_PER_SEC)))
             dispatch_after(time, dispatch_get_main_queue()) {
                 self.continueNextWorkflowStep(NSNull)
             }
@@ -138,38 +146,42 @@ class WordPracticeController: GAITrackedViewController {
     }
     
     @IBAction func continueNextWorkflowStep(sender: AnyObject) {
-        self.workflowState++
-        if self.workflowState >= 9 && (sender is UIButton) {
-            self.workflowState = 1
+        switch workflowState {
+        case .Ready:
+            workflowState = .DoAnimationAndSetup
+            doFirstWorkflowStep()
+        case .DoAnimationAndSetup:
+            workflowState = .ListenFirstTime
+            self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+        case .ListenFirstTime:
+            workflowState = .RecordFirstTime
+            self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+        case .RecordFirstTime:
+            workflowState = .EchoSecondTime
+            self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+        case .ListenSecondTime:
+            workflowState = .EchoFirstTime
+            self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+        case .EchoFirstTime:
+            workflowState = .ListenThirdTime
+            self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+        case .ListenThirdTime:
+            workflowState = .EchoSecondTime
+            self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+        case .EchoSecondTime:
+            workflowState = .DoAnimationAndBreakdown
+        case .DoAnimationAndBreakdown:
+            workflowState = .Ready
         }
-        if self.workflowState == 1 {
-            self.doFirstWorkflowStep()
+        /*
+        UIView.animateWithDuration(WORKFLOW_DELAY * 2, animations: {() -> Void in
+        for var i = 2; i <= 7; i++ {
+        self.view!.viewWithTag(i)!.transform = CGAffineTransformIdentity
         }
-        else if self.workflowState <= 8 {
-            UIView.animateWithDuration(WORKFLOW_DELAY * 2, animations: {() -> Void in
-                for var i = 2; i <= 7; i++ {
-                    self.view!.viewWithTag(i)!.transform = CGAffineTransformIdentity
-                }
-                self.view!.viewWithTag(self.workflowState)!.transform = CGAffineTransformMakeTranslation(0, (self.workflowState % 2 == 1) ? 50 : -50)
-                self.view!.viewWithTag(self.workflowState)!.alpha = 0.0
-            })
-            if self.workflowState == 2 {
-                self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
-            }
-            else if self.workflowState == 3 {
-                self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
-            }
-            else if self.workflowState == 4 || self.workflowState == 6 {
-                self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
-            }
-            else if self.workflowState == 5 || self.workflowState == 7 {
-                self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
-            }
-            else if self.workflowState == 8 {
-                self.resetWorkflow()
-            }
-        }
-        
+        self.view!.viewWithTag(self.workflowState)!.transform = CGAffineTransformMakeTranslation(0, (self.workflowState % 2 == 1) ? 50 : -50)
+        self.view!.viewWithTag(self.workflowState)!.alpha = 0.0
+        })
+        */
     }
     
     @IBAction func resetWorkflow() {
@@ -202,7 +214,7 @@ class WordPracticeController: GAITrackedViewController {
     
     @IBAction func fastForwardPressed() {
         // see http://stackoverflow.com/questions/8926606/performseguewithidentifier-vs-instantiateviewcontrollerwithidentifier
-        let storyboard = UIStoryboard(name: "MainStoryboard", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newWordPractice = storyboard.instantiateViewControllerWithIdentifier("WordPractice") as! WordPracticeController
         self.delegate!.skipToNextWordForWordPractice(self)
         newWordPractice.datasource = self.datasource
@@ -254,22 +266,14 @@ class WordPracticeController: GAITrackedViewController {
             rightBarButtonItems.append(fastForward)
         }
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
-        /*
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-        //    UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-        //    AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute,
-        //                          sizeof(audioRouteOverride), &audioRouteOverride);
-        */
-        // see http://stackoverflow.com/questions/2246374/low-recording-volume-in-combination-with-avaudiosessioncategoryplayandrecord
-        //Set the general audio session category
-        //TODO HACK
-        _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+        // See http://stackoverflow.com/questions/2246374/low-recording-volume-in-combination-with-avaudiosessioncategoryplayandrecord
         let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
         do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
             try audioSession.overrideOutputAudioPort(.Speaker)
             try audioSession.setActive(true)
-        } catch { //TODO: how do I actually get the error message?
-            NSLog("error doing outputaudioportoverride")
+        } catch {
+            NSLog("error doing outputaudioportoverride: \(error)")
         }
         self.performSelector("trainingButtonPressed", withObject: self, afterDelay: 0.5)
     }
@@ -287,13 +291,12 @@ class WordPracticeController: GAITrackedViewController {
 }
 
 extension WordPracticeController: PHOREchoRecorderDelegate {
-    func recording(recorder: PHOREchoRecorder!, didFinishSuccessfully success: Bool) {
+    func recording(recorder: PHOREchoRecorder, didFinishSuccessfully success: Bool) {
         if success {
             self.recordButton.hidden = true
             self.playbackButton.hidden = false
-            self.playbackWaveform.audioURL = self.recorder!.audioDataURL
-            self.playbackWaveform.setNeedsLayout()
-            // TODO: BUG UPSTREAM
+            self.playbackWaveform.audioURL = self.recorder!.audioDataURL()
+            self.playbackWaveform.setNeedsLayout() // TODO: BUG UPSTREAM
             if self.delegate!.currentWordCanBeCheckedForWordPractice(self) {
                 let checked: Bool = self.datasource!.wordCheckedStateForWordPractice(self)
                 if checked {
@@ -304,12 +307,12 @@ extension WordPracticeController: PHOREchoRecorderDelegate {
                 }
                 self.checkbox.hidden = false
             }
-            if self.workflowState == 3 {
+            if self.workflowState != .Ready {
                 self.continueNextWorkflowStep(NSNull)
             }
         }
         else {
-            if self.workflowState == 3 {
+            if self.workflowState != .Ready {
                 self.resetWorkflow()
             }
         }

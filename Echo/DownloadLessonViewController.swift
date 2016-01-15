@@ -9,18 +9,18 @@
 import Foundation
 import MessageUI
 
-@objc protocol DownloadLessonViewControllerDelegate: class {
+protocol DownloadLessonDelegate: class {
     func downloadLessonViewController(controller: UIViewController, gotStubLesson lesson: Lesson)
 }
 
 class DownloadLessonViewController: UITableViewController {
-    weak var delegate: DownloadLessonViewControllerDelegate?
+    weak var delegate: DownloadLessonDelegate?
     var lessons = [Lesson]()
 
     func populateRowsWithSearch(searchString: String, languageTag tag: String) {
-        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager()
-        networkManager.searchLessonsWithLangTag(tag, andSearhText: searchString, onSuccess: { (lessonPreviews: [AnyObject]!) -> Void in
-            self.lessons = lessonPreviews as! [Lesson] //TODO unneeded casting
+        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
+        networkManager.searchLessonsWithLangTag(tag, andSearhText: searchString, onSuccess: { (lessonPreviews: [Lesson]) -> Void in
+            self.lessons = lessonPreviews
             self.tableView.reloadData()
             }) {(error: NSError!) -> Void in
                 NetworkManager.hudFlashError(error)
@@ -31,7 +31,7 @@ class DownloadLessonViewController: UITableViewController {
 extension DownloadLessonViewController /*: UIViewController */ {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let me: Profile = Profile.currentUserProfile()
+        let me: Profile = Profile.currentUser
         self.navigationItem.rightBarButtonItem!.title = me.learningLanguageTag
         self.populateRowsWithSearch("", languageTag: me.learningLanguageTag)
     }
@@ -40,8 +40,7 @@ extension DownloadLessonViewController /*: UIViewController */ {
         super.viewWillAppear(animated)
         let tracker = GAI.sharedInstance().defaultTracker
         tracker.set(kGAIScreenName, value: "DownloadLesson")
-        let builder = GAIDictionaryBuilder.createAppView()
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -76,7 +75,7 @@ extension DownloadLessonViewController /*: UITableViewDataSource */ {
             return tableView.dequeueReusableCellWithIdentifier("request", forIndexPath: indexPath)
         }
         let lesson: Lesson = (self.lessons)[indexPath.row]
-        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager()
+        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("lesson", forIndexPath: indexPath)
         (cell.viewWithTag(1) as! UILabel).text = lesson.name
         (cell.viewWithTag(2) as! UILabel).text = lesson.detail

@@ -8,21 +8,19 @@
 
 import Foundation
 
-//TODO: objc hack
-enum EventTypes: String {
-    case PostLesson = "postLesson"
-    case LikeLesson = "likeLesson"
-    case FlagLesson = "flagLesson"
-    case FlagUser = "flagUser"
-    case UpdateUser = "updateUser"
-    case PostPractice = "postPractice"
-    case FeedbackLesson = "feedbackLesson"
-    case ReplyPractice = "replyPractice"
-}
-
-//TODO: Does not need NSObject, don't need it anywhere
-class Event: NSObject {
-    private let kEventID = "id"
+class Event {
+    enum Type: String {
+        case PostLesson = "postLesson"
+        case LikeLesson = "likeLesson"
+        case FlagLesson = "flagLesson"
+        case FlagUser = "flagUser"
+        case UpdateUser = "updateUser"
+        case PostPractice = "postPractice"
+        case FeedbackLesson = "feedbackLesson"
+        case ReplyPractice = "replyPractice"
+    }
+    
+    private let kserverId = "id"
     private let kEventType = "eventType"
     private let kTimestamp = "timestamp"
     private let kActingUserID = "actingUserID"
@@ -35,12 +33,10 @@ class Event: NSObject {
     private let kActingUserName = "actingUserName"
     private let kTargetWordName = "targetWordName"
     
-    //TODO: make these optionals and do not have default values
-    var eventID: Int = 0 //TODO: rename to id
-    var eventType: EventTypes = .PostLesson //TODO: rename
-    var eventTypeIsPractice: Bool = false //TODO: HUGE HACK!
+    var serverId: Int = 0 //TODO: hack
+    var eventType: Type = .PostLesson //TODO: rename
     
-    var timestamp: Int = 0
+    var timestamp: NSTimeInterval = 0
     var actingUserID: Int = 0
     var targetUserID: Int = 0
     var targetWordID: Int = 0
@@ -51,11 +47,11 @@ class Event: NSObject {
     var targetWordName: String = "" //TODO: hack
     
     init(packed: [String : AnyObject]) {
-        if let eventID = packed[kEventID] as? Int {
-            self.eventID = eventID
+        if let serverId = packed[kserverId] as? Int {
+            self.serverId = serverId
         }
         if let timestamp = packed[kTimestamp] as? Int {
-            self.timestamp = timestamp
+            self.timestamp = NSTimeInterval(timestamp)
         }
         if let actingUserID = packed[kActingUserID] as? Int {
             self.actingUserID = actingUserID
@@ -84,19 +80,17 @@ class Event: NSObject {
         }
         
         if let eventTypeString = packed[kEventType] as? String {
-            if let eventType = EventTypes(rawValue: eventTypeString) as EventTypes? {
+            if let eventType = Type(rawValue: eventTypeString) as Type? {
                 self.eventType = eventType
             }
         }
-        self.eventTypeIsPractice = self.eventType == .PostPractice
-        super.init()
     }
     
     func toDictionary() -> [String : AnyObject] {
         var retval = [String : AnyObject]()
         
-        if self.eventID > 0 {
-            retval[kEventID] = self.eventID
+        if self.serverId > 0 {
+            retval[kserverId] = self.serverId
         }
         if self.timestamp > 0 {
             retval[kTimestamp] = self.timestamp

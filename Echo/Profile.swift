@@ -8,14 +8,12 @@
 
 import Foundation
 
-class Profile: NSObject {
+class Profile {
     
     //TODO: rename these and make optional
     var userID: Int = 0
-    var username: String = ""
-    lazy var usercode: String  = {
-        return UIDevice.currentDevice().identifierForVendor!.UUIDString
-    }()
+    var username = "user\(arc4random() % 1000000)"
+    lazy var usercode = UIDevice.currentDevice().identifierForVendor!.UUIDString
     var learningLanguageTag: String = ""
     var nativeLanguageTag: String = ""
     var location: String = ""
@@ -29,9 +27,7 @@ class Profile: NSObject {
         if let username = storedProfile["username"] as? String {
             retval.username = username
         } else {
-            //TODO make this lazy variable?
-            retval.username = "user\(arc4random() % 1000000)"
-            needToSync = true
+            needToSync = true // because it will pull random name from initializer
         }
         if let userCode = storedProfile["usercode"] as? String {
             retval.usercode = userCode
@@ -59,21 +55,12 @@ class Profile: NSObject {
         return retval
     }()
     
-    //TODO: temp hack to fix compiler bug
-    static func currentUserProfile() -> Profile {
-        return Profile.currentUser
-    }
-    
-    override init() {
-        super.init()
-    }
-    
-    func syncOnlineOnSuccess(success: (recommendedLessons: [AnyObject]) -> Void, onFailure failure: (error: NSError) -> Void) {
+    func syncOnlineOnSuccess(success: (recommendedLessons: [Lesson]) -> Void, onFailure failure: (error: NSError) -> Void) {
         assert(self.usercode != "", "Can only sync current user's profile")
-        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager()
-        networkManager.postUserProfile(self, onSuccess: { (username: String!, userID: NSNumber!, recommendedLessons: [AnyObject]!) -> Void in
+        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
+        networkManager.postUserProfile(self, onSuccess: { (username: String!, userID: Int, recommendedLessons: [Lesson]!) -> Void in
             self.username = username
-            self.userID = userID.integerValue
+            self.userID = userID
             self.syncToDisk()
             success(recommendedLessons: recommendedLessons)
         }) { (error: NSError!) -> Void in

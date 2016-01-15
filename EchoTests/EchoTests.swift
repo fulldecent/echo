@@ -2,12 +2,12 @@
 //  EchoTests.swift
 //  EchoTests
 //
-//  Created by William Entriken on 1/7/16.
-//
+//  Created by Full Decent on 1/13/16.
+//  Copyright © 2016 William Entriken. All rights reserved.
 //
 
 import XCTest
-import Echo
+@testable import Echo
 
 class EchoTests: XCTestCase {
     

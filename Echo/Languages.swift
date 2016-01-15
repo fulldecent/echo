@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Languages: NSObject {
+class Languages {
     static var languages: [[String: String]] = {
         let url = NSBundle.mainBundle().URLForResource("Languages", withExtension: "plist")!
         return NSArray(contentsOfURL: url)! as! [[String: String]]

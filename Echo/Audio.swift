@@ -8,20 +8,19 @@
 
 import Foundation
 
-//TODO: make this and other model classes into structs?
-//TODO: uuid should not be lazy, it should be created only during one type of initializer which is used when we are creating files locally (not pulling from the server)
-public class Audio: NSObject {
+//MAYBE: maybe make this and other model classes into structs?
+//MAYBE: maybe replace k- constant strings with an enum https://stackoverflow.com/questions/34781354/how-do-i-keep-configuration-strings-in-swift?noredirect=1#comment57307596_34781354
+//MAYBE: maybe replace word property with a directory property for which this object should store its files
+public class Audio {
+    
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"
     
     weak var word: Echo.Word?
-
-    public lazy var uuid = {
-        return NSUUID().UUIDString
-    }()
     
-    //TODO: make this an optional instead of arbitrary 0=not on server
-    public var serverId: Int = 0 {
+    public lazy var uuid = NSUUID().UUIDString
+    
+    public var serverId: Int? = nil {
         didSet {
             guard let oldUrl = self.word?.fileURL()?.URLByAppendingPathComponent(self.uuid) else {
                 return
@@ -30,9 +29,8 @@ public class Audio: NSObject {
                 return
             }
             let newUrl = self.word!.fileURL()!.URLByAppendingPathComponent(String(self.serverId))
-            let fileManager = NSFileManager.defaultManager()
             do {
-                try fileManager.moveItemAtURL(oldUrl, toURL: newUrl)
+                try NSFileManager.defaultManager().moveItemAtURL(oldUrl, toURL: newUrl)
             }
             catch let error as NSError {
                 print("Moved failed with error: \(error.localizedDescription)")
@@ -42,7 +40,6 @@ public class Audio: NSObject {
     
     public init(word: Word) {
         self.word = word
-        super.init()
     }
 
     public func fileURL() -> NSURL? {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Word: NSObject {
+public class Word {
     private let kLanguageTag = "languageTag"
     private let kName = "name"
     private let kDetail = "detail"
@@ -23,13 +23,10 @@ public class Word: NSObject {
 
     public weak var lesson: Lesson?
 
-    public lazy var uuid: String  = {
-        return NSUUID().UUIDString
-    }()
+    public lazy var uuid = NSUUID().UUIDString
 
     //TODO: make this an optional instead of arbitrary 0=not on server
-    //TODO: rename to serverId
-    public var wordID: Int = 0
+    public var serverId: Int = 0
 
     //TOOD: make detail, user* optional and others required, do not initialize to ""
     public var languageTag: String = ""
@@ -44,8 +41,8 @@ public class Word: NSObject {
     
     public func fileURL() -> NSURL? {
         let base = self.lesson?.fileURL()
-        if self.wordID > 0 { //TODO temp hack, should test NIL
-            return base?.URLByAppendingPathComponent(String(self.wordID))
+        if self.serverId > 0 { //TODO temp hack, should test NIL
+            return base?.URLByAppendingPathComponent(String(self.serverId))
         }
         return base?.URLByAppendingPathComponent(self.uuid)
     }
@@ -69,11 +66,14 @@ public class Word: NSObject {
         return nil
     }
     
-    public init(packed: [String : AnyObject]) {
-        super.init()
+    //TODO: dont allow this, need a better initializer
+    public init() {
         
-        if let wordID = packed[kWordID] as? Int {
-            self.wordID = wordID
+    }
+    
+    public init(packed: [String : AnyObject]) {
+        if let serverId = packed[kWordID] as? Int {
+            self.serverId = serverId
         }
         if let uuid = packed[kWordCode] as? String {
             self.uuid = uuid
@@ -123,8 +123,8 @@ public class Word: NSObject {
     
     public func toDictionary() -> [String : AnyObject] {
         var retval = [String : AnyObject]()
-        if self.wordID > 0 {
-            retval[kWordID] = self.wordID
+        if self.serverId > 0 {
+            retval[kWordID] = self.serverId
         }
         retval[kWordCode] = self.uuid
         retval[kLanguageTag] = self.languageTag

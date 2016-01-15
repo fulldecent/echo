@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 //TODO: rename EditProfileViewController
 //TODO: add CANCEL button and present as flyover (see Twitter app as example)
@@ -39,7 +40,7 @@ class ProfileViewController: UITableViewController {
         return retval
     }()
     
-    weak var delegate: DownloadLessonViewControllerDelegate?
+    weak var delegate: DownloadLessonDelegate?
 
     //MARK: - Main
 
@@ -58,7 +59,7 @@ class ProfileViewController: UITableViewController {
     }
     
     @IBAction func save(sender: AnyObject) {
-        let me: Profile = Profile.currentUserProfile()
+        let me: Profile = Profile.currentUser
         me.photo = editingProfile.photo
         me.username = self.name.text!
         me.learningLanguageTag = editingProfile.learningLanguageTag
@@ -73,9 +74,8 @@ class ProfileViewController: UITableViewController {
             hud.labelText = "Sending"
             self.hud = hud
         }
-        me.syncOnlineOnSuccess({(recommendedLessons: [AnyObject]) -> Void in
-            //TODO: search and remove ! throughout code
-            for lesson: Lesson in recommendedLessons as! [Lesson] {
+        me.syncOnlineOnSuccess({(recommendedLessons: [Lesson]) -> Void in
+            for lesson: Lesson in recommendedLessons {
                 self.delegate?.downloadLessonViewController(self, gotStubLesson: lesson)
             }
             self.hud?.hide(true)
@@ -97,7 +97,7 @@ class ProfileViewController: UITableViewController {
         let cell: FDRightDetailWithTextFieldCell = self.tableView(self.tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! FDRightDetailWithTextFieldCell
         self.name = cell.textField
         
-        let currentUser = Profile.currentUserProfile()
+        let currentUser = Profile.currentUser
         self.editingProfile.username = currentUser.username
         self.editingProfile.learningLanguageTag = currentUser.learningLanguageTag
         self.editingProfile.nativeLanguageTag = currentUser.nativeLanguageTag
@@ -113,9 +113,8 @@ class ProfileViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "ProfileView")        
-        let builder = GAIDictionaryBuilder.createAppView()
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        tracker.set(kGAIScreenName, value: "ProfileView")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -143,7 +142,7 @@ class ProfileViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell: UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
-//TODO: scrap these two lines
+//TODO: scrap these two lines and use Storyboard
         if cell.reuseIdentifier == "photo" {
             self.choosePhoto(nil as UIButton!)
         }

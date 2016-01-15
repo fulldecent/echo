@@ -2,25 +2,18 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-#import <UIKit/UIKit.h>
-#import "GAITrackedViewController.h"
+// Pod
 #import "MBProgressHUD.h"
-#import "NetworkManager.h"
-#import <FDWaveformView.h>
-
 #import "FDTakeController.h"
-#import "MBProgressHUD.h"
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAITracker.h"
-#import "GAIFields.h"
-
-#import "PHOREchoRecorder.h"
+#import "FDWaveformView.h"
+#import "NSData+Base64.h"
+#import "TDBadgedCell.h"
+#import "AFNetworking.h"
+#import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import "UIImageView+AFNetworking.h"
 
-
-//#import "WordPracticeController.h"
-//#import "WordPracticeController.h"
-
-// Models
-//#import "Word.h"
+#import <Google/Analytics.h>
+//#import "GAI.h"
+//#import "GAIFields.h"
+//#import "GAIDictionaryBuilder.h"
+#import "Appirater.h"

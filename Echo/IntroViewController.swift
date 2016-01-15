@@ -10,7 +10,7 @@ import Foundation
 
 class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, LanguageSelectControllerDelegate {
     
-    weak var delegate: DownloadLessonViewControllerDelegate?
+    weak var delegate: DownloadLessonDelegate?
     weak var hud: MBProgressHUD?
     
     @IBAction func languageButtonClicked(sender: UIButton) {
@@ -26,17 +26,15 @@ class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, Lang
     }
     
     func saveLanguageWithTag(tag: String) {
-        let me: Profile = Profile.currentUserProfile()
+        let me: Profile = Profile.currentUser
         me.learningLanguageTag = tag
         self.hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true)
         self.hud?.mode = MBProgressHUDMode.Indeterminate
         self.hud?.labelText = "Sending..."
-        me.syncOnlineOnSuccess({ (recommendedLessons) -> Void in
-            for item in recommendedLessons {
-                //TODO: IMPROVE API TO OBVIATE DOWNCAST
-                if let lesson = item as? Lesson {
-                    self.delegate?.downloadLessonViewController(self, gotStubLesson: lesson)
-                }
+        me.syncOnlineOnSuccess({
+            (recommendedLessons) -> Void in
+            for lesson in recommendedLessons {
+                self.delegate?.downloadLessonViewController(self, gotStubLesson: lesson)
             }
             self.hud?.hide(true)
             me.syncToDisk()

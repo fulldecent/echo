@@ -8,20 +8,19 @@
 
 import Foundation
 
-@objc protocol LanguageSelectControllerDelegate {
+protocol LanguageSelectControllerDelegate: class {
     func languageSelectController(controller: AnyObject, didSelectLanguage tag: String, withNativeName name: String) -> Void
 }
 
 class LanguageSelectController: UITableViewController {
     let languages = Languages.languages
-    //TODO: THIS IS TEMPORARY OBJC
-@objc    weak var delegate: LanguageSelectControllerDelegate?
+    weak var delegate: LanguageSelectControllerDelegate?
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let tracker = GAI.sharedInstance().defaultTracker
-        let builder = GAIDictionaryBuilder.createAppView()
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        tracker.set(kGAIScreenName, value: "LanguageSelect")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
         self.tableView.contentInset = UIEdgeInsetsMake(20, self.tableView.contentInset.left, self.tableView.contentInset.bottom, self.tableView.contentInset.right)
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Lesson: NSObject {
+public class Lesson: NSObject /* we need it for the Hashable conformance */ {
     
     private let kLessonID = "lessonID"
     private let kLessonCode = "lessonCode"
@@ -32,9 +32,8 @@ public class Lesson: NSObject {
     private let kFileID = "fileID"
     private let kFileCode = "fileCode"
 
-    //TODO: rename to serverId
     //TODO: make optional and remove convention that 0 = not on server
-    var lessonID: Int = 0
+    var serverId: Int = 0
     
     //TOOD: make detail, user*, and server/local/remote & a couple more optional and others required, do not initialize to ""
     var languageTag: String = ""
@@ -50,19 +49,16 @@ public class Lesson: NSObject {
     var numFlags: Int = 0
     var numUsers: Int = 0
     
-    //TODO: rename to uuid
-    lazy var lessonCode: String  = {
-        return NSUUID().UUIDString
-    }()
+    lazy var uuid: String = NSUUID().UUIDString
     
     func fileURL() -> NSURL? {
         guard let url: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last else {
             return nil
         }
-        if self.lessonID > 0 {
-            return url.URLByAppendingPathComponent("\(self.lessonID)")
+        if self.serverId > 0 {
+            return url.URLByAppendingPathComponent("\(self.serverId)")
         }
-        return url.URLByAppendingPathComponent("\(self.lessonCode)")
+        return url.URLByAppendingPathComponent("\(self.uuid)")
     }
     
     func deleteFromDisk() {
@@ -73,8 +69,8 @@ public class Lesson: NSObject {
     }
     
     func setToLesson(target: Lesson) {
-        self.lessonID = target.lessonID
-        self.lessonCode = target.lessonCode
+        self.serverId = target.serverId
+        self.uuid = target.uuid
         self.languageTag = target.languageTag
         self.name = target.name
         self.detail = target.detail
@@ -126,13 +122,19 @@ public class Lesson: NSObject {
         }
     }
     
-    func listOfMissingFiles() -> [AnyObject] {
+    //TODO: dont allow this, need a better initializer
+    public override init() {
+        
+    }
+    
+    //todo: this needs to be a struct or something
+    func listOfMissingFiles() -> [[String: AnyObject]] {
         // return: [{"word":Word *,"audio":Audio *},...]
-        var retval: [AnyObject] = [AnyObject]()
+        var retval = [[String: AnyObject]]()
         for word: Word in self.words {
             let wordMissingFiles = word.listOfMissingFiles()
             for file: Audio in wordMissingFiles {
-                var entry: [NSObject : AnyObject] = [NSObject : AnyObject]()
+                var entry = [String : AnyObject]()
                 entry["audio"] = file
                 entry["word"] = word
                 retval.append(entry)
@@ -170,12 +172,11 @@ public class Lesson: NSObject {
     
     init(packed: [String : AnyObject]) {
         super.init()
-        
-        if let lessonID = packed[kLessonID] as? Int {
-            self.lessonID = lessonID
+        if let serverId = packed[kLessonID] as? Int {
+            self.serverId = serverId
         }
         if let uuid = packed[kLessonCode] as? String {
-            self.lessonCode = uuid
+            self.uuid = uuid
         }
         if let languageTag = packed[kLanguageTag] as? String {
             self.languageTag = languageTag
@@ -228,10 +229,10 @@ public class Lesson: NSObject {
     
     func toDictionary() -> [String : AnyObject] {
         var retval = [String : AnyObject]()
-        if self.lessonID > 0 {
-            retval[kLessonID] = self.lessonID
+        if self.serverId > 0 {
+            retval[kLessonID] = self.serverId
         }
-        retval[kLessonCode] = self.lessonCode
+        retval[kLessonCode] = self.uuid
         retval[kLanguageTag] = self.languageTag
         retval[kName] = self.name
         retval[kDetail] = self.detail
@@ -249,7 +250,6 @@ public class Lesson: NSObject {
         return retval
     }
     
-    //TODO: this should return a string?
     func toJSON() -> NSData? {
         return try? NSJSONSerialization.dataWithJSONObject(self.toDictionary(), options: [])
     }

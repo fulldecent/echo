@@ -41,4 +41,8 @@ class FDRightDetailWithTextFieldCell: UITableViewCell {
         self.addConstraint(NSLayoutConstraint(item: self.textField, attribute: .Trailing, relatedBy: .Equal, toItem: self.contentView, attribute: .Trailing, multiplier: 1, constant: -16))
         self.textField.textAlignment = .Right
     }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.textField.becomeFirstResponder()
+    }
 }
