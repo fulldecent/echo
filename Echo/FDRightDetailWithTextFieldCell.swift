@@ -9,6 +9,7 @@
 //TODO: put this motherfucker straight into CocoaPods
 
 import Foundation
+import UIKit
 
 class FDRightDetailWithTextFieldCell: UITableViewCell {
     var textField: UITextField!

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AVFoundation
+
 
 public protocol PHOREchoRecorderDelegate: class {
     func recording(recorder: PHOREchoRecorder, didFinishSuccessfully success: Bool)

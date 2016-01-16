@@ -8,6 +8,8 @@
 
 import Foundation
 import MessageUI
+import UIKit
+import Google
 
 protocol DownloadLessonDelegate: class {
     func downloadLessonViewController(controller: UIViewController, gotStubLesson lesson: Lesson)

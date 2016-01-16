@@ -8,6 +8,10 @@
 
 import Foundation
 import QuartzCore
+import UIKit
+import MBProgressHUD
+import Google
+import TDBadgedCell
 
 
 class MainViewController: UITableViewController {

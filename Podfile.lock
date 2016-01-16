@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Alamofire (3.1.4)
   - Appirater (2.0.5)
   - FDTake (0.2.5)
   - FDWaveformView (0.3.1)
@@ -45,6 +46,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - Alamofire
   - Appirater
   - FDTake
   - FDWaveformView
@@ -55,6 +57,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   FDTake: 66dffcf81eba5d6628f4f6412b70e54126e579bd
   FDWaveformView: 9d641a95bc0abd8af27cac4c973b015735d916f0
@@ -68,6 +71,6 @@ SPEC CHECKSUMS:
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
 
-PODFILE CHECKSUM: 21ff64301e0eb9c7e805d47a02a35fc0dead939f
+PODFILE CHECKSUM: cf44a11cb4a1d2273894e1c5df6576eaf1405479
 
 COCOAPODS: 1.0.0.beta.2

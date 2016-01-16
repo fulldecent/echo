@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import UIKit
+import MBProgressHUD
+import Google
 
 class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, LanguageSelectControllerDelegate {
     

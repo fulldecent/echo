@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Google
+import Appirater
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

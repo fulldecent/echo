@@ -8,6 +8,10 @@
 
 import Foundation
 import UIKit
+import MBProgressHUD
+import Google
+import AVFoundation
+import FDWaveformView
 
 protocol WordDetailDelegate: class {
     func wordDetailController(controller: WordDetailController, canEditWord word: Word) -> Bool

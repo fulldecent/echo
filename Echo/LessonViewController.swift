@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import UIKit
+import MBProgressHUD
+import Google
 
 protocol LessonViewDelegate: class {
     func lessonView(controller: LessonViewController, didSaveLesson lesson: Lesson)

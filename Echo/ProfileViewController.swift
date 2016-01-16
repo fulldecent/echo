@@ -9,6 +9,9 @@
 import Foundation
 import CoreLocation
 import UIKit
+import FDTake
+import MBProgressHUD
+import Google
 
 //TODO: rename EditProfileViewController
 //TODO: add CANCEL button and present as flyover (see Twitter app as example)

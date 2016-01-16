@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import Google
 
 protocol LanguageSelectControllerDelegate: class {
     func languageSelectController(controller: AnyObject, didSelectLanguage tag: String, withNativeName name: String) -> Void
