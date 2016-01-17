@@ -12,6 +12,7 @@ import MBProgressHUD
 import Alamofire
 
 //TODO use NSProgress for all progress blocks
+// http://oleb.net/blog/2014/03/nsprogress/
 
 // V2.0 API ///////////////////////////////////////////////////////
 //	GET		audio/2528.caf
@@ -37,12 +38,6 @@ import Alamofire
 //	POST	words/practice/225
 //	POST	words/practice/225/replies/
 
-//TODO: yes, this violates patterns
-var staticHud: MBProgressHUD = {
-    let retval = MBProgressHUD(forView: UIApplication.sharedApplication().keyWindow)
-    retval.mode = .CustomView
-    return retval
-}()
 
 class NetworkManager {
     private let SERVER_ECHO_API_URL = "https://learnwithecho.com/api/2.0/"
@@ -53,6 +48,11 @@ class NetworkManager {
         case InaccurateContent
         case PoorQuality
     }
+
+    struct MissingFile {
+        let wordUUID: String
+        let audioUUID: String
+    }
     
     static var sharedNetworkManager: NetworkManager = {
         return NetworkManager()
@@ -60,8 +60,7 @@ class NetworkManager {
     
     lazy var usercode = Profile.currentUser.usercode
     
-    //TODO RENAME sessionManager
-    private lazy var requestManager: AFHTTPSessionManager = {
+    private lazy var sessionManager: AFHTTPSessionManager = {
         let retval = AFHTTPSessionManager(baseURL: NSURL(string: self.SERVER_ECHO_API_URL))
         let authenticateRequests = AFJSONRequestSerializer()
         authenticateRequests.setAuthorizationHeaderFieldWithUsername("xxx", password: self.usercode)
@@ -86,7 +85,7 @@ class NetworkManager {
     
     func deleteLessonWithID(serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "lessons/\(serverId)"
-        requestManager.DELETE(relativePath, parameters: nil, success: {
+        sessionManager.DELETE(relativePath, parameters: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             successBlock?()
         }, failure: {
@@ -95,18 +94,17 @@ class NetworkManager {
         })
     }
     
-    //TODO: remove MOD TIME
-    func getLessonWithID(serverId: Int, asPreviewOnly preview: Bool, onSuccess successBlock: ((lesson: Lesson, modifiedTime: Int) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+    func getLessonWithID(serverId: Int, asPreviewOnly preview: Bool, onSuccess successBlock: ((lesson: Lesson) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String
         if preview {
             relativePath = "lessons/\(serverId).json?preview=yes"
         } else {
             relativePath = "lessons/\(serverId).json"
         }
-        requestManager.GET(relativePath, parameters: nil, progress: nil, success: {
+        sessionManager.GET(relativePath, parameters: nil, progress: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             if let responseHash = responseObject as? [String: AnyObject] {
-                successBlock?(lesson: Lesson(packed: responseHash), modifiedTime: responseHash["updated"] as! Int)
+                successBlock?(lesson: Lesson(packed: responseHash))
             }
         }, failure: {
             (_, error: NSError) -> Void in
@@ -133,7 +131,7 @@ class NetworkManager {
     
     func searchLessonsWithLangTag(langTag: String, andSearhText searchText: String, onSuccess successBlock: ((lessonPreviews: [Lesson]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "lessons/\(langTag)/?search=\(searchText)"
-        requestManager.GET(relativePath, parameters: nil, progress: nil, success: {
+        sessionManager.GET(relativePath, parameters: nil, progress: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             var lessons = [Lesson]()
             for item: AnyObject in responseObject as! [AnyObject] {
@@ -146,9 +144,8 @@ class NetworkManager {
         })
     }
     
-    //todo; [[String: String]] should be a struct
-    func postLesson(lesson: Lesson, onSuccess successBlock: ((newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [[String: String]]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        requestManager.POST("lessons/", parameters: nil, progress: nil, success: {
+    func postLesson(lesson: Lesson, onSuccess successBlock: ((newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [MissingFile]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+        sessionManager.POST("lessons/", parameters: nil, progress: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             guard responseObject is [String: AnyObject] else {
                 return
@@ -162,7 +159,17 @@ class NetworkManager {
             guard let neededFiles = responseObject?["neededFiles"] as? [[String: String]] else {
                 return
             }
-            successBlock?(newLessonID: serverId, newServerVersion: updated, neededWordAndFileCodes: neededFiles)
+            var neededFileStructs = [MissingFile]()
+            for neededFile in neededFiles {
+                guard let wordUUID = neededFile["wordCode"] else {
+                    return
+                }
+                guard let audioUUID = neededFile["fileCode"] else {
+                    return
+                }
+                neededFileStructs.append(MissingFile(wordUUID: wordUUID, audioUUID: audioUUID))
+            }
+            successBlock?(newLessonID: serverId, newServerVersion: updated, neededWordAndFileCodes: neededFileStructs)
             }, failure: {
                 (_, error: NSError) -> Void in
                 failureBlock?(error: error)
@@ -178,7 +185,7 @@ class NetworkManager {
         let URL = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
         let request = NSURLRequest(URL: URL)
         let localFileURL = NSURL(string: filePath)!
-        let uploadTask = requestManager.uploadTaskWithRequest(request, fromFile: localFileURL, progress: {
+        let uploadTask = sessionManager.uploadTaskWithRequest(request, fromFile: localFileURL, progress: {
             progress in
             if progress.totalUnitCount > 0 {
                 progressBlock?(progress: Float(progress.fractionCompleted))
@@ -200,7 +207,7 @@ class NetworkManager {
     
     func postUserProfile(profile: Profile, onSuccess successBlock: ((username: String, userId: Int, recommendedLessons: [Lesson]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let JSONDict: [String : AnyObject] = Profile.currentUser.toDictionary()
-        requestManager.POST("users", parameters: JSONDict, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
+        sessionManager.POST("users", parameters: JSONDict, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard responseObject is [String : AnyObject] else {
                 return
             }
@@ -223,8 +230,7 @@ class NetworkManager {
         })!
     }
     
-    //TODO: I do not need new server versions, just the list of updated lessons
-    func getUpdatesForLessons(lessons: [Lesson], newLessonsSinceID serverId: Int, messagesSinceID messageID: Int, onSuccess successBlock: ((lessonsIDsWithNewServerVersions: [Int : Int], numNewLessons: Int, numNewMessages: Int) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+    func getUpdatesForLessons(lessons: [Lesson], newLessonsSinceID serverId: Int, messagesSinceID messageID: Int, onSuccess successBlock: ((updatedLessonIds: [Int], numNewLessons: Int, numNewMessages: Int) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         var lessonIDsToCheck = [Int]()
         var lessonTimestampsToCheck: [AnyObject] = [AnyObject]()
         for lesson in lessons {
@@ -250,11 +256,11 @@ class NetworkManager {
             requestParams["lastMessageSeen"] = defaults.objectForKey("lastMessageSeen")
         }
         let relativePath: String = "users/me/updates"
-        requestManager.GET(relativePath, parameters: requestParams, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
+        sessionManager.GET(relativePath, parameters: requestParams, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard responseObject is [String : AnyObject] else {
                 return
             }
-            guard let updatedLessons = responseObject?["updatedLessons"] as? [Int : Int] else {
+            guard let updatedLessonsWithIds = responseObject?["updatedLessons"] as? [Int : Int] else {
                 return
             }
             guard let newLessons = responseObject?["newLessons"] as? Int else {
@@ -263,7 +269,9 @@ class NetworkManager {
             guard let unreadMessages = responseObject?["unreadMessages"] as? Int else {
                 return
             }
-            successBlock?(lessonsIDsWithNewServerVersions:updatedLessons, numNewLessons: newLessons, numNewMessages: unreadMessages)
+            let updatedLessons = [Int](updatedLessonsWithIds.keys)
+            
+            successBlock?(updatedLessonIds:updatedLessons, numNewLessons: newLessons, numNewMessages: unreadMessages)
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
@@ -275,7 +283,7 @@ class NetworkManager {
         let request = NSURLRequest(URL: URL)
         let flagString = "\(flagReason)"
         let uploadData = flagString.dataUsingEncoding(NSUTF8StringEncoding)
-        let uploadTask = requestManager.uploadTaskWithRequest(request, fromData: uploadData, progress: nil, completionHandler: {
+        let uploadTask = sessionManager.uploadTaskWithRequest(request, fromData: uploadData, progress: nil, completionHandler: {
             response, path, error in
             guard error == nil else {
                 failureBlock?(error: error!)
@@ -288,7 +296,7 @@ class NetworkManager {
     
     func getWordWithID(wordID: Int, onSuccess successBlock: ((word: Word) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "words/\(wordID).json"
-        requestManager.GET(relativePath, parameters: nil, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
+        sessionManager.GET(relativePath, parameters: nil, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard let responseJsonObject = responseObject as? [String : AnyObject] else {
                 return
             }
@@ -299,7 +307,7 @@ class NetworkManager {
     }
     
     func postWord(word: Word, AsPracticeWithFilesInPath filePath: String, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        requestManager.POST("words/practice/", parameters: nil, constructingBodyWithBlock: {
+        sessionManager.POST("words/practice/", parameters: nil, constructingBodyWithBlock: {
             (formData: AFMultipartFormData) -> Void in
             formData.appendPartWithFormData(word.toJSON()!, name: "word")
             var fileNum: Int = 0
@@ -323,7 +331,7 @@ class NetworkManager {
     
     func postWord(word: Word, withFilesInPath filePath: String, asReplyToWordWithID wordID: Int, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "words/practice/\(wordID)/replies/"
-        requestManager.POST(relativePath, parameters: nil, constructingBodyWithBlock: {
+        sessionManager.POST(relativePath, parameters: nil, constructingBodyWithBlock: {
             (formData: AFMultipartFormData) -> Void in
             formData.appendPartWithFormData(word.toJSON()!, name: "word")
             var fileNum: Int = 0
@@ -347,7 +355,7 @@ class NetworkManager {
     
     func deleteEventWithID(serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "events/\(serverId)"
-        requestManager.DELETE(relativePath, parameters: nil, success: {
+        sessionManager.DELETE(relativePath, parameters: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             successBlock?()
             }, failure: {(_, error: NSError) -> Void in
@@ -357,7 +365,7 @@ class NetworkManager {
     
     func postFeedback(feedback: String, toAuthorOfLessonWithID serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "events/feedbackLesson/\(serverId)/"
-        requestManager.POST(relativePath, parameters: nil, progress: nil, success: {
+        sessionManager.POST(relativePath, parameters: nil, progress: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             successBlock?()
             }, failure: {(_, error: NSError) -> Void in
@@ -366,7 +374,7 @@ class NetworkManager {
     }
     
     func getEventsTargetingMeOnSuccess(successBlock: ((events: [Event]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        requestManager.GET("events/eventsTargetingMe/", parameters: nil, progress: nil, success: {
+        sessionManager.GET("events/eventsTargetingMe/", parameters: nil, progress: nil, success: {
             (_, responseObject: AnyObject?) -> Void in
             guard responseObject is [[String: AnyObject]] else {
                 return
@@ -384,7 +392,7 @@ class NetworkManager {
     }
     
     func getEventsIMayBeInterestedInOnSuccess(successBlock: ((events: [Event]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        requestManager.GET("events/eventsIMayBeInterestedIn/", parameters: nil, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
+        sessionManager.GET("events/eventsIMayBeInterestedIn/", parameters: nil, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard responseObject is [[String: AnyObject]] else {
                 return
             }
@@ -405,7 +413,7 @@ class NetworkManager {
         let URL = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
         let request = NSURLRequest(URL: URL)
         let localFileURL = audio.fileURL()!
-        let task = requestManager.downloadTaskWithRequest(request, progress: {
+        let task = sessionManager.downloadTaskWithRequest(request, progress: {
             (progress) -> Void in
             if progress.totalUnitCount > 0 {
                 progressBlock?(progress: Float(progress.fractionCompleted))
@@ -419,18 +427,27 @@ class NetworkManager {
         })
         task.resume()
     }
-    
-    class func hudFlashError(error: NSError) {
-        let hud = staticHud
-        hud.hide(false)
-        hud.show(true)
+}
+
+//TODO: get this accepted upstream
+extension MBProgressHUD {
+    static func flashError(error: NSError) {
+        let window = UIApplication.sharedApplication().keyWindow
+        MBProgressHUD.hideAllHUDsForView(window, animated: false)
+        
+        let hud = MBProgressHUD(forView: window)
+        hud.mode = .CustomView
+        hud.removeFromSuperViewOnHide = true
+
         let view: UITextView = UITextView(frame: CGRectMake(0, 0, 200, 200))
         view.text = error.localizedDescription
         view.font = hud.labelFont
         view.textColor = UIColor.whiteColor()
         view.backgroundColor = UIColor.clearColor()
         view.sizeToFit()
+        
         hud.customView = view
+        hud.show(true)
         hud.hide(true, afterDelay: 1.2)
     }
 }

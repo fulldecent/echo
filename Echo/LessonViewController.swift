@@ -68,7 +68,7 @@ class LessonViewController: UITableViewController {
                 self.navigationController!.popViewControllerAnimated(true)
                 }, onFailure: {(error: NSError) -> Void in
                     hud.hide(false)
-                    NetworkManager.hudFlashError(error)
+                    MBProgressHUD.flashError(error)
             })
         }))
         alert.addAction(UIAlertAction(title: "Inaccurate content", style: .Default, handler: {
@@ -87,7 +87,7 @@ class LessonViewController: UITableViewController {
                 self.navigationController!.popViewControllerAnimated(true)
                 }, onFailure: {(error: NSError) -> Void in
                     hud.hide(false)
-                    NetworkManager.hudFlashError(error)
+                    MBProgressHUD.flashError(error)
             })
         }))
         alert.addAction(UIAlertAction(title: "Poor quality", style: .Default, handler: {
@@ -106,7 +106,7 @@ class LessonViewController: UITableViewController {
                 self.navigationController!.popViewControllerAnimated(true)
                 }, onFailure: {(error: NSError) -> Void in
                     hud.hide(false)
-                    NetworkManager.hudFlashError(error)
+                    MBProgressHUD.flashError(error)
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -142,7 +142,7 @@ class LessonViewController: UITableViewController {
                 hud.hide(true)
                 }, onFailure: {(error: NSError) -> Void in
                     hud.hide(true)
-                    NetworkManager.hudFlashError(error)
+                    MBProgressHUD.flashError(error)
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))

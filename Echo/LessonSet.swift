@@ -133,7 +133,7 @@ class LessonSet {
         NSLog("%@", NSThread.callStackSymbols())
         let networkManager = NetworkManager.sharedNetworkManager
         networkManager.getLessonWithID(lessonToSync.serverId, asPreviewOnly: false, onSuccess: {
-            (retreivedLesson: Lesson, modifiedTime: Int) -> Void in
+            (retreivedLesson: Lesson) -> Void in
             NSLog("PULLING LESSON: %ld", Int(lessonToSync.serverId))
             NSLog("%@", NSThread.callStackSymbols())
             lessonToSync = retreivedLesson
@@ -143,10 +143,7 @@ class LessonSet {
             }
             var lessonProgress: Float = 1
             let totalLessonProgress: Float = Float(neededAudios.count) + 1
-            if neededAudios.count == 0 {
-                lessonToSync.serverTimeOfLastCompletedSync = modifiedTime
-                lessonToSync.remoteChangesSinceLastSync = false
-            }
+            lessonToSync.remoteChangesSinceLastSync = neededAudios.count > 0
             progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
             var progressPerAudioFile = [String : Float]()
             NSLog("NEEDED AUDIOS: %@", neededAudios)
@@ -166,7 +163,7 @@ class LessonSet {
                     lessonProgress = filesProgress + 1
                     if fileProgress == 1 {
                         if lessonProgress == totalLessonProgress {
-                            lessonToSync.serverTimeOfLastCompletedSync = modifiedTime
+                            lessonToSync.remoteChangesSinceLastSync = false
                         }
                         progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
                     }
@@ -181,7 +178,7 @@ class LessonSet {
     private func pushLessonWithFiles(lessonToSync: Lesson, withProgress progressBlock: ((lesson: Lesson, progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let networkManager = NetworkManager.sharedNetworkManager
         networkManager.postLesson(lessonToSync, onSuccess: {
-            (newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [[String: String]]) -> Void in
+            (newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [NetworkManager.MissingFile]) -> Void in
             var lessonProgress: Float = 1
             let totalLessonProgress = Float(neededWordAndFileCodes.count) + 1
             lessonToSync.serverId = newLessonID
@@ -190,9 +187,9 @@ class LessonSet {
                 lessonToSync.localChangesSinceLastSync = false
             }
             progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
-            for wordAndFileCode in neededWordAndFileCodes {
-                let word: Word = lessonToSync.wordWithCode(wordAndFileCode["wordCode"]!)!
-                let file: Audio = word.fileWithCode(wordAndFileCode["fileCode"]!)!
+            for missingFile in neededWordAndFileCodes {
+                let word: Word = lessonToSync.wordWithCode(missingFile.wordUUID)!
+                let file: Audio = word.fileWithCode(missingFile.audioUUID)!
                 networkManager.putAudioFileAtPath(file.fileURL()!.absoluteString, forLesson: lessonToSync, withWord: word, usingCode: file.uuid, withProgress: {(fileProgress: Float) -> Void in
                     if fileProgress == 1 {
                         lessonProgress = lessonProgress + 1

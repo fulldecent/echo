@@ -29,9 +29,8 @@ class MainViewController: UITableViewController {
         let lastUpdateLesson: Int = NSUserDefaults.valueForKey("lastUpdateLessonList") as? Int ?? 0
         let lastUpdateMessage: Int = NSUserDefaults.valueForKey("lastMessageSeen") as? Int ?? 0
         networkManager.getUpdatesForLessons(self.lessonSet.lessons, newLessonsSinceID: lastUpdateLesson, messagesSinceID: lastUpdateMessage, onSuccess: {
-            (lessonsIDsWithNewServerVersions, numNewLessons, numNewMessages) -> Void in
-            let lessonIds = [Int](lessonsIDsWithNewServerVersions.keys)
-            self.lessonSet.setRemoteUpdatesForLessonsWithIDs(lessonIds)
+            (updatedLessonIds, numNewLessons, numNewMessages) -> Void in
+            self.lessonSet.setRemoteUpdatesForLessonsWithIDs(updatedLessonIds)
             defaults.setInteger(numNewLessons, forKey: "numNewLessons")
             defaults.setInteger(numNewMessages, forKey: "numNewMessages")
             defaults.setInteger(Int(NSDate().timeIntervalSince1970), forKey: "lastUpdateLessonList")
@@ -47,7 +46,7 @@ class MainViewController: UITableViewController {
             }, onFailure: {
             (error: NSError) -> Void in
             self.refreshControl?.endRefreshing()
-            NetworkManager.hudFlashError(error)
+            MBProgressHUD.flashError(error)
             }
         )
         networkManager.getEventsIMayBeInterestedInOnSuccess({
@@ -331,7 +330,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
                 }
                 }, onFailure: {(error: NSError) -> Void in
                     hud.hide(true)
-                    NetworkManager.hudFlashError(error)
+                    MBProgressHUD.flashError(error)
             })
             
         }
@@ -369,7 +368,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
                     self.lessonSet.deleteLesson(self.currentLesson!)
                     self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     }, onFailure: {(error: NSError) -> Void in
-                        NetworkManager.hudFlashError(error)
+                        MBProgressHUD.flashError(error)
                 })
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -489,7 +488,7 @@ extension MainViewController: WordDetailDelegate {
             }
             }, onFailure: {(error: NSError) -> Void in
                 hud.hide(false)
-                NetworkManager.hudFlashError(error)
+                MBProgressHUD.flashError(error)
         })
     }
     

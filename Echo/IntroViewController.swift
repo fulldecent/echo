@@ -45,7 +45,7 @@ class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, Lang
 
             }) { (error) -> Void in
                 self.hud?.hide(false)
-                NetworkManager.hudFlashError(error)
+                MBProgressHUD.flashError(error)
        
         }
     }

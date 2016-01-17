@@ -10,6 +10,7 @@ import Foundation
 import MessageUI
 import UIKit
 import Google
+import MBProgressHUD
 
 protocol DownloadLessonDelegate: class {
     func downloadLessonViewController(controller: UIViewController, gotStubLesson lesson: Lesson)
@@ -25,7 +26,7 @@ class DownloadLessonViewController: UITableViewController {
             self.lessons = lessonPreviews
             self.tableView.reloadData()
             }) {(error: NSError!) -> Void in
-                NetworkManager.hudFlashError(error)
+                MBProgressHUD.flashError(error)
         }
     }
 }

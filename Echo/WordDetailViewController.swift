@@ -518,7 +518,7 @@ extension WordDetailController: WordDetailDelegate {
             }
             }, onFailure: {(error: NSError) -> Void in
                 self.hud!.hide(false)
-                NetworkManager.hudFlashError(error)
+                MBProgressHUD.flashError(error)
         })
     }
     

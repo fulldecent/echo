@@ -8,6 +8,8 @@
 
 import Foundation
 
+//TODO make a lesson preview type
+
 public class Lesson: NSObject /* we need it for the Hashable conformance */ {
     
     private let kLessonID = "lessonID"

@@ -86,7 +86,7 @@ class ProfileViewController: UITableViewController {
             self.navigationController!.popViewControllerAnimated(true)
             }, onFailure: {(error: NSError) -> Void in
                 self.hud?.hide(false)
-                NetworkManager.hudFlashError(error)
+                MBProgressHUD.flashError(error)
         })
         let tracker = GAI.sharedInstance().defaultTracker
         let builder = GAIDictionaryBuilder.createEventWithCategory("Usage", action: "Social", label: "Saved profile", value: me.profileCompleteness())

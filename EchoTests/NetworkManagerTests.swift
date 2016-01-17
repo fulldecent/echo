@@ -42,7 +42,7 @@ class NetworkManagerTests: XCTestCase {
         let asyncExpectation = expectationWithDescription("ready")
         let testLessonId = 369
         networkManager.getLessonWithID(testLessonId, asPreviewOnly: false, onSuccess: {
-            (lesson, modifiedTime) -> Void in
+            (lesson) -> Void in
             let expectedLessonName = "Consonant practice"
             let actualLessonName = lesson.name
             XCTAssertEqual(expectedLessonName, actualLessonName)
@@ -123,39 +123,5 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertNil(error, "Request timeout")
         }
     }
-    
-
-    
-    
-/*
-OTHER API
-
-internal func postLesson(lesson: Lesson, onSuccess successBlock: ((newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [[String : String]]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func putAudioFileAtPath(filePath: String, forLesson lesson: Lesson, withWord word: Word, usingCode code: String, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func postUserProfile(profile: Profile, onSuccess successBlock: ((username: String, userId: Int, recommendedLessons: [Lesson]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func getUpdatesForLessons(lessons: [Lesson], newLessonsSinceID serverId: Int, messagesSinceID messageID: Int, onSuccess successBlock: ((lessonsIDsWithNewServerVersions: [Int : Int], numNewLessons: Int, numNewMessages: Int) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func doFlagLesson(lesson: Lesson, withReason flagReason: FlagReason, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func postWord(word: Word, AsPracticeWithFilesInPath filePath: String, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func postWord(word: Word, withFilesInPath filePath: String, asReplyToWordWithID wordID: Int, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func deleteEventWithID(serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func postFeedback(feedback: String, toAuthorOfLessonWithID serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func getEventsTargetingMeOnSuccess(successBlock: ((events: [Event]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func getEventsIMayBeInterestedInOnSuccess(successBlock: ((events: [Event]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal func pullAudio(audio: Audio, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?)
-
-internal class func hudFlashError(error: NSError)
-
-*/
 
 }
