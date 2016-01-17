@@ -9,29 +9,31 @@
 import Foundation
 import AFNetworking
 import MBProgressHUD
+import Alamofire
 
 // V2.0 API ///////////////////////////////////////////////////////
-//      GET     audio/200.caf
-//      DELETE  lessons/172[.json]
-//      GET     lessons/175.json[?preview=yes]
-//      GET     lessons/fr/[?search=bonjour]
-//      POST    lessons/
-//      PUT     lessons/LESSONCODE/words/WORDCODE/files/FILECODE[.m4a]
-//      GET     users/172.png
-//      POST    users/
-//      GET     users/me/updates?lastLessonSeen=172&lastMessageSeen=229&lessonIDs[]=170&lessonIDs=171&lessonTimestamps[]=1635666&...
-//      PUT     users/me/flagsLessons/175
-//      GET     words/166.json
-//      DELETE  words/[practice/]166[.json]
-//      POST    words/practice/
-//      POST    words/practice/225/replies/
-//      DELETE  events/125[.json]
-//      POST    events/feedbackLesson/125/
-
-// NOT SURE HOW TO IMPLEMENT THESE
-//      GET     events/eventsTargetingMe/
-//      GET     events/eventsIMayBeInterestedIn/[?some type of query here, probably just paging]
-//      GET     users/172.json
+//	GET		audio/2528.caf
+//	DELETE	events/125[.json]
+//	POST	events/feedbackLesson/125/
+//	GET		events/eventsTargetingMe/?[since_id=ID][max_id=ID]
+//	GET		events/eventsIMayBeInterestedIn/?[since_id=ID][max_id=ID]
+//	DELETE	lessons/172[.json]
+//	GET		lessons/175.json[?preview=yes]
+//	GET		lessons/fr/[?search=bonjour]
+//	POST	lessons/
+//	PUT		lessons/LESSONCODE/words/WORDCODE/files/FILECODE[.m4a]
+//	GET		users/172.png
+//	GET		users/172.json
+//	POST	users/
+//	GET		users/me/updates?lastLessonSeen=172&lastMessageSeen=229&lessonIDs[]=170&lessonIDs=171&lessonTimestamps[]=1635666&...
+//	PUT		users/me/likesLessons/175 (DEPRECATED IN 1.0.15)
+//	DELETE	users/me/likesLessons/175 (DEPRECATED IN 1.0.15)
+//	PUT		users/me/flagsLessons/175
+//	GET		words/824.json
+//	DELETE	words/[practice/]166[.json]
+//	POST	words/practice/
+//	POST	words/practice/225
+//	POST	words/practice/225/replies/
 
 //todo: this should be a static class constant, but not yet supported in swift
 let SERVER_ECHO_API_URL = "https://learnwithecho.com/api/2.0/"
@@ -44,6 +46,8 @@ var staticHud: MBProgressHUD = {
 }()
 
 class NetworkManager {
+    private let BASE_URL = NSURL(string: "https://learnwithecho.com/api/2.0/")!
+    
     enum FlagReason : Int {
         case InappropriateTitle
         case InaccurateContent
@@ -53,7 +57,8 @@ class NetworkManager {
     static var sharedNetworkManager: NetworkManager = {
         return NetworkManager()
     }()
-    var requestManager: AFHTTPRequestOperationManager = {
+    
+    private var requestManager: AFHTTPRequestOperationManager = {
         let me = Profile.currentUser
         let retval = AFHTTPRequestOperationManager(baseURL: NSURL(string: SERVER_ECHO_API_URL))
         let authenticateRequests = AFJSONRequestSerializer()
@@ -61,7 +66,18 @@ class NetworkManager {
         retval.requestSerializer = authenticateRequests
         return retval
     }()
-    var recommendedLessonsTmp: [Lesson]? = nil
+    
+    private let alamoManager: Alamofire.Manager = {
+        let user = "david"
+        let password = "framework"
+        let credentialData = "\(user):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
+        let base64Credentials = credentialData.base64EncodedStringWithOptions([])
+        var headers = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders ?? [:]
+        headers["Authorization"] = "Basic \(base64Credentials)"
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.HTTPAdditionalHeaders = headers
+        return Alamofire.Manager(configuration: configuration)
+    }()
     
     // PUBLIC API
     
@@ -75,6 +91,7 @@ class NetworkManager {
         request.start()
     }
     
+    //TODO: remove MOD TIME
     func getLessonWithID(serverId: Int, asPreviewOnly preview: Bool, onSuccess successBlock: ((lesson: Lesson, modifiedTime: Int) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String
         if preview {
@@ -91,6 +108,22 @@ class NetworkManager {
                 failureBlock?(error: error)
         }
         request!.start()
+    }
+    
+    func getLessonWithID2(serverId: Int, onSuccess successBlock: ((lesson: Lesson) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+        let url = self.BASE_URL.URLByAppendingPathComponent("lessons/\(serverId).json")
+        self.alamoManager.request(.GET, url).responseJSON() {
+            response in
+            switch response.result {
+            case .Success(let JSON as [String: AnyObject]):
+                let lesson = Lesson(packed: JSON)
+                successBlock?(lesson: lesson)
+            case .Failure(let error):
+                failureBlock?(error: error)
+            default:
+                failureBlock?(error: NSError(domain: "Server bad response format", code: 9999, userInfo: nil))
+            }
+        }
     }
     
     func searchLessonsWithLangTag(langTag: String, andSearhText searchText: String, onSuccess successBlock: ((lessonPreviews: [Lesson]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
