@@ -77,7 +77,7 @@
 		D9547DCF1C46FFAC0070DF7C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9547DCE1C46FFAC0070DF7C /* NetworkManager.swift */; };
 		D9547DD11C47F58B0070DF7C /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9547DD01C47F58B0070DF7C /* MainNavigationController.swift */; };
 		D9603D671C493E0C003467F5 /* PHOREchoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9603D661C493E0C003467F5 /* PHOREchoRecorder.swift */; };
-		D9A2C1291C4AEF4200B106A7 /* NetworkManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A2C1281C4AEF4200B106A7 /* NetworkManagerTest.swift */; };
+		D9A2C1291C4AEF4200B106A7 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A2C1281C4AEF4200B106A7 /* NetworkManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,7 +177,7 @@
 		D9547DCE1C46FFAC0070DF7C /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D9547DD01C47F58B0070DF7C /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		D9603D661C493E0C003467F5 /* PHOREchoRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHOREchoRecorder.swift; sourceTree = "<group>"; };
-		D9A2C1281C4AEF4200B106A7 /* NetworkManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerTest.swift; sourceTree = "<group>"; };
+		D9A2C1281C4AEF4200B106A7 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		EE7639FD5A5D162F5A6832BC /* Pods_EchoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EchoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA2D1AE3C7B57E3A2DD6BA /* Pods-Echo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Echo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Echo/Pods-Echo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -275,7 +275,7 @@
 		D91E438A1C46E5DD00EA5C97 /* EchoTests */ = {
 			isa = PBXGroup;
 			children = (
-				D9A2C1281C4AEF4200B106A7 /* NetworkManagerTest.swift */,
+				D9A2C1281C4AEF4200B106A7 /* NetworkManagerTests.swift */,
 				D91E438B1C46E5DD00EA5C97 /* EchoTests.swift */,
 				D91E438D1C46E5DD00EA5C97 /* Info.plist */,
 			);
@@ -670,7 +670,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9A2C1291C4AEF4200B106A7 /* NetworkManagerTest.swift in Sources */,
+				D9A2C1291C4AEF4200B106A7 /* NetworkManagerTests.swift in Sources */,
 				D91E438C1C46E5DD00EA5C97 /* EchoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

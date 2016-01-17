@@ -1,24 +1,18 @@
 PODS:
-  - AFNetworking (2.6.3):
-    - AFNetworking/NSURLConnection (= 2.6.3)
-    - AFNetworking/NSURLSession (= 2.6.3)
-    - AFNetworking/Reachability (= 2.6.3)
-    - AFNetworking/Security (= 2.6.3)
-    - AFNetworking/Serialization (= 2.6.3)
-    - AFNetworking/UIKit (= 2.6.3)
-  - AFNetworking/NSURLConnection (2.6.3):
+  - AFNetworking (3.0.4):
+    - AFNetworking/NSURLSession (= 3.0.4)
+    - AFNetworking/Reachability (= 3.0.4)
+    - AFNetworking/Security (= 3.0.4)
+    - AFNetworking/Serialization (= 3.0.4)
+    - AFNetworking/UIKit (= 3.0.4)
+  - AFNetworking/NSURLSession (3.0.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.3)
-  - AFNetworking/Security (2.6.3)
-  - AFNetworking/Serialization (2.6.3)
-  - AFNetworking/UIKit (2.6.3):
-    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (3.0.4)
+  - AFNetworking/Security (3.0.4)
+  - AFNetworking/Serialization (3.0.4)
+  - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
   - Alamofire (3.1.4)
   - Appirater (2.0.5)
@@ -45,7 +39,7 @@ PODS:
   - TDBadgedCell (3.0)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.0)
+  - AFNetworking
   - Alamofire
   - Appirater
   - FDTake
@@ -56,7 +50,7 @@ DEPENDENCIES:
   - TDBadgedCell
 
 SPEC CHECKSUMS:
-  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   FDTake: 66dffcf81eba5d6628f4f6412b70e54126e579bd
@@ -71,6 +65,6 @@ SPEC CHECKSUMS:
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
 
-PODFILE CHECKSUM: cf44a11cb4a1d2273894e1c5df6576eaf1405479
+PODFILE CHECKSUM: 12087c9cb168d3e4b6194dbdc49ce7f168985566
 
 COCOAPODS: 1.0.0.beta.2

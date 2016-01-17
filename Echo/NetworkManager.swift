@@ -11,6 +11,8 @@ import AFNetworking
 import MBProgressHUD
 import Alamofire
 
+//TODO use NSProgress for all progress blocks
+
 // V2.0 API ///////////////////////////////////////////////////////
 //	GET		audio/2528.caf
 //	DELETE	events/125[.json]
@@ -35,9 +37,6 @@ import Alamofire
 //	POST	words/practice/225
 //	POST	words/practice/225/replies/
 
-//todo: this should be a static class constant, but not yet supported in swift
-let SERVER_ECHO_API_URL = "https://learnwithecho.com/api/2.0/"
-
 //TODO: yes, this violates patterns
 var staticHud: MBProgressHUD = {
     let retval = MBProgressHUD(forView: UIApplication.sharedApplication().keyWindow)
@@ -46,6 +45,7 @@ var staticHud: MBProgressHUD = {
 }()
 
 class NetworkManager {
+    private let SERVER_ECHO_API_URL = "https://learnwithecho.com/api/2.0/"
     private let BASE_URL = NSURL(string: "https://learnwithecho.com/api/2.0/")!
     
     enum FlagReason : Int {
@@ -58,15 +58,18 @@ class NetworkManager {
         return NetworkManager()
     }()
     
-    private var requestManager: AFHTTPRequestOperationManager = {
-        let me = Profile.currentUser
-        let retval = AFHTTPRequestOperationManager(baseURL: NSURL(string: SERVER_ECHO_API_URL))
+    lazy var usercode = Profile.currentUser.usercode
+    
+    //TODO RENAME sessionManager
+    private lazy var requestManager: AFHTTPSessionManager = {
+        let retval = AFHTTPSessionManager(baseURL: NSURL(string: self.SERVER_ECHO_API_URL))
         let authenticateRequests = AFJSONRequestSerializer()
-        authenticateRequests.setAuthorizationHeaderFieldWithUsername("xxx", password: me.usercode)
+        authenticateRequests.setAuthorizationHeaderFieldWithUsername("xxx", password: self.usercode)
         retval.requestSerializer = authenticateRequests
         return retval
     }()
     
+    // THIS IS THE FUTURE
     private let alamoManager: Alamofire.Manager = {
         let user = "david"
         let password = "framework"
@@ -83,12 +86,13 @@ class NetworkManager {
     
     func deleteLessonWithID(serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "lessons/\(serverId)"
-        let request: AFHTTPRequestOperation = self.requestManager.DELETE(relativePath, parameters: nil, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
-                successBlock?()
-            }, failure: {(operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                failureBlock?(error: error)
-        })!
-        request.start()
+        requestManager.DELETE(relativePath, parameters: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
+            successBlock?()
+        }, failure: {
+            (_, error: NSError) -> Void in
+            failureBlock?(error: error)
+        })
     }
     
     //TODO: remove MOD TIME
@@ -99,19 +103,20 @@ class NetworkManager {
         } else {
             relativePath = "lessons/\(serverId).json"
         }
-        let request = requestManager.GET(relativePath, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.GET(relativePath, parameters: nil, progress: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
             if let responseHash = responseObject as? [String: AnyObject] {
                 successBlock?(lesson: Lesson(packed: responseHash), modifiedTime: responseHash["updated"] as! Int)
             }
-            }) { (requestOperation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                failureBlock?(error: error)
-        }
-        request!.start()
+        }, failure: {
+            (_, error: NSError) -> Void in
+            failureBlock?(error: error)
+        })
     }
     
+    // THIS IS THE FUTURE
     func getLessonWithID2(serverId: Int, onSuccess successBlock: ((lesson: Lesson) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let url = self.BASE_URL.URLByAppendingPathComponent("lessons/\(serverId).json")
+        let url = NSURL(string: "lessons/\(serverId).json", relativeToURL: self.BASE_URL)!
         self.alamoManager.request(.GET, url).responseJSON() {
             response in
             switch response.result {
@@ -128,80 +133,84 @@ class NetworkManager {
     
     func searchLessonsWithLangTag(langTag: String, andSearhText searchText: String, onSuccess successBlock: ((lessonPreviews: [Lesson]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "lessons/\(langTag)/?search=\(searchText)"
-        let request: AFHTTPRequestOperation = self.requestManager.GET(relativePath, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.GET(relativePath, parameters: nil, progress: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
             var lessons = [Lesson]()
             for item: AnyObject in responseObject as! [AnyObject] {
                 lessons.append(Lesson(packed: item as! [String : AnyObject]))
             }
             successBlock?(lessonPreviews: lessons)
-            }, failure: {
-                (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                failureBlock?(error: error)
-        })!
-        request.start()
+        }, failure: {
+            (_, error: NSError) -> Void in
+            failureBlock?(error: error)
+        })
     }
     
     //todo; [[String: String]] should be a struct
     func postLesson(lesson: Lesson, onSuccess successBlock: ((newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [[String: String]]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let request = requestManager.POST("lessons/", parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.POST("lessons/", parameters: nil, progress: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
             guard responseObject is [String: AnyObject] else {
                 return
             }
-            guard let serverId = responseObject["lessonID"] as? Int else {
+            guard let serverId = responseObject?["lessonID"] as? Int else {
                 return
             }
-            guard let updated = responseObject["updated"] as? Int else {
+            guard let updated = responseObject?["updated"] as? Int else {
                 return
             }
-            guard let neededFiles = responseObject["neededFiles"] as? [[String: String]] else {
+            guard let neededFiles = responseObject?["neededFiles"] as? [[String: String]] else {
                 return
             }
             successBlock?(newLessonID: serverId, newServerVersion: updated, neededWordAndFileCodes: neededFiles)
             }, failure: {
-                (requestOperation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                failureBlock?(error: error)
-            })!
-        request.start()
-    }
-    
-    //TODO api should not be nested
-    func putAudioFileAtPath(filePath: String, forLesson lesson: Lesson, withWord word: Word, usingCode code: String, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let relativePath: String = "lessons/\(lesson.uuid)/words/\(word.uuid)/files/\(code).caf"
-        let request: AFHTTPRequestOperation = self.requestManager.PUT(relativePath, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
-            progressBlock?(progress: 1)
-            }, failure: {
-                (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                (_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.setUploadProgressBlock({(bytesWritten: UInt, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) -> Void in
-            if totalBytesExpectedToWrite > 0 {
-                progressBlock?(progress: Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
+    }
+    
+    //TODO: should only accept one Audio
+    //  requires guaranteeing that Audio has Word and Word has lesson
+    //  need to remove empty initializers for Audio and Word which do not have parents
+    //Progress callback is called on the session queue
+    func putAudioFileAtPath(filePath: String, forLesson lesson: Lesson, withWord word: Word, usingCode code: String, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+        let relativePath: String = "lessons/\(lesson.uuid)/words/\(word.uuid)/files/\(code).caf"
+        let URL = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
+        let request = NSURLRequest(URL: URL)
+        let localFileURL = NSURL(string: filePath)!
+        let uploadTask = requestManager.uploadTaskWithRequest(request, fromFile: localFileURL, progress: {
+            progress in
+            if progress.totalUnitCount > 0 {
+                progressBlock?(progress: Float(progress.fractionCompleted))
+            }
+        }, completionHandler: {
+            response, path, error in
+            guard error == nil else {
+                failureBlock?(error: error!)
+                return
             }
         })
-        request.start()
+        uploadTask.resume()
     }
     
     func photoURLForUserWithID(userID: Int) -> NSURL {
         let relativeURL: String = "users/\(userID).png"
-        return NSURL(string: relativeURL, relativeToURL: NSURL(string: SERVER_ECHO_API_URL)!)!
+        return NSURL(string: relativeURL, relativeToURL: BASE_URL)!
     }
     
     func postUserProfile(profile: Profile, onSuccess successBlock: ((username: String, userId: Int, recommendedLessons: [Lesson]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let JSONDict: [String : AnyObject] = Profile.currentUser.toDictionary()
-        let request: AFHTTPRequestOperation = self.requestManager.POST("users", parameters: JSONDict, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.POST("users", parameters: JSONDict, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard responseObject is [String : AnyObject] else {
                 return
             }
-            guard let username = responseObject["username"] as? String else {
+            guard let username = responseObject?["username"] as? String else {
                 return
             }
-            guard let userId = responseObject["userID"] as? Int else {
+            guard let userId = responseObject?["userID"] as? Int else {
                 return
             }
-            guard let recommendedLessonJsonTexts = responseObject["recommendedLessons"] as? [[String : AnyObject]] else {
+            guard let recommendedLessonJsonTexts = responseObject?["recommendedLessons"] as? [[String : AnyObject]] else {
                 return
             }
             var recommendedLessons = [Lesson]()
@@ -212,7 +221,6 @@ class NetworkManager {
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
     //TODO: I do not need new server versions, just the list of updated lessons
@@ -242,41 +250,45 @@ class NetworkManager {
             requestParams["lastMessageSeen"] = defaults.objectForKey("lastMessageSeen")
         }
         let relativePath: String = "users/me/updates"
-        let request: AFHTTPRequestOperation = self.requestManager.GET(relativePath, parameters: requestParams, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.GET(relativePath, parameters: requestParams, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard responseObject is [String : AnyObject] else {
                 return
             }
-            guard let updatedLessons = responseObject["updatedLessons"] as? [Int : Int] else {
+            guard let updatedLessons = responseObject?["updatedLessons"] as? [Int : Int] else {
                 return
             }
-            guard let newLessons = responseObject["newLessons"] as? Int else {
+            guard let newLessons = responseObject?["newLessons"] as? Int else {
                 return
             }
-            guard let unreadMessages = responseObject["unreadMessages"] as? Int else {
+            guard let unreadMessages = responseObject?["unreadMessages"] as? Int else {
                 return
             }
             successBlock?(lessonsIDsWithNewServerVersions:updatedLessons, numNewLessons: newLessons, numNewMessages: unreadMessages)
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
     func doFlagLesson(lesson: Lesson, withReason flagReason: FlagReason, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "users/me/flagsLessons/\(Int(lesson.serverId))"
-        let flagString: String = "\(flagReason)"
-        let request: AFHTTPRequestOperation = self.requestManager.PUT(relativePath, parameters: nil, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        let URL = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
+        let request = NSURLRequest(URL: URL)
+        let flagString = "\(flagReason)"
+        let uploadData = flagString.dataUsingEncoding(NSUTF8StringEncoding)
+        let uploadTask = requestManager.uploadTaskWithRequest(request, fromData: uploadData, progress: nil, completionHandler: {
+            response, path, error in
+            guard error == nil else {
+                failureBlock?(error: error!)
+                return
+            }
             successBlock?()
-            }, failure: {(_, error: NSError) -> Void in
-                failureBlock?(error: error)
-        })!
-        request.inputStream = NSInputStream(data: flagString.dataUsingEncoding(NSUTF8StringEncoding)!)
-        request.start()
+        })
+        uploadTask.resume()
     }
     
     func getWordWithID(wordID: Int, onSuccess successBlock: ((word: Word) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "words/\(wordID).json"
-        let request: AFHTTPRequestOperation = self.requestManager.GET(relativePath, parameters: nil, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.GET(relativePath, parameters: nil, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard let responseJsonObject = responseObject as? [String : AnyObject] else {
                 return
             }
@@ -284,11 +296,10 @@ class NetworkManager {
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
     func postWord(word: Word, AsPracticeWithFilesInPath filePath: String, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let request: AFHTTPRequestOperation = self.requestManager.POST("words/practice/", parameters: nil, constructingBodyWithBlock: {
+        requestManager.POST("words/practice/", parameters: nil, constructingBodyWithBlock: {
             (formData: AFMultipartFormData) -> Void in
             formData.appendPartWithFormData(word.toJSON()!, name: "word")
             var fileNum: Int = 0
@@ -298,22 +309,21 @@ class NetworkManager {
                 let fileData: NSData = NSData(contentsOfURL: file.fileURL()!)!
                 formData.appendPartWithFileData(fileData, name: fileName, fileName: fileName, mimeType: "audio/mp4a-latm")
             }
-            }, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+            }, progress: {
+                (progress) -> Void in
+                if progress.totalUnitCount > 0 {
+                    progressBlock?(progress: Float(progress.fractionCompleted))
+                }
+            }, success: {(_, responseObject: AnyObject?) -> Void in
                 progressBlock?(progress: 1)
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
-        })!
-        request.setDownloadProgressBlock({(bytesRead: UInt, totalBytesRead: Int64, totalBytesExpectedToRead: Int64) -> Void in
-            if totalBytesExpectedToRead > 0 {
-                progressBlock?(progress: Float(totalBytesRead) / Float(totalBytesExpectedToRead))
-            }
         })
-        request.start()
     }
     
     func postWord(word: Word, withFilesInPath filePath: String, asReplyToWordWithID wordID: Int, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "words/practice/\(wordID)/replies/"
-        let request: AFHTTPRequestOperation = self.requestManager.POST(relativePath, parameters: nil, constructingBodyWithBlock: {
+        requestManager.POST(relativePath, parameters: nil, constructingBodyWithBlock: {
             (formData: AFMultipartFormData) -> Void in
             formData.appendPartWithFormData(word.toJSON()!, name: "word")
             var fileNum: Int = 0
@@ -323,44 +333,41 @@ class NetworkManager {
                 let fileData: NSData = NSData(contentsOfURL: file.fileURL()!)!
                 formData.appendPartWithFileData(fileData, name: fileName, fileName: fileName, mimeType: "audio/mp4a-latm")
             }
-            }, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+            }, progress: {
+                (progress) -> Void in
+                if progress.totalUnitCount > 0 {
+                    progressBlock?(progress: Float(progress.fractionCompleted))
+                }
+            }, success: {(_, responseObject: AnyObject?) -> Void in
                 progressBlock?(progress: 1)
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
-        })!
-        request.setDownloadProgressBlock({(bytesRead: UInt, totalBytesRead: Int64, totalBytesExpectedToRead: Int64) -> Void in
-            if totalBytesExpectedToRead > 0 {
-                progressBlock?(progress: Float(totalBytesRead) / Float(totalBytesExpectedToRead))
-            }
         })
-        request.start()
     }
     
     func deleteEventWithID(serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "events/\(serverId)"
-        let request: AFHTTPRequestOperation = self.requestManager.DELETE(relativePath, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.DELETE(relativePath, parameters: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
             successBlock?()
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
     func postFeedback(feedback: String, toAuthorOfLessonWithID serverId: Int, onSuccess successBlock: (() -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "events/feedbackLesson/\(serverId)/"
-        let request: AFHTTPRequestOperation = self.requestManager.POST(relativePath, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.POST(relativePath, parameters: nil, progress: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
             successBlock?()
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
     func getEventsTargetingMeOnSuccess(successBlock: ((events: [Event]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let request: AFHTTPRequestOperation = self.requestManager.GET("events/eventsTargetingMe/", parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.GET("events/eventsTargetingMe/", parameters: nil, progress: nil, success: {
+            (_, responseObject: AnyObject?) -> Void in
             guard responseObject is [[String: AnyObject]] else {
                 return
             }
@@ -374,11 +381,10 @@ class NetworkManager {
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
     func getEventsIMayBeInterestedInOnSuccess(successBlock: ((events: [Event]) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let request: AFHTTPRequestOperation = self.requestManager.GET("events/eventsIMayBeInterestedIn/", parameters: nil, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+        requestManager.GET("events/eventsIMayBeInterestedIn/", parameters: nil, progress: nil, success: {(_, responseObject: AnyObject?) -> Void in
             guard responseObject is [[String: AnyObject]] else {
                 return
             }
@@ -392,31 +398,26 @@ class NetworkManager {
             }, failure: {(_, error: NSError) -> Void in
                 failureBlock?(error: error)
         })!
-        request.start()
     }
     
-    //TODO: side effects, should just return the audio directly
     func pullAudio(audio: Audio, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let relativePath: String = "audio/\(audio.serverId).caf"
-        let request: AFHTTPRequestOperation = self.requestManager.GET(relativePath, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
-            progressBlock?(progress: 1)
-            }, failure: {(_, error: NSError) -> Void in
-                failureBlock?(error: error)
-        })!
-        request.setDownloadProgressBlock({(bytesRead: UInt, totalBytesRead: Int64, totalBytesExpectedToRead: Int64) -> Void in
-            if totalBytesExpectedToRead > 0 {
-                progressBlock?(progress: Float(totalBytesRead) / Float(totalBytesExpectedToRead + 1))
+        let URL = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
+        let request = NSURLRequest(URL: URL)
+        let localFileURL = audio.fileURL()!
+        let task = requestManager.downloadTaskWithRequest(request, progress: {
+            (progress) -> Void in
+            if progress.totalUnitCount > 0 {
+                progressBlock?(progress: Float(progress.fractionCompleted))
             }
+            }, destination: {_, _ in return localFileURL}, completionHandler: {
+                response, path, error in
+                guard error == nil else {
+                    failureBlock?(error: error!)
+                    return
+                }
         })
-        let fileManager: NSFileManager = NSFileManager.defaultManager()
-        let dirURL = audio.fileURL()?.URLByDeletingLastPathComponent!
-        //todo this line is retarded
-        _ = try? fileManager.createDirectoryAtURL(dirURL!, withIntermediateDirectories: true, attributes: nil)
-        let out = NSOutputStream(URL: audio.fileURL()!, append: false)
-        out!.open()
-        request.outputStream = out
-        request.start()
+        task.resume()
     }
     
     class func hudFlashError(error: NSError) {

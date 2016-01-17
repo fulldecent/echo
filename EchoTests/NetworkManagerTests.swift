@@ -9,7 +9,7 @@
 import XCTest
 @testable import Echo
 
-class NetworkManagerTest: XCTestCase {
+class NetworkManagerTests: XCTestCase {
     var networkManager: NetworkManager!
     
     override func setUp() {
@@ -103,7 +103,7 @@ class NetworkManagerTest: XCTestCase {
         let userId = 25
         let url = networkManager.photoURLForUserWithID(userId)
         let expectedURL = "https://learnwithecho.com/api/2.0/users/25.png"
-        XCTAssertEqual(url, expectedURL)
+        XCTAssertEqual(url.absoluteString, expectedURL)
     }
 
     func testGetWord() {

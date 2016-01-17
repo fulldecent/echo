@@ -4,7 +4,7 @@ use_frameworks!
 
 target 'Echo' do
 	pod 'Alamofire'
-	pod 'AFNetworking', '~> 2.0'
+	pod 'AFNetworking'
 	pod 'Google/Analytics'
 	pod 'Appirater'
 	pod 'FDTake'
@@ -16,7 +16,7 @@ end
 
 target 'EchoTests' do
 	pod 'Alamofire'
-	pod 'AFNetworking', '~> 2.0'
+	pod 'AFNetworking'
 	pod 'Google/Analytics'
 	pod 'Appirater'
 	pod 'FDTake'
