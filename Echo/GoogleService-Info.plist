@@ -4,6 +4,12 @@
 <dict>
 	<key>TRACKING_ID</key>
 	<string>UA-52764-16</string>
+	<key>CLIENT_ID</key>
+	<string>103393072112-s8bsnqeaims60pka3318813mumcjc6h6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.103393072112-s8bsnqeaims60pka3318813mumcjc6h6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDAQi5mGsY0TBrJvvCECyxuwJSszo8V0-w</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
@@ -13,10 +19,12 @@
 	<key>IS_ANALYTICS_ENABLED</key>
 	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
 	<false/>
 	<key>IS_SIGNIN_ENABLED</key>
 	<false/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:103393072112:ios:c3b0825b1c316b26</string>
 </dict>
 </plist>

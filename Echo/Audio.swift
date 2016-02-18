@@ -12,10 +12,12 @@ import Foundation
 //MAYBE: maybe replace k- constant strings with an enum https://stackoverflow.com/questions/34781354/how-do-i-keep-configuration-strings-in-swift?noredirect=1#comment57307596_34781354
 //MAYBE: maybe replace word property with a directory property for which this object should store its files
 public class Audio {
+    private enum JSONKey: String {
+        case ServerId = "fileID"
+        case UUID = "fileCode"
+    }
     
-    private let kFileID = "fileID"
-    private let kFileCode = "fileCode"
-    
+    //MAYBE: looser coupling, don't need this
     weak var word: Echo.Word?
     
     public lazy var uuid = NSUUID().UUIDString

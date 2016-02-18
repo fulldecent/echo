@@ -15,9 +15,17 @@ import Google
 
 //TODO: rename EditProfileViewController
 //TODO: add CANCEL button and present as flyover (see Twitter app as example)
+/// Precondition: you must set profile before I show
 class ProfileViewController: UITableViewController {
-    // Model
-    let editingProfile = Profile()
+    var profile: Profile! {
+        didSet {
+            var buttons = [UIBarButtonItem]()
+            if profile.isMe() {
+                buttons.append(self.editButtonItem())
+            }
+            self.navigationItem.rightBarButtonItems = buttons
+        }
+    }
 
     // UI elements
     @IBOutlet var name: UITextField! = nil
@@ -38,8 +46,11 @@ class ProfileViewController: UITableViewController {
     }()
     lazy var takeController: FDTakeController = {
         let retval = FDTakeController()
-        retval.allowsEditingPhoto = true
-        retval.delegate = self
+        retval.allowsEditing = true
+        retval.allowsVideo = false
+        retval.didGetPhoto = { (photo, _) in
+            self.photo.image = photo
+        }
         return retval
     }()
     
@@ -57,19 +68,19 @@ class ProfileViewController: UITableViewController {
     }
     
     @IBAction func choosePhoto(sender: UIButton) {
-        takeController.popOverPresentRect = sender.frame
-        takeController.takePhotoOrChooseFromLibrary()
+        takeController.presentingRect = sender.frame
+        takeController.present()
     }
     
     @IBAction func save(sender: AnyObject) {
         let me: Profile = Profile.currentUser
-        me.photo = editingProfile.photo
+//        me.photo = profile.photo
         me.username = self.name.text!
-        me.learningLanguageTag = editingProfile.learningLanguageTag
-        me.nativeLanguageTag = editingProfile.nativeLanguageTag
-        if let photoImage = self.photo.image {
-            me.photo = photoImage
-        }
+        me.learningLanguageTag = profile.learningLanguageTag
+        me.nativeLanguageTag = profile.nativeLanguageTag
+//        if let photoImage = self.photo.image {
+//            me.photo = photoImage
+//        }
         me.location = self.location.text!
         
         if let hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true) {
@@ -101,16 +112,16 @@ class ProfileViewController: UITableViewController {
         self.name = cell.textField
         
         let currentUser = Profile.currentUser
-        self.editingProfile.username = currentUser.username
-        self.editingProfile.learningLanguageTag = currentUser.learningLanguageTag
-        self.editingProfile.nativeLanguageTag = currentUser.nativeLanguageTag
-        self.editingProfile.location = currentUser.location
-        self.editingProfile.photo = currentUser.photo
-        self.name.text = self.editingProfile.username
-        self.learningLang.text = self.editingProfile.learningLanguageTag
-        self.nativeLang.text = self.editingProfile.nativeLanguageTag
-        self.location.text = self.editingProfile.location
-        self.photo.image = self.editingProfile.photo
+        self.profile.username = currentUser.username
+        self.profile.learningLanguageTag = currentUser.learningLanguageTag
+        self.profile.nativeLanguageTag = currentUser.nativeLanguageTag
+        self.profile.location = currentUser.location
+//        self.profile.photo = currentUser.photo
+        self.name.text = self.profile.username
+        self.learningLang.text = self.profile.learningLanguageTag
+        self.nativeLang.text = self.profile.nativeLanguageTag
+        self.location.text = self.profile.location
+//        self.photo.image = self.profile.photo
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -153,11 +164,13 @@ class ProfileViewController: UITableViewController {
             self.checkIn(nil as UIButton!)
         }
     }
-}
-
-extension ProfileViewController: FDTakeDelegate {
-    func takeController(controller: FDTakeController, gotPhoto photo: UIImage, withInfo info: [NSObject : AnyObject]) {
-        self.photo.image = photo
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .None
     }
 }
 
@@ -165,10 +178,10 @@ extension ProfileViewController: LanguageSelectControllerDelegate {
     func languageSelectController(controller: AnyObject, didSelectLanguage tag: String, withNativeName name: String) {
 //TODO: this is wrong, use a BLOCK to figure out which one we need
         self.learningLang.text = name
-        self.editingProfile.learningLanguageTag = tag
+        self.profile.learningLanguageTag = tag
         
         self.nativeLang.text = name
-        self.editingProfile.nativeLanguageTag = tag
+        self.profile.nativeLanguageTag = tag
         self.navigationController!.popToViewController(self, animated: true)
     }
 }
@@ -185,15 +198,9 @@ extension ProfileViewController: CLLocationManagerDelegate {
         hud?.hide(false)
         if let hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true) {
             hud.delegate = self
-            let view: UITextView = UITextView(frame: CGRectMake(0, 0, 200, 200))
-            view.text = error.localizedDescription
-            view.font = hud.labelFont
-            view.textColor = UIColor.whiteColor()
-            view.backgroundColor = UIColor.clearColor()
-            view.sizeToFit()
-            hud.customView = view
-            hud.mode = .CustomView
-            hud.hide(true, afterDelay: 2)
+            hud.mode = .Text
+            hud.labelText = "Error"
+            hud.detailsLabelText = error.localizedDescription
             NSLog("GOT LOCATION ERROR %@", error.localizedDescription)
             self.hud = hud
         }

@@ -37,7 +37,6 @@ class LessonSet {
             }
         }
         defaults.setObject(lessonJsons, forKey: "lessons-\(name)")
-        defaults.synchronize()
     }
     
     func syncStaleLessonsWithProgress(progress: (lesson: Lesson, progress: Float) -> Void) {

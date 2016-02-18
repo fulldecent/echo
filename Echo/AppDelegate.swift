@@ -9,6 +9,7 @@
 import UIKit
 import Google
 import Appirater
+import Google
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -41,13 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var deviceTokenTrimmed: String = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>"))
         deviceTokenTrimmed = deviceTokenTrimmed.stringByReplacingOccurrencesOfString(" ", withString: "")
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        defaults.setValue(deviceTokenTrimmed, forKey: "deviceToken")
-        defaults.synchronize()
+        defaults.setObject(deviceTokenTrimmed, forKey: "deviceToken")
         NSLog("My token is: %@", deviceTokenTrimmed)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        NSLog("Failed to get token, error: %@", error)
+        //NSLog("Failed to get token, error: %@", error)
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {

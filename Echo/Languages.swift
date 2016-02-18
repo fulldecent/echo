@@ -8,27 +8,32 @@
 
 import Foundation
 
+struct Language {
+    let languageTag: String // From IANA Language Subtag Registry
+    let nativeName: String
+}
+
 class Languages {
-    static var languages: [[String: String]] = {
+    static var languages: [Language] = {
         let url = NSBundle.mainBundle().URLForResource("Languages", withExtension: "plist")!
-        return NSArray(contentsOfURL: url)! as! [[String: String]]
+        let theArray = NSArray(contentsOfURL: url)! as! [[String: String]]
+        return theArray.map({Language(languageTag: $0["tag"]!, nativeName: $0["nativeName"]!)})
     }()
     
     class func nativeDescriptionForLanguage(langTag: String) -> String {
-        for langEntry: [String: String] in languages {
-            if langEntry["tag"] == langTag {
-                return langEntry["nativeName"]!
+        for language in languages {
+            if language.languageTag == langTag {
+                return language.nativeName
             }
         }
-        NSLog("language not found")
-        return "Language not found"
+        return "Language"
     }
     
     class func sortedListOfLanguages(langTags: [String]) -> [String] {
-        var retval: [String] = [String]()
-        for langEntry: [String: String] in languages {
-            if langTags.contains(langEntry["tag"]!) {
-                retval.append(langEntry["tag"]!)
+        var retval = [String]()
+        for language in languages {
+            if langTags.contains(language.languageTag) {
+                retval.append(language.languageTag)
             }
         }
         return retval

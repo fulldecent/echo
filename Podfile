@@ -6,22 +6,24 @@ target 'Echo' do
 	pod 'Alamofire'
 	pod 'AFNetworking'
 	pod 'Google/Analytics'
+	pod 'Google/AppInvite'
 	pod 'Appirater'
 	pod 'FDTake'
 	pod 'MBProgressHUD'
-	pod 'NSData+Base64'
 	pod 'TDBadgedCell'
 	pod 'FDWaveformView'
+	pod 'SwiftyJSON'
 end
 
 target 'EchoTests' do
 	pod 'Alamofire'
 	pod 'AFNetworking'
 	pod 'Google/Analytics'
+	pod 'Google/AppInvite'
 	pod 'Appirater'
 	pod 'FDTake'
 	pod 'MBProgressHUD'
-	pod 'NSData+Base64'
 	pod 'TDBadgedCell'
 	pod 'FDWaveformView'
+	pod 'SwiftyJSON'
 end

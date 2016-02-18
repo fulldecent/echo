@@ -26,8 +26,8 @@ class MainViewController: UITableViewController {
     @IBAction func reload() {
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let networkManager = NetworkManager.sharedNetworkManager
-        let lastUpdateLesson: Int = NSUserDefaults.valueForKey("lastUpdateLessonList") as? Int ?? 0
-        let lastUpdateMessage: Int = NSUserDefaults.valueForKey("lastMessageSeen") as? Int ?? 0
+        let lastUpdateLesson: Int = defaults.integerForKey("lastUpdateLessonList")
+        let lastUpdateMessage: Int = defaults.integerForKey("lastMessageSeen")
         networkManager.getUpdatesForLessons(self.lessonSet.lessons, newLessonsSinceID: lastUpdateLesson, messagesSinceID: lastUpdateMessage, onSuccess: {
             (updatedLessonIds, numNewLessons, numNewMessages) -> Void in
             self.lessonSet.setRemoteUpdatesForLessonsWithIDs(updatedLessonIds)
@@ -78,7 +78,7 @@ extension MainViewController /*: UIViewController */ {
         tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
 
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let lastUpdateLessonList = defaults.valueForKey("lastUpdateLessonList") as? NSDate
+        let lastUpdateLessonList = defaults.objectForKey("lastUpdateLessonList") as? NSDate
         if lastUpdateLessonList == nil || lastUpdateLessonList!.timeIntervalSinceNow < -5 * 60 {
             self.reload()
         }
@@ -252,9 +252,9 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
             cell.detailTextLabel!.text = "New \(Languages.nativeDescriptionForLanguage(me.learningLanguageTag)) lesson"
             cell.badgeString = nil
-            if let count = defaults.valueForKey("newLessonCount") as? Int {
+            if let count = defaults.objectForKey("newLessonCount") as? Int {
                 if count > 0 {
-                    cell.badgeString = defaults.valueForKey("newLessonCount")!.stringValue
+                    cell.badgeString = defaults.objectForKey("newLessonCount")!.stringValue
                     cell.badgeRightOffset = 8
                 }
             }
@@ -271,7 +271,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             case 1.0:
                 cell.badgeString = nil
             default:
-                cell.badgeString = "\(Int(Float(me.profileCompleteness()) * Float(100)))% done"
+                cell.badgeString = "\(Int(me.profileCompleteness() * 100))% done"
             }
             return cell
         case .Event:
@@ -405,6 +405,7 @@ extension MainViewController /*: UIViewController*/ {
             controller.delegate = self
         case is ProfileViewController:
             let controller = segue.destinationViewController as! ProfileViewController
+            controller.profile = Profile.currentUser
             controller.delegate = self
         case is WordDetailController:
             let controller = segue.destinationViewController as! WordDetailController

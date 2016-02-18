@@ -9,52 +9,30 @@
 import Foundation
 import UIKit
 
+enum UserAchievements: String {
+    case CompletedProfile = "completed profile"
+}
+
 class Profile {
-    
-    //TODO: rename these and make optional
-    var userID: Int = 0
-    var username = "user\(arc4random() % 1000000)"
-    lazy var usercode = UIDevice.currentDevice().identifierForVendor!.UUIDString
-    var learningLanguageTag: String = ""
-    var nativeLanguageTag: String = ""
-    var location: String = ""
-    var photo: UIImage = UIImage()
+    var userID: Int = 0 //TODO: rename to serverId
+    var username = "user\(arc4random() % 1000000)" //TODO: rename to name
+    lazy var usercode = UIDevice.currentDevice().identifierForVendor!.UUIDString //TODO: rename to UUID
+    var learningLanguageTag = ""
+    var nativeLanguageTag = ""
+    var location = ""
+    var photoJPEG = NSData()
+    var achievements = [UserAchievements]()
     
     static var currentUser: Profile = {
-        let retval: Profile = Profile();
-        var needToSync: Bool = false
-        var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let storedProfile = defaults.objectForKey("userProfile") as? [String : AnyObject] ?? [String : AnyObject]()
-        if let username = storedProfile["username"] as? String {
-            retval.username = username
-        } else {
-            needToSync = true // because it will pull random name from initializer
-        }
-        if let userCode = storedProfile["usercode"] as? String {
-            retval.usercode = userCode
-        } else {
-            needToSync = true
-        }
-        if let userID = storedProfile["userID"] as? Int {
-            retval.userID = userID
-        }
-        if let learningLanguageTag = storedProfile["learningLanguageTag"] as? String {
-            retval.learningLanguageTag = learningLanguageTag
-        }
-        if let nativeLanguageTag = storedProfile["nativeLanguageTag"] as? String {
-            retval.nativeLanguageTag = nativeLanguageTag
-        }
-        if let location = storedProfile["location"] as? String {
-            retval.location = location
-        }
-        if let photo = storedProfile["photo"] as? String {
-            retval.photo = UIImage(imageLiteral: photo)
-        }
-        if needToSync {
-            retval.syncToDisk()
-        }
-        return retval
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let profileJSON = defaults.objectForKey("profile") as? String ?? ""
+        return Profile(JSONString: profileJSON)!
     }()
+    
+    //TODO: make this more accurate
+    func isMe() -> Bool {
+        return true
+    }
     
     func syncOnlineOnSuccess(success: (recommendedLessons: [Lesson]) -> Void, onFailure failure: (error: NSError) -> Void) {
         assert(self.usercode != "", "Can only sync current user's profile")
@@ -72,7 +50,6 @@ class Profile {
     func syncToDisk() {
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(self.toDictionary(), forKey: "userProfile")
-        defaults.synchronize()
     }
     
     func profileCompleteness() -> Float {
@@ -90,28 +67,46 @@ class Profile {
         if self.location.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
             numerator++
         }
-        /*
-        TODO: after this is optional then check this
-        if self.photo != nil {
+        if self.photoJPEG.length > 0 {
             numerator++
         }
-        */
         return numerator / denominator
     }
-    // http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
     
-    //TODO: ERROR, THIS CRASHES THE APP
-    private class func imageWithImage(image: UIImage, scaledToSizeWithSameAspectRatio targetSize: CGSize) -> UIImage {
-        let targetDiag = sqrt(targetSize.height*targetSize.height + targetSize.width*targetSize.width)
-        let currentDiag = sqrt(image.size.height*image.size.height + image.size.width*image.size.width)
-        let scale = targetDiag / currentDiag
-        let newHeight = image.size.height * scale
-        let newWidth = image.size.width * scale
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
-        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
+    init(packed: [String : AnyObject]) {
+        if let username = packed["username"] as? String {
+            self.username = username
+        }
+        if let userCode = packed["usercode"] as? String {
+            self.usercode = userCode
+        }
+        if let userID = packed["userID"] as? Int {
+            self.userID = userID
+        }
+        if let learningLanguageTag = packed["learningLanguageTag"] as? String {
+            self.learningLanguageTag = learningLanguageTag
+        }
+        if let nativeLanguageTag = packed["nativeLanguageTag"] as? String {
+            self.nativeLanguageTag = nativeLanguageTag
+        }
+        if let location = packed["location"] as? String {
+            self.location = location
+        }
+        if let photoJPEG = packed["photoJPEG"] as? String {
+            let decodedData = NSData(base64EncodedString: photoJPEG, options: [])
+            self.photoJPEG = decodedData!
+        }
+        if let achievements = packed["achievements"] as? [String] {
+            self.achievements = achievements.flatMap({UserAchievements(rawValue: $0)})
+        }
+    }
+    
+    convenience init?(JSONString: String) {
+        guard let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
+            return nil
+        }
+        let JSONDictionary = try? NSJSONSerialization.JSONObjectWithData(JSONData, options: []) as? [String: AnyObject]
+        self.init(packed: (JSONDictionary ?? [String: AnyObject]())!)
     }
     
     func toDictionary() -> [String : AnyObject] {
@@ -121,10 +116,8 @@ class Profile {
         retval["learningLanguageTag"] = learningLanguageTag
         retval["nativeLanguageTag"] = nativeLanguageTag
         retval["location"] = location
-        let thumbnail = Profile.imageWithImage(photo, scaledToSizeWithSameAspectRatio: CGSizeMake(100, 100))
-        let jpegData = UIImageJPEGRepresentation(thumbnail, 0.8)
-        //TODO the modification should happen when SAVING the photo not here
-        retval["photo"] = jpegData?.base64EncodedStringWithOptions(.Encoding76CharacterLineLength)
+        retval["photoJPEG"] = photoJPEG.base64EncodedStringWithOptions([])
+        retval["achievements"] = achievements.map({$0.rawValue})
         return retval
     }
     

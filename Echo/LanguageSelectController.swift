@@ -39,15 +39,15 @@ extension LanguageSelectController /*: UITableViewDataSource*/ {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = "leftDetail"
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier)
-        cell!.textLabel!.text = (self.languages)[indexPath.row]["tag"]
-        cell!.detailTextLabel!.text = (self.languages)[indexPath.row]["nativeName"]
+        cell!.textLabel!.text = self.languages[indexPath.row].languageTag
+        cell!.detailTextLabel!.text = self.languages[indexPath.row].nativeName
         return cell!
     }
 }
 
 extension LanguageSelectController /*: UITableViewDelegate*/ {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate?.languageSelectController(self, didSelectLanguage: (self.languages)[indexPath.row]["tag"]!, withNativeName: (self.languages)[indexPath.row]["nativeName"]!)
+        self.delegate?.languageSelectController(self, didSelectLanguage: self.languages[indexPath.row].languageTag, withNativeName: self.languages[indexPath.row].nativeName)
         self.dismissViewControllerAnimated(true, completion: { _ in })
     }
 }
