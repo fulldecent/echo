@@ -456,8 +456,9 @@ extension MainViewController: DownloadLessonDelegate {
         self.tableView.reloadSections(NSIndexSet(index: Section.Lessons.rawValue), withRowAnimation: .Automatic)
         self.lessonSet.syncStaleLessonsWithProgress({
             (lesson: Lesson, progress: Float) -> Void in
-            let indexPath = self.indexPathForLesson(lesson)!
-            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+            if let indexPath = self.indexPathForLesson(lesson) {
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)                
+            }
         })
         self.navigationController!.popToRootViewControllerAnimated(true)
     }

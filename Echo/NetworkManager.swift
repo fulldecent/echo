@@ -223,16 +223,16 @@ class NetworkManager {
             switch response.result {
             case .Success(let responseObject as [String: AnyObject]):
                 guard let username = responseObject["username"] as? String else {
+                    failureBlock?(error: NSError(domain: "No username", code: 0, userInfo: nil))
                     return
                 }
                 guard let userId = responseObject["userID"] as? Int else {
+                    failureBlock?(error: NSError(domain: "No userID", code: 0, userInfo: nil))
                     return
                 }
-                guard let recommendedLessonJsonTexts = responseObject["recommendedLessons"] as? [[String : AnyObject]] else {
-                    return
-                }
-                let recommendedLessons = recommendedLessonJsonTexts.map(Lesson.init)
-                successBlock?(username: username, userId: userId, recommendedLessons: recommendedLessons)
+                let recommendedLessonJsonTexts = responseObject["recommendedLessons"] as? [[String : AnyObject]]
+                let recommendedLessons = recommendedLessonJsonTexts?.map(Lesson.init)
+                successBlock?(username: username, userId: userId, recommendedLessons: recommendedLessons ?? [])
             case .Failure(let error):
                 failureBlock?(error: error)
             default:

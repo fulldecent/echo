@@ -154,6 +154,9 @@ public class Lesson: NSObject /* we need it for the Hashable conformance */ {
     }
     
     func portionComplete() -> Float {
+        guard self.words.count > 0 else {
+            return 0
+        }
         var numerator: Int = 0
         for word: Word in self.words {
             if word.completed {

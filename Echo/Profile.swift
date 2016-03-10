@@ -77,7 +77,7 @@ class Profile {
         if let username = packed["username"] as? String {
             self.username = username
         }
-        if let userCode = packed["usercode"] as? String {
+        if let userCode = packed["userCode"] as? String {
             self.usercode = userCode
         }
         if let userID = packed["userID"] as? Int {
@@ -112,7 +112,7 @@ class Profile {
     func toDictionary() -> [String : AnyObject] {
         var retval = [String : AnyObject]()
         retval["username"] = username
-        retval["usercode"] = usercode
+        retval["userCode"] = usercode
         retval["learningLanguageTag"] = learningLanguageTag
         retval["nativeLanguageTag"] = nativeLanguageTag
         retval["location"] = location

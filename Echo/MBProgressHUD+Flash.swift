@@ -17,10 +17,10 @@ extension MBProgressHUD {
     }
     
     static func flashText(text: String) {
-        let window = UIApplication.sharedApplication().keyWindow
+        let window = UIApplication.sharedApplication().keyWindow!
         MBProgressHUD.hideAllHUDsForView(window, animated: false)
         
-        let hud = MBProgressHUD(forView: window)
+        let hud = MBProgressHUD(view: window)
         hud.mode = .CustomView
         hud.removeFromSuperViewOnHide = true
         

@@ -29,7 +29,7 @@ class LessonSet {
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         var lessonJsons = [String]()
         for lesson in self.lessons {
-            guard let lessonJson: NSData = lesson.toJSON() else {
+            guard let lessonJson = lesson.toJSON() else {
                 continue;
             }
             if let lessonJsonSTRING = String(data: lessonJson, encoding: NSUTF8StringEncoding) {
