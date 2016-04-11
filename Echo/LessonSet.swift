@@ -127,7 +127,8 @@ class LessonSet {
         }
     }
     
-    private func pullLessonWithFiles(var lessonToSync: Lesson, withProgress progressBlock: ((lesson: Lesson, progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+    private func pullLessonWithFiles(lessonToSync: Lesson, withProgress progressBlock: ((lesson: Lesson, progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+        var lessonToSync = lessonToSync
         NSLog("WANT TO PULL LESSON: %ld", Int(lessonToSync.serverId))
         NSLog("%@", NSThread.callStackSymbols())
         let networkManager = NetworkManager.sharedNetworkManager
@@ -150,10 +151,10 @@ class LessonSet {
                 guard let serverId = file.serverId else {
                     continue
                 }
-                NSLog("PULLING AUDIO: %@", serverId)
+                NSLog("PULLING AUDIO: \(serverId)")
                 progressPerAudioFile[file.uuid] = 0.0
                 networkManager.pullAudio(file, withProgress: {(fileProgress: Float) -> Void in
-                    NSLog("FILE PROGRESS: %@ %@", serverId, fileProgress)
+                    NSLog("FILE PROGRESS: \(serverId) \(fileProgress)")
                     progressPerAudioFile[file.uuid] = fileProgress
                     var filesProgress = Float(0)
                     for value: Float in progressPerAudioFile.values {

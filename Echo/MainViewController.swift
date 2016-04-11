@@ -35,7 +35,7 @@ class MainViewController: UITableViewController {
             defaults.setInteger(numNewMessages, forKey: "numNewMessages")
             defaults.setInteger(Int(NSDate().timeIntervalSince1970), forKey: "lastUpdateLessonList")
             
-            self.tableView.performSelectorOnMainThread("reloadData", withObject: nil, waitUntilDone: false)
+            self.tableView.performSelectorOnMainThread(#selector(UITableView.reloadData), withObject: nil, waitUntilDone: false)
             self.refreshControl?.endRefreshing()
             UIApplication.sharedApplication().applicationIconBadgeNumber = numNewMessages
             self.lessonSet.syncStaleLessonsWithProgress({(lesson: Lesson, progress: Float) -> Void in
@@ -218,7 +218,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             case 1:
                 cell.badgeString = nil
             default:
-                cell.badgeString = "\(Int(Float(100) * lesson.portionComplete()))%% done"
+                cell.badgeString = "\(Int(Float(100) * lesson.portionComplete()))% done"
             }
             return cell
         case .LessonEditable:
@@ -237,14 +237,14 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             let lesson = self.lessonForRowAtIndexPath(indexPath)!
             cell.textLabel!.text = lesson.name
             let percent: Float = self.lessonSet.lessonTransferProgress[lesson]!
-            cell.detailTextLabel!.text = "Downloading – \(Int(percent * 100))%%"
+            cell.detailTextLabel!.text = "Downloading – \(Int(percent * 100))%"
             return cell
         case .LessonUpload:
             let cell = self.tableView.dequeueReusableCellWithIdentifier("lessonUpload")!
             let lesson = self.lessonForRowAtIndexPath(indexPath)!
             cell.textLabel!.text = lesson.name
             let percent: Float = self.lessonSet.lessonTransferProgress[lesson]!
-            cell.detailTextLabel!.text = "Uploading – \(Int(percent * 100))%%"
+            cell.detailTextLabel!.text = "Uploading – \(Int(percent * 100))%"
             return cell
         case .DownloadLesson:
             let cell = self.tableView.dequeueReusableCellWithIdentifier("downloadLesson") as! TDBadgedCell

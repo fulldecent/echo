@@ -77,6 +77,7 @@
 		D9547DD11C47F58B0070DF7C /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9547DD01C47F58B0070DF7C /* MainNavigationController.swift */; };
 		D9603D671C493E0C003467F5 /* PHOREchoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9603D661C493E0C003467F5 /* PHOREchoRecorder.swift */; };
 		D9713C131C501F60003C1050 /* LanguageSelectControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9713C121C501F60003C1050 /* LanguageSelectControllerTests.swift */; };
+		D985FAC21C92244B000F5E37 /* LessonSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D985FAC11C92244B000F5E37 /* LessonSetTests.swift */; };
 		D98D75FA1C50314500DF30C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D98D75F91C50314500DF30C4 /* GoogleService-Info.plist */; };
 		D98D75FC1C5059F900DF30C4 /* MBProgressHUD+Flash.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98D75FB1C5059F900DF30C4 /* MBProgressHUD+Flash.swift */; };
 		D98D75FE1C5140B300DF30C4 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98D75FD1C5140B300DF30C4 /* ProfileTests.swift */; };
@@ -180,6 +181,7 @@
 		D9547DD01C47F58B0070DF7C /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		D9603D661C493E0C003467F5 /* PHOREchoRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHOREchoRecorder.swift; sourceTree = "<group>"; };
 		D9713C121C501F60003C1050 /* LanguageSelectControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LanguageSelectControllerTests.swift; path = ../Echo/LanguageSelectControllerTests.swift; sourceTree = "<group>"; };
+		D985FAC11C92244B000F5E37 /* LessonSetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonSetTests.swift; sourceTree = "<group>"; };
 		D98D75F91C50314500DF30C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D98D75FB1C5059F900DF30C4 /* MBProgressHUD+Flash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MBProgressHUD+Flash.swift"; sourceTree = "<group>"; };
 		D98D75FD1C5140B300DF30C4 /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 			children = (
 				D98D75FD1C5140B300DF30C4 /* ProfileTests.swift */,
 				D9A2C1281C4AEF4200B106A7 /* NetworkManagerTests.swift */,
+				D985FAC11C92244B000F5E37 /* LessonSetTests.swift */,
 				D91E438B1C46E5DD00EA5C97 /* EchoTests.swift */,
 				D91E438D1C46E5DD00EA5C97 /* Info.plist */,
 			);
@@ -680,6 +683,7 @@
 			files = (
 				D98D75FE1C5140B300DF30C4 /* ProfileTests.swift in Sources */,
 				D9A2C1291C4AEF4200B106A7 /* NetworkManagerTests.swift in Sources */,
+				D985FAC21C92244B000F5E37 /* LessonSetTests.swift in Sources */,
 				D91E438C1C46E5DD00EA5C97 /* EchoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

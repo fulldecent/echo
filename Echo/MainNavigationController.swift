@@ -11,7 +11,8 @@ import UIKit
 
 class MainNavigationController: UINavigationController {
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationReceived:", name: "pushNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainNavigationController.pushNotificationReceived(_:))
+            , name: "pushNotification", object: nil)
         //let color = UIColor(red: 244.0 / 255, green: 219.0 / 255, blue: 0, alpha: 1)
         let color = UIColor(red: 0.7*244.0 / 255, green: 0.7*219.0 / 255, blue: 0, alpha: 1)
         self.navigationBar.tintColor = color

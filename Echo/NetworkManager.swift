@@ -325,9 +325,7 @@ class NetworkManager {
         sessionManager.POST("words/practice/", parameters: nil, constructingBodyWithBlock: {
             (formData: AFMultipartFormData) -> Void in
             formData.appendPartWithFormData(word.toJSON()!, name: "word")
-            var fileNum: Int = 0
-            for file: Audio in word.audios {
-                fileNum++
+            for (fileNum, file) in word.audios.enumerate() {
                 let fileName: String = "file\(fileNum)"
                 let fileData: NSData = NSData(contentsOfURL: file.fileURL()!)!
                 formData.appendPartWithFileData(fileData, name: fileName, fileName: fileName, mimeType: "audio/mp4a-latm")
@@ -352,7 +350,7 @@ class NetworkManager {
             formData.appendPartWithFormData(word.toJSON()!, name: "word")
             var fileNum: Int = 0
             for file: Audio in word.audios {
-                fileNum++
+                fileNum += 1
                 let fileName: String = "file\(fileNum)"
                 let fileData: NSData = NSData(contentsOfURL: file.fileURL()!)!
                 formData.appendPartWithFileData(fileData, name: fileName, fileName: fileName, mimeType: "audio/mp4a-latm")

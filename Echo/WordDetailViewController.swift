@@ -222,7 +222,7 @@ class WordDetailController: UITableViewController {
         } else {
             self.wordLabel.textColor = goodColor
         }
-        for var i = 0; i < NUMBER_OF_RECORDERS; i++ {
+        for i in 0 ..< NUMBER_OF_RECORDERS {
             let recorder: PHOREchoRecorder = (self.echoRecorders)[i]
             let recordButton: UIButton = (self.recordButtons)[i]
             let playButton: UIButton = (self.playButtons)[i]
@@ -298,7 +298,7 @@ class WordDetailController: UITableViewController {
         self.title = self.word.name
         if self.delegate?.wordDetailController(self, canEditWord: self.word) == true {
             if self.delegate!.wordDetailController(self, canReplyWord: self.word) {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: "reply:")
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: #selector(WordDetailController.reply(_:)))
             }
             else {
                 self.navigationItem.rightBarButtonItem = nil
@@ -354,7 +354,7 @@ extension WordDetailController /*: UITableViewDataSource */ {
             self.wordField.text = self.editingName
             self.wordField.enabled = self.delegate?.wordDetailController(self, canEditWord: self.word) ?? false
             self.wordField.delegate = self
-            self.wordField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+            self.wordField.addTarget(self, action: #selector(WordDetailController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
             return cell
         case .Detail:
             let cell = tableView.dequeueReusableCellWithIdentifier("detail") as! FDRightDetailWithTextFieldCell
@@ -364,7 +364,7 @@ extension WordDetailController /*: UITableViewDataSource */ {
             self.detailField.text = self.editingDetail
             self.detailField.enabled = self.delegate?.wordDetailController(self, canEditWord: self.word) ?? false
             self.detailField.delegate = self
-            self.detailField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+            self.detailField.addTarget(self, action: #selector(WordDetailController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
             return cell
         case .Recording:
             let cell = tableView.dequeueReusableCellWithIdentifier("record")!

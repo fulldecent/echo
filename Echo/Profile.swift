@@ -56,19 +56,19 @@ class Profile {
         let denominator: Float = 5
         var numerator: Float = 0
         if self.username.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            numerator++
+            numerator = numerator + 1
         }
         if self.learningLanguageTag.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            numerator++
+            numerator = numerator + 1
         }
         if self.nativeLanguageTag.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            numerator++
+            numerator = numerator + 1
         }
         if self.location.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            numerator++
+            numerator = numerator + 1
         }
         if self.photoJPEG.length > 0 {
-            numerator++
+            numerator = numerator + 1
         }
         return numerator / denominator
     }

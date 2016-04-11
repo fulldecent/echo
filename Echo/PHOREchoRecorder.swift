@@ -94,10 +94,10 @@ public class PHOREchoRecorder: NSObject {
     
     private func actuallyRecord() {
         self.audioRecorder?.recordForDuration(RECORDING_TIMEOUT)
-        self.updateTimer = NSTimer(timeInterval: self.RECORDING_INTERVAL, target: self, selector: "followUpOnRecording", userInfo: nil, repeats: true)
+        self.updateTimer = NSTimer(timeInterval: self.RECORDING_INTERVAL, target: self, selector: #selector(PHOREchoRecorder.followUpOnRecording), userInfo: nil, repeats: true)
     }
     
-    private func followUpOnRecording() {
+    public func followUpOnRecording() {
         //NSLog(@"followUp: recording: %@ isrecording: %@", self.audioRecorder, self.audioRecorder.recording?@"YES":@"NO");
         guard self.isRecordingInProgress else {
             return

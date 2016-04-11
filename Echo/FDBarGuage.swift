@@ -147,7 +147,7 @@ class FDBarGauge: UIView {
         // Draw LED bars
         CGContextSetStrokeColorWithColor(ctx, innerBorderColor.CGColor)
         CGContextSetLineWidth(ctx, 1.0)
-        for var iX = 0; iX < numBars; ++iX {
+        for iX in 0 ..< numBars {
             // Determine position for this bar
             if reverseDirection {
                 // Top-to-bottom or right-to-left

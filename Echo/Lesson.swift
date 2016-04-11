@@ -160,7 +160,7 @@ public class Lesson: NSObject /* we need it for the Hashable conformance */ {
         var numerator: Int = 0
         for word: Word in self.words {
             if word.completed {
-                numerator++
+                numerator += 1
             }
         }
         return Float(numerator) / Float(self.words.count)

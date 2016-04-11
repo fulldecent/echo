@@ -154,22 +154,22 @@ class WordPracticeController: GAITrackedViewController {
             doFirstWorkflowStep()
         case .DoAnimationAndSetup:
             workflowState = .ListenFirstTime
-            self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+            self.performSelector(#selector(WordPracticeController.trainingButtonPressed), withObject: nil, afterDelay: WORKFLOW_DELAY)
         case .ListenFirstTime:
             workflowState = .RecordFirstTime
-            self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+            //self.performSelector(Selector("echoButtonPressed"), withObject: nil, afterDelay: WORKFLOW_DELAY)
         case .RecordFirstTime:
             workflowState = .EchoSecondTime
-            self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+            self.performSelector(#selector(WordPracticeController.trainingButtonPressed), withObject: nil, afterDelay: WORKFLOW_DELAY)
         case .ListenSecondTime:
             workflowState = .EchoFirstTime
-            self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+            //self.performSelector(Selector("echoButtonPressed"), withObject: nil, afterDelay: WORKFLOW_DELAY)
         case .EchoFirstTime:
             workflowState = .ListenThirdTime
-            self.performSelector("trainingButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+            self.performSelector(#selector(WordPracticeController.trainingButtonPressed), withObject: nil, afterDelay: WORKFLOW_DELAY)
         case .ListenThirdTime:
             workflowState = .EchoSecondTime
-            self.performSelector("echoButtonPressed", withObject: nil, afterDelay: WORKFLOW_DELAY)
+            //self.performSelector(Selector("echoButtonPressed"), withObject: nil, afterDelay: WORKFLOW_DELAY)
         case .EchoSecondTime:
             workflowState = .DoAnimationAndBreakdown
         case .DoAnimationAndBreakdown:
@@ -277,7 +277,7 @@ class WordPracticeController: GAITrackedViewController {
         } catch {
             NSLog("error doing outputaudioportoverride: \(error)")
         }
-        self.performSelector("trainingButtonPressed", withObject: self, afterDelay: 0.5)
+        self.performSelector(#selector(WordPracticeController.trainingButtonPressed), withObject: self, afterDelay: 0.5)
     }
     
     override func viewWillAppear(animated: Bool) {

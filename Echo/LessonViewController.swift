@@ -32,7 +32,7 @@ class LessonViewController: UITableViewController {
                     self.editing = true
                 }
             }
-            buttons.append(UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "lessonSharePressed:"))
+            buttons.append(UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(LessonViewController.lessonSharePressed(_:))))
             self.navigationItem.rightBarButtonItems = buttons
         }
     }
@@ -370,7 +370,7 @@ extension LessonViewController /*: UITableViewDataSource */ {
             let flagButton: UIButton = UIButton(type: .RoundedRect)
             flagButton.setImage(UIImage(named: "flag"), forState: .Normal)
             flagButton.frame = CGRectMake(0, 0, 40, 40)
-            flagButton.addTarget(self, action: "lessonFlagPressed:", forControlEvents: .TouchUpInside)
+            flagButton.addTarget(self, action: #selector(LessonViewController.lessonFlagPressed(_:)), forControlEvents: .TouchUpInside)
             cell.accessoryView = flagButton
             return cell
         case .EditLanguage:
@@ -380,12 +380,12 @@ extension LessonViewController /*: UITableViewDataSource */ {
         case .EditTitle:
             let cell = tableView.dequeueReusableCellWithIdentifier("editTitle") as! FDRightDetailWithTextFieldCell
             cell.textField.text = self.lesson.name
-            cell.textField.addTarget(self, action: "nameTextFieldDidChange:", forControlEvents: .EditingChanged)
+            cell.textField.addTarget(self, action: #selector(LessonViewController.nameTextFieldDidChange(_:)), forControlEvents: .EditingChanged)
             return cell
         case .EditDescription:
             let cell = tableView.dequeueReusableCellWithIdentifier("editDetail") as! FDRightDetailWithTextFieldCell
             cell.textField.text = self.lesson.detail
-            cell.textField.addTarget(self, action: "detailTextFieldDidChange:", forControlEvents: .EditingChanged)
+            cell.textField.addTarget(self, action: #selector(LessonViewController.detailTextFieldDidChange(_:)), forControlEvents: .EditingChanged)
             return cell
         }
     }
