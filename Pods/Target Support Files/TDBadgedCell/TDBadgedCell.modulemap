@@ -1,0 +1,6 @@
+framework module TDBadgedCell {
+  umbrella header "TDBadgedCell-umbrella.h"
+
+  export *
+  module * { export * }
+}

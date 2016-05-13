@@ -9,7 +9,6 @@
 import UIKit
 import Google
 import Appirater
-import Google
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
