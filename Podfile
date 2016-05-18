@@ -6,8 +6,6 @@ target 'Echo' do
 	pod 'Alamofire'
 	pod 'AFNetworking'
 	pod 'Google/Analytics'
-	pod 'Google/AppInvite'
-	pod 'Appirater'
 	pod 'FDTake'
 	pod 'MBProgressHUD'
 	pod 'TDBadgedCell'

@@ -8,7 +8,6 @@
 
 import UIKit
 import Google
-import Appirater
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,13 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var configureError:NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        // Optional: configure GAI options.
         let gai = GAI.sharedInstance()
         gai.trackUncaughtExceptions = true  // report uncaught exceptions
         
-        // Handle "please rate me"
-        Appirater.setAppId("558585608")
-        Appirater.appLaunched(true)
-
         // Let the device know we want to receive push notifications
         UIApplication.sharedApplication().registerForRemoteNotifications()
         if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] {

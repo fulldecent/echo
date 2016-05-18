@@ -47,14 +47,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## AppInvites
-
-Copyright 2015 Google Inc.
-
-## Appirater
-
-Copyright 2015. Arash Payan. This library is distributed under the terms of the MIT/X11.
-
 ## FDTake
 
 Copyright (c) 2015 William Entriken
@@ -89,23 +81,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## GPPCore
-
-Copyright 2015 Google Inc. All Rights Reserved.
-
 ## Google
 
 Copyright 2015 Google Inc.
 
 ## GoogleAnalytics
-
-Copyright 2015 Google Inc.
-
-## GoogleAppUtilities
-
-Copyright 2015 Google Inc.
-
-## GoogleAuthUtilities
 
 Copyright 2015 Google Inc.
 
@@ -116,18 +96,6 @@ Copyright 2015 Google Inc.
 ## GoogleNetworkingUtilities
 
 Copyright 2015 Google Inc.
-
-## GoogleParsingUtilities
-
-Copyright 2015 Google Inc.
-
-## GooglePlusUtilities
-
-Copyright 2015 Google Inc.
-
-## GoogleSignIn
-
-Copyright 2015 Google Inc. All Rights Reserved.
 
 ## GoogleSymbolUtilities
 

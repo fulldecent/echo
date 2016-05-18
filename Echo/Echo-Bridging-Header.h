@@ -9,5 +9,6 @@
 #ifndef Echo_Bridging_Header_h
 #define Echo_Bridging_Header_h
 
+#import <Google/Analytics.h>
 
 #endif /* Echo_Bridging_Header_h */

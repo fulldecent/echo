@@ -8,5 +8,10 @@
 
 app_identifier "net.phor.Echo" # The bundle identifier of your app
 username "william.entriken@drexel.edu" # your Apple ID user
-submit_for_review: true
+submit_for_review true
 automatic_release true
+
+submission_information({
+  add_id_info_serves_ads: true,
+  add_id_info_tracks_install: true
+})

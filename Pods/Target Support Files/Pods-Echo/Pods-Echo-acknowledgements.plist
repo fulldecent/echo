@@ -68,22 +68,6 @@ THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>AppInvites</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015. Arash Payan. This library is distributed under the terms of the MIT/X11.</string>
-			<key>Title</key>
-			<string>Appirater</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>Copyright (c) 2015 William Entriken
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -126,14 +110,6 @@ THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc. All Rights Reserved.</string>
-			<key>Title</key>
-			<string>GPPCore</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>Copyright 2015 Google Inc.</string>
 			<key>Title</key>
 			<string>Google</string>
@@ -152,22 +128,6 @@ THE SOFTWARE.
 			<key>FooterText</key>
 			<string>Copyright 2015 Google Inc.</string>
 			<key>Title</key>
-			<string>GoogleAppUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleAuthUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
 			<string>GoogleInterchangeUtilities</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -177,30 +137,6 @@ THE SOFTWARE.
 			<string>Copyright 2015 Google Inc.</string>
 			<key>Title</key>
 			<string>GoogleNetworkingUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleParsingUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GooglePlusUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc. All Rights Reserved.</string>
-			<key>Title</key>
-			<string>GoogleSignIn</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
