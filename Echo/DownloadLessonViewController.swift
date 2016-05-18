@@ -11,6 +11,7 @@ import MessageUI
 import UIKit
 import Google
 import MBProgressHUD
+import AlamofireImage
 
 protocol DownloadLessonDelegate: class {
     func downloadLessonViewController(controller: UIViewController, gotStubLesson lesson: Lesson)
@@ -103,10 +104,14 @@ extension DownloadLessonViewController /*: UITableViewDataSource */ {
             (cell.viewWithTag(8) as! UIImageView).hidden = true
         }
         (cell.viewWithTag(6) as! UILabel).text = lesson.userName
-        let placeholder = UIImage(named: "none40")
-        let userPhoto: NSURL = networkManager.photoURLForUserWithID(lesson.userID)
-        let request: NSMutableURLRequest = NSMutableURLRequest(URL: userPhoto)
-        (cell.viewWithTag(9) as! UIImageView).setImageWithURLRequest(request, placeholderImage: placeholder, success: nil, failure: nil)
+        let placeholderImage = UIImage(named: "none40")!
+        let userPhotoUrl = networkManager.photoURLForUserWithID(lesson.userID)
+        (cell.viewWithTag(9) as! UIImageView).af_setImageWithURL(
+            userPhotoUrl,
+            placeholderImage: placeholderImage,
+            filter: nil,
+            imageTransition: .CrossDissolve(0.2)
+        )
         return cell
     }
 }

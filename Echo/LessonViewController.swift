@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import MBProgressHUD
 import Google
+import AlamofireImage
 
 protocol LessonViewDelegate: class {
     func lessonView(controller: LessonViewController, didSaveLesson lesson: Lesson)
@@ -364,9 +365,14 @@ extension LessonViewController /*: UITableViewDataSource */ {
         case .AuthorByline:
             let cell = tableView.dequeueReusableCellWithIdentifier("author")!
             cell.textLabel!.text = self.lesson.userName
-            let url: NSURL = NSURL(string: "https://learnwithecho.com/avatarFiles/\(Int(self.lesson.userID)).png")!
-            let request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
-            cell.imageView!.setImageWithURLRequest(request, placeholderImage: UIImage(named: "none40"), success: nil, failure: nil)
+            let placeholderImage = UIImage(named: "none40")!
+            let userPhotoUrl = NetworkManager.sharedNetworkManager.photoURLForUserWithID(self.lesson.userID)
+            cell.imageView!.af_setImageWithURL(
+                userPhotoUrl,
+                placeholderImage: placeholderImage,
+                filter: nil,
+                imageTransition: .CrossDissolve(0.2)
+            )
             let flagButton: UIButton = UIButton(type: .RoundedRect)
             flagButton.setImage(UIImage(named: "flag"), forState: .Normal)
             flagButton.frame = CGRectMake(0, 0, 40, 40)

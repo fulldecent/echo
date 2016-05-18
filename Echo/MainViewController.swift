@@ -12,6 +12,8 @@ import UIKit
 import MBProgressHUD
 import Google
 import TDBadgedCell
+import Alamofire
+import AlamofireImage
 
 
 class MainViewController: UITableViewController {
@@ -286,10 +288,15 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             cell.detailTextLabel!.text = formattedDateString
             cell.detailTextLabel!.text = "\(event.actingUserName) / \(formattedDateString)"
             let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
-            let placeholder = UIImage(named: "none40")!
-            let userPhoto: NSURL = networkManager.photoURLForUserWithID(event.actingUserID)
-            let request: NSMutableURLRequest = NSMutableURLRequest(URL: userPhoto)
-            cell.imageView!.setImageWithURLRequest(request, placeholderImage: placeholder, success: nil, failure: nil)
+            let placeholderImage = UIImage(named: "none40")!
+            let userPhotoUrl = networkManager.photoURLForUserWithID(event.actingUserID)
+            cell.imageView!.af_setImageWithURL(
+                userPhotoUrl,
+                placeholderImage: placeholderImage,
+                filter: nil,
+                imageTransition: .CrossDissolve(0.2)
+            )
+            
             cell.textLabel!.text = event.htmlDescription
             cell.textLabel!.text = event.targetWordName
             cell.accessoryType = event.eventType == .PostPractice ? .DisclosureIndicator : .None

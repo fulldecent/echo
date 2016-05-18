@@ -15,6 +15,8 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Alamofire (3.4.0)
+  - AlamofireImage (2.4.0):
+    - Alamofire (~> 3.3)
   - FDTake (0.3.2)
   - FDWaveformView (0.3.1)
   - Google/Analytics (2.0.4):
@@ -40,6 +42,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - Alamofire
+  - AlamofireImage
   - FDTake
   - FDWaveformView
   - Google/Analytics
@@ -50,6 +53,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   FDTake: 122aaf465673b05648cd1b40200a19c85b1aa9e0
   FDWaveformView: 9d641a95bc0abd8af27cac4c973b015735d916f0
   Google: d0932824c5b97c96be489aa6f4e8cd6c294d637d
@@ -62,6 +66,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
 
-PODFILE CHECKSUM: 6d91fa9c65b72f889af4372ca5a348f01e901d1c
+PODFILE CHECKSUM: ac307ff9f9bb09554510987d903cd412cd86c79d
 
 COCOAPODS: 1.0.0
