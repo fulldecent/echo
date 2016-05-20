@@ -104,7 +104,7 @@ extension DownloadLessonViewController /*: UITableViewDataSource */ {
             (cell.viewWithTag(8) as! UIImageView).hidden = true
         }
         (cell.viewWithTag(6) as! UILabel).text = lesson.userName
-        let placeholderImage = UIImage(named: "none40")!
+        let placeholderImage = UIImage(named: "user")!
         let userPhotoUrl = networkManager.photoURLForUserWithID(lesson.userID)
         (cell.viewWithTag(9) as! UIImageView).af_setImageWithURL(
             userPhotoUrl,

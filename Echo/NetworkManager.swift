@@ -418,7 +418,8 @@ class NetworkManager {
     
     /// Retrieve an audio file from the server
     func pullAudio(audio: Audio, withProgress progressBlock: ((progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        let relativePath: String = "audio/\(audio.serverId).caf"
+        assert(audio.serverId != nil)
+        let relativePath: String = "audio/\(audio.serverId!).caf"
         let URL = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
         let request = NSURLRequest(URL: URL)
         let localFileURL = audio.fileURL()!

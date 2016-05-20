@@ -13,19 +13,8 @@ import FDTake
 import MBProgressHUD
 import Google
 
-//TODO: rename EditProfileViewController
-//TODO: add CANCEL button and present as flyover (see Twitter app as example)
-/// Precondition: you must set profile before I show
 class ProfileViewController: UITableViewController {
-    var profile: Profile! {
-        didSet {
-            var buttons = [UIBarButtonItem]()
-            if profile.isMe() {
-                buttons.append(self.editButtonItem())
-            }
-            self.navigationItem.rightBarButtonItems = buttons
-        }
-    }
+    var profile: Profile!
 
     // UI elements
     @IBOutlet var name: UITextField! = nil
@@ -33,7 +22,6 @@ class ProfileViewController: UITableViewController {
     @IBOutlet var nativeLang: UILabel!
     @IBOutlet var photo: UIImageView!
     @IBOutlet var location: UILabel!
-    
 
     // Controllers
     var hud: MBProgressHUD? = nil
@@ -145,7 +133,6 @@ class ProfileViewController: UITableViewController {
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         self.view!.endEditing(true)
-        // fucking nice
     }
     
     //MARK: - UITableViewDelegate

@@ -74,11 +74,14 @@ extension MainViewController /*: UIViewController */ {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController!.setNavigationBarHidden(true, animated: animated)
+      //  self.navigationController!.setNavigationBarHidden(true, animated: animated)
         let tracker = GAI.sharedInstance().defaultTracker
         tracker.set(kGAIScreenName, value: "MainView")
         tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
 
+        
+        self.navigationItem.title = Profile.currentUser.username
+        
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let lastUpdateLessonList = defaults.objectForKey("lastUpdateLessonList") as? NSDate
         if lastUpdateLessonList == nil || lastUpdateLessonList!.timeIntervalSinceNow < -5 * 60 {
@@ -98,7 +101,7 @@ extension MainViewController /*: UIViewController */ {
     }
     
     override func viewWillDisappear(animated: Bool) {
-        self.navigationController!.setNavigationBarHidden(false, animated: animated)
+     //   self.navigationController!.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
     
@@ -110,8 +113,8 @@ extension MainViewController /*: UIViewController */ {
 
 extension MainViewController /*: UITableViewController, UITableViewDelegate, UITableViewDataSource */ {
     enum Section: Int {
-        case Practice
         case Lessons
+        case Practice
         case Social
     }
     
@@ -123,7 +126,6 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
         case DownloadLesson
         case CreateLesson
         case NewPractice
-        case EditProfile
         case Event
     }
     
@@ -152,9 +154,6 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             }
         case .Practice:
             if indexPath.row == 0 {
-                return .EditProfile
-            }
-            else if indexPath.row == 1 {
                 return .NewPractice
             }
             else {
@@ -183,13 +182,14 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
     }
     
     func eventForRowAtIndexPath(indexPath: NSIndexPath) -> Event? {
-        if Section(rawValue: indexPath.section) == .Practice {
-            return (self.myEvents)[indexPath.row - 2]
-        }
-        else if Section(rawValue: indexPath.section) == .Social {
+        switch Section(rawValue: indexPath.section)! {
+        case .Lessons:
+            return nil
+        case .Practice:
+            return (self.myEvents)[indexPath.row - 1]
+        case .Social:
             return (self.otherEvents)[indexPath.row]
         }
-        return nil
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -201,7 +201,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
         case .Lessons:
             return self.lessonSet.lessons.count + 2
         case .Practice:
-            return self.myEvents.count + 2
+            return self.myEvents.count + 1
         case .Social:
             return self.otherEvents.count
         }
@@ -265,17 +265,6 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             return self.tableView.dequeueReusableCellWithIdentifier("createLesson")!
         case .NewPractice:
             return self.tableView.dequeueReusableCellWithIdentifier("newPractice")!
-        case .EditProfile:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("editProfile") as! TDBadgedCell
-            let me: Profile = Profile.currentUser
-            cell.textLabel!.text = me.username
-            switch me.profileCompleteness() {
-            case 1.0:
-                cell.badgeString = nil
-            default:
-                cell.badgeString = "\(Int(me.profileCompleteness() * 100))% done"
-            }
-            return cell
         case .Event:
             let cell = self.tableView.dequeueReusableCellWithIdentifier("social")!
             let event = self.eventForRowAtIndexPath(indexPath)!
@@ -288,7 +277,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             cell.detailTextLabel!.text = formattedDateString
             cell.detailTextLabel!.text = "\(event.actingUserName) / \(formattedDateString)"
             let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
-            let placeholderImage = UIImage(named: "none40")!
+            let placeholderImage = UIImage(named: "user")!
             let userPhotoUrl = networkManager.photoURLForUserWithID(event.actingUserID)
             cell.imageView!.af_setImageWithURL(
                 userPhotoUrl,
@@ -311,7 +300,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             lesson = self.lessonForRowAtIndexPath(indexPath)!
             self.currentLesson = lesson
             self.performSegueWithIdentifier("lesson", sender: self)
-        case .LessonDownload, .LessonUpload, .DownloadLesson, .CreateLesson, .NewPractice, .EditProfile:
+        case .LessonDownload, .LessonUpload, .DownloadLesson, .CreateLesson, .NewPractice:
             break
         case .Event:
             let event: Event = self.eventForRowAtIndexPath(indexPath)!
