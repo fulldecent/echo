@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Google
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,16 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // https://developers.google.com/analytics/devguides/collection/ios/v3/?ver=swift
-        // Configure tracker from GoogleService-Info.plist.
-        var configureError:NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google services: \(configureError)")
-        
-        // Optional: configure GAI options.
-        let gai = GAI.sharedInstance()
-        gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        
+        FIRApp.configure()
+
         // Let the device know we want to receive push notifications
         UIApplication.sharedApplication().registerForRemoteNotifications()
         if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] {

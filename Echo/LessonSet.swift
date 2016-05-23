@@ -11,7 +11,7 @@ import Foundation
 class LessonSet {
     var name: String
     var lessons = [Lesson]()
-    lazy var lessonTransferProgress = [Lesson : Float]()
+    lazy var lessonTransferProgress = [Lesson : NSProgress]()
     
     init(name: String) {
         self.name = name
@@ -39,28 +39,35 @@ class LessonSet {
         defaults.setObject(lessonJsons, forKey: "lessons-\(name)")
     }
     
-    func syncStaleLessonsWithProgress(progress: (lesson: Lesson, progress: Float) -> Void) {
-        // Syncs the ones that are stale
-        var staleLessons = [Lesson]()
-        for lesson in self.lessons {
-            if lesson.localChangesSinceLastSync || lesson.remoteChangesSinceLastSync {
-                guard lessonTransferProgress[lesson] == nil else {
-                    continue
-                }
-                staleLessons.append(lesson)
-                self.lessonTransferProgress[lesson] = 0
-                progress(lesson: lesson, progress: 0)
-            }
+    func syncStaleLessonsWithProgress(progress: (lesson: Lesson, progress: NSProgress) -> Void) {
+        let lessonsToDownload = self.lessons.filter { $0.remoteChangesSinceLastSync && lessonTransferProgress[$0] == nil }
+        for lesson in lessonsToDownload {
+            lessonTransferProgress[lesson] = NSProgress.discreteProgressWithTotalUnitCount(1000)
+            self.pullLessonWithFiles(lesson,
+                withProgress: {
+                    (closureLesson: Lesson, closureProgress: NSProgress) in
+                    self.lessonTransferProgress[closureLesson] = closureProgress
+                    progress(lesson: closureLesson, progress: closureProgress)
+                    if closureProgress.fractionCompleted == 1 {
+                        self.lessonTransferProgress.removeValueForKey(closureLesson)
+                        self.writeToDisk()
+                    }
+                }, onFailure: nil)
         }
-        self.syncLessons(staleLessons) {
-            (syncLesson, syncProgress) -> Void in
-            if syncProgress < 1.0 {
-                self.lessonTransferProgress[syncLesson] = syncProgress
-            } else {
-                self.lessonTransferProgress.removeValueForKey(syncLesson)
-                self.writeToDisk()
-            }
-            progress(lesson: syncLesson, progress: syncProgress)
+
+        let lessonsToUpload = self.lessons.filter { $0.localChangesSinceLastSync && lessonTransferProgress[$0] == nil }
+        for lesson in lessonsToUpload {
+            lessonTransferProgress[lesson] = NSProgress.discreteProgressWithTotalUnitCount(1000)
+            self.pushLessonWithFiles(lesson,
+                withProgress: {
+                    (closureLesson: Lesson, closureProgress: NSProgress) in
+                    self.lessonTransferProgress[closureLesson] = closureProgress
+                    progress(lesson: closureLesson, progress: closureProgress)
+                    if closureProgress.fractionCompleted == 1 {
+                        self.lessonTransferProgress.removeValueForKey(closureLesson)
+                        self.writeToDisk()
+                    }
+                }, onFailure: nil)
         }
     }
     
@@ -109,63 +116,50 @@ class LessonSet {
         self.writeToDisk()
     }
     
-    /// CONVENIENT HELPER FUNCTIONS
-    
-    private func syncLessons(lessons: [Lesson], withProgress progressBlock: ((lesson: Lesson, progress: Float) -> Void)?) {
-        for lessonToSync: Lesson in lessons {
-            // Which direction is this motherfucter syncing?
-            if lessonToSync.localChangesSinceLastSync {
-                self.pushLessonWithFiles(lessonToSync, withProgress: progressBlock, onFailure: nil)
-            }
-            else if lessonToSync.remoteChangesSinceLastSync || lessonToSync.listOfMissingFiles().count > 0 {
-                self.pullLessonWithFiles(lessonToSync, withProgress: progressBlock, onFailure: nil)
-            }
-            else {
-                NSLog("No which way for this lesson to sync: %@", lessonToSync)
-                progressBlock?(lesson: lessonToSync, progress: 1)
-            }
-        }
-    }
-    
-    private func pullLessonWithFiles(lessonToSync: Lesson, withProgress progressBlock: ((lesson: Lesson, progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
-        var lessonToSync = lessonToSync
+    // TODO: REMOVE LESSON FROM THE CALLBACK!
+    private func pullLessonWithFiles(lessonToSync: Lesson,
+                                     withProgress progressBlock: ((lesson: Lesson, progress: NSProgress) -> Void)?,
+                                     onFailure failureBlock: ((error: NSError) -> Void)?) {
         NSLog("WANT TO PULL LESSON: %ld", Int(lessonToSync.serverId))
+        NSLog("Current thread \(NSThread.currentThread())")
         NSLog("%@", NSThread.callStackSymbols())
         let networkManager = NetworkManager.sharedNetworkManager
         networkManager.getLessonWithID(lessonToSync.serverId, asPreviewOnly: false, onSuccess: {
             (retreivedLesson: Lesson) -> Void in
             NSLog("PULLING LESSON: %ld", Int(lessonToSync.serverId))
+            NSLog("Current thread \(NSThread.currentThread())")
             NSLog("%@", NSThread.callStackSymbols())
-            lessonToSync = retreivedLesson
+            lessonToSync.setToLesson(retreivedLesson)
             var neededAudios = [Audio]()
-            for audioAndWord: [String : AnyObject] in lessonToSync.listOfMissingFiles() {
-                neededAudios.append(audioAndWord["audio"] as! Audio)
+            for wordAndAudio in lessonToSync.listOfMissingFiles() {
+                let (_, audio) = wordAndAudio
+                neededAudios.append(audio)
             }
-            var lessonProgress: Float = 1
-            let totalLessonProgress: Float = Float(neededAudios.count) + 1
+            let lessonProgress = NSProgress(totalUnitCount: neededAudios.count + 1)
+            lessonProgress.completedUnitCount = 1
             lessonToSync.remoteChangesSinceLastSync = neededAudios.count > 0
-            progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
-            var progressPerAudioFile = [String : Float]()
+            progressBlock?(lesson: lessonToSync, progress: lessonProgress)
             NSLog("NEEDED AUDIOS: %@", neededAudios)
             for file: Audio in neededAudios {
                 guard let serverId = file.serverId else {
+                    // SHOULD NOT HAPPEN!!!
+                    assert(false)
                     continue
                 }
                 NSLog("PULLING AUDIO: \(serverId)")
-                progressPerAudioFile[file.uuid] = 0.0
-                networkManager.pullAudio(file, withProgress: {(fileProgress: Float) -> Void in
-                    NSLog("FILE PROGRESS: \(serverId) \(fileProgress)")
-                    progressPerAudioFile[file.uuid] = fileProgress
-                    var filesProgress = Float(0)
-                    for value: Float in progressPerAudioFile.values {
-                        filesProgress += value
-                    }
-                    lessonProgress = filesProgress + 1
-                    if fileProgress == 1 {
-                        if lessonProgress == totalLessonProgress {
+                NSLog("Current thread \(NSThread.currentThread())")
+                let fileProgress = NSProgress(totalUnitCount: 1000)
+                lessonProgress.addChild(fileProgress, withPendingUnitCount: 1)
+                networkManager.pullAudio(file, withProgress: {
+                    (fileProgressFloat: Float) -> Void in
+                    fileProgress.completedUnitCount = Int64(1000*fileProgressFloat)
+                    NSLog("FILE PROGRESS: \(serverId) \(fileProgress.localizedAdditionalDescription)")
+                    NSLog("Current thread \(NSThread.currentThread())")
+                    if fileProgressFloat == 1 {
+                        if lessonProgress.fractionCompleted == 1 {
                             lessonToSync.remoteChangesSinceLastSync = false
                         }
-                        progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
+                        progressBlock?(lesson: lessonToSync, progress: lessonProgress)
                     }
                     }, onFailure: nil)
             }
@@ -175,29 +169,27 @@ class LessonSet {
         })
     }
     
-    private func pushLessonWithFiles(lessonToSync: Lesson, withProgress progressBlock: ((lesson: Lesson, progress: Float) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
+    private func pushLessonWithFiles(lessonToSync: Lesson, withProgress progressBlock: ((lesson: Lesson, progress: NSProgress) -> Void)?, onFailure failureBlock: ((error: NSError) -> Void)?) {
         let networkManager = NetworkManager.sharedNetworkManager
         networkManager.postLesson(lessonToSync, onSuccess: {
             (newLessonID: Int, newServerVersion: Int, neededWordAndFileCodes: [NetworkManager.MissingFile]) -> Void in
-            var lessonProgress: Float = 1
-            let totalLessonProgress = Float(neededWordAndFileCodes.count) + 1
+            let lessonProgress = NSProgress(totalUnitCount: neededWordAndFileCodes.count + 1)
+            lessonProgress.completedUnitCount = 1
             lessonToSync.serverId = newLessonID
             if neededWordAndFileCodes.count == 0 {
                 lessonToSync.serverTimeOfLastCompletedSync = newServerVersion
                 lessonToSync.localChangesSinceLastSync = false
             }
-            progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
+            progressBlock?(lesson: lessonToSync, progress: lessonProgress)
             for missingFile in neededWordAndFileCodes {
+                let fileProgress = NSProgress(totalUnitCount: 1000)
+                lessonProgress.addChild(fileProgress, withPendingUnitCount: 1)
                 let word: Word = lessonToSync.wordWithCode(missingFile.wordUUID)!
                 let file: Audio = word.fileWithCode(missingFile.audioUUID)!
-                networkManager.putAudioFileAtPath(file.fileURL()!.absoluteString, forLesson: lessonToSync, withWord: word, usingCode: file.uuid, withProgress: {(fileProgress: Float) -> Void in
-                    if fileProgress == 1 {
-                        lessonProgress = lessonProgress + 1
-                        if lessonProgress == totalLessonProgress {
-                            lessonToSync.serverTimeOfLastCompletedSync = newServerVersion
-                            lessonToSync.localChangesSinceLastSync = false
-                        }
-                        progressBlock?(lesson: lessonToSync, progress: lessonProgress / totalLessonProgress)
+                networkManager.putAudioFileAtPath(file.fileURL()!.absoluteString, forLesson: lessonToSync, withWord: word, usingCode: file.uuid, withProgress: {(fileProgressFloat: Float) -> Void in
+                    fileProgress.completedUnitCount = Int64(1000 * fileProgressFloat)
+                    if fileProgressFloat == 1 {
+                        progressBlock?(lesson: lessonToSync, progress: lessonProgress)
                     }
                     }, onFailure: nil)
             }

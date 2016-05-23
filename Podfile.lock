@@ -19,6 +19,12 @@ PODS:
     - Alamofire (~> 3.3)
   - FDTake (0.3.2)
   - FDWaveformView (0.3.1)
+  - Firebase (3.2.0):
+    - Firebase/Core (= 3.2.0)
+  - Firebase/Analytics (3.2.0):
+    - FirebaseAnalytics (= 3.2.0)
+  - Firebase/Core (3.2.0):
+    - Firebase/Analytics (= 3.2.0)
   - FirebaseAnalytics (3.2.0):
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
@@ -46,6 +52,8 @@ DEPENDENCIES:
   - AlamofireImage
   - FDTake
   - FDWaveformView
+  - Firebase
+  - Firebase/Core
   - Google/Analytics
   - MBProgressHUD
   - SwiftyJSON
@@ -57,6 +65,7 @@ SPEC CHECKSUMS:
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   FDTake: 122aaf465673b05648cd1b40200a19c85b1aa9e0
   FDWaveformView: 9d641a95bc0abd8af27cac4c973b015735d916f0
+  Firebase: 6d4012da1598732a2b43f16d8355eca90f94ed59
   FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
   FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
@@ -68,6 +77,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
 
-PODFILE CHECKSUM: ac307ff9f9bb09554510987d903cd412cd86c79d
+PODFILE CHECKSUM: adc52df8b81d45b7251dc8f403618f02727cb813
 
 COCOAPODS: 1.0.0

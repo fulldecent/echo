@@ -6,6 +6,8 @@ target 'Echo' do
 	pod 'Alamofire'
 	pod 'AlamofireImage'
 	pod 'AFNetworking'
+  pod 'Firebase'
+  pod 'Firebase/Core'
 	pod 'Google/Analytics'
 	pod 'FDTake'
 	pod 'MBProgressHUD'
@@ -13,10 +15,7 @@ target 'Echo' do
 	pod 'FDWaveformView'
 	pod 'SwiftyJSON'
 
-	abstract_target 'Tests' do
-		platform :ios, '9.0'
-		target 'EchoTests'
-		target 'EchoUITests'
+	target 'EchoTests' do
 		inherit! :search_paths
 	end
 end

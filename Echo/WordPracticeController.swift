@@ -6,10 +6,9 @@
 //
 //
 
-import Foundation
 import UIKit
 import AVFoundation
-import Google
+import Firebase
 import FDWaveformView
 
 //TODO: what about checkmarks??!
@@ -26,7 +25,7 @@ protocol WordPracticeDelegate: class {
     func wordPractice(wordPractice: WordPracticeController, setWordCheckedState state: Bool)
 }
 
-class WordPracticeController: GAITrackedViewController {
+class WordPracticeController: UIViewController {
     enum WorkflowState {
         case Ready
         case DoAnimationAndSetup
@@ -82,8 +81,8 @@ class WordPracticeController: GAITrackedViewController {
         self.makeItBounce(self.trainingSpeakerButton)
         let index = Int(arc4random_uniform(UInt32(self.word!.audios.count)))
         let chosenAudio: Audio = self.word.audios[index]
-        let fileURL = chosenAudio.fileURL()
-        self.audioPlayer = try! AVAudioPlayer(contentsOfURL: fileURL!)
+        let fileURL = chosenAudio.fileURL()!
+        self.audioPlayer = try! AVAudioPlayer(contentsOfURL: fileURL)
         self.audioPlayer?.pan = -0.5
         self.audioPlayer?.play()
         // Workaround because AVURLAsset needs files with file extensions
@@ -93,7 +92,7 @@ class WordPracticeController: GAITrackedViewController {
         let documentsURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .AllDomainsMask).last!
         let tmpURL = documentsURL.URLByAppendingPathComponent("tmp.caf")
         _ = try? fileManager.removeItemAtURL(tmpURL)
-        _ = try? fileManager.linkItemAtURL(fileURL!, toURL: tmpURL)
+        _ = try? fileManager.linkItemAtURL(fileURL, toURL: tmpURL)
         self.trainingWaveform.audioURL = tmpURL
         self.trainingWaveform.progressSamples = 0
         UIView.animateWithDuration((self.audioPlayer?.duration)!, delay: 0, options: .CurveLinear, animations: {() -> Void in
@@ -209,9 +208,8 @@ class WordPracticeController: GAITrackedViewController {
         else {
             self.checkbox.setImage(UIImage(named: "check"), forState: .Normal)
         }
-        let tracker = GAI.sharedInstance().defaultTracker
-        let builder = GAIDictionaryBuilder.createEventWithCategory("Usage", action: "Learning", label: "Checked word", value: checked)
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        FIRAnalytics.logEventWithName("learning", parameters: ["action": "Checked word"])
     }
     
     @IBAction func fastForwardPressed() {
@@ -282,7 +280,7 @@ class WordPracticeController: GAITrackedViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.screenName = "WordPracticeController"
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
     override func viewWillDisappear(animated: Bool) {

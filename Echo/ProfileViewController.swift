@@ -11,7 +11,7 @@ import CoreLocation
 import UIKit
 import FDTake
 import MBProgressHUD
-import Google
+import Firebase
 
 class ProfileViewController: UITableViewController {
     var profile: Profile!
@@ -87,9 +87,7 @@ class ProfileViewController: UITableViewController {
                 self.hud?.hide(false)
                 MBProgressHUD.flashError(error)
         })
-        let tracker = GAI.sharedInstance().defaultTracker
-        let builder = GAIDictionaryBuilder.createEventWithCategory("Usage", action: "Social", label: "Saved profile", value: me.profileCompleteness())
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        FIRAnalytics.logEventWithName("sharing", parameters: ["action": "Saved profile"])
     }
     
     //MARK: - UIViewController
@@ -114,9 +112,7 @@ class ProfileViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "ProfileView")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

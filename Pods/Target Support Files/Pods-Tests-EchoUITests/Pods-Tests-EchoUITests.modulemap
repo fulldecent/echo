@@ -1,6 +1,0 @@
-framework module Pods_Tests_EchoUITests {
-  umbrella header "Pods-Tests-EchoUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import MBProgressHUD
-import Google
+import Firebase
 import AVFoundation
 import FDWaveformView
 
@@ -304,9 +304,7 @@ class WordDetailController: UITableViewController {
                 self.navigationItem.rightBarButtonItem = nil
             }
         }
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "WordDetail")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
     override func viewDidAppear(animated: Bool) {

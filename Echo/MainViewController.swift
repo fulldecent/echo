@@ -10,7 +10,7 @@ import Foundation
 import QuartzCore
 import UIKit
 import MBProgressHUD
-import Google
+import Firebase
 import TDBadgedCell
 import Alamofire
 import AlamofireImage
@@ -40,7 +40,10 @@ class MainViewController: UITableViewController {
             self.tableView.performSelectorOnMainThread(#selector(UITableView.reloadData), withObject: nil, waitUntilDone: false)
             self.refreshControl?.endRefreshing()
             UIApplication.sharedApplication().applicationIconBadgeNumber = numNewMessages
-            self.lessonSet.syncStaleLessonsWithProgress({(lesson: Lesson, progress: Float) -> Void in
+            self.lessonSet.syncStaleLessonsWithProgress({ (lesson, progress) in
+                
+                NSLog("Main got progress: \(lesson.serverId) \(progress)")
+                
                 if let path = self.indexPathForLesson(lesson) {
                     self.tableView.reloadRowsAtIndexPaths([path], withRowAnimation: .None)
                 }
@@ -75,10 +78,7 @@ extension MainViewController /*: UIViewController */ {
     
     override func viewWillAppear(animated: Bool) {
       //  self.navigationController!.setNavigationBarHidden(true, animated: animated)
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "MainView")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
-
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
         
         self.navigationItem.title = Profile.currentUser.username
         
@@ -176,7 +176,7 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
     
     func indexPathForLesson(lesson: Lesson) -> NSIndexPath? {
         if let index = self.lessonSet.lessons.indexOf(lesson) {
-            return NSIndexPath(forRow: index + 2, inSection: Int(Section.Lessons.rawValue))
+            return NSIndexPath(forRow: index + 2, inSection: Section.Lessons.rawValue)
         }
         return nil
     }
@@ -238,15 +238,13 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
             let cell = self.tableView.dequeueReusableCellWithIdentifier("lessonDownload")!
             let lesson = self.lessonForRowAtIndexPath(indexPath)!
             cell.textLabel!.text = lesson.name
-            let percent: Float = self.lessonSet.lessonTransferProgress[lesson]!
-            cell.detailTextLabel!.text = "Downloading – \(Int(percent * 100))%"
+            cell.detailTextLabel!.text = self.lessonSet.lessonTransferProgress[lesson]?.localizedDescription
             return cell
         case .LessonUpload:
             let cell = self.tableView.dequeueReusableCellWithIdentifier("lessonUpload")!
             let lesson = self.lessonForRowAtIndexPath(indexPath)!
             cell.textLabel!.text = lesson.name
-            let percent: Float = self.lessonSet.lessonTransferProgress[lesson]!
-            cell.detailTextLabel!.text = "Uploading – \(Int(percent * 100))%"
+            cell.detailTextLabel!.text = self.lessonSet.lessonTransferProgress[lesson]?.localizedDescription
             return cell
         case .DownloadLesson:
             let cell = self.tableView.dequeueReusableCellWithIdentifier("downloadLesson") as! TDBadgedCell
@@ -428,11 +426,10 @@ extension MainViewController: LessonViewDelegate {
     }
     
     func lessonView(controller: LessonViewController, wantsToUploadLesson lesson: Lesson) {
-        self.lessonSet.syncStaleLessonsWithProgress({
-            (lesson: Lesson, progress: Float) -> Void in
+        self.lessonSet.syncStaleLessonsWithProgress { (lesson, progress) in
             let indexPath = self.indexPathForLesson(lesson)!
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-        })
+        }
         self.navigationController!.popToRootViewControllerAnimated(true)
     }
     
@@ -450,12 +447,14 @@ extension MainViewController: DownloadLessonDelegate {
         self.lessonSet.addOrUpdateLesson(lesson)
         // may or may not add a row
         self.tableView.reloadSections(NSIndexSet(index: Section.Lessons.rawValue), withRowAnimation: .Automatic)
-        self.lessonSet.syncStaleLessonsWithProgress({
-            (lesson: Lesson, progress: Float) -> Void in
+        self.lessonSet.syncStaleLessonsWithProgress { (lesson, progress) in
+
+            NSLog("Main got progress: \(lesson.serverId) \(progress)")
+            
             if let indexPath = self.indexPathForLesson(lesson) {
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)                
             }
-        })
+        }
         self.navigationController!.popToRootViewControllerAnimated(true)
     }
 }

@@ -129,17 +129,12 @@ public class Lesson: NSObject /* we need it for the Hashable conformance */ {
         
     }
     
-    //todo: this needs to be a struct or something
-    func listOfMissingFiles() -> [[String: AnyObject]] {
-        // return: [{"word":Word *,"audio":Audio *},...]
-        var retval = [[String: AnyObject]]()
+    func listOfMissingFiles() -> [(Word, Audio)] {
+        var retval = [(Word, Audio)]()
         for word: Word in self.words {
             let wordMissingFiles = word.listOfMissingFiles()
             for file: Audio in wordMissingFiles {
-                var entry = [String : AnyObject]()
-                entry["audio"] = file
-                entry["word"] = word
-                retval.append(entry)
+                retval.append((word, file))
             }
         }
         return retval

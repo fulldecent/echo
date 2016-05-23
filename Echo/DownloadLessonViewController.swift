@@ -9,7 +9,7 @@
 import Foundation
 import MessageUI
 import UIKit
-import Google
+import Firebase
 import MBProgressHUD
 import AlamofireImage
 
@@ -42,9 +42,7 @@ extension DownloadLessonViewController /*: UIViewController */ {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "DownloadLesson")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -120,9 +118,7 @@ extension DownloadLessonViewController /*: UITableViewDelegate*/ {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row < self.lessons.count {
             self.delegate!.downloadLessonViewController(self, gotStubLesson: (self.lessons)[indexPath.row])
-            let tracker = GAI.sharedInstance().defaultTracker
-            let builder = GAIDictionaryBuilder.createEventWithCategory("Usage", action: "Learning", label: "Download Lesson", value: 1)
-            tracker.send(builder.build() as [NSObject : AnyObject])
+            FIRAnalytics.logEventWithName("learning", parameters: ["action": "Download Lesson"])
         }
         else {
             if MFMailComposeViewController.canSendMail() {

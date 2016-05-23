@@ -104,6 +104,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## Firebase
+
+Copyright 2016 Google Inc.
+
 ## FirebaseAnalytics
 
 Copyright 2016 Google Inc.

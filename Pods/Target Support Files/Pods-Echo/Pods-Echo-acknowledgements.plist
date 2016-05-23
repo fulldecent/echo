@@ -139,6 +139,14 @@ THE SOFTWARE.
 			<key>FooterText</key>
 			<string>Copyright 2016 Google Inc.</string>
 			<key>Title</key>
+			<string>Firebase</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2016 Google Inc.</string>
+			<key>Title</key>
 			<string>FirebaseAnalytics</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>

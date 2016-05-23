@@ -54,15 +54,14 @@ class NetworkManager {
     }
     
     /// The singleton instance
-    static var sharedNetworkManager: NetworkManager = {
+    static var sharedNetworkManager = {
         return NetworkManager()
     }()
     
     /// Override for the usercode performing the actions
     lazy var usercode = Profile.currentUser.usercode
     
-    // OLD METHODS HERE USE AFNETWORKING
-    private lazy var sessionManager: AFHTTPSessionManager = {
+    @available(*, deprecated=1.3, message="This is the old AFNETWORKING, you should use ALAMOFIRE") private lazy var sessionManager: AFHTTPSessionManager = {
         let retval = AFHTTPSessionManager(baseURL: NSURL(string: self.SERVER_ECHO_API_URL))
         let authenticateRequests = AFJSONRequestSerializer()
         authenticateRequests.setAuthorizationHeaderFieldWithUsername("xxx", password: self.usercode)
@@ -426,12 +425,16 @@ class NetworkManager {
         let task = sessionManager.downloadTaskWithRequest(request, progress: {
             (progress) -> Void in
             if progress.totalUnitCount > 0 {
-                progressBlock?(progress: Float(progress.fractionCompleted))
+                dispatch_async(dispatch_get_main_queue()) {
+                    progressBlock?(progress: Float(progress.fractionCompleted))
+                }
             }
             }, destination: {_, _ in return localFileURL}, completionHandler: {
                 response, path, error in
                 guard error == nil else {
-                    failureBlock?(error: error!)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        failureBlock?(error: error!)
+                    }
                     return
                 }
         })

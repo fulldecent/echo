@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 import MBProgressHUD
-import Google
+import Firebase
 
-class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, LanguageSelectControllerDelegate {
+class IntroViewController: UIViewController, MBProgressHUDDelegate, LanguageSelectControllerDelegate {
     
     weak var delegate: DownloadLessonDelegate?
     weak var hud: MBProgressHUD?
@@ -52,7 +52,7 @@ class IntroViewController: GAITrackedViewController, MBProgressHUDDelegate, Lang
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.screenName = "IntroView"
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

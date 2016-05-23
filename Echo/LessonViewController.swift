@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import MBProgressHUD
-import Google
+import Firebase
 import AlamofireImage
 
 protocol LessonViewDelegate: class {
@@ -43,9 +43,7 @@ class LessonViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "LessonView")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
     @IBAction func lessonFlagPressed(sender: AnyObject) {

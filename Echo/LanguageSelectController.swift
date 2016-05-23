@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import Google
+import Firebase
 
 protocol LanguageSelectControllerDelegate: class {
     func languageSelectController(controller: AnyObject, didSelectLanguage tag: String, withNativeName name: String) -> Void
@@ -20,9 +20,7 @@ class LanguageSelectController: UITableViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "LanguageSelect")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
         self.tableView.contentInset = UIEdgeInsetsMake(20, self.tableView.contentInset.left, self.tableView.contentInset.bottom, self.tableView.contentInset.right)
     }
 }
