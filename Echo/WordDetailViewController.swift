@@ -32,7 +32,21 @@ class WordDetailController: UITableViewController {
         case Recording
     }
     
-    var word = Word()
+    enum RecordCellTags: Int {
+        case RecordGuage = 10
+        case RecordButton = 3
+        case PlayButton = 1
+        case CheckButton = 4
+    }
+    
+    var word = Word() {
+        didSet {
+            self.editingLanguageTag = word.languageTag
+            self.editingName = word.name
+            self.editingDetail = word.detail.mutableCopy() as! String
+        }
+    }
+    
     @IBOutlet var actionButton: UIBarButtonItem!
     weak var delegate: WordDetailDelegate?
     private let NUMBER_OF_RECORDERS = 3
@@ -43,51 +57,6 @@ class WordDetailController: UITableViewController {
     @IBOutlet var wordField: UITextField!
     @IBOutlet var detailField: UITextField!
     
-    lazy var recordButtons: [UIButton] = {
-        var retval = [UIButton]()
-        for i in 0...self.NUMBER_OF_RECORDERS-1 {
-            let indexPath = NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue)
-            let cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath)
-            retval.append(cell.viewWithTag(3) as! UIButton)
-        }
-        return retval
-    }()
-    lazy var recordGuages: [FDBarGauge] = {
-        var retval = [FDBarGauge]()
-        for i in 0...self.NUMBER_OF_RECORDERS-1 {
-            let indexPath = NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue)
-            let cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath)
-            retval.append(cell.viewWithTag(10) as! FDBarGauge)
-        }
-        return retval
-    }()
-    lazy var playButtons: [UIButton] = {
-        var retval = [UIButton]()
-        for i in 0...self.NUMBER_OF_RECORDERS-1 {
-            let indexPath = NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue)
-            let cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath)
-            retval.append(cell.viewWithTag(1) as! UIButton)
-        }
-        return retval
-    }()
-    lazy var waveforms: [FDWaveformView] = {
-        var retval = [FDWaveformView]()
-        for i in 0...self.NUMBER_OF_RECORDERS-1 {
-            let indexPath = NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue)
-            let cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath)
-            retval.append(cell.viewWithTag(2) as! FDWaveformView)
-        }
-        return retval
-    }()
-    lazy var resetButtons: [UIButton] = {
-        var retval = [UIButton]()
-        for i in 0...self.NUMBER_OF_RECORDERS-1 {
-            let indexPath = NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue)
-            let cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath)
-            retval.append(cell.viewWithTag(4) as! UIButton)
-        }
-        return retval
-    }()
     lazy var echoRecorders: [PHOREchoRecorder] = {
         var retval = [PHOREchoRecorder]()
         for i in 0...self.NUMBER_OF_RECORDERS-1 {
@@ -138,22 +107,19 @@ class WordDetailController: UITableViewController {
         view.layer.addAnimation(bounceAnimation, forKey: "bounce")
     }
     
-    func setWord(word: Word) {
-        self.word = word
-        self.editingLanguageTag = word.languageTag
-        self.editingName = word.name
-        self.editingDetail = word.detail.mutableCopy() as! String
-    }
-
     @IBAction func playButtonPressed(sender: UIButton) {
-        let echoIndex = self.playButtons.indexOf(sender)!
+        let buttonPosition = sender.convertPoint(CGPointZero, toView: self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(buttonPosition)!
+        let echoIndex = indexPath.row
         let recorder = self.echoRecorders[echoIndex]
         recorder.playback()
         self.makeItBounce(sender)
     }
     
     @IBAction func recordButtonPressed(sender: UIButton) {
-        let echoIndex = self.recordButtons.indexOf(sender)!
+        let buttonPosition = sender.convertPoint(CGPointZero, toView: self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(buttonPosition)!
+        let echoIndex = indexPath.row
         let recorder = self.echoRecorders[echoIndex]
         recorder.record()
         self.makeItBounce(sender)
@@ -169,7 +135,8 @@ class WordDetailController: UITableViewController {
         guard keyPath == "microphoneLevel" else {
             return
         }
-        let guage = self.recordGuages[echoIndex]
+        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: echoIndex, inSection: Section.Recordings.rawValue))!
+        let guage = cell.viewWithTag(RecordCellTags.RecordGuage.rawValue)! as! FDBarGauge
         guage.value = recorder.microphoneLevel
         NSLog("observed microphoneLevel %@", guage.value)
     }
@@ -224,18 +191,19 @@ class WordDetailController: UITableViewController {
         }
         for i in 0 ..< NUMBER_OF_RECORDERS {
             let recorder: PHOREchoRecorder = (self.echoRecorders)[i]
-            let recordButton: UIButton = (self.recordButtons)[i]
-            let playButton: UIButton = (self.playButtons)[i]
-            let checkButtons: UIButton = (self.resetButtons)[i]
+            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue))!
+            let recordButton = cell.viewWithTag(RecordCellTags.RecordButton.rawValue)! as! UIButton
+            let playButton = cell.viewWithTag(RecordCellTags.PlayButton.rawValue)! as! UIButton
+            let checkButton = cell.viewWithTag(RecordCellTags.RecordButton.rawValue)! as! UIButton
             if recorder.duration == 0 {
                 valid = false
                 recordButton.hidden = false
                 playButton.hidden = true
-                checkButtons.hidden = false
+                checkButton.hidden = false
             } else {
                 recordButton.hidden = true
                 playButton.hidden = false
-                checkButtons.hidden = false
+                checkButton.hidden = false
             }
         }
         self.actionButton.enabled = valid
@@ -253,11 +221,13 @@ class WordDetailController: UITableViewController {
     }
     
     @IBAction func resetButtonPressed(sender: UIButton) {
-        let echoIndex = self.resetButtons.indexOf(sender)!
+        let buttonPosition = sender.convertPoint(CGPointZero, toView: self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(buttonPosition)!
+        let echoIndex = indexPath.row
         let recorder: PHOREchoRecorder = self.echoRecorders[echoIndex]
         recorder.reset()
         self.validate()
-        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: echoIndex, inSection: 1)], withRowAnimation: .Fade)
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: echoIndex, inSection: Section.Recordings.rawValue)], withRowAnimation: .Fade)
     }
     
     @IBAction func reply(sender: UIBarButtonItem) {
@@ -304,6 +274,7 @@ class WordDetailController: UITableViewController {
                 self.navigationItem.rightBarButtonItem = nil
             }
         }
+        self.validate()
         FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
     }
     
@@ -391,11 +362,11 @@ extension WordDetailController /*: UITableViewDataSource */ {
             cell.contentView.addConstraint(NSLayoutConstraint(item: playButton.imageView!, attribute: .Right, relatedBy: .Equal, toItem: waveform, attribute: .Left, multiplier: 1, constant: 8))
             recordButton.addSubview(recordGuage)
             cell.contentView.addConstraint(NSLayoutConstraint(item: recordButton.imageView!, attribute: .Right, relatedBy: .Equal, toItem: recordGuage, attribute: .Left, multiplier: 1, constant: 8))
-            self.playButtons[indexPath.row] = playButton
-            self.waveforms[indexPath.row] = waveform
-            self.recordButtons[indexPath.row] = recordButton
-            self.recordGuages[indexPath.row] = recordGuage
-            self.resetButtons[indexPath.row] = checkbox
+//            self.playButtons[indexPath.row] = playButton
+//            self.waveforms[indexPath.row] = waveform
+//            self.recordButtons[indexPath.row] = recordButton
+//            self.recordGuages[indexPath.row] = recordGuage
+//            self.resetButtons[indexPath.row] = checkbox
             if !(self.delegate?.wordDetailController(self, canEditWord: self.word) == true) {
                 playButton.hidden = false
                 recordButton.hidden = true

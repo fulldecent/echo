@@ -163,7 +163,7 @@ public class PHOREchoRecorder: NSObject {
     }
     
     public func reset() {
-        self.updateTimer!.invalidate()
+        self.updateTimer?.invalidate()
         self.isRecordingInProgress = false
         self.audioRecorder!.stop()
         self.microphoneLevel = 0.0
