@@ -1,19 +1,4 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
-    - AFNetworking/NSURLSession
   - Alamofire (3.4.0)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
@@ -47,7 +32,6 @@ PODS:
   - TDBadgedCell (3.0)
 
 DEPENDENCIES:
-  - AFNetworking
   - Alamofire
   - AlamofireImage
   - FDTake
@@ -60,7 +44,6 @@ DEPENDENCIES:
   - TDBadgedCell
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   FDTake: 122aaf465673b05648cd1b40200a19c85b1aa9e0
@@ -77,6 +60,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
 
-PODFILE CHECKSUM: adc52df8b81d45b7251dc8f403618f02727cb813
+PODFILE CHECKSUM: bee5775e5352f5dd975130aae389fc814bd21e8a
 
 COCOAPODS: 1.0.0

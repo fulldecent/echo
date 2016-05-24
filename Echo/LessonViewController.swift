@@ -124,30 +124,6 @@ class LessonViewController: UITableViewController {
         self.presentViewController(activityVC, animated: true, completion: { _ in })
     }
     
-    @IBAction func lessonReplyAuthorPressed(sender: AnyObject) {
-        let alert = UIAlertController(title: "Send feedback", message: "", preferredStyle: .Alert)
-        alert.addTextFieldWithConfigurationHandler(nil)
-        alert.addAction(UIAlertAction(title: "Send", style: .Default, handler: {
-            (UIAlertAction) -> Void in
-            let hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true)
-            hud.mode = .Indeterminate
-            hud.labelText = "Sending..."
-            let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
-            let message: String = alert.textFields![0].text!
-            networkManager.postFeedback(message, toAuthorOfLessonWithID: self.lesson.serverId, onSuccess: {
-                () -> Void in
-                hud.mode = .Determinate
-                hud.progress = 1
-                hud.hide(true)
-                }, onFailure: {(error: NSError) -> Void in
-                    hud.hide(true)
-                    MBProgressHUD.flashError(error)
-            })
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
     @IBAction func sharePressed(sender: AnyObject) {
         self.lesson.localChangesSinceLastSync = true
         self.delegate!.lessonView(self, wantsToUploadLesson: self.lesson)

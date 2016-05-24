@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import Alamofire
+import AlamofireImage
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FIRApp.configure()
 
+        // https://github.com/Alamofire/AlamofireImage/pull/33
+        // https://github.com/IBM-Bluemix/openwhisk-darkvisionapp/blob/0b35d26a7e619c6d54b173d5475545b38bcf38bb/ios/darkvision/AppDelegate.swift
+        Request.addAcceptableImageContentTypes(["*/*"]);
+        
         // Let the device know we want to receive push notifications
         UIApplication.sharedApplication().registerForRemoteNotifications()
         if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] {

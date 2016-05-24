@@ -5,7 +5,6 @@ use_frameworks!
 target 'Echo' do
 	pod 'Alamofire'
 	pod 'AlamofireImage'
-	pod 'AFNetworking'
   pod 'Firebase'
   pod 'Firebase/Core'
 	pod 'Google/Analytics'
