@@ -85,9 +85,9 @@ class WordPracticeController: UIViewController {
         self.audioPlayer = try! AVAudioPlayer(contentsOfURL: fileURL)
         self.audioPlayer?.pan = -0.5
         self.audioPlayer?.play()
+        
         // Workaround because AVURLAsset needs files with file extensions
         // http://stackoverflow.com/questions/9290972/is-it-possible-to-make-avurlasset-work-without-a-file-extension
-        
         let fileManager = NSFileManager.defaultManager()
         let documentsURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .AllDomainsMask).last!
         let tmpURL = documentsURL.URLByAppendingPathComponent("tmp.caf")

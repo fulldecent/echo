@@ -403,8 +403,8 @@ extension MainViewController /*: UIViewController*/ {
             controller.delegate = self
         case is WordDetailController:
             let controller = segue.destinationViewController as! WordDetailController
-            let me: Profile = Profile.currentUser
             controller.delegate = self
+            let me: Profile = Profile.currentUser
             self.currentLesson = Lesson()
             let word: Word = Word()
             word.languageTag = me.learningLanguageTag
@@ -412,7 +412,6 @@ extension MainViewController /*: UIViewController*/ {
             let newButton = UIBarButtonItem(barButtonSystemItem: .Done, target: controller.navigationItem.rightBarButtonItem!.target, action: controller.navigationItem.rightBarButtonItem!.action)
             controller.navigationItem.rightBarButtonItem = newButton
             controller.actionButton = newButton
-            controller.validate()
         default:
             break
         }

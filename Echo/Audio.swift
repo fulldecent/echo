@@ -46,8 +46,8 @@ public class Audio {
 
     public func fileURL() -> NSURL? {
         let base = self.word?.fileURL()
-        if self.serverId > 0 {
-            return base?.URLByAppendingPathComponent(String(self.serverId))
+        if let serverId = self.serverId where serverId > 0 {
+            return base?.URLByAppendingPathComponent("\(serverId)")
         }
         return base?.URLByAppendingPathComponent(self.uuid)
     }
