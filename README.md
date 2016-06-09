@@ -79,45 +79,45 @@ Thank you, Will
 Brand Colors
 ============
 
-F4DB00	244	219	0	ICON YELLOW
+F4DB00 244 219 0 ICON YELLOW
 
-918300	145	131	0	ICON ALTERNATE YELLOW
+918300 145 131 0 ICON ALTERNATE YELLOW
 
-4b8c1d	75	140	29	Downloading
+4b8c1d 75 140 29 Downloading
 
-8c1d4b				Maroon Badge
+8c1d4b Maroon Badge
 
 \------------------------
 
-1d8c26	Green OK
+1d8c26 Green OK
 
-828c1d	Belch
+828c1d Belch
 
-4b8c1d	Green Grass
+4b8c1d Green Grass
 
-1d8c26	Green OK
+1d8c26 Green OK
 
-8c261d	Red Woah
+8c261d Red Woah
 
-be7f27	Warning
+be7f27 Warning
 
-da9d49	Flesh
+da9d49 Flesh
 
-1d8c5d	Plastic teal
+1d8c5d Plastic teal
 
-4985da	Ocean Blue
+4985da Ocean Blue
 
-2766be	Plastic Blue
+2766be Plastic Blue
 
-1d828c	Teal accent
+1d828c Teal accent
 
-8c1d82	Purple woah
+8c1d82 Purple woah
 
-5d1d8c	Purple badge
+5d1d8c Purple badge
 
-261d8c	Blue badge
+261d8c Blue badge
 
-1d4b8c	Blue accent
+1d4b8c Blue accent
 
 Notes
 =====
@@ -125,3 +125,5 @@ Notes
 -   Competition
 
 -   https://itunes.apple.com/mz/app/pocket3-chinese/id346703961?mt=8
+
+-   Make icons at 128px <http://fa2png.io/>

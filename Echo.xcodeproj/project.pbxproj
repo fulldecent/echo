@@ -35,13 +35,6 @@
 		D91E43D31C46E8BE00EA5C97 /* LanguageSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91E43CC1C46E8BE00EA5C97 /* LanguageSelectController.swift */; };
 		D91E43FD1C46E8DE00EA5C97 /* Checkbox checked.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43D51C46E8DE00EA5C97 /* Checkbox checked.png */; };
 		D91E43FE1C46E8DE00EA5C97 /* Checkbox empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43D61C46E8DE00EA5C97 /* Checkbox empty.png */; };
-		D91E43FF1C46E8DE00EA5C97 /* practiceIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43D71C46E8DE00EA5C97 /* practiceIcon.png */; };
-		D91E44001C46E8DE00EA5C97 /* practiceIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43D81C46E8DE00EA5C97 /* practiceIcon@2x.png */; };
-		D91E44011C46E8DE00EA5C97 /* microphone icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43D91C46E8DE00EA5C97 /* microphone icon@2x.png */; };
-		D91E44021C46E8DE00EA5C97 /* microphone icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43DA1C46E8DE00EA5C97 /* microphone icon.png */; };
-		D91E44031C46E8DE00EA5C97 /* speaker icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43DB1C46E8DE00EA5C97 /* speaker icon.png */; };
-		D91E44041C46E8DE00EA5C97 /* speaker icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43DC1C46E8DE00EA5C97 /* speaker icon@2x.png */; };
-		D91E44051C46E8DE00EA5C97 /* iphone_delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E43DD1C46E8DE00EA5C97 /* iphone_delete_button.png */; };
 		D91E44061C46E8DE00EA5C97 /* Ready to record.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D91E43DE1C46E8DE00EA5C97 /* Ready to record.m4a */; };
 		D91E44071C46E8DE00EA5C97 /* Record failed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D91E43DF1C46E8DE00EA5C97 /* Record failed.m4a */; };
 		D91E44081C46E8DE00EA5C97 /* Next.aif in Resources */ = {isa = PBXBuildFile; fileRef = D91E43E01C46E8DE00EA5C97 /* Next.aif */; };
@@ -80,6 +73,8 @@
 		D98D75FE1C5140B300DF30C4 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98D75FD1C5140B300DF30C4 /* ProfileTests.swift */; };
 		D9A2C1291C4AEF4200B106A7 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A2C1281C4AEF4200B106A7 /* NetworkManagerTests.swift */; };
 		D9BC8BD01CBC58B600D2C997 /* LanguageSelectControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BC8BCF1CBC58B600D2C997 /* LanguageSelectControllerTests.swift */; };
+		D9CAB6D91D0A02480076C67A /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D9CAB6D71D0A02480076C67A /* microphone.png */; };
+		D9CAB6DA1D0A02480076C67A /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = D9CAB6D81D0A02480076C67A /* play.png */; };
 		D9FEBA701CEFADBA0002A178 /* trophy.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FEBA6F1CEFADBA0002A178 /* trophy.png */; };
 		D9FEBA721CEFAF320002A178 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FEBA711CEFAF320002A178 /* user.png */; };
 		D9FEBA761CEFAFC90002A178 /* user-22@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FEBA751CEFAFC90002A178 /* user-22@3x.png */; };
@@ -150,13 +145,6 @@
 		D91E43CC1C46E8BE00EA5C97 /* LanguageSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelectController.swift; sourceTree = "<group>"; };
 		D91E43D51C46E8DE00EA5C97 /* Checkbox checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox checked.png"; sourceTree = "<group>"; };
 		D91E43D61C46E8DE00EA5C97 /* Checkbox empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox empty.png"; sourceTree = "<group>"; };
-		D91E43D71C46E8DE00EA5C97 /* practiceIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = practiceIcon.png; sourceTree = "<group>"; };
-		D91E43D81C46E8DE00EA5C97 /* practiceIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "practiceIcon@2x.png"; sourceTree = "<group>"; };
-		D91E43D91C46E8DE00EA5C97 /* microphone icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphone icon@2x.png"; sourceTree = "<group>"; };
-		D91E43DA1C46E8DE00EA5C97 /* microphone icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphone icon.png"; sourceTree = "<group>"; };
-		D91E43DB1C46E8DE00EA5C97 /* speaker icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speaker icon.png"; sourceTree = "<group>"; };
-		D91E43DC1C46E8DE00EA5C97 /* speaker icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speaker icon@2x.png"; sourceTree = "<group>"; };
-		D91E43DD1C46E8DE00EA5C97 /* iphone_delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone_delete_button.png; sourceTree = "<group>"; };
 		D91E43DE1C46E8DE00EA5C97 /* Ready to record.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ready to record.m4a"; sourceTree = "<group>"; };
 		D91E43DF1C46E8DE00EA5C97 /* Record failed.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Record failed.m4a"; sourceTree = "<group>"; };
 		D91E43E01C46E8DE00EA5C97 /* Next.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Next.aif; sourceTree = "<group>"; };
@@ -195,6 +183,8 @@
 		D98D75FD1C5140B300DF30C4 /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		D9A2C1281C4AEF4200B106A7 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		D9BC8BCF1CBC58B600D2C997 /* LanguageSelectControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelectControllerTests.swift; sourceTree = "<group>"; };
+		D9CAB6D71D0A02480076C67A /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
+		D9CAB6D81D0A02480076C67A /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		D9FEBA6F1CEFADBA0002A178 /* trophy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trophy.png; sourceTree = "<group>"; };
 		D9FEBA711CEFAF320002A178 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		D9FEBA751CEFAFC90002A178 /* user-22@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-22@3x.png"; sourceTree = "<group>"; };
@@ -360,6 +350,8 @@
 		D91E43D41C46E8C700EA5C97 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				D9CAB6D71D0A02480076C67A /* microphone.png */,
+				D9CAB6D81D0A02480076C67A /* play.png */,
 				D9FEBA811CEFC22E0002A178 /* speech.png */,
 				D9FEBA7D1CEFC1F20002A178 /* up.png */,
 				D9FEBA7E1CEFC1F20002A178 /* down.png */,
@@ -371,13 +363,6 @@
 				D9FEBA6F1CEFADBA0002A178 /* trophy.png */,
 				D91E43D51C46E8DE00EA5C97 /* Checkbox checked.png */,
 				D91E43D61C46E8DE00EA5C97 /* Checkbox empty.png */,
-				D91E43D71C46E8DE00EA5C97 /* practiceIcon.png */,
-				D91E43D81C46E8DE00EA5C97 /* practiceIcon@2x.png */,
-				D91E43D91C46E8DE00EA5C97 /* microphone icon@2x.png */,
-				D91E43DA1C46E8DE00EA5C97 /* microphone icon.png */,
-				D91E43DB1C46E8DE00EA5C97 /* speaker icon.png */,
-				D91E43DC1C46E8DE00EA5C97 /* speaker icon@2x.png */,
-				D91E43DD1C46E8DE00EA5C97 /* iphone_delete_button.png */,
 				D91E43DE1C46E8DE00EA5C97 /* Ready to record.m4a */,
 				D91E43DF1C46E8DE00EA5C97 /* Record failed.m4a */,
 				D91E43E01C46E8DE00EA5C97 /* Next.aif */,
@@ -522,10 +507,8 @@
 			files = (
 				D91E44061C46E8DE00EA5C97 /* Ready to record.m4a in Resources */,
 				D91E43A51C46E81F00EA5C97 /* Languages.plist in Resources */,
-				D91E44021C46E8DE00EA5C97 /* microphone icon.png in Resources */,
 				D91E44211C46E8DE00EA5C97 /* checkin.png in Resources */,
 				D91E441E1C46E8DE00EA5C97 /* like@2x.png in Resources */,
-				D91E44041C46E8DE00EA5C97 /* speaker icon@2x.png in Resources */,
 				D91E44181C46E8DE00EA5C97 /* checkon@2x.png in Resources */,
 				D91E44221C46E8DE00EA5C97 /* checkin@2x.png in Resources */,
 				D9FEBA821CEFC22E0002A178 /* speech.png in Resources */,
@@ -534,15 +517,12 @@
 				D91E44151C46E8DE00EA5C97 /* check.png in Resources */,
 				D91E44241C46E8DE00EA5C97 /* camera@2x.png in Resources */,
 				D9FEBA721CEFAF320002A178 /* user.png in Resources */,
-				D91E44031C46E8DE00EA5C97 /* speaker icon.png in Resources */,
 				D91E44141C46E8DE00EA5C97 /* social@2x.png in Resources */,
 				D91E440A1C46E8DE00EA5C97 /* 37x-Checkmark@2x.png in Resources */,
 				D9FEBA761CEFAFC90002A178 /* user-22@3x.png in Resources */,
 				D91E441D1C46E8DE00EA5C97 /* like.png in Resources */,
 				D9FEBA7C1CEFC1100002A178 /* book.png in Resources */,
-				D91E44051C46E8DE00EA5C97 /* iphone_delete_button.png in Resources */,
 				D91E44091C46E8DE00EA5C97 /* 37x-Checkmark.png in Resources */,
-				D91E44011C46E8DE00EA5C97 /* microphone icon@2x.png in Resources */,
 				D91E441F1C46E8DE00EA5C97 /* message.png in Resources */,
 				D91E44231C46E8DE00EA5C97 /* camera.png in Resources */,
 				D91E43811C46E5DD00EA5C97 /* LaunchScreen.storyboard in Resources */,
@@ -554,9 +534,9 @@
 				D9FEBA7F1CEFC1F20002A178 /* up.png in Resources */,
 				D91E44131C46E8DE00EA5C97 /* social.png in Resources */,
 				D9FEBA701CEFADBA0002A178 /* trophy.png in Resources */,
-				D91E44001C46E8DE00EA5C97 /* practiceIcon@2x.png in Resources */,
 				D91E44161C46E8DE00EA5C97 /* check@2x.png in Resources */,
 				D91E441A1C46E8DE00EA5C97 /* none40.png in Resources */,
+				D9CAB6DA1D0A02480076C67A /* play.png in Resources */,
 				D91E44171C46E8DE00EA5C97 /* checkon.png in Resources */,
 				D9FEBA801CEFC1F20002A178 /* down.png in Resources */,
 				D91E440C1C46E8DE00EA5C97 /* 37x-BigX.png in Resources */,
@@ -567,7 +547,7 @@
 				D9FEBA7A1CEFB0430002A178 /* user-22@2x.png in Resources */,
 				D91E44121C46E8DE00EA5C97 /* lesson.png in Resources */,
 				D91E43FE1C46E8DE00EA5C97 /* Checkbox empty.png in Resources */,
-				D91E43FF1C46E8DE00EA5C97 /* practiceIcon.png in Resources */,
+				D9CAB6D91D0A02480076C67A /* microphone.png in Resources */,
 				D91E44201C46E8DE00EA5C97 /* message@2x.png in Resources */,
 				D91E44191C46E8DE00EA5C97 /* shuffle.png in Resources */,
 			);

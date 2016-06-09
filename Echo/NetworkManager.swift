@@ -440,6 +440,8 @@ class NetworkManager {
         let relativePath: String = "audio/\(audio.serverId!).caf"
         let url = NSURL(string: relativePath, relativeToURL: self.BASE_URL)!
         let localFileURL = audio.fileURL()!
+        let parent = localFileURL.URLByDeletingLastPathComponent!
+        try! NSFileManager.defaultManager().createDirectoryAtURL(parent, withIntermediateDirectories: true, attributes: nil)
         
         let destination: Alamofire.Request.DownloadFileDestination = {_,_ in return localFileURL}
         self.alamoManager.download(.GET, url, destination: destination)
