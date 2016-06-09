@@ -29,24 +29,25 @@ class IntroViewController: UIViewController, MBProgressHUDDelegate, LanguageSele
     }
     
     func saveLanguageWithTag(tag: String) {
-        let me: Profile = Profile.currentUser
+        let me = Profile.currentUser
         me.learningLanguageTag = tag
-        self.hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true)
-        self.hud?.mode = MBProgressHUDMode.Indeterminate
-        self.hud?.labelText = "Sending..."
+        me.syncToDisk()
+        let hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true)
+        hud.mode = MBProgressHUDMode.Indeterminate
+        hud.labelText = "Sending..."
+        self.hud = hud
         me.syncOnlineOnSuccess({
             (recommendedLessons) -> Void in
             for lesson in recommendedLessons {
                 self.delegate?.downloadLessonViewController(self, gotStubLesson: lesson)
             }
-            self.hud?.hide(true)
+            hud.hide(true)
             me.syncToDisk()
-            self.dismissViewControllerAnimated(true, completion: { _ in })
+            self.dismissViewControllerAnimated(true, completion: nil)
 
             }) { (error) -> Void in
-                self.hud?.hide(false)
+                hud.hide(false)
                 MBProgressHUD.flashError(error)
-       
         }
     }
     

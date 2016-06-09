@@ -40,18 +40,18 @@ class LessonSet {
     }
     
     func syncStaleLessonsWithProgress(progress: (lesson: Lesson, progress: NSProgress) -> Void) {
-        let lessonsToDownload = self.lessons.filter { $0.remoteChangesSinceLastSync && lessonTransferProgress[$0] == nil }
+        let lessonsToDownload = self.lessons.filter { ($0.remoteChangesSinceLastSync || $0.listOfMissingFiles().count > 0) && lessonTransferProgress[$0] == nil }
         for lesson in lessonsToDownload {
             lessonTransferProgress[lesson] = NSProgress.discreteProgressWithTotalUnitCount(1000)
             self.pullLessonWithFiles(lesson,
                 withProgress: {
                     (closureLesson: Lesson, closureProgress: NSProgress) in
                     self.lessonTransferProgress[closureLesson] = closureProgress
-                    progress(lesson: closureLesson, progress: closureProgress)
                     if closureProgress.fractionCompleted == 1 {
                         self.lessonTransferProgress.removeValueForKey(closureLesson)
                         self.writeToDisk()
                     }
+                    progress(lesson: closureLesson, progress: closureProgress)
                 }, onFailure: nil)
         }
 
@@ -62,11 +62,11 @@ class LessonSet {
                 withProgress: {
                     (closureLesson: Lesson, closureProgress: NSProgress) in
                     self.lessonTransferProgress[closureLesson] = closureProgress
-                    progress(lesson: closureLesson, progress: closureProgress)
                     if closureProgress.fractionCompleted == 1 {
                         self.lessonTransferProgress.removeValueForKey(closureLesson)
                         self.writeToDisk()
                     }
+                    progress(lesson: closureLesson, progress: closureProgress)
                 }, onFailure: nil)
         }
     }
@@ -153,8 +153,8 @@ class LessonSet {
                 networkManager.pullAudio(file, withProgress: {
                     (fileProgressFloat: Float) -> Void in
                     fileProgress.completedUnitCount = Int64(1000*fileProgressFloat)
-                    NSLog("FILE PROGRESS: \(serverId) \(fileProgress.localizedAdditionalDescription)")
-                    NSLog("Current thread \(NSThread.currentThread())")
+                    //NSLog("FILE PROGRESS: \(serverId) \(fileProgress.localizedAdditionalDescription)")
+                    //NSLog("Current thread \(NSThread.currentThread())")
                     if fileProgressFloat == 1 {
                         if lessonProgress.fractionCompleted == 1 {
                             lessonToSync.remoteChangesSinceLastSync = false
@@ -209,7 +209,7 @@ class LessonSet {
             for file: Audio in neededAudios {
                 progressPerAudioFile[file.uuid] = 0.0
                 networkManager.pullAudio(file, withProgress: {(fileProgress: Float) -> Void in
-                    NSLog("FILE PROGRESS: %@ %@", file.uuid, fileProgress)
+                    //NSLog("FILE PROGRESS: %@ %@", file.uuid, fileProgress)
                     progressPerAudioFile[file.uuid] = fileProgress
                     var filesProgress = Float(0)
                     for value: Float in progressPerAudioFile.values {

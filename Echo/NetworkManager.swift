@@ -252,16 +252,20 @@ class NetworkManager {
             response in
             switch response.result {
             case .Success(let JSON as [String : AnyObject]):
-                guard let updatedLessonsWithIds = JSON["updatedLessons"] as? [Int : Int] else {
-                    return
-                }
                 guard let newLessons = JSON["newLessons"] as? Int else {
+                    failureBlock?(error: NSError(domain: "Server bad response format", code: 9999, userInfo: nil))
                     return
                 }
                 guard let unreadMessages = JSON["unreadMessages"] as? Int else {
+                    failureBlock?(error: NSError(domain: "Server bad response format", code: 9999, userInfo: nil))
                     return
                 }
-                let updatedLessons = [Int](updatedLessonsWithIds.keys)
+                let updatedLessons: [Int]
+                if let updatedLessonsWithIds = JSON["updatedLessons"] as? [Int : Int] {
+                    updatedLessons = [Int](updatedLessonsWithIds.keys)
+                } else {
+                    updatedLessons = []
+                }
                 successBlock?(updatedLessonIds:updatedLessons, numNewLessons: newLessons, numNewMessages: unreadMessages)
             case .Failure(let error):
                 failureBlock?(error: error)

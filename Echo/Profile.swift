@@ -25,8 +25,8 @@ class Profile {
     
     static var currentUser: Profile = {
         let defaults = NSUserDefaults.standardUserDefaults()
-        let profileJSON = defaults.objectForKey("profile") as? String ?? ""
-        return Profile(JSONString: profileJSON)!
+        let profileDict = defaults.objectForKey("profile") as? [String : AnyObject] ?? [String : AnyObject]()
+        return Profile(packed: profileDict)
     }()
     
     //TODO: make this more accurate
@@ -49,7 +49,7 @@ class Profile {
     
     func syncToDisk() {
         let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(self.toDictionary(), forKey: "userProfile")
+        defaults.setObject(self.toDictionary(), forKey: "profile")
     }
     
     func profileCompleteness() -> Float {
@@ -121,7 +121,7 @@ class Profile {
         return retval
     }
     
-    func toJSON() -> NSData? {
-        return try? NSJSONSerialization.dataWithJSONObject(self.toDictionary(), options: [])
+    func toJSON() -> NSData {
+        return try! NSJSONSerialization.dataWithJSONObject(self.toDictionary(), options: [])
     }
 }

@@ -362,11 +362,6 @@ extension WordDetailController /*: UITableViewDataSource */ {
             cell.contentView.addConstraint(NSLayoutConstraint(item: playButton.imageView!, attribute: .Right, relatedBy: .Equal, toItem: waveform, attribute: .Left, multiplier: 1, constant: 8))
             recordButton.addSubview(recordGuage)
             cell.contentView.addConstraint(NSLayoutConstraint(item: recordButton.imageView!, attribute: .Right, relatedBy: .Equal, toItem: recordGuage, attribute: .Left, multiplier: 1, constant: 8))
-//            self.playButtons[indexPath.row] = playButton
-//            self.waveforms[indexPath.row] = waveform
-//            self.recordButtons[indexPath.row] = recordButton
-//            self.recordGuages[indexPath.row] = recordGuage
-//            self.resetButtons[indexPath.row] = checkbox
             if !(self.delegate?.wordDetailController(self, canEditWord: self.word) == true) {
                 playButton.hidden = false
                 recordButton.hidden = true

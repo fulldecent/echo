@@ -81,8 +81,14 @@ class WordPracticeController: UIViewController {
         self.makeItBounce(self.trainingSpeakerButton)
         let index = Int(arc4random_uniform(UInt32(self.word!.audios.count)))
         let chosenAudio: Audio = self.word.audios[index]
+        guard chosenAudio.fileExistsOnDisk() else {
+            return
+        }
         let fileURL = chosenAudio.fileURL()!
-        self.audioPlayer = try! AVAudioPlayer(contentsOfURL: fileURL)
+        self.audioPlayer = try? AVAudioPlayer(contentsOfURL: fileURL)
+        guard self.audioPlayer != nil else {
+            return
+        }
         self.audioPlayer?.pan = -0.5
         self.audioPlayer?.play()
         

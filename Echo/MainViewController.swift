@@ -23,15 +23,14 @@ class MainViewController: UITableViewController {
     var otherEvents = [Event]()
     var hud: MBProgressHUD? = nil
     var currentLesson: Lesson? = nil // should not be necessary
-    var currentWord: Word? = nil // should not be necessary
     
     @IBAction func reload() {
-        let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let defaults = NSUserDefaults.standardUserDefaults()
         let networkManager = NetworkManager.sharedNetworkManager
-        let lastUpdateLesson: Int = defaults.integerForKey("lastUpdateLessonList")
-        let lastUpdateMessage: Int = defaults.integerForKey("lastMessageSeen")
-        networkManager.getUpdatesForLessons(self.lessonSet.lessons, newLessonsSinceID: lastUpdateLesson, messagesSinceID: lastUpdateMessage, onSuccess: {
-            (updatedLessonIds, numNewLessons, numNewMessages) -> Void in
+        let lastUpdateLesson = defaults.integerForKey("lastUpdateLessonList")
+        let lastUpdateMessage = defaults.integerForKey("lastMessageSeen")
+        networkManager.getUpdatesForLessons(lessonSet.lessons, newLessonsSinceID: lastUpdateLesson, messagesSinceID: lastUpdateMessage, onSuccess: {
+            updatedLessonIds, numNewLessons, numNewMessages in
             self.lessonSet.setRemoteUpdatesForLessonsWithIDs(updatedLessonIds)
             defaults.setInteger(numNewLessons, forKey: "numNewLessons")
             defaults.setInteger(numNewMessages, forKey: "numNewMessages")
@@ -42,7 +41,7 @@ class MainViewController: UITableViewController {
             UIApplication.sharedApplication().applicationIconBadgeNumber = numNewMessages
             self.lessonSet.syncStaleLessonsWithProgress({ (lesson, progress) in
                 
-                NSLog("Main got progress: \(lesson.serverId) \(progress)")
+                //NSLog("Main got progress: \(lesson.serverId) \(progress)")
                 
                 if let path = self.indexPathForLesson(lesson) {
                     self.tableView.reloadRowsAtIndexPaths([path], withRowAnimation: .None)
@@ -77,7 +76,6 @@ extension MainViewController /*: UIViewController */ {
     }
     
     override func viewWillAppear(animated: Bool) {
-      //  self.navigationController!.setNavigationBarHidden(true, animated: animated)
         FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
         
         self.navigationItem.title = Profile.currentUser.username
@@ -94,20 +92,10 @@ extension MainViewController /*: UIViewController */ {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let me: Profile = Profile.currentUser
+        let me = Profile.currentUser
         if me.learningLanguageTag == "" {
             self.performSegueWithIdentifier("intro", sender: self)
         }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-     //   self.navigationController!.setNavigationBarHidden(false, animated: animated)
-        super.viewWillDisappear(animated)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 
@@ -316,7 +304,6 @@ extension MainViewController /*: UITableViewController, UITableViewDelegate, UIT
                 if progress == 1.0 {
                     let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let controller: WordDetailController = storyboard.instantiateViewControllerWithIdentifier("WordDetailController") as! WordDetailController
-                    self.currentWord = word
                     controller.word = word
                     controller.delegate = self
                     self.navigationController!.pushViewController(controller, animated: true)
@@ -440,7 +427,7 @@ extension MainViewController: LessonViewDelegate {
 
 extension MainViewController: DownloadLessonDelegate {
     func downloadLessonViewController(controller: UIViewController, gotStubLesson lesson: Lesson) {
-        NSLog("GOT STUB LESSON: %ld", Int(lesson.serverId))
+        NSLog("GOT STUB LESSON: \(lesson.serverId)")
         NSLog("%@", NSThread.callStackSymbols())
         lesson.remoteChangesSinceLastSync = true
         self.lessonSet.addOrUpdateLesson(lesson)
@@ -448,7 +435,7 @@ extension MainViewController: DownloadLessonDelegate {
         self.tableView.reloadSections(NSIndexSet(index: Section.Lessons.rawValue), withRowAnimation: .Automatic)
         self.lessonSet.syncStaleLessonsWithProgress { (lesson, progress) in
 
-            NSLog("Main got progress: \(lesson.serverId) \(progress)")
+            //NSLog("Main got progress: \(lesson.serverId) \(progress)")
             
             if let indexPath = self.indexPathForLesson(lesson) {
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)                
@@ -495,29 +482,5 @@ extension MainViewController: WordDetailDelegate {
     
     func wordDetailController(controller: WordDetailController, canReplyWord word: Word) -> Bool {
         return true
-    }
-}
-
-extension MainViewController: WordPracticeDelegate {
-    func currentWordForWordPractice(wordPractice: WordPracticeController) -> Word {
-        return self.currentWord!
-    }
-    
-    func wordCheckedStateForWordPractice(wordPractice: WordPracticeController) -> Bool {
-        return false
-    }
-    
-    func skipToNextWordForWordPractice(wordPractice: WordPracticeController) {
-    }
-    
-    func currentWordCanBeCheckedForWordPractice(wordPractice: WordPracticeController) -> Bool {
-        return false
-    }
-    
-    func wordPractice(wordPractice: WordPracticeController, setWordCheckedState state: Bool) {
-    }
-    
-    func wordPracticeShouldShowNextButton(wordPractice: WordPracticeController) -> Bool {
-        return false
     }
 }
