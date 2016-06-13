@@ -12,6 +12,8 @@ import MBProgressHUD
 import Firebase
 import AVFoundation
 import FDWaveformView
+import FDSoundActivatedRecorder
+import FDTextFieldTableViewCell
 
 protocol WordDetailDelegate: class {
     func wordDetailController(controller: WordDetailController, canEditWord word: Word) -> Bool
@@ -43,7 +45,11 @@ class WordDetailController: UITableViewController {
         didSet {
             self.editingLanguageTag = word.languageTag
             self.editingName = word.name
-            self.editingDetail = word.detail.mutableCopy() as! String
+            self.editingDetail = word.detail
+            let urls = word.audios.flatMap {$0.fileURL()}
+            for (i, url) in urls.enumerate() {
+                self.recordings[i] = (url:url, wasModified:false)
+            }
         }
     }
     
@@ -57,28 +63,16 @@ class WordDetailController: UITableViewController {
     @IBOutlet var wordField: UITextField!
     @IBOutlet var detailField: UITextField!
     
-    lazy var echoRecorders: [PHOREchoRecorder] = {
-        var retval = [PHOREchoRecorder]()
-        for i in 0...self.NUMBER_OF_RECORDERS-1 {
-            let recorder: PHOREchoRecorder
-            if i < self.word.audios.count {
-                let audio = self.word.audios[i]
-                recorder = PHOREchoRecorder(audioDataAtURL: audio.fileURL()!)
-            } else {
-                recorder = PHOREchoRecorder()
-            }
-            recorder.delegate = self
-            retval.append(recorder)
-        }
-        return retval
-    }()
+    var player: AVAudioPlayer? = nil
+    let recorder = FDSoundActivatedRecorder()
+    var recordingIndex = 0
+    var hud: MBProgressHUD?
 
     // Model
     var editingLanguageTag: String = ""
     var editingName: String = ""
     var editingDetail: String = ""
-    
-    var hud: MBProgressHUD?
+    var recordings = [Int: (url: NSURL, wasModified: Bool)]()
     
     func cellTypeForRowAtIndexPath(indexPath: NSIndexPath) -> Cell {
         switch Section(rawValue: indexPath.section)! {
@@ -111,57 +105,48 @@ class WordDetailController: UITableViewController {
         let buttonPosition = sender.convertPoint(CGPointZero, toView: self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(buttonPosition)!
         let echoIndex = indexPath.row
-        let recorder = self.echoRecorders[echoIndex]
-        recorder.playback()
+        guard let url = self.recordings[echoIndex]?.url else {
+            return
+        }
+        let player = try? AVAudioPlayer(contentsOfURL: url)
+        player?.play()
         self.makeItBounce(sender)
     }
     
     @IBAction func recordButtonPressed(sender: UIButton) {
         let buttonPosition = sender.convertPoint(CGPointZero, toView: self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(buttonPosition)!
-        let echoIndex = indexPath.row
-        let recorder = self.echoRecorders[echoIndex]
-        recorder.record()
+        self.recordingIndex = indexPath.row
+        self.recorder.startListening()
         self.makeItBounce(sender)
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        guard let recorder = object as? PHOREchoRecorder else {
-            return
-        }
-        guard let echoIndex = self.echoRecorders.indexOf(recorder) else {
+        guard let recorder = object as? FDSoundActivatedRecorder else {
             return
         }
         guard keyPath == "microphoneLevel" else {
             return
         }
-        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: echoIndex, inSection: Section.Recordings.rawValue))!
+        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: self.recordingIndex, inSection: Section.Recordings.rawValue))!
         let guage = cell.viewWithTag(RecordCellTags.RecordGuage.rawValue)! as! FDBarGauge
         guage.value = recorder.microphoneLevel
         NSLog("observed microphoneLevel %@", guage.value)
     }
     
     @IBAction func save() {
-        var files = [Audio]()
         self.word.languageTag = self.editingLanguageTag
         self.word.name = self.editingName
         self.word.detail = self.editingDetail
-        for i in 1...self.NUMBER_OF_RECORDERS {
-            let recorder = self.echoRecorders[i]
-            let audio: Audio
-            if self.word.audios.count > i {
-                audio = self.word.audios[i]
-            } else {
-                audio = Audio(word: self.word)
-            }
-            if recorder.audioWasModified {
+        var files = [Audio]()
+        for i in 0 ..< self.NUMBER_OF_RECORDERS {
+            let audio = self.word.audios[i] ?? Audio(word: self.word)
+            if let newUrl = (self.recordings[i]?.wasModified != nil) ? self.recordings[i]?.url : nil {
                 let fileManager = NSFileManager.defaultManager()
-                let documentsURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .AllDomainsMask).last!
-                _ = documentsURL.URLByAppendingPathComponent("tmp.caf")
                 do {
                     try fileManager.removeItemAtURL(audio.fileURL()!)
                     try fileManager.createDirectoryAtURL(self.word.fileURL()!, withIntermediateDirectories: true, attributes: nil)
-                    try fileManager.moveItemAtURL(recorder.audioDataURL()!, toURL: audio.fileURL()!)
+                    try fileManager.moveItemAtURL(newUrl, toURL: audio.fileURL()!)
                 } catch {
                     print("could not save audio: \(error)")
                 }
@@ -176,7 +161,7 @@ class WordDetailController: UITableViewController {
     }
     
     @IBAction func validate() {
-        var valid: Bool = true
+        var valid = true
         let firstCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))!
         let goodColor = firstCell.textLabel!.textColor
         let badColor: UIColor = UIColor.redColor()
@@ -190,12 +175,11 @@ class WordDetailController: UITableViewController {
             self.wordLabel.textColor = goodColor
         }
         for i in 0 ..< NUMBER_OF_RECORDERS {
-            let recorder: PHOREchoRecorder = (self.echoRecorders)[i]
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: Section.Recordings.rawValue))!
             let recordButton = cell.viewWithTag(RecordCellTags.RecordButton.rawValue)! as! UIButton
             let playButton = cell.viewWithTag(RecordCellTags.PlayButton.rawValue)! as! UIButton
             let checkButton = cell.viewWithTag(RecordCellTags.RecordButton.rawValue)! as! UIButton
-            if recorder.duration == 0 {
+            if self.recordings[i] != nil {
                 valid = false
                 recordButton.hidden = false
                 playButton.hidden = true
@@ -224,8 +208,8 @@ class WordDetailController: UITableViewController {
         let buttonPosition = sender.convertPoint(CGPointZero, toView: self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(buttonPosition)!
         let echoIndex = indexPath.row
-        let recorder: PHOREchoRecorder = self.echoRecorders[echoIndex]
-        recorder.reset()
+        self.recorder.abort()
+        self.recordings[echoIndex] = nil
         self.validate()
         self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: echoIndex, inSection: Section.Recordings.rawValue)], withRowAnimation: .Fade)
     }
@@ -262,9 +246,7 @@ class WordDetailController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        for recorder in self.echoRecorders {
-            recorder.addObserver(self, forKeyPath: "microphoneLevel", options: .New, context: nil)
-        }
+        self.recorder.addObserver(self, forKeyPath: "microphoneLevel", options: .New, context: nil)
         self.title = self.word.name
         if self.delegate?.wordDetailController(self, canEditWord: self.word) == true {
             if self.delegate!.wordDetailController(self, canReplyWord: self.word) {
@@ -289,9 +271,7 @@ class WordDetailController: UITableViewController {
     }
     
     override func viewWillDisappear(animated: Bool) {
-        for recorder in self.echoRecorders {
-            recorder.removeObserver(self, forKeyPath: "microphoneLevel")
-        }
+        self.recorder.removeObserver(self, forKeyPath: "microphoneLevel")
         super.viewWillDisappear(animated)
     }
 }
@@ -317,7 +297,7 @@ extension WordDetailController /*: UITableViewDataSource */ {
             cell.detailTextLabel!.text = Languages.nativeDescriptionForLanguage(self.editingLanguageTag)
             return cell
         case .Title:
-            let cell = tableView.dequeueReusableCellWithIdentifier("word") as! FDRightDetailWithTextFieldCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("word") as! FDTextFieldTableViewCell
             self.wordLabel = cell.textLabel
             self.wordField = cell.textField
             self.wordField.text = self.editingName
@@ -326,7 +306,7 @@ extension WordDetailController /*: UITableViewDataSource */ {
             self.wordField.addTarget(self, action: #selector(WordDetailController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
             return cell
         case .Detail:
-            let cell = tableView.dequeueReusableCellWithIdentifier("detail") as! FDRightDetailWithTextFieldCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("detail") as! FDTextFieldTableViewCell
             self.detailLabel = cell.textLabel
             self.detailField = cell.textField
             self.detailLabel.text = "Detail (\(self.editingLanguageTag))"
@@ -342,7 +322,7 @@ extension WordDetailController /*: UITableViewDataSource */ {
             let recordButton: UIButton = cell.viewWithTag(3) as! UIButton
             let recordGuage: FDBarGauge = cell.viewWithTag(10) as! FDBarGauge
             let checkbox: UIButton = cell.viewWithTag(4) as! UIButton
-            let recorder: PHOREchoRecorder = self.echoRecorders[indexPath.row]
+            let url = self.recordings[indexPath.row]
             if indexPath.row < self.word.audios.count {
                 let file = self.word.audios[indexPath.row]
                 // Workaround because AVURLAsset needs files with file extensions
@@ -367,7 +347,7 @@ extension WordDetailController /*: UITableViewDataSource */ {
                 recordButton.hidden = true
                 checkbox.hidden = true
             }
-            else if recorder.duration > 0 {
+            else if url != nil {
                 playButton.hidden = false
                 recordButton.hidden = true
                 checkbox.hidden = false
@@ -379,7 +359,6 @@ extension WordDetailController /*: UITableViewDataSource */ {
                 checkbox.hidden = false
                 checkbox.setImage(UIImage(named: "Checkbox empty"), forState: .Normal)
             }
-            
             return cell
         }
     }
@@ -441,11 +420,22 @@ extension WordDetailController: UITextFieldDelegate {
     }
 }
 
-extension WordDetailController: PHOREchoRecorderDelegate {
-    func recording(recorder: PHOREchoRecorder, didFinishSuccessfully success: Bool) {
-        guard success else {
-            return
-        }
+extension WordDetailController: FDSoundActivatedRecorderDelegate {
+    /// A recording was triggered or manually started
+    func soundActivatedRecorderDidStartRecording(recorder: FDSoundActivatedRecorder) {
+    }
+    
+    /// No recording has started or been completed after listening for `TOTAL_TIMEOUT_SECONDS`
+    func soundActivatedRecorderDidTimeOut(recorder: FDSoundActivatedRecorder) {
+    }
+    
+    /// The recording and/or listening ended and no recording was captured
+    func soundActivatedRecorderDidAbort(recorder: FDSoundActivatedRecorder) {
+    }
+    
+    /// A recording was successfully captured
+    func soundActivatedRecorderDidFinishRecording(recorder: FDSoundActivatedRecorder, andSaved file: NSURL) {
+        self.recordings[self.recordingIndex] = (url: file, wasModified: true)
         self.validate()
     }
 }
