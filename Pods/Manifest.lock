@@ -1,65 +1,27 @@
 PODS:
-  - Alamofire (3.4.0)
-  - AlamofireImage (2.4.0):
-    - Alamofire (~> 3.3)
-  - FDTake (0.3.2)
-  - FDWaveformView (0.3.1)
-  - Firebase (3.2.1):
-    - Firebase/Core (= 3.2.1)
-  - Firebase/Analytics (3.2.1):
-    - FirebaseAnalytics (= 3.2.0)
-  - Firebase/Core (3.2.1):
-    - Firebase/Analytics (= 3.2.1)
-  - FirebaseAnalytics (3.2.0):
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
-    - GoogleUtilities (~> 1.3)
-  - FirebaseInstanceID (1.0.6)
-  - Google/Analytics (3.0.3):
-    - Google/Core
-    - GoogleAnalytics (~> 3.12)
-  - Google/Core (3.0.3):
-    - FirebaseAnalytics (~> 3.2)
-  - GoogleAnalytics (3.14.0)
-  - GoogleInterchangeUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.1.1)
-  - GoogleUtilities (1.3.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - MBProgressHUD (0.9.2)
-  - SwiftyJSON (2.3.2)
-  - TDBadgedCell (3.0)
+  - Alamofire (4.3.0)
+  - FDSoundActivatedRecorder (2.1.0)
+  - FDWaveformView (2.0.1)
+  - MBProgressHUD (1.0.0)
+  - TDBadgedCell (2.6)
+  - YTBarButtonItemWithBadge (0.1.0)
 
 DEPENDENCIES:
-  - Alamofire
-  - AlamofireImage
-  - FDTake
+  - Alamofire (~> 4.0)
+  - FDSoundActivatedRecorder
   - FDWaveformView
-  - Firebase
-  - Firebase/Core
-  - Google/Analytics
   - MBProgressHUD
-  - SwiftyJSON
-  - TDBadgedCell
+  - TDBadgedCell (~> 2.0)
+  - YTBarButtonItemWithBadge
 
 SPEC CHECKSUMS:
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
-  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
-  FDTake: 122aaf465673b05648cd1b40200a19c85b1aa9e0
-  FDWaveformView: 9d641a95bc0abd8af27cac4c973b015735d916f0
-  Firebase: 6c80ac28d59d06bfd9152a7b6ea17625ca93183d
-  FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
-  FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
-  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
-  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
-  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
-  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
-  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
-  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
-  TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
+  Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
+  FDSoundActivatedRecorder: c77d685758d56973c4eacfe561587269eca364d4
+  FDWaveformView: df5b9bbc7ce8c69269eea50dc65964a49ff8826c
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  TDBadgedCell: 522ef0fe70221a031eff8d424f5d57379f652088
+  YTBarButtonItemWithBadge: 8d0bd605132cbf39c93c2c30926a466b1c82498c
 
-PODFILE CHECKSUM: bee5775e5352f5dd975130aae389fc814bd21e8a
+PODFILE CHECKSUM: d48bf1ca81d435090cdd356b41ac30804ca9603e
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.2.0

@@ -2,40 +2,105 @@
 //  Languages.swift
 //  Echo
 //
-//  Created by William Entriken on 1/3/16.
-//
+//  Created by Full Decent on 1/15/17.
+//  Copyright © 2017 William Entriken. All rights reserved.
 //
 
 import Foundation
 
-struct Language {
-    let languageTag: String // From IANA Language Subtag Registry
-    let nativeName: String
-}
+// Language codes from IANA Language Subtag Registry
+// Sorted based on number of L1 speakers (need source)
 
-class Languages {
-    static var languages: [Language] = {
-        let url = NSBundle.mainBundle().URLForResource("Languages", withExtension: "plist")!
-        let theArray = NSArray(contentsOfURL: url)! as! [[String: String]]
-        return theArray.map({Language(languageTag: $0["tag"]!, nativeName: $0["nativeName"]!)})
-    }()
+enum Language: String {
+    case cmn
+    case es
+    case en
+    case hi
+    case ar
+    case bn
+    case pt
+    case ru
+    case ja
+    case pa
+    case de
+    case jv
+    case wuu
+    case mr
+    case te
+    case vi
+    case fr
+    case ko
+    case ta
+    case yue
+    case tr
+    case ps
+    case it
     
-    class func nativeDescriptionForLanguage(langTag: String) -> String {
-        for language in languages {
-            if language.languageTag == langTag {
-                return language.nativeName
-            }
+    static let allValues: [Language] = [.cmn, .es, .en, .hi, .ar, .bn, .pt, .ru, .ja, .pa, .de, .jv, .wuu, .mr, .te, .vi, .fr, .ko, .ta, .yue, .tr, .ps, .it]
+
+    func nativeName() -> String {
+        switch self {
+        case .cmn:
+            return "中文"
+        case .es:
+            return "Español"
+        case .en:
+            return "English"
+        case .hi:
+            return "हिन्दी, हिंदी"
+        case .ar:
+            return "العربية"
+        case .bn:
+            return "বাংলা"
+        case .pt:
+            return "Português"
+        case .ru:
+            return "русский язык"
+        case .ja:
+            return "日本語"
+        case .pa:
+            return "ਪੰਜਾਬੀ"
+        case .de:
+            return "Deutsch"
+        case .jv:
+            return "Basa Jawa"
+        case .wuu:
+            return "吴语"
+        case .mr:
+            return "मराठी"
+        case .te:
+            return "తెలుగు"
+        case .vi:
+            return "Tiếng Việt"
+        case .fr:
+            return "Français"
+        case .ko:
+            return "한국어"
+        case .ta:
+            return "தமிழ்"
+        case .yue:
+            return "粵語"
+        case .tr:
+            return "Türkçe"
+        case .ps:
+            return "پښتو"
+        case .it:
+            return "Italiano"
+  
         }
-        return "Language"
     }
     
-    class func sortedListOfLanguages(langTags: [String]) -> [String] {
-        var retval = [String]()
-        for language in languages {
-            if langTags.contains(language.languageTag) {
-                retval.append(language.languageTag)
+    static var studyingLanguage: Language {
+        get {
+            if let storedLanguage = UserDefaults.standard.string(forKey: "studyingLanguage") {
+                return Language(rawValue: storedLanguage)!
             }
+            return .en
         }
-        return retval
+        set (newLanguage) {
+            let defaults = UserDefaults.standard
+            defaults.set(newLanguage.rawValue, forKey: "studyingLanguage")
+            defaults.synchronize()
+        }
     }
 }

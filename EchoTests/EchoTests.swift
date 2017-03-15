@@ -2,8 +2,8 @@
 //  EchoTests.swift
 //  EchoTests
 //
-//  Created by Full Decent on 1/13/16.
-//  Copyright © 2016 William Entriken. All rights reserved.
+//  Created by Full Decent on 1/15/17.
+//  Copyright © 2017 William Entriken. All rights reserved.
 //
 
 import XCTest
@@ -21,9 +21,15 @@ class EchoTests: XCTestCase {
         super.tearDown()
     }
     
-    func testCreateAudio() {
-        let word = Echo.Word(packed: ["name": "a word"])
-        let _ = Audio(word: word)
+    func testLessonDownload() {
+        Lesson.lesson(withId: 284) { lesson in
+            XCTAssertEqual(lesson.id, 284)
+            XCTAssertEqual(lesson.name, "US States")
+        }
+        
+        waitForExpectations(timeout: 5000) { error in
+            XCTFail()
+        }
     }
     
 }

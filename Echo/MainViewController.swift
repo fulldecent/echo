@@ -2,485 +2,215 @@
 //  MainViewController.swift
 //  Echo
 //
-//  Created by William Entriken on 1/10/16.
-//
+//  Created by Full Decent on 1/15/17.
+//  Copyright © 2017 William Entriken. All rights reserved.
 //
 
-import Foundation
-import QuartzCore
 import UIKit
-import MBProgressHUD
-import Firebase
+import MessageUI
 import TDBadgedCell
-import Alamofire
-import AlamofireImage
-
+import YTBarButtonItemWithBadge
 
 class MainViewController: UITableViewController {
-    var lessonSet = LessonSet(name: "downloadsAndUploads")
-    var practiceSet = LessonSet(name: "practiceLessons")
-    var myEvents = [Event]()
-    var otherEvents = [Event]()
-    var hud: MBProgressHUD? = nil
-    var currentLesson: Lesson? = nil // should not be necessary
-    
-    @IBAction func reload() {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let networkManager = NetworkManager.sharedNetworkManager
-        let lastUpdateLesson = defaults.integerForKey("lastUpdateLessonList")
-        let lastUpdateMessage = defaults.integerForKey("lastMessageSeen")
-        networkManager.getUpdatesForLessons(lessonSet.lessons, newLessonsSinceID: lastUpdateLesson, messagesSinceID: lastUpdateMessage, onSuccess: {
-            updatedLessonIds, numNewLessons, numNewMessages in
-            self.lessonSet.setRemoteUpdatesForLessonsWithIDs(updatedLessonIds)
-            defaults.setInteger(numNewLessons, forKey: "numNewLessons")
-            defaults.setInteger(numNewMessages, forKey: "numNewMessages")
-            defaults.setInteger(Int(NSDate().timeIntervalSince1970), forKey: "lastUpdateLessonList")
-            
-            self.tableView.performSelectorOnMainThread(#selector(UITableView.reloadData), withObject: nil, waitUntilDone: false)
-            self.refreshControl?.endRefreshing()
-            UIApplication.sharedApplication().applicationIconBadgeNumber = numNewMessages
-            self.lessonSet.syncStaleLessonsWithProgress({ (lesson, progress) in
-                
-                //NSLog("Main got progress: \(lesson.serverId) \(progress)")
-                
-                if let path = self.indexPathForLesson(lesson) {
-                    self.tableView.reloadRowsAtIndexPaths([path], withRowAnimation: .None)
-                }
-            })
-            }, onFailure: {
-            (error: NSError) -> Void in
-            self.refreshControl?.endRefreshing()
-            MBProgressHUD.flashError(error)
-            }
-        )
-        networkManager.getEventsIMayBeInterestedInOnSuccess({
-            (events) -> Void in
-            self.otherEvents = events
-            self.tableView.reloadSections(NSIndexSet(index: Section.Social.rawValue), withRowAnimation: .Automatic)
-            }, onFailure: nil
-        )
-        networkManager.getEventsTargetingMeOnSuccess({
-            (events) -> Void in
-            self.myEvents = events
-            self.tableView.reloadSections(NSIndexSet(index: Section.Practice.rawValue), withRowAnimation: .Automatic)
-            }, onFailure: nil
-        )
-    }
-}
+    let lessonLibrary = LessonLibrary.main
 
-extension MainViewController /*: UIViewController */ {
+    fileprivate enum Section: Int {
+        case myLessons = 0
+        case downloadALesson
+        case requestALesson
+        
+        static let allValues: [Section] = [.myLessons, .downloadALesson, .requestALesson]
+    }
+    
     override func viewDidLoad() {
-        super.viewDidLoad()        
-        //TODO: check if this is still needed
-        self.tableView.contentInset = UIEdgeInsetsMake(20, self.tableView.contentInset.left, self.tableView.contentInset.bottom, self.tableView.contentInset.right)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        FIRAnalytics.logEventWithName("page_view", parameters: ["name": NSStringFromClass(self.dynamicType)])
-        
-        self.navigationItem.title = Profile.currentUser.username
-        
-        let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let lastUpdateLessonList = defaults.objectForKey("lastUpdateLessonList") as? NSDate
-        if lastUpdateLessonList == nil || lastUpdateLessonList!.timeIntervalSinceNow < -5 * 60 {
-            self.reload()
-        }
-        super.viewWillAppear(true)
-        //   self.refreshControl.layer.zPosition = self.tableView.backgroundView.layer.zPosition + 1;
-        self.tableView.reloadData()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        let me = Profile.currentUser
-        if me.learningLanguageTag == "" {
-            self.performSegueWithIdentifier("intro", sender: self)
-        }
-    }
-}
+        super.viewDidLoad()
+        lessonLibrary.delegate = self
 
-extension MainViewController /*: UITableViewController, UITableViewDelegate, UITableViewDataSource */ {
-    enum Section: Int {
-        case Lessons
-        case Practice
-        case Social
+        let buttonWithBadge = YTBarButtonItemWithBadge();
+        buttonWithBadge.setHandler {self.performSegue(withIdentifier: "achievement", sender: buttonWithBadge)}
+        buttonWithBadge.setTitle(value: "🏆");
+        if Achievement.unreadCount() > 0 {
+            buttonWithBadge.setBadge(value: "\(Achievement.unreadCount())");
+        }
+        navigationItem.setRightBarButton(buttonWithBadge.getBarButtonItem(), animated: true);
     }
     
-    enum CellType {
-        case Lesson
-        case LessonEditable
-        case LessonDownload
-        case LessonUpload
-        case DownloadLesson
-        case CreateLesson
-        case NewPractice
-        case Event
-    }
-    
-    func cellTypeForRowAtIndexPath(indexPath: NSIndexPath) -> CellType {
-        switch Section(rawValue: indexPath.section)! {
-        case .Lessons:
-            if indexPath.row == 0 {
-                return .DownloadLesson
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Swift bug hack
+        if let buttonWithBadge = navigationItem.rightBarButtonItems?.first as Any as? YTBarButtonItemWithBadge {
+            if Achievement.unreadCount() > 0 {
+                buttonWithBadge.setBadge(value: "\(Achievement.unreadCount())");
+            } else {
+                buttonWithBadge.setBadge(value: nil)
             }
-            if indexPath.row == 1 {
-                return .CreateLesson
-            }
-            let lesson = self.lessonForRowAtIndexPath(indexPath)!
-            if self.lessonSet.lessonTransferProgress[lesson] != nil {
-                if lesson.localChangesSinceLastSync {
-                    return .LessonUpload
-                } else {
-                    return .LessonDownload
-                }
-            }
-            else if lesson.isByCurrentUser() {
-                return .LessonEditable
-            }
-            else {
-                return .Lesson
-            }
-        case .Practice:
-            if indexPath.row == 0 {
-                return .NewPractice
-            }
-            else {
-                return .Event
-            }
-        case .Social:
-            return .Event
         }
     }
-    
-    func lessonForRowAtIndexPath(indexPath: NSIndexPath) -> Lesson? {
-        guard Section(rawValue: indexPath.section) == .Lessons else {
-            return nil
-        }
-        guard indexPath.row > 1 && indexPath.row < self.lessonSet.lessons.count + 2 else {
-            return nil
-        }
-        return (self.lessonSet.lessons)[indexPath.row - 2]
+
+    @IBAction func refresh() {
+        tableView.reloadData()
+        refreshControl?.endRefreshing()
     }
-    
-    func indexPathForLesson(lesson: Lesson) -> NSIndexPath? {
-        if let index = self.lessonSet.lessons.indexOf(lesson) {
-            return NSIndexPath(forRow: index + 2, inSection: Section.Lessons.rawValue)
-        }
-        return nil
+
+    // MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return Section.allValues.count
     }
-    
-    func eventForRowAtIndexPath(indexPath: NSIndexPath) -> Event? {
-        switch Section(rawValue: indexPath.section)! {
-        case .Lessons:
-            return nil
-        case .Practice:
-            return (self.myEvents)[indexPath.row - 1]
-        case .Social:
-            return (self.otherEvents)[indexPath.row]
-        }
-    }
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .Lessons:
-            return self.lessonSet.lessons.count + 2
-        case .Practice:
-            return self.myEvents.count + 1
-        case .Social:
-            return self.otherEvents.count
+        case .myLessons:
+            return lessonLibrary.lessonsAndStatus.count
+        case .downloadALesson:
+            return 1
+        case .requestALesson:
+            return 1
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch self.cellTypeForRowAtIndexPath(indexPath) {
-        case .Lesson:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("lesson") as! TDBadgedCell
-            let lesson = self.lessonForRowAtIndexPath(indexPath)!
-            cell.textLabel!.text = lesson.name
-            cell.detailTextLabel!.text = lesson.detail
-            switch lesson.portionComplete() {
-            case 0:
-                cell.badgeString = "New"
-            case 1:
-                cell.badgeString = nil
-            default:
-                cell.badgeString = "\(Int(Float(100) * lesson.portionComplete()))% done"
-            }
-            return cell
-        case .LessonEditable:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("lessonEditable")!
-            let lesson = self.lessonForRowAtIndexPath(indexPath)!
-            cell.textLabel!.text = lesson.name
-            if lesson.isShared() {
-                cell.detailTextLabel!.text = "Shared online"
-            }
-            else {
-                cell.detailTextLabel!.text = "Not yet shared online"
-            }
-            return cell
-        case .LessonDownload:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("lessonDownload")!
-            let lesson = self.lessonForRowAtIndexPath(indexPath)!
-            cell.textLabel!.text = lesson.name
-            cell.detailTextLabel!.text = self.lessonSet.lessonTransferProgress[lesson]?.localizedDescription
-            return cell
-        case .LessonUpload:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("lessonUpload")!
-            let lesson = self.lessonForRowAtIndexPath(indexPath)!
-            cell.textLabel!.text = lesson.name
-            cell.detailTextLabel!.text = self.lessonSet.lessonTransferProgress[lesson]?.localizedDescription
-            return cell
-        case .DownloadLesson:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("downloadLesson") as! TDBadgedCell
-            let me: Profile = Profile.currentUser
-            let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            cell.detailTextLabel!.text = "New \(Languages.nativeDescriptionForLanguage(me.learningLanguageTag)) lesson"
-            cell.badgeString = nil
-            if let count = defaults.objectForKey("newLessonCount") as? Int {
-                if count > 0 {
-                    cell.badgeString = defaults.objectForKey("newLessonCount")!.stringValue
-                    cell.badgeRightOffset = 8
-                }
-            }
-            return cell
-        case .CreateLesson:
-            return self.tableView.dequeueReusableCellWithIdentifier("createLesson")!
-        case .NewPractice:
-            return self.tableView.dequeueReusableCellWithIdentifier("newPractice")!
-        case .Event:
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("social")!
-            let event = self.eventForRowAtIndexPath(indexPath)!
-            cell.selectionStyle = event.eventType == .PostPractice ? .Default : .None
-            let dateFormatter: NSDateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = .MediumStyle
-            dateFormatter.timeStyle = .NoStyle
-            let date: NSDate = NSDate(timeIntervalSince1970: event.timestamp)
-            let formattedDateString: String = dateFormatter.stringFromDate(date)
-            cell.detailTextLabel!.text = formattedDateString
-            cell.detailTextLabel!.text = "\(event.actingUserName) / \(formattedDateString)"
-            let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
-            let placeholderImage = UIImage(named: "user")!
-            let userPhotoUrl = networkManager.photoURLForUserWithID(event.actingUserID)
-            cell.imageView!.af_setImageWithURL(
-                userPhotoUrl,
-                placeholderImage: placeholderImage,
-                filter: nil,
-                imageTransition: .CrossDissolve(0.2)
-            )
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch Section(rawValue: section)! {
+        case .myLessons:
+            return "My lessons"
+        default:
+            return nil
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
+        switch Section(rawValue: indexPath.section)! {
+        case .myLessons:
+            let (lesson, status) = lessonLibrary.lessonsAndStatus[indexPath.row]
             
-            cell.textLabel!.text = event.htmlDescription
-            cell.textLabel!.text = event.targetWordName
-            cell.accessoryType = event.eventType == .PostPractice ? .DisclosureIndicator : .None
-            return cell
+            //TODO: -- clean up that cell!
+            switch status {
+            case .downloading(let progress):
+                cell = tableView.dequeueReusableCell(withIdentifier: "lessonDownloading", for: indexPath)
+                let prog = cell.contentView.viewWithTag(1) as! UIProgressView
+                prog.observedProgress = progress
+                return cell
+            default:
+                break
+            }
+
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: "lesson", for: indexPath)
+            let cell = cell as! TDBadgedCell
+            cell.badgeString = lesson.language.rawValue
+
+            cell.textLabel?.text = lesson.name
+            cell.detailTextLabel?.text = lesson.detail
+            switch status {
+            case .usable:
+                //cell.detailTextLabel?.text?.append(" USABLE")
+                break
+            case .notUsable:
+                cell.detailTextLabel?.text?.append(" NEEDS TO REDOWNLOAD")
+            case .downloading(let progress):
+                cell.detailTextLabel?.text?.append(" DOWNLOADING \(progress.fractionCompleted)")
+            }
+        case .downloadALesson:
+            cell = tableView.dequeueReusableCell(withIdentifier: "downloadALesson", for: indexPath)
+        case .requestALesson:
+            cell = tableView.dequeueReusableCell(withIdentifier: "requestALesson", for: indexPath)
         }
+        return cell
+    }
+
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == Section.myLessons.rawValue {
+            return true
+        }
+        return false
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var lesson: Lesson
-        switch self.cellTypeForRowAtIndexPath(indexPath) {
-        case .Lesson, .LessonEditable:
-            lesson = self.lessonForRowAtIndexPath(indexPath)!
-            self.currentLesson = lesson
-            self.performSegueWithIdentifier("lesson", sender: self)
-        case .LessonDownload, .LessonUpload, .DownloadLesson, .CreateLesson, .NewPractice:
-            break
-        case .Event:
-            let event: Event = self.eventForRowAtIndexPath(indexPath)!
-            let practiceID: Int = event.targetWordID
-            if event.eventType != .PostPractice {
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        if indexPath.section == Section.myLessons.rawValue {
+            return .delete
+        }
+        return .none
+    }
+
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            lessonLibrary.lessonsAndStatus.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+
+    /*
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+
+    }
+    */
+
+    /*
+    // Override to support conditional rearranging of the table view.
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    */
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch Section(rawValue: indexPath.section)! {
+        case .requestALesson:
+            if !MFMailComposeViewController.canSendMail() {
+                print("Mail services are not available")
                 return
             }
-            let hud = MBProgressHUD.showHUDAddedTo(self.view!, animated: true)
-            hud.mode = .Indeterminate
-            self.hud = hud
-            LessonSet.getWordWithFiles(practiceID, withProgress: {
-                (word: Word, progress: Float) -> Void in
-                hud.mode = .AnnularDeterminate
-                hud.progress = progress
-                if progress == 1.0 {
-                    let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let controller: WordDetailController = storyboard.instantiateViewControllerWithIdentifier("WordDetailController") as! WordDetailController
-                    controller.word = word
-                    controller.delegate = self
-                    self.navigationController!.pushViewController(controller, animated: true)
-                    hud.hide(true)
-                }
-                }, onFailure: {(error: NSError) -> Void in
-                    hud.hide(true)
-                    MBProgressHUD.flashError(error)
-            })
-            
-        }
-        
-    }
-    
-    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        self.currentLesson = self.lessonForRowAtIndexPath(indexPath)
-        self.performSegueWithIdentifier("lessonInformation", sender: self)
-    }
-    
-    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        if (self.lessonForRowAtIndexPath(indexPath) != nil) {
-            return .Delete
-        }
-        else {
-            return .None
+            let composeVC = MFMailComposeViewController()
+            composeVC.mailComposeDelegate = self
+            composeVC.setToRecipients(["echo@phor.net"])
+            composeVC.setSubject("New lesson idea")
+            composeVC.setMessageBody("Hello,\n\nI have a new lesson to recommend.", isHTML: false)
+            self.present(composeVC, animated: true, completion: nil)
+        default:
+            break
         }
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        self.currentLesson = self.lessonForRowAtIndexPath(indexPath)!
-        if self.currentLesson!.isByCurrentUser() && self.currentLesson!.isShared() {
-            let message: String = "You are deleting this lesson from your device. Would you like to continue sharing online?"
-            let alert = UIAlertController(title: "Delete", message: message, preferredStyle: UIAlertControllerStyle.ActionSheet)
-            alert.addAction(UIAlertAction(title: "Continue sharing", style: .Default, handler: {
-                (UIAlertAction) -> Void in
-                self.lessonSet.deleteLesson(self.currentLesson!)
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }))
-            alert.addAction(UIAlertAction(title: "Stop sharing", style: .Destructive, handler: {
-                (UIAlertAction) -> Void in
-                self.lessonSet.deleteLessonAndStopSharing(self.currentLesson!, onSuccess: {
-                    () -> Void in
-                    self.lessonSet.deleteLesson(self.currentLesson!)
-                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    }, onFailure: {(error: NSError) -> Void in
-                        MBProgressHUD.flashError(error)
-                })
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else {
-            self.lessonSet.deleteLesson(self.lessonForRowAtIndexPath(indexPath)!)
-            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            self.currentLesson = nil
-        }
-    }
-}
+    
+    // MARK: - Navigation
 
-extension MainViewController /*: UIViewController*/ {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        switch segue.destinationViewController {
-        case is LessonViewController:
-            let controller = segue.destinationViewController as! LessonViewController
-            controller.lesson = self.currentLesson
-            controller.delegate = self
-            if (segue.identifier == "createLesson") {
-                let me: Profile = Profile.currentUser
-                let lesson: Lesson = Lesson()
-                lesson.languageTag = me.nativeLanguageTag
-                lesson.userID = me.userID
-                lesson.userName = me.username
-                controller.lesson = lesson
-            }
-        case is IntroViewController:
-            let controller = segue.destinationViewController as! IntroViewController
-            controller.delegate = self
-        case is DownloadLessonViewController:
-            let controller = segue.destinationViewController as! DownloadLessonViewController
-            controller.delegate = self
-        case is ProfileViewController:
-            let controller = segue.destinationViewController as! ProfileViewController
-            controller.profile = Profile.currentUser
-            controller.delegate = self
-        case is WordDetailController:
-            let controller = segue.destinationViewController as! WordDetailController
-            controller.delegate = self
-            let me: Profile = Profile.currentUser
-            self.currentLesson = Lesson()
-            let word: Word = Word()
-            word.languageTag = me.learningLanguageTag
-            controller.word = word
-            let newButton = UIBarButtonItem(barButtonSystemItem: .Done, target: controller.navigationItem.rightBarButtonItem!.target, action: controller.navigationItem.rightBarButtonItem!.action)
-            controller.navigationItem.rightBarButtonItem = newButton
-            controller.actionButton = newButton
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.destination {
+        case let downloadVC as DownloadViewController:
+            downloadVC.delegate = self
+        case let lessonVC as LessonViewController:
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)!
+            lessonVC.lesson = lessonLibrary.lessonsAndStatus[indexPath.row].lesson
         default:
             break
         }
     }
 }
 
-extension MainViewController: LessonViewDelegate {
-    func lessonView(controller: LessonViewController, didSaveLesson lesson: Lesson) {
-        self.lessonSet.addOrUpdateLesson(lesson)
-        self.tableView.reloadData()
-    }
-    
-    func lessonView(controller: LessonViewController, wantsToUploadLesson lesson: Lesson) {
-        self.lessonSet.syncStaleLessonsWithProgress { (lesson, progress) in
-            let indexPath = self.indexPathForLesson(lesson)!
-            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-        }
-        self.navigationController!.popToRootViewControllerAnimated(true)
-    }
-    
-    func lessonView(controller: LessonViewController, wantsToDeleteLesson lesson: Lesson) {
-        self.lessonSet.deleteLesson(lesson)
-        self.tableView.reloadData()
+extension MainViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
-extension MainViewController: DownloadLessonDelegate {
-    func downloadLessonViewController(controller: UIViewController, gotStubLesson lesson: Lesson) {
-        NSLog("GOT STUB LESSON: \(lesson.serverId)")
-        NSLog("%@", NSThread.callStackSymbols())
-        lesson.remoteChangesSinceLastSync = true
-        self.lessonSet.addOrUpdateLesson(lesson)
-        // may or may not add a row
-        self.tableView.reloadSections(NSIndexSet(index: Section.Lessons.rawValue), withRowAnimation: .Automatic)
-        self.lessonSet.syncStaleLessonsWithProgress { (lesson, progress) in
-
-            //NSLog("Main got progress: \(lesson.serverId) \(progress)")
-            
-            if let indexPath = self.indexPathForLesson(lesson) {
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)                
-            }
-        }
-        self.navigationController!.popToRootViewControllerAnimated(true)
+extension MainViewController: DownloadViewControllerDelegate {
+    func downloadViewController(controller: DownloadViewController, downloaded lesson: Lesson) {
+        lessonLibrary.append(lesson: lesson)
+        let section = Section.myLessons.rawValue
+        let newIndex = IndexPath(row: lessonLibrary.lessonsAndStatus.count - 1, section: section)
+        self.tableView.insertRows(at: [newIndex], with: .fade)
+        _ = controller.navigationController?.popViewController(animated: true)
     }
 }
 
-extension MainViewController: WordDetailDelegate {
-    func wordDetailController(controller: WordDetailController, didSaveWord word: Word) {
-        let hud = MBProgressHUD.showHUDAddedTo(controller.view!, animated: true)
-        hud.mode = .Indeterminate
-        hud.labelText = "Sending..."
-        self.hud = hud
-        let networkManager: NetworkManager = NetworkManager.sharedNetworkManager
-        networkManager.postWord(word, AsPracticeWithFilesInPath: NSTemporaryDirectory(), withProgress: {
-            (progress: Float) -> Void in
-            hud.mode = .AnnularDeterminate
-            hud.progress = progress
-            NSLog("How do I say: upload progress %@", progress)
-            if progress == 1.0 {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newController = storyboard.instantiateViewControllerWithIdentifier("WordDetailController") as! WordDetailController
-                newController.delegate = self
-                newController.word = ((self.practiceSet.lessons)[0] ).words[0]
-                // http://stackoverflow.com/questions/9411271/how-to-perform-uikit-call-on-mainthread-from-inside-a-block
-                dispatch_async(dispatch_get_main_queue(), {() -> Void in
-                    controller.navigationController!.popViewControllerAnimated(false)
-                    self.navigationController!.pushViewController(newController, animated: true)
-                })
-                NSLog("saved practice word")
-            }
-            }, onFailure: {(error: NSError) -> Void in
-                hud.hide(false)
-                MBProgressHUD.flashError(error)
-        })
-    }
-    
-    func wordDetailController(controller: WordDetailController, canEditWord word: Word) -> Bool {
-        return !word.name.isEmpty
-        // edit new, virgin word
-    }
-    
-    func wordDetailController(controller: WordDetailController, canReplyWord word: Word) -> Bool {
-        return true
+extension MainViewController: LessonLibraryDelegate {
+    func lessonLibrary(library: LessonLibrary, downloadedLessonWithIndex index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }

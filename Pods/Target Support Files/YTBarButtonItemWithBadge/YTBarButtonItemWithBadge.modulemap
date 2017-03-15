@@ -1,0 +1,6 @@
+framework module YTBarButtonItemWithBadge {
+  umbrella header "YTBarButtonItemWithBadge-umbrella.h"
+
+  export *
+  module * { export * }
+}

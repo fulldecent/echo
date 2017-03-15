@@ -1,20 +1,15 @@
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
-use_frameworks!
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
 
 target 'Echo' do
-	pod 'Alamofire'
-	pod 'AlamofireImage'
-  pod 'Firebase'
-  pod 'Firebase/Core'
-	pod 'Google/Analytics'
-	pod 'FDTake'
-	pod 'MBProgressHUD'
-	pod 'TDBadgedCell'
-	pod 'FDWaveformView'
-	pod 'SwiftyJSON'
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
 
-	target 'EchoTests' do
-		inherit! :search_paths
-	end
+  # Pods for Echo
+  pod 'Alamofire', '~> 4.0'
+  pod 'MBProgressHUD'
+  pod 'TDBadgedCell', '~> 2.0'
+  pod 'FDWaveformView'
+  pod 'FDSoundActivatedRecorder'
+  pod 'YTBarButtonItemWithBadge'
 end

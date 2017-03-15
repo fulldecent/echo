@@ -2,157 +2,64 @@
 //  Word.swift
 //  Echo
 //
-//  Created by William Entriken on 12/20/15.
+//  Created by Full Decent on 1/18/17.
+//  Copyright © 2017 William Entriken. All rights reserved.
 //
-//
+
+// See JSON deserialization at https://developer.apple.com/swift/blog/?id=37
+
 
 import Foundation
 
-public class Word {
-    private let kLanguageTag = "languageTag"
-    private let kName = "name"
-    private let kDetail = "detail"
-    private let kWordID = "wordID"
-    private let kWordCode = "wordCode"
-    private let kUserID = "userID"
-    private let kUserName = "userName"
-    private let kFiles = "files"
-    private let kCompleted = "completed"
-    private let kFileID = "fileID"
-    private let kFileCode = "fileCode"
-
-    public weak var lesson: Lesson?
-
-    public lazy var uuid = NSUUID().UUIDString
-
-    //TODO: make this an optional instead of arbitrary 0=not on server
-    public var serverId: Int = 0
-
-    //TOOD: make detail, user* optional and others required, do not initialize to ""
-    public var languageTag: String = ""
-    public var name: String = ""
-    public var detail: String = ""
-    public var userID: String = ""
-    public var userName: String = ""
-    public var audios = [Audio]()
-
-    // client side data
-    public var completed: Bool = false
+struct Word {
+    let id: Int
+    let language: Language
+    let name: String
+    let detail: String
+    let audios: [Audio]
     
-    public func fileURL() -> NSURL? {
-        let base = self.lesson?.fileURL()
-        if self.serverId > 0 { //TODO temp hack, should test NIL
-            return base?.URLByAppendingPathComponent(String(self.serverId))
-        }
-        return base?.URLByAppendingPathComponent(self.uuid)
+    private enum JSONName: String {
+        case id = "wordID"
+        case language = "languageTag"
+        case name = "name"
+        case detail = "detail"
+        case audios = "files"
     }
     
-    public func listOfMissingFiles() -> [Audio] {
-        var retval = [Audio]()
-        for audio in self.audios {
-            if !audio.fileExistsOnDisk() {
-                retval.append(audio)
-            }
-        }
-        return retval
+    func missingFiles() -> [Audio] {
+        return audios.filter {!$0.fileExistsOnDisk()}
     }
     
-    public func fileWithCode(fileCode: String) -> Audio? {
-        for audio in self.audios {
-            if (audio.uuid == fileCode) {
-                return audio
-            }
-        }
-        return nil
-    }
-    
-    //TODO: dont allow this, need a better initializer
-    public init() {
-        
-    }
-    
-    public init(packed: [String : AnyObject]) {
-        if let serverId = packed[kWordID] as? Int {
-            self.serverId = serverId
-        }
-        if let uuid = packed[kWordCode] as? String {
-            self.uuid = uuid
-        }
-        if let languageTag = packed[kLanguageTag] as? String {
-            self.languageTag = languageTag
-        }
-        if let name = packed[kName] as? String {
-            self.name = name
-        }
-        if let detail = packed[kDetail] as? String {
-            self.detail = detail
-        }
-        if let userID = packed[kUserID] as? String {
-            self.userID = userID
-        }
-        if let userName = packed[kUserName] as? String {
-            self.userName = userName
-        }
-        if let completed = packed[kCompleted] as? Bool {
-            self.completed = completed
-        }
-        
-        if let files = packed[kFiles] as? [[String : AnyObject]] {
-            for file in files {
-                let audio = Audio(word: self)
-                if let fileID = file[kFileID] as? Int {
-                    audio.serverId = fileID
-                }
-                if let fileCode = file[kFileCode] as? String {
-                    audio.uuid = fileCode
-                }
-                self.audios.append(audio)
-            }
-        }
-    }
-    
-    public convenience init?(JSONString: String) {
-        guard let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
+    init?(json: [String: Any]) {
+        guard let id = json[JSONName.id.rawValue] as? Int,
+            let languageString = json[JSONName.language.rawValue] as? String,
+            let language = Language(rawValue: languageString),
+            let name = json[JSONName.name.rawValue] as? String,
+            let detail = json[JSONName.detail.rawValue] as? String
+        else {
             return nil
         }
-        guard let JSONDictionary = try? NSJSONSerialization.JSONObjectWithData(JSONData, options: []) as? Dictionary<String, AnyObject> else {
-            return nil
+        
+        self.id = id
+        self.language = language
+        self.name = name
+        self.detail = detail
+        if let audiosJSON = json[JSONName.audios.rawValue] as? [[String: Any]] {
+            self.audios = audiosJSON.flatMap(Audio.init)
+        } else {
+            self.audios = []
         }
-        self.init(packed: JSONDictionary!)
     }
     
-    public func toDictionary() -> [String : AnyObject] {
-        var retval = [String : AnyObject]()
-        if self.serverId > 0 {
-            retval[kWordID] = self.serverId
+    func toJSON() -> [String : Any] {
+        var retval = [String : Any]()
+        if id > 0 {
+            retval[JSONName.id.rawValue] = id
         }
-        retval[kWordCode] = self.uuid
-        retval[kLanguageTag] = self.languageTag
-        retval[kName] = self.name
-        retval[kDetail] = self.detail
-        retval[kUserName] = self.userName
-        retval[kUserID] = self.userID
-
-        var packedFiles = [AnyObject]()
-        for audio in self.audios {
-            var fileDict = [String : AnyObject]()
-            if audio.serverId > 0 {
-                fileDict[kFileID] = audio.serverId
-            }
-            if audio.uuid != "" {
-                fileDict[kFileCode] = audio.uuid
-            }
-            packedFiles.append(fileDict)            
-        }
-        
-        retval[kFiles] = packedFiles
-        if self.completed {
-            retval[kCompleted] = self.completed
-        }
+        retval[JSONName.language.rawValue] = language.rawValue
+        retval[JSONName.name.rawValue] = name
+        retval[JSONName.detail.rawValue] = detail
+        retval[JSONName.audios.rawValue] = audios.map {$0.toJSON()}
         return retval
-    }
-
-    public func toJSON() -> NSData? {
-        return try? NSJSONSerialization.dataWithJSONObject(self.toDictionary(), options: [])
     }
 }

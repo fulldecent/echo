@@ -2,60 +2,68 @@
 //  Audio.swift
 //  Echo
 //
-//  Created by William Entriken on 12/17/15.
-//
+//  Created by Full Decent on 1/18/17.
+//  Copyright © 2017 William Entriken. All rights reserved.
 //
 
 import Foundation
+import Alamofire
 
-//MAYBE: maybe make this and other model classes into structs?
-//MAYBE: maybe replace k- constant strings with an enum https://stackoverflow.com/questions/34781354/how-do-i-keep-configuration-strings-in-swift?noredirect=1#comment57307596_34781354
-//MAYBE: maybe replace word property with a directory property for which this object should store its files
-public class Audio {
-    private enum JSONKey: String {
-        case ServerId = "fileID"
-        case UUID = "fileCode"
+struct Audio {
+    let id: Int
+    
+    private enum JSONName: String {
+        case id = "fileID"
     }
     
-    //MAYBE: looser coupling, don't need this
-    weak var word: Echo.Word?
-    
-    public lazy var uuid = NSUUID().UUIDString
-    
-    public var serverId: Int? = nil {
-        didSet {
-            guard let oldUrl = self.word?.fileURL()?.URLByAppendingPathComponent(self.uuid) else {
-                return
-            }
-            guard oldUrl.checkResourceIsReachableAndReturnError(nil) else {
-                return
-            }
-            let newUrl = self.word!.fileURL()!.URLByAppendingPathComponent(String(self.serverId))
-            do {
-                try NSFileManager.defaultManager().moveItemAtURL(oldUrl, toURL: newUrl)
-            }
-            catch let error as NSError {
-                print("Moved failed with error: \(error.localizedDescription)")
-            }
-        }
+    func fileURL() -> URL {
+        let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+        return documentURL.appendingPathComponent("\(id).caf")
     }
     
-    public init(word: Word) {
-        self.word = word
+    func fileExistsOnDisk() -> Bool {
+        return (try? fileURL().checkResourceIsReachable()) ?? false
     }
 
-    public func fileURL() -> NSURL? {
-        let base = self.word?.fileURL()
-        if let serverId = self.serverId where serverId > 0 {
-            return base?.URLByAppendingPathComponent("\(serverId)")
-        }
-        return base?.URLByAppendingPathComponent(self.uuid)
+    func deleteFromDisk() {
+        let fileManager = FileManager.default
+        try? fileManager.removeItem(at: fileURL())
     }
     
-    public func fileExistsOnDisk() -> Bool {
-        guard let url = self.fileURL() else {
-            return false
+    init?(json: [String : Any]) {
+        guard let id = json[JSONName.id.rawValue] as? Int else {
+            return nil
         }
-        return url.checkResourceIsReachableAndReturnError(nil)
+        self.id = id
+    }
+    
+    func toJSON() -> [String : Any] {
+        var retval = [String : Any]()
+        retval[JSONName.id.rawValue] = id
+        return retval
+    }
+    
+    func fetchFile(withProgress progressHandler: ((Progress) -> Void)?) {
+        let url = NetworkManager.shared.baseURL.appendingPathComponent("audio/\(id).caf")!
+        let headers = NetworkManager.shared.authenticationHeaders()
+        print("Download STARTED for : \(self.fileURL())")
+        
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            return (self.fileURL(), [.removePreviousFile, .createIntermediateDirectories])
+        }
+        Alamofire.download(url, headers: headers, to: destination)
+            .downloadProgress { progress in
+                print("Download Progress: \(progress.fractionCompleted)")
+                progressHandler?(progress)
+            }
+            .responseData { response in
+                print("Download Done for : \(self.fileURL())")
+                if let data = response.result.value {
+                    try? data.write(to: self.fileURL())
+                    print("DID SAVE")
+                } else {
+                    print("FAILED TO SAVE")
+                }
+        }
     }
 }
