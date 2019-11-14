@@ -17,7 +17,7 @@ class AchievementsViewController: UITableViewController {
         super.viewDidLoad()
         let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord))
+            try audioSession.setCategory(.playAndRecord)
             try audioSession.overrideOutputAudioPort(.speaker)
             try audioSession.setActive(true)
         } catch {
@@ -98,7 +98,7 @@ class AchievementsViewController: UITableViewController {
         DispatchQueue.main.async {
             let route = AVAudioSession.sharedInstance().currentRoute
             for desc: AVAudioSessionPortDescription in route.outputs {
-                if (convertFromAVAudioSessionPort(desc.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.headphones)) {
+                if (desc.portType == .headphones) {
                     let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                     hud.mode = .text
                     hud.label.text = "🎧"
@@ -110,14 +110,4 @@ class AchievementsViewController: UITableViewController {
             }
         }
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromAVAudioSessionPort(_ input: AVAudioSession.Port) -> String {
-	return input.rawValue
 }

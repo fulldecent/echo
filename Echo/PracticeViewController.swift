@@ -125,10 +125,10 @@ class PracticeViewController: UIViewController {
             waveform.isHidden = true
         }
         let chosenWaveform = playbackWaveforms[index]
-        chosenWaveform.progressSamples = 0
+        chosenWaveform.highlightedSamples = nil
         chosenWaveform.isHidden = false
         UIView.animate(withDuration: (audioPlayer?.duration)!, delay: 0, options: .curveLinear, animations: {() -> Void in
-            chosenWaveform.progressSamples = chosenWaveform.totalSamples
+            chosenWaveform.highlightedSamples = 0 ..< chosenWaveform.totalSamples
         }, completion: {(done: Bool) -> Void in
             chosenWaveform.isHidden = true
         })
@@ -186,7 +186,7 @@ class PracticeViewController: UIViewController {
         super.viewDidLoad()
         let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord))
+            try audioSession.setCategory(.playAndRecord)
             try audioSession.overrideOutputAudioPort(.speaker)
             try audioSession.setActive(true)
         } catch {
@@ -259,9 +259,4 @@ extension PracticeViewController: FDSoundActivatedRecorderDelegate {
 
 extension PracticeViewController: AVAudioPlayerDelegate {
     
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
-	return input.rawValue
 }

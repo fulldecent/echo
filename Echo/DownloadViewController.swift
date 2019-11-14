@@ -56,7 +56,7 @@ class DownloadViewController: UITableViewController {
         cell.textLabel?.text = lesson.name
         cell.detailTextLabel?.text = lesson.detail
         cell.badgeString = "⭐️ \(lesson.likes)"
-        cell.badgeRightOffset = 5.0
+        //cell.badgeRightOffset = 5.0
         cell.badgeColor = UIColor(hue: 0, saturation: 0, brightness: 0.9, alpha: 1.0)
         cell.badgeTextColor = .black
         return cell
