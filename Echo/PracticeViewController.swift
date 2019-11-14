@@ -18,7 +18,7 @@ fileprivate func makeItBounce(view: UIView) {
     bounceAnimation.isRemovedOnCompletion = false
     bounceAnimation.repeatCount = 2
     bounceAnimation.autoreverses = true
-    bounceAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+    bounceAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
     view.layer.add(bounceAnimation, forKey: "bounce")
 }
 
@@ -135,7 +135,7 @@ class PracticeViewController: UIViewController {
     }
     
     @IBAction func microphonePressed(_ sender: Any) {
-        guard AVAudioSession.sharedInstance().recordPermission() == AVAudioSessionRecordPermission.granted else {
+        guard AVAudioSession.sharedInstance().recordPermission == AVAudioSession.RecordPermission.granted else {
             AVAudioSession.sharedInstance().requestRecordPermission { allowed in
                 Achievement.enableMicrophone.setAccomplished()
             }
@@ -186,7 +186,7 @@ class PracticeViewController: UIViewController {
         super.viewDidLoad()
         let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try audioSession.setCategory(convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord))
             try audioSession.overrideOutputAudioPort(.speaker)
             try audioSession.setActive(true)
         } catch {
@@ -259,4 +259,9 @@ extension PracticeViewController: FDSoundActivatedRecorderDelegate {
 
 extension PracticeViewController: AVAudioPlayerDelegate {
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
 }

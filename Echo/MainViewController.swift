@@ -127,7 +127,7 @@ class MainViewController: UITableViewController {
         return false
     }
     
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if indexPath.section == Section.myLessons.rawValue {
             return .delete
         }
@@ -135,7 +135,7 @@ class MainViewController: UITableViewController {
     }
 
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             lessonLibrary.lessonsAndStatus.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)

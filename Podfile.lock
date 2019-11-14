@@ -14,6 +14,15 @@ DEPENDENCIES:
   - TDBadgedCell (~> 2.0)
   - YTBarButtonItemWithBadge
 
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - FDSoundActivatedRecorder
+    - FDWaveformView
+    - MBProgressHUD
+    - TDBadgedCell
+    - YTBarButtonItemWithBadge
+
 SPEC CHECKSUMS:
   Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
   FDSoundActivatedRecorder: c77d685758d56973c4eacfe561587269eca364d4
@@ -24,4 +33,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d48bf1ca81d435090cdd356b41ac30804ca9603e
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.8.3

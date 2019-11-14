@@ -17,7 +17,7 @@ class AchievementsViewController: UITableViewController {
         super.viewDidLoad()
         let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try audioSession.setCategory(convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord))
             try audioSession.overrideOutputAudioPort(.speaker)
             try audioSession.setActive(true)
         } catch {
@@ -28,12 +28,12 @@ class AchievementsViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Achievement.markAllRead()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange(_:)), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
     // MARK: - Table view data source
@@ -94,11 +94,11 @@ class AchievementsViewController: UITableViewController {
         }
     }
 
-    func handleRouteChange(_ notification: Notification) {
+    @objc func handleRouteChange(_ notification: Notification) {
         DispatchQueue.main.async {
             let route = AVAudioSession.sharedInstance().currentRoute
             for desc: AVAudioSessionPortDescription in route.outputs {
-                if (desc.portType == AVAudioSessionPortHeadphones) {
+                if (convertFromAVAudioSessionPort(desc.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.headphones)) {
                     let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                     hud.mode = .text
                     hud.label.text = "🎧"
@@ -110,4 +110,14 @@ class AchievementsViewController: UITableViewController {
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionPort(_ input: AVAudioSession.Port) -> String {
+	return input.rawValue
 }

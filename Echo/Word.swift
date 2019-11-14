@@ -45,7 +45,7 @@ struct Word {
         self.name = name
         self.detail = detail
         if let audiosJSON = json[JSONName.audios.rawValue] as? [[String: Any]] {
-            self.audios = audiosJSON.flatMap(Audio.init)
+            self.audios = audiosJSON.compactMap(Audio.init)
         } else {
             self.audios = []
         }

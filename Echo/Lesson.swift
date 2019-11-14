@@ -56,7 +56,7 @@ public struct Lesson {
         self.updated = Date(timeIntervalSince1970: TimeInterval(updated))
         self.likes = likes
         if let wordsJSON = json[JSONName.words.rawValue] as? [[String: Any]] {
-            self.words = wordsJSON.flatMap(Word.init)
+            self.words = wordsJSON.compactMap(Word.init)
         } else {
             self.words = []
         }
