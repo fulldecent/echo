@@ -62,10 +62,10 @@ class PracticeViewController: UIViewController {
                 waveform.audioURL = audio.fileURL()
                 waveform.translatesAutoresizingMaskIntoConstraints = false
                 view.addSubview(waveform)
-                view.addConstraint(NSLayoutConstraint(item: speakerButton, attribute: .top, relatedBy: .equal, toItem: waveform, attribute: .top, multiplier: 1, constant: 0))
-                view.addConstraint(NSLayoutConstraint(item: speakerButton, attribute: .bottom, relatedBy: .equal, toItem: waveform, attribute: .bottom, multiplier: 1, constant: 0))
-                view.addConstraint(NSLayoutConstraint(item: speakerButton, attribute: .left, relatedBy: .equal, toItem: waveform, attribute: .left, multiplier: 1, constant: 0))
-                view.addConstraint(NSLayoutConstraint(item: speakerButton, attribute: .right, relatedBy: .equal, toItem: waveform, attribute: .right, multiplier: 1, constant: 0))
+                view.addConstraint(NSLayoutConstraint(item: speakerButton!, attribute: .top, relatedBy: .equal, toItem: waveform, attribute: .top, multiplier: 1, constant: 0))
+                view.addConstraint(NSLayoutConstraint(item: speakerButton!, attribute: .bottom, relatedBy: .equal, toItem: waveform, attribute: .bottom, multiplier: 1, constant: 0))
+                view.addConstraint(NSLayoutConstraint(item: speakerButton!, attribute: .left, relatedBy: .equal, toItem: waveform, attribute: .left, multiplier: 1, constant: 0))
+                view.addConstraint(NSLayoutConstraint(item: speakerButton!, attribute: .right, relatedBy: .equal, toItem: waveform, attribute: .right, multiplier: 1, constant: 0))
                 playbackWaveforms.append(waveform)
             }
         }

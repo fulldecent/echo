@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire // ~4.2.0
+import UIKit
 
 //TODO use NSProgress for all progress blocks
 // http://oleb.net/blog/2014/03/nsprogress/

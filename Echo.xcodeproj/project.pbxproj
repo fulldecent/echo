@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,6 +29,9 @@
 		D92B923B1E2C2ED300459B13 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92B923A1E2C2ED200459B13 /* Lesson.swift */; };
 		D94345031E302FF100C4FB34 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94345021E302FF100C4FB34 /* Word.swift */; };
 		D94345051E30311800C4FB34 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94345041E30311800C4FB34 /* Audio.swift */; };
+		D9947E7B237DFE9900268B80 /* FDSoundActivatedRecorder in Frameworks */ = {isa = PBXBuildFile; productRef = D9947E7A237DFE9900268B80 /* FDSoundActivatedRecorder */; };
+		D9947E7E237DFF4A00268B80 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D9947E7D237DFF4A00268B80 /* Alamofire */; };
+		D9947E81237DFFFC00268B80 /* FDWaveformView in Frameworks */ = {isa = PBXBuildFile; productRef = D9947E80237DFFFC00268B80 /* FDWaveformView */; };
 		D99FEFCA1E61259E00D1C663 /* Ready to record.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D99FEFC91E61259E00D1C663 /* Ready to record.m4a */; };
 		D99FEFCC1E61262200D1C663 /* Record failed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D99FEFCB1E61262200D1C663 /* Record failed.m4a */; };
 /* End PBXBuildFile section */
@@ -81,8 +84,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9947E7E237DFF4A00268B80 /* Alamofire in Frameworks */,
 				D919AE851E2C170600728F9F /* MessageUI.framework in Frameworks */,
 				D919AE811E2BF0D200728F9F /* AVFoundation.framework in Frameworks */,
+				D9947E7B237DFE9900268B80 /* FDSoundActivatedRecorder in Frameworks */,
+				D9947E81237DFFFC00268B80 /* FDWaveformView in Frameworks */,
 				C2FEDBFF25C012146D69B653 /* Pods_Echo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,6 +205,11 @@
 			dependencies = (
 			);
 			name = Echo;
+			packageProductDependencies = (
+				D9947E7A237DFE9900268B80 /* FDSoundActivatedRecorder */,
+				D9947E7D237DFF4A00268B80 /* Alamofire */,
+				D9947E80237DFFFC00268B80 /* FDWaveformView */,
+			);
 			productName = Echo;
 			productReference = D9247ED81E2B38DB00CE3F27 /* Echo.app */;
 			productType = "com.apple.product-type.application";
@@ -234,12 +245,13 @@
 					D9247ED71E2B38DB00CE3F27 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 8Q693ZG5RN;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 					};
 					D92B922F1E2C1A9F00459B13 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 8Q693ZG5RN;
+						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D9247ED71E2B38DB00CE3F27;
 					};
@@ -254,6 +266,11 @@
 				Base,
 			);
 			mainGroup = D9247ECF1E2B38DB00CE3F27;
+			packageReferences = (
+				D9947E79237DFE9900268B80 /* XCRemoteSwiftPackageReference "FDSoundActivatedRecorder" */,
+				D9947E7C237DFF4A00268B80 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				D9947E7F237DFFFC00268B80 /* XCRemoteSwiftPackageReference "FDWaveformView" */,
+			);
 			productRefGroup = D9247ED91E2B38DB00CE3F27 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -292,23 +309,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Echo/Pods-Echo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/FDSoundActivatedRecorder/FDSoundActivatedRecorder.framework",
-				"${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/TDBadgedCell/TDBadgedCell.framework",
-				"${BUILT_PRODUCTS_DIR}/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Echo/Pods-Echo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDSoundActivatedRecorder.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDWaveformView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TDBadgedCell.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YTBarButtonItemWithBadge.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Echo/Pods-Echo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -501,7 +507,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -515,10 +522,14 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = Echo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.Echo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -530,10 +541,14 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = Echo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.Echo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -543,10 +558,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = EchoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.EchoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Echo.app/Echo";
 			};
 			name = Debug;
@@ -557,10 +576,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = EchoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.EchoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Echo.app/Echo";
 			};
 			name = Release;
@@ -596,6 +619,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D9947E79237DFE9900268B80 /* XCRemoteSwiftPackageReference "FDSoundActivatedRecorder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fulldecent/FDSoundActivatedRecorder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.2;
+			};
+		};
+		D9947E7C237DFF4A00268B80 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.9.1;
+			};
+		};
+		D9947E7F237DFFFC00268B80 /* XCRemoteSwiftPackageReference "FDWaveformView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fulldecent/FDWaveformView.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D9947E7A237DFE9900268B80 /* FDSoundActivatedRecorder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9947E79237DFE9900268B80 /* XCRemoteSwiftPackageReference "FDSoundActivatedRecorder" */;
+			productName = FDSoundActivatedRecorder;
+		};
+		D9947E7D237DFF4A00268B80 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9947E7C237DFF4A00268B80 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		D9947E80237DFFFC00268B80 /* FDWaveformView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9947E7F237DFFFC00268B80 /* XCRemoteSwiftPackageReference "FDWaveformView" */;
+			productName = FDWaveformView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D9247ED01E2B38DB00CE3F27 /* Project object */;
 }

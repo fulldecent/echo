@@ -45,7 +45,7 @@ class LessonLibrary {
     func append(lesson: Lesson) {
         if lesson.missingFiles().count > 0 {
             let progress = lesson.fetchFiles {_ in
-                if let index = self.lessonsAndStatus.index(where: {$0.lesson.id == lesson.id}) {
+                if let index = self.lessonsAndStatus.firstIndex(where: {$0.lesson.id == lesson.id}) {
                     self.lessonsAndStatus[index].status = .usable
                     self.delegate?.lessonLibrary(library: self, downloadedLessonWithIndex: index)
                 }

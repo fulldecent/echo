@@ -161,17 +161,11 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FDSoundActivatedRecorder/FDSoundActivatedRecorder.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TDBadgedCell/TDBadgedCell.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FDSoundActivatedRecorder/FDSoundActivatedRecorder.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TDBadgedCell/TDBadgedCell.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.framework"

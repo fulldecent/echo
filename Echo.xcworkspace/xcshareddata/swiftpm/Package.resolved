@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "747c8db8d57b68d5e35275f10c92d55f982adbd4",
+          "version": "4.9.1"
+        }
+      },
+      {
+        "package": "FDSoundActivatedRecorder",
+        "repositoryURL": "https://github.com/fulldecent/FDSoundActivatedRecorder.git",
+        "state": {
+          "branch": null,
+          "revision": "09cb5896dc3d61cd235c4dec9a295c6f4b7e526f",
+          "version": "3.1.2"
+        }
+      },
+      {
+        "package": "FDWaveformView",
+        "repositoryURL": "https://github.com/fulldecent/FDWaveformView.git",
+        "state": {
+          "branch": "master",
+          "revision": "32ae39c1df85ff71c34e4879165bd92499f2f868",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
