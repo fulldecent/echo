@@ -161,14 +161,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TDBadgedCell/TDBadgedCell.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TDBadgedCell/TDBadgedCell.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

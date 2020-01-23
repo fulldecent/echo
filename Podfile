@@ -6,9 +6,5 @@ target 'Echo' do
   use_frameworks!
 
   # Pods for Echo
-#  pod 'Alamofire', '~> 4.0'
-  pod 'MBProgressHUD'
   pod 'TDBadgedCell'
-#  pod 'FDWaveformView'
-  pod 'YTBarButtonItemWithBadge'
 end

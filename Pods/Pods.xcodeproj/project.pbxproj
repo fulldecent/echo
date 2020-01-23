@@ -7,122 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		007D6D716668DC2DCD96D24DABA8C718 /* YTBarButtonItemWithBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEF91149BCFCE092B293CD361A0C332 /* YTBarButtonItemWithBadge.swift */; };
-		0D81BD4F9804E356603FFB4EC51C1CDE /* Pods-Echo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B42AC189C7CA826111C9D71E32B0B1 /* Pods-Echo-dummy.m */; };
-		292948952EED4DD9ED27E8F9516F2BAA /* TDBadgedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CC3CD2D66F094E0A67217FC61CC80A /* TDBadgedCell.swift */; };
-		2A8C1D3B92B7E6B18FF99B1693D233E8 /* TDBadgedCell-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F626C21307B0DD8B667F18BDA10D89B /* TDBadgedCell-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		47BE70D292046C5CD4CF4E74ABEED735 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8ACEBAADC0881BE2CD6B3232F2FCC2 /* Foundation.framework */; };
-		4DEBB65AE28FE475F4169B1A17BD47A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8ACEBAADC0881BE2CD6B3232F2FCC2 /* Foundation.framework */; };
-		64F46B6A8DBA885AF570A54A082D1BAA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA51DF58BFD369AF6BE252245A18B2F /* QuartzCore.framework */; };
-		70EE1C774C978E1876AE6CA1224E897D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9590216DB60B637ED14E014C01B80C86 /* MBProgressHUD.m */; };
-		81B9E2F21B1EF9FE4E769103108DEA8A /* MBProgressHUD-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B9BB168987F32A97C49F567BEC14CD27 /* MBProgressHUD-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9020DE85333FFE4BD6575E0BE0D88E82 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA51DF58BFD369AF6BE252245A18B2F /* QuartzCore.framework */; };
-		978AF7423F3701FDA2E941E9F285D6B5 /* Pods-Echo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 281EF5DF02FB96257FCB4E28FA6E37B3 /* Pods-Echo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98BD35B8086DD25977231C7FB20B535B /* YTBarButtonItemWithBadge-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B4BC6FFBCE52CDA3944143A03653A8A9 /* YTBarButtonItemWithBadge-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A601994621C892656F60D1A1292A9565 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD27B1C1B5D2F31F501108838D28EF02 /* CoreGraphics.framework */; };
-		B8E02C99755455E27F0E7CCAE81D5DDC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8ACEBAADC0881BE2CD6B3232F2FCC2 /* Foundation.framework */; };
-		BD3EF449179742FB9082DD96C2927A71 /* TDBadgedCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EC83720592E45DC92ECC708F280F3F /* TDBadgedCell-dummy.m */; };
-		DABF20F73D27572CD97071A6D4DB9004 /* MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE86E6ADE286F83DACAE6820AD4AC85 /* MBProgressHUD-dummy.m */; };
-		E83AC09A1611BE583021515D887AAA51 /* YTBarButtonItemWithBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 3531EB6C751F2E596AF13F8AA0E83766 /* YTBarButtonItemWithBadge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB2A4C29BE958CCB03B3FD9FAB927F1F /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = B74E55821AA5FBE23D54724B2B610CA0 /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FF0EE7E6F869E55DA268F25622674EB9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8ACEBAADC0881BE2CD6B3232F2FCC2 /* Foundation.framework */; };
+		292948952EED4DD9ED27E8F9516F2BAA /* TDBadgedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A8E810EF69C7D7D8360DF3F315861C /* TDBadgedCell.swift */; };
+		2A8C1D3B92B7E6B18FF99B1693D233E8 /* TDBadgedCell-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F616AA073FB6C883CAA6604C70EACA3 /* TDBadgedCell-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4283E8C6047E058CF3FD974C802B9AE9 /* Pods-Echo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B42AC189C7CA826111C9D71E32B0B1 /* Pods-Echo-dummy.m */; };
+		47BE70D292046C5CD4CF4E74ABEED735 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0F1732A2D4DBA41714F9E205837D34 /* Foundation.framework */; };
+		5F60DE295B9762A919318B3A0C5A0913 /* Pods-Echo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 281EF5DF02FB96257FCB4E28FA6E37B3 /* Pods-Echo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9020DE85333FFE4BD6575E0BE0D88E82 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB6193BDF9256B1B2DC71E7CF8BFFB3D /* QuartzCore.framework */; };
+		BD3EF449179742FB9082DD96C2927A71 /* TDBadgedCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8349193BCBA7041B80F950B6588CE3 /* TDBadgedCell-dummy.m */; };
+		D95C648F0AB418E8B2CC48472282C6DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0F1732A2D4DBA41714F9E205837D34 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		16CE2EAE68A4E7FB94228331978C7A3E /* PBXContainerItemProxy */ = {
+		15CABB178B6EA26E4957BC125439FE12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A66D658B12D822690EFA430EB8324CE9;
 			remoteInfo = TDBadgedCell;
 		};
-		3FEEACEC88764289485E8F160DE809AB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82B0A41D3031FF27D78E17B0A9A46FB0;
-			remoteInfo = MBProgressHUD;
-		};
-		EDDCD70B69D88D9984241539F1DC5FFF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 29A9F1F4C983BF0655B9AD44CC8BDC48;
-			remoteInfo = YTBarButtonItemWithBadge;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		13EC035BE4987F0B87DB63E9257758AF /* YTBarButtonItemWithBadge-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YTBarButtonItemWithBadge-dummy.m"; sourceTree = "<group>"; };
-		177D3646BB1F91652DC543EC38A61F15 /* TDBadgedCell.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TDBadgedCell.modulemap; sourceTree = "<group>"; };
-		21FE626EAC8A4E149DB2D9B0C9992220 /* YTBarButtonItemWithBadge.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YTBarButtonItemWithBadge.xcconfig; sourceTree = "<group>"; };
+		041B22BA258BCE2B06AC4BA5B3388C3C /* TDBadgedCell-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TDBadgedCell-Info.plist"; sourceTree = "<group>"; };
+		1A3ECBDB5C4E0B6036C452557B37D881 /* TDBadgedCell.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TDBadgedCell.modulemap; sourceTree = "<group>"; };
+		1F8349193BCBA7041B80F950B6588CE3 /* TDBadgedCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TDBadgedCell-dummy.m"; sourceTree = "<group>"; };
 		27B42AC189C7CA826111C9D71E32B0B1 /* Pods-Echo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Echo-dummy.m"; sourceTree = "<group>"; };
 		281EF5DF02FB96257FCB4E28FA6E37B3 /* Pods-Echo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Echo-umbrella.h"; sourceTree = "<group>"; };
-		28BA621C0099DE4CDADA48B202221111 /* TDBadgedCell-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TDBadgedCell-prefix.pch"; sourceTree = "<group>"; };
-		326D263E5AE430158C39D176F9703288 /* YTBarButtonItemWithBadge.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = YTBarButtonItemWithBadge.modulemap; sourceTree = "<group>"; };
-		341BCC904BB056EC987657CEAD67B63E /* Pods_Echo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Echo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3531EB6C751F2E596AF13F8AA0E83766 /* YTBarButtonItemWithBadge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTBarButtonItemWithBadge.h; path = YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.h; sourceTree = "<group>"; };
-		3C773EF1ECEF2E546CB13A09ED267A87 /* MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.xcconfig; sourceTree = "<group>"; };
-		3C944D28E88F0F3639BCAA18A80786EB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = YTBarButtonItemWithBadge/Info.plist; sourceTree = "<group>"; };
+		33A8E810EF69C7D7D8360DF3F315861C /* TDBadgedCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TDBadgedCell.swift; path = TDBadgedCell/TDBadgedCell.swift; sourceTree = "<group>"; };
+		341BCC904BB056EC987657CEAD67B63E /* Pods_Echo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Echo.framework; path = "Pods-Echo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		406C97F62C1F8D3C0B42048BC1AA370D /* Pods-Echo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Echo-Info.plist"; sourceTree = "<group>"; };
 		597286FA4833AD2C964D994485CA0064 /* Pods-Echo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Echo.release.xcconfig"; sourceTree = "<group>"; };
+		5A1F1064054C921B95E3BB8650FD0C26 /* TDBadgedCell-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TDBadgedCell-prefix.pch"; sourceTree = "<group>"; };
 		5E87C02CBAA49360955690B1F8D08082 /* Pods-Echo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Echo.debug.xcconfig"; sourceTree = "<group>"; };
-		7C6DD7D15F7FE09194ECAB003F20E612 /* YTBarButtonItemWithBadge-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "YTBarButtonItemWithBadge-Info.plist"; sourceTree = "<group>"; };
-		86BB904F62EFCDFA6FD095B4D0A64B18 /* TDBadgedCell-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TDBadgedCell-Info.plist"; sourceTree = "<group>"; };
-		8A8ACEBAADC0881BE2CD6B3232F2FCC2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F626C21307B0DD8B667F18BDA10D89B /* TDBadgedCell-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TDBadgedCell-umbrella.h"; sourceTree = "<group>"; };
+		7F616AA073FB6C883CAA6604C70EACA3 /* TDBadgedCell-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TDBadgedCell-umbrella.h"; sourceTree = "<group>"; };
 		94D7574349559576B299018B1296995F /* Pods-Echo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Echo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9590216DB60B637ED14E014C01B80C86 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		AD27B1C1B5D2F31F501108838D28EF02 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		B2814326ADF254D8DF38CB054BB2C2F9 /* YTBarButtonItemWithBadge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YTBarButtonItemWithBadge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2E65B0DC9E513A347032FBCD2C41794 /* MBProgressHUD-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "MBProgressHUD-Info.plist"; sourceTree = "<group>"; };
-		B4BC6FFBCE52CDA3944143A03653A8A9 /* YTBarButtonItemWithBadge-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTBarButtonItemWithBadge-umbrella.h"; sourceTree = "<group>"; };
-		B74E55821AA5FBE23D54724B2B610CA0 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		B9BB168987F32A97C49F567BEC14CD27 /* MBProgressHUD-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-umbrella.h"; sourceTree = "<group>"; };
-		BAE86E6ADE286F83DACAE6820AD4AC85 /* MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
-		C19131ED91E5D342057CFDF3456AA1D8 /* TDBadgedCell.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TDBadgedCell.xcconfig; sourceTree = "<group>"; };
-		C58DC81C6E069E9BC68B8B8256ABF1BD /* MBProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MBProgressHUD.modulemap; sourceTree = "<group>"; };
-		C5EC83720592E45DC92ECC708F280F3F /* TDBadgedCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TDBadgedCell-dummy.m"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C65ACCF6950490D1FA6FBAF3CF6BCEDA /* Pods-Echo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Echo-frameworks.sh"; sourceTree = "<group>"; };
-		CAE73B42974BB62CD476E4689D17E397 /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		D5CC3CD2D66F094E0A67217FC61CC80A /* TDBadgedCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TDBadgedCell.swift; path = TDBadgedCell/TDBadgedCell.swift; sourceTree = "<group>"; };
-		DCDE2F00A833C5B75EC05587165E16F1 /* YTBarButtonItemWithBadge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTBarButtonItemWithBadge-prefix.pch"; sourceTree = "<group>"; };
+		CB6193BDF9256B1B2DC71E7CF8BFFB3D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		D8FF54B932E7C67E7A8C3F3DABB57BB8 /* TDBadgedCell.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TDBadgedCell.xcconfig; sourceTree = "<group>"; };
 		E0BA90CA6962247B7ACA13512BF08E0C /* Pods-Echo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Echo.modulemap"; sourceTree = "<group>"; };
 		E514007BCB923E2321FDD56549DF20BA /* Pods-Echo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Echo-acknowledgements.plist"; sourceTree = "<group>"; };
-		F48F3A0FB8DA55E5F53613E69B007A55 /* TDBadgedCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TDBadgedCell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBEF91149BCFCE092B293CD361A0C332 /* YTBarButtonItemWithBadge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YTBarButtonItemWithBadge.swift; path = YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.swift; sourceTree = "<group>"; };
-		FFA51DF58BFD369AF6BE252245A18B2F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		EB0F1732A2D4DBA41714F9E205837D34 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		F48F3A0FB8DA55E5F53613E69B007A55 /* TDBadgedCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TDBadgedCell.framework; path = TDBadgedCell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1AA3C16B4B3AB40CA74BDDADEF5C143A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A601994621C892656F60D1A1292A9565 /* CoreGraphics.framework in Frameworks */,
-				FF0EE7E6F869E55DA268F25622674EB9 /* Foundation.framework in Frameworks */,
-				64F46B6A8DBA885AF570A54A082D1BAA /* QuartzCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		875D6734D10E4D10B8B4D400135D2E6D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DEBB65AE28FE475F4169B1A17BD47A4 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EDEBAE8861E26938A8DB0521C6B4A085 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B8E02C99755455E27F0E7CCAE81D5DDC /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F53D04ACDF1807050AEBD1732FFE014C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,59 +61,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F802BD0F8E95EE1008BA230015ADEF39 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D95C648F0AB418E8B2CC48472282C6DB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03C5C200A0787E300053CFA8F53CA094 /* Frameworks */ = {
+		1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F04009B2B08E830E0DAA2A9E1245D6B8 /* iOS */,
+				6C850C37433B9EAF70AA8EF4EC21FC43 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4EF7C309FAF726F02A33E76D23D644E1 /* Support Files */ = {
+		305B950768455B459D6BD8621F40CDFF /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				177D3646BB1F91652DC543EC38A61F15 /* TDBadgedCell.modulemap */,
-				C19131ED91E5D342057CFDF3456AA1D8 /* TDBadgedCell.xcconfig */,
-				C5EC83720592E45DC92ECC708F280F3F /* TDBadgedCell-dummy.m */,
-				86BB904F62EFCDFA6FD095B4D0A64B18 /* TDBadgedCell-Info.plist */,
-				28BA621C0099DE4CDADA48B202221111 /* TDBadgedCell-prefix.pch */,
-				8F626C21307B0DD8B667F18BDA10D89B /* TDBadgedCell-umbrella.h */,
+				1A3ECBDB5C4E0B6036C452557B37D881 /* TDBadgedCell.modulemap */,
+				D8FF54B932E7C67E7A8C3F3DABB57BB8 /* TDBadgedCell.xcconfig */,
+				1F8349193BCBA7041B80F950B6588CE3 /* TDBadgedCell-dummy.m */,
+				041B22BA258BCE2B06AC4BA5B3388C3C /* TDBadgedCell-Info.plist */,
+				5A1F1064054C921B95E3BB8650FD0C26 /* TDBadgedCell-prefix.pch */,
+				7F616AA073FB6C883CAA6604C70EACA3 /* TDBadgedCell-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/TDBadgedCell";
 			sourceTree = "<group>";
 		};
-		4F94C5820A6E7082C65ECD77DA9B0F1B /* TDBadgedCell */ = {
+		6C850C37433B9EAF70AA8EF4EC21FC43 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				D5CC3CD2D66F094E0A67217FC61CC80A /* TDBadgedCell.swift */,
-				4EF7C309FAF726F02A33E76D23D644E1 /* Support Files */,
+				EB0F1732A2D4DBA41714F9E205837D34 /* Foundation.framework */,
+				CB6193BDF9256B1B2DC71E7CF8BFFB3D /* QuartzCore.framework */,
 			);
-			path = TDBadgedCell;
-			sourceTree = "<group>";
-		};
-		637EE604E523D134DB347BAD39C7F631 /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				B74E55821AA5FBE23D54724B2B610CA0 /* MBProgressHUD.h */,
-				9590216DB60B637ED14E014C01B80C86 /* MBProgressHUD.m */,
-				C7CB2D2A4B05EA76C7FB3F82187B927E /* Support Files */,
-			);
-			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
-		68A678A27B792E1D3E3DD2046B7DBEAC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD.framework */,
-				341BCC904BB056EC987657CEAD67B63E /* Pods_Echo.framework */,
-				F48F3A0FB8DA55E5F53613E69B007A55 /* TDBadgedCell.framework */,
-				B2814326ADF254D8DF38CB054BB2C2F9 /* YTBarButtonItemWithBadge.framework */,
-			);
-			name = Products;
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		7173299914E160C079D7CDC0402BF1F5 /* Pods-Echo */ = {
@@ -212,96 +128,47 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		A64586588C12AF156D6D66990DA173E4 /* Pods */ = {
+		A2A3B8167BB31914819C31BD2F72A664 /* TDBadgedCell */ = {
 			isa = PBXGroup;
 			children = (
-				637EE604E523D134DB347BAD39C7F631 /* MBProgressHUD */,
-				4F94C5820A6E7082C65ECD77DA9B0F1B /* TDBadgedCell */,
-				B3AF65F97A07CA782DE687B9EA11A0E6 /* YTBarButtonItemWithBadge */,
+				33A8E810EF69C7D7D8360DF3F315861C /* TDBadgedCell.swift */,
+				305B950768455B459D6BD8621F40CDFF /* Support Files */,
+			);
+			name = TDBadgedCell;
+			path = TDBadgedCell;
+			sourceTree = "<group>";
+		};
+		BC5B1D23A7E79C592C776B4AF349DC0C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A2A3B8167BB31914819C31BD2F72A664 /* TDBadgedCell */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		B3AF65F97A07CA782DE687B9EA11A0E6 /* YTBarButtonItemWithBadge */ = {
+		C33179A6978A7038112780B802ADA7E0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3C944D28E88F0F3639BCAA18A80786EB /* Info.plist */,
-				3531EB6C751F2E596AF13F8AA0E83766 /* YTBarButtonItemWithBadge.h */,
-				FBEF91149BCFCE092B293CD361A0C332 /* YTBarButtonItemWithBadge.swift */,
-				BD81BA5C44D9B31177F58E111E1C9B4E /* Support Files */,
+				341BCC904BB056EC987657CEAD67B63E /* Pods_Echo.framework */,
+				F48F3A0FB8DA55E5F53613E69B007A55 /* TDBadgedCell.framework */,
 			);
-			path = YTBarButtonItemWithBadge;
-			sourceTree = "<group>";
-		};
-		BD81BA5C44D9B31177F58E111E1C9B4E /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				326D263E5AE430158C39D176F9703288 /* YTBarButtonItemWithBadge.modulemap */,
-				21FE626EAC8A4E149DB2D9B0C9992220 /* YTBarButtonItemWithBadge.xcconfig */,
-				13EC035BE4987F0B87DB63E9257758AF /* YTBarButtonItemWithBadge-dummy.m */,
-				7C6DD7D15F7FE09194ECAB003F20E612 /* YTBarButtonItemWithBadge-Info.plist */,
-				DCDE2F00A833C5B75EC05587165E16F1 /* YTBarButtonItemWithBadge-prefix.pch */,
-				B4BC6FFBCE52CDA3944143A03653A8A9 /* YTBarButtonItemWithBadge-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/YTBarButtonItemWithBadge";
-			sourceTree = "<group>";
-		};
-		C7CB2D2A4B05EA76C7FB3F82187B927E /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				C58DC81C6E069E9BC68B8B8256ABF1BD /* MBProgressHUD.modulemap */,
-				3C773EF1ECEF2E546CB13A09ED267A87 /* MBProgressHUD.xcconfig */,
-				BAE86E6ADE286F83DACAE6820AD4AC85 /* MBProgressHUD-dummy.m */,
-				B2E65B0DC9E513A347032FBCD2C41794 /* MBProgressHUD-Info.plist */,
-				CAE73B42974BB62CD476E4689D17E397 /* MBProgressHUD-prefix.pch */,
-				B9BB168987F32A97C49F567BEC14CD27 /* MBProgressHUD-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/MBProgressHUD";
+			name = Products;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				03C5C200A0787E300053CFA8F53CA094 /* Frameworks */,
-				A64586588C12AF156D6D66990DA173E4 /* Pods */,
-				68A678A27B792E1D3E3DD2046B7DBEAC /* Products */,
+				1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */,
+				BC5B1D23A7E79C592C776B4AF349DC0C /* Pods */,
+				C33179A6978A7038112780B802ADA7E0 /* Products */,
 				8C6B9861C2320DCD8D30F76B4D4E93DC /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		F04009B2B08E830E0DAA2A9E1245D6B8 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				AD27B1C1B5D2F31F501108838D28EF02 /* CoreGraphics.framework */,
-				8A8ACEBAADC0881BE2CD6B3232F2FCC2 /* Foundation.framework */,
-				FFA51DF58BFD369AF6BE252245A18B2F /* QuartzCore.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		8F0EBAB2761523F18BB73EB4DC5CBEC3 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				81B9E2F21B1EF9FE4E769103108DEA8A /* MBProgressHUD-umbrella.h in Headers */,
-				EB2A4C29BE958CCB03B3FD9FAB927F1F /* MBProgressHUD.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9AFAF977365076007416DF67E2BE91B3 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				978AF7423F3701FDA2E941E9F285D6B5 /* Pods-Echo-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C2E382993238BCCFC91F230123AC7883 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,73 +177,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E7D4EAFFD01FEA01AD370B3D6362AE30 /* Headers */ = {
+		F00E7E26AF73D262DF7B67EE3B9E5077 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98BD35B8086DD25977231C7FB20B535B /* YTBarButtonItemWithBadge-umbrella.h in Headers */,
-				E83AC09A1611BE583021515D887AAA51 /* YTBarButtonItemWithBadge.h in Headers */,
+				5F60DE295B9762A919318B3A0C5A0913 /* Pods-Echo-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		29A9F1F4C983BF0655B9AD44CC8BDC48 /* YTBarButtonItemWithBadge */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 59436AC3F451A92F84416B7B03907F8E /* Build configuration list for PBXNativeTarget "YTBarButtonItemWithBadge" */;
-			buildPhases = (
-				E7D4EAFFD01FEA01AD370B3D6362AE30 /* Headers */,
-				749C43D1021C2DE4E7556754F18C7754 /* Sources */,
-				EDEBAE8861E26938A8DB0521C6B4A085 /* Frameworks */,
-				FD447AB177EDC9D27824F624491029AD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = YTBarButtonItemWithBadge;
-			productName = YTBarButtonItemWithBadge;
-			productReference = B2814326ADF254D8DF38CB054BB2C2F9 /* YTBarButtonItemWithBadge.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		6548C12BAD17B6BC9E4853FD87CA63DA /* Pods-Echo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 99224211875B8BA218FA387B183875B2 /* Build configuration list for PBXNativeTarget "Pods-Echo" */;
+			buildConfigurationList = C83442C70B28C5FADB90A36FEEA49962 /* Build configuration list for PBXNativeTarget "Pods-Echo" */;
 			buildPhases = (
-				9AFAF977365076007416DF67E2BE91B3 /* Headers */,
-				82645EE9CB6BB5DE7E3C16A0CA28D23D /* Sources */,
-				875D6734D10E4D10B8B4D400135D2E6D /* Frameworks */,
-				C2F7F16030620FC845F0A3555E2FB28D /* Resources */,
+				F00E7E26AF73D262DF7B67EE3B9E5077 /* Headers */,
+				141A3BEC74DABB357537B128AE17153F /* Sources */,
+				F802BD0F8E95EE1008BA230015ADEF39 /* Frameworks */,
+				A2192DAECE8833A8BF3567B06E00255B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AD2404A77B9D19BC4F042C36E21A9A89 /* PBXTargetDependency */,
-				7A057DB24E65F6924715A13177DB8A87 /* PBXTargetDependency */,
-				E9466DB021ACA6C8760000B36D17C80F /* PBXTargetDependency */,
+				A2FFBB0F0B03C650B206F6AC8FD09DB5 /* PBXTargetDependency */,
 			);
 			name = "Pods-Echo";
 			productName = "Pods-Echo";
 			productReference = 341BCC904BB056EC987657CEAD67B63E /* Pods_Echo.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		82B0A41D3031FF27D78E17B0A9A46FB0 /* MBProgressHUD */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 70191416B9573C7ABB42333A08FA2DE4 /* Build configuration list for PBXNativeTarget "MBProgressHUD" */;
-			buildPhases = (
-				8F0EBAB2761523F18BB73EB4DC5CBEC3 /* Headers */,
-				D2F84DC2E2DB3628B17B3841F2837477 /* Sources */,
-				1AA3C16B4B3AB40CA74BDDADEF5C143A /* Frameworks */,
-				435BF4D16B2F9CAB6E7F883F30E32B74 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MBProgressHUD;
-			productName = MBProgressHUD;
-			productReference = 8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		A66D658B12D822690EFA430EB8324CE9 /* TDBadgedCell */ = {
@@ -414,20 +242,18 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 68A678A27B792E1D3E3DD2046B7DBEAC /* Products */;
+			productRefGroup = C33179A6978A7038112780B802ADA7E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				82B0A41D3031FF27D78E17B0A9A46FB0 /* MBProgressHUD */,
 				6548C12BAD17B6BC9E4853FD87CA63DA /* Pods-Echo */,
 				A66D658B12D822690EFA430EB8324CE9 /* TDBadgedCell */,
-				29A9F1F4C983BF0655B9AD44CC8BDC48 /* YTBarButtonItemWithBadge */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		435BF4D16B2F9CAB6E7F883F30E32B74 /* Resources */ = {
+		A2192DAECE8833A8BF3567B06E00255B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -441,28 +267,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C2F7F16030620FC845F0A3555E2FB28D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FD447AB177EDC9D27824F624491029AD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		749C43D1021C2DE4E7556754F18C7754 /* Sources */ = {
+		141A3BEC74DABB357537B128AE17153F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				007D6D716668DC2DCD96D24DABA8C718 /* YTBarButtonItemWithBadge.swift in Sources */,
+				4283E8C6047E058CF3FD974C802B9AE9 /* Pods-Echo-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,192 +287,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82645EE9CB6BB5DE7E3C16A0CA28D23D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D81BD4F9804E356603FFB4EC51C1CDE /* Pods-Echo-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D2F84DC2E2DB3628B17B3841F2837477 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DABF20F73D27572CD97071A6D4DB9004 /* MBProgressHUD-dummy.m in Sources */,
-				70EE1C774C978E1876AE6CA1224E897D /* MBProgressHUD.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7A057DB24E65F6924715A13177DB8A87 /* PBXTargetDependency */ = {
+		A2FFBB0F0B03C650B206F6AC8FD09DB5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TDBadgedCell;
 			target = A66D658B12D822690EFA430EB8324CE9 /* TDBadgedCell */;
-			targetProxy = 16CE2EAE68A4E7FB94228331978C7A3E /* PBXContainerItemProxy */;
-		};
-		AD2404A77B9D19BC4F042C36E21A9A89 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MBProgressHUD;
-			target = 82B0A41D3031FF27D78E17B0A9A46FB0 /* MBProgressHUD */;
-			targetProxy = 3FEEACEC88764289485E8F160DE809AB /* PBXContainerItemProxy */;
-		};
-		E9466DB021ACA6C8760000B36D17C80F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = YTBarButtonItemWithBadge;
-			target = 29A9F1F4C983BF0655B9AD44CC8BDC48 /* YTBarButtonItemWithBadge */;
-			targetProxy = EDDCD70B69D88D9984241539F1DC5FFF /* PBXContainerItemProxy */;
+			targetProxy = 15CABB178B6EA26E4957BC125439FE12 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		07E1F28B8AD6C8F07EE6F7727E39E4E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C773EF1ECEF2E546CB13A09ED267A87 /* MBProgressHUD.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/MBProgressHUD/MBProgressHUD-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/MBProgressHUD/MBProgressHUD.modulemap";
-				PRODUCT_MODULE_NAME = MBProgressHUD;
-				PRODUCT_NAME = MBProgressHUD;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		137B0EBFD0112C941038535B007A651F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C19131ED91E5D342057CFDF3456AA1D8 /* TDBadgedCell.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TDBadgedCell/TDBadgedCell-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TDBadgedCell/TDBadgedCell-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/TDBadgedCell/TDBadgedCell.modulemap";
-				PRODUCT_MODULE_NAME = TDBadgedCell;
-				PRODUCT_NAME = TDBadgedCell;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		192C4EDB4855BD0B2800FEEDB7E92BEF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21FE626EAC8A4E149DB2D9B0C9992220 /* YTBarButtonItemWithBadge.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.modulemap";
-				PRODUCT_MODULE_NAME = YTBarButtonItemWithBadge;
-				PRODUCT_NAME = YTBarButtonItemWithBadge;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		1B66B407DBF4B7BA3B892E3C39527E59 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E87C02CBAA49360955690B1F8D08082 /* Pods-Echo.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Echo/Pods-Echo-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Echo/Pods-Echo.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		1F2E81757D76E43042739BC5AEFFE429 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -721,7 +359,7 @@
 			};
 			name = Release;
 		};
-		2050743C26F722870FC9FA94A5AFA152 /* Release */ = {
+		4296B662EBCDB02933894E3B484D2932 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 597286FA4833AD2C964D994485CA0064 /* Pods-Echo.release.xcconfig */;
 			buildSettings = {
@@ -760,9 +398,47 @@
 			};
 			name = Release;
 		};
-		46F9C2C8BFF8A0417BBDA336BA2CCD9F /* Release */ = {
+		4FE7CB4A7D33A59D1CE40BC4D8213187 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C19131ED91E5D342057CFDF3456AA1D8 /* TDBadgedCell.xcconfig */;
+			baseConfigurationReference = 5E87C02CBAA49360955690B1F8D08082 /* Pods-Echo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Echo/Pods-Echo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Echo/Pods-Echo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		93CB2A429402D17E0F3F0BCF83FBE6AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8FF54B932E7C67E7A8C3F3DABB57BB8 /* TDBadgedCell.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -788,83 +464,48 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AE942C45CA3139BC52E21F28013774A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8FF54B932E7C67E7A8C3F3DABB57BB8 /* TDBadgedCell.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TDBadgedCell/TDBadgedCell-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TDBadgedCell/TDBadgedCell-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/TDBadgedCell/TDBadgedCell.modulemap";
+				PRODUCT_MODULE_NAME = TDBadgedCell;
+				PRODUCT_NAME = TDBadgedCell;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
-		};
-		76EDF01D5D9889D02A003F22F026B126 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21FE626EAC8A4E149DB2D9B0C9992220 /* YTBarButtonItemWithBadge.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/YTBarButtonItemWithBadge/YTBarButtonItemWithBadge.modulemap";
-				PRODUCT_MODULE_NAME = YTBarButtonItemWithBadge;
-				PRODUCT_NAME = YTBarButtonItemWithBadge;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A786902994C30700C1A40C3FA49FCC12 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C773EF1ECEF2E546CB13A09ED267A87 /* MBProgressHUD.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/MBProgressHUD/MBProgressHUD-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/MBProgressHUD/MBProgressHUD.modulemap";
-				PRODUCT_MODULE_NAME = MBProgressHUD;
-				PRODUCT_NAME = MBProgressHUD;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
 		};
 		D93A6DF471F8C9D1B0E2C1D667B8C5B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -936,8 +577,8 @@
 		3B2CC993F1671C653F4BB0E10A00B96F /* Build configuration list for PBXNativeTarget "TDBadgedCell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				137B0EBFD0112C941038535B007A651F /* Debug */,
-				46F9C2C8BFF8A0417BBDA336BA2CCD9F /* Release */,
+				93CB2A429402D17E0F3F0BCF83FBE6AB /* Debug */,
+				AE942C45CA3139BC52E21F28013774A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -951,29 +592,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		59436AC3F451A92F84416B7B03907F8E /* Build configuration list for PBXNativeTarget "YTBarButtonItemWithBadge" */ = {
+		C83442C70B28C5FADB90A36FEEA49962 /* Build configuration list for PBXNativeTarget "Pods-Echo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				76EDF01D5D9889D02A003F22F026B126 /* Debug */,
-				192C4EDB4855BD0B2800FEEDB7E92BEF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		70191416B9573C7ABB42333A08FA2DE4 /* Build configuration list for PBXNativeTarget "MBProgressHUD" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A786902994C30700C1A40C3FA49FCC12 /* Debug */,
-				07E1F28B8AD6C8F07EE6F7727E39E4E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		99224211875B8BA218FA387B183875B2 /* Build configuration list for PBXNativeTarget "Pods-Echo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1B66B407DBF4B7BA3B892E3C39527E59 /* Debug */,
-				2050743C26F722870FC9FA94A5AFA152 /* Release */,
+				4FE7CB4A7D33A59D1CE40BC4D8213187 /* Debug */,
+				4296B662EBCDB02933894E3B484D2932 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

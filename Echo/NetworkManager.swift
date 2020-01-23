@@ -74,16 +74,4 @@ class NetworkManager {
         headers[authorizationHeader.key] = authorizationHeader.value
         return headers
     }
-    
-    /*
-    func searchLessons(withLanguage language:Language, results: (([Lesson]) -> Void)?) {
-        Alamofire.request(baseURL.appendingPathComponent("lessons/\(language.rawValue)/")!, headers: authenticationHeaders())
-            .responseJSON { response in
-                guard let json = response.result.value as? [[String: Any]] else {
-                    return
-                }
-                results?(json.flatMap(Lesson.init))
-            }
-    }
-    */
 }

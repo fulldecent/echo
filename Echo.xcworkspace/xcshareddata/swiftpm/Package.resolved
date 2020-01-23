@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/fulldecent/FDSoundActivatedRecorder.git",
         "state": {
           "branch": null,
-          "revision": "09cb5896dc3d61cd235c4dec9a295c6f4b7e526f",
-          "version": "3.1.2"
+          "revision": "2f6d2422ccd705c2b1eea0c7ef385b9732887d4e",
+          "version": "3.1.3"
         }
       },
       {
@@ -26,6 +26,24 @@
           "branch": "master",
           "revision": "32ae39c1df85ff71c34e4879165bd92499f2f868",
           "version": null
+        }
+      },
+      {
+        "package": "MBProgressHUD",
+        "repositoryURL": "https://github.com/jdg/MBProgressHUD.git",
+        "state": {
+          "branch": null,
+          "revision": "bca42b801100b2b3a4eda0ba8dd33d858c780b0d",
+          "version": "1.2.0"
+        }
+      },
+      {
+        "package": "YTBarButtonItemWithBadge",
+        "repositoryURL": "https://github.com/fulldecent/YTBarButtonItemWithBadge.git",
+        "state": {
+          "branch": null,
+          "revision": "fb96b4c21631a2214b6f6e2eb9c39763100cb989",
+          "version": "0.1.1"
         }
       }
     ]

@@ -34,6 +34,8 @@
 		D9947E81237DFFFC00268B80 /* FDWaveformView in Frameworks */ = {isa = PBXBuildFile; productRef = D9947E80237DFFFC00268B80 /* FDWaveformView */; };
 		D99FEFCA1E61259E00D1C663 /* Ready to record.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D99FEFC91E61259E00D1C663 /* Ready to record.m4a */; };
 		D99FEFCC1E61262200D1C663 /* Record failed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D99FEFCB1E61262200D1C663 /* Record failed.m4a */; };
+		D9EF95CC23D952260020BDA5 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = D9EF95CB23D952260020BDA5 /* MBProgressHUD */; };
+		D9EF95CF23D953260020BDA5 /* YTBarButtonItemWithBadge in Frameworks */ = {isa = PBXBuildFile; productRef = D9EF95CE23D953260020BDA5 /* YTBarButtonItemWithBadge */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 				D9947E7E237DFF4A00268B80 /* Alamofire in Frameworks */,
 				D919AE851E2C170600728F9F /* MessageUI.framework in Frameworks */,
 				D919AE811E2BF0D200728F9F /* AVFoundation.framework in Frameworks */,
+				D9EF95CC23D952260020BDA5 /* MBProgressHUD in Frameworks */,
+				D9EF95CF23D953260020BDA5 /* YTBarButtonItemWithBadge in Frameworks */,
 				D9947E7B237DFE9900268B80 /* FDSoundActivatedRecorder in Frameworks */,
 				D9947E81237DFFFC00268B80 /* FDWaveformView in Frameworks */,
 				C2FEDBFF25C012146D69B653 /* Pods_Echo.framework in Frameworks */,
@@ -209,6 +213,8 @@
 				D9947E7A237DFE9900268B80 /* FDSoundActivatedRecorder */,
 				D9947E7D237DFF4A00268B80 /* Alamofire */,
 				D9947E80237DFFFC00268B80 /* FDWaveformView */,
+				D9EF95CB23D952260020BDA5 /* MBProgressHUD */,
+				D9EF95CE23D953260020BDA5 /* YTBarButtonItemWithBadge */,
 			);
 			productName = Echo;
 			productReference = D9247ED81E2B38DB00CE3F27 /* Echo.app */;
@@ -270,6 +276,8 @@
 				D9947E79237DFE9900268B80 /* XCRemoteSwiftPackageReference "FDSoundActivatedRecorder" */,
 				D9947E7C237DFF4A00268B80 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				D9947E7F237DFFFC00268B80 /* XCRemoteSwiftPackageReference "FDWaveformView" */,
+				D9EF95CA23D952260020BDA5 /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+				D9EF95CD23D953260020BDA5 /* XCRemoteSwiftPackageReference "YTBarButtonItemWithBadge" */,
 			);
 			productRefGroup = D9247ED91E2B38DB00CE3F27 /* Products */;
 			projectDirPath = "";
@@ -526,7 +534,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.Echo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -545,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.Echo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -645,6 +653,22 @@
 				kind = branch;
 			};
 		};
+		D9EF95CA23D952260020BDA5 /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		D9EF95CD23D953260020BDA5 /* XCRemoteSwiftPackageReference "YTBarButtonItemWithBadge" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fulldecent/YTBarButtonItemWithBadge.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -662,6 +686,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D9947E7F237DFFFC00268B80 /* XCRemoteSwiftPackageReference "FDWaveformView" */;
 			productName = FDWaveformView;
+		};
+		D9EF95CB23D952260020BDA5 /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9EF95CA23D952260020BDA5 /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+		D9EF95CE23D953260020BDA5 /* YTBarButtonItemWithBadge */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9EF95CD23D953260020BDA5 /* XCRemoteSwiftPackageReference "YTBarButtonItemWithBadge" */;
+			productName = YTBarButtonItemWithBadge;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
