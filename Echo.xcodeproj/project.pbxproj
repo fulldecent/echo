@@ -37,8 +37,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5FDBDB361D9A6798D4CA94CA /* Pods_Echo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Echo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A40C3169C254DC060CB15BEE /* Pods-Echo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Echo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Echo/Pods-Echo.debug.xcconfig"; sourceTree = "<group>"; };
 		D919AE6E1E2BC96600728F9F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D919AE721E2BC9BD00728F9F /* DownloadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
 		D919AE741E2BC9D100728F9F /* LanguageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
@@ -63,7 +61,6 @@
 		D94345041E30311800C4FB34 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		D99FEFC91E61259E00D1C663 /* Ready to record.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ready to record.m4a"; sourceTree = "<group>"; };
 		D99FEFCB1E61262200D1C663 /* Record failed.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Record failed.m4a"; sourceTree = "<group>"; };
-		DE023B61B07111C4DC13015B /* Pods-Echo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Echo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Echo/Pods-Echo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,15 +81,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		438AC2FA73B9DEE40DFD0889 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A40C3169C254DC060CB15BEE /* Pods-Echo.debug.xcconfig */,
-				DE023B61B07111C4DC13015B /* Pods-Echo.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		D919AE7E1E2BCB2700728F9F /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,7 +100,6 @@
 			children = (
 				D919AE841E2C170500728F9F /* MessageUI.framework */,
 				D919AE801E2BF0D200728F9F /* AVFoundation.framework */,
-				5FDBDB361D9A6798D4CA94CA /* Pods_Echo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -123,7 +110,6 @@
 				D9247EDA1E2B38DB00CE3F27 /* Echo */,
 				D9247ED91E2B38DB00CE3F27 /* Products */,
 				D919AE7F1E2BF0D200728F9F /* Frameworks */,
-				438AC2FA73B9DEE40DFD0889 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -462,7 +448,7 @@
 			repositoryURL = "https://github.com/fulldecent/FDSoundActivatedRecorder.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.1.2;
+				minimumVersion = 3.2.0;
 			};
 		};
 		D9947E7C237DFF4A00268B80 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
