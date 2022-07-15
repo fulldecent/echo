@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol LanguageViewControllerDelegate: class {
+protocol LanguageViewControllerDelegate: AnyObject {
     func languageViewController(controller: LanguageViewController, didSelect language: Language)
 }
 
-protocol LanguageViewControllerDataSource: class {
+protocol LanguageViewControllerDataSource: AnyObject {
     func languagesForLanguageViewController(controller: LanguageViewController) -> [Language]
     func selectedLanguageForLanguageViewController(controller: LanguageViewController) -> Language
 }

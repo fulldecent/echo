@@ -8,9 +8,8 @@
 
 import UIKit
 import MBProgressHUD
-import TDBadgedCell
 
-protocol DownloadViewControllerDelegate: class {
+protocol DownloadViewControllerDelegate: AnyObject {
     func downloadViewController(controller: DownloadViewController, downloaded lesson: Lesson)
 }
 
@@ -51,14 +50,13 @@ class DownloadViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "downloadableLesson", for: indexPath) as! TDBadgedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "downloadableLesson", for: indexPath)
         let lesson = lessons[indexPath.row]
-        cell.textLabel?.text = lesson.name
+        cell.textLabel?.text = lesson.name + " [" + "⭐️ \(lesson.likes)" + "]"
         cell.detailTextLabel?.text = lesson.detail
-        cell.badgeString = "⭐️ \(lesson.likes)"
-        //cell.badgeRightOffset = 5.0
-        cell.badgeColor = UIColor(hue: 0, saturation: 0, brightness: 0.9, alpha: 1.0)
-        cell.badgeTextColor = .black
+        //cell.badgeString = "⭐️ \(lesson.likes)"
+        //cell.badgeColor = UIColor(hue: 0, saturation: 0, brightness: 0.9, alpha: 1.0)
+        //cell.badgeTextColor = .black
         return cell
     }
     

@@ -8,7 +8,6 @@
 
 import UIKit
 import MessageUI
-import TDBadgedCell
 import YTBarButtonItemWithBadge
 
 class MainViewController: UITableViewController {
@@ -97,10 +96,8 @@ class MainViewController: UITableViewController {
 
             
             cell = tableView.dequeueReusableCell(withIdentifier: "lesson", for: indexPath)
-            let cell = cell as! TDBadgedCell
-            cell.badgeString = lesson.language.rawValue
-
-            cell.textLabel?.text = lesson.name
+            //cell.badgeString = lesson.language.rawValue
+            cell.textLabel?.text = lesson.name + " [" + lesson.language.rawValue + "]"
             cell.detailTextLabel?.text = lesson.detail
             switch status {
             case .usable:

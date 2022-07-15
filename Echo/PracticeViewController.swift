@@ -22,7 +22,7 @@ fileprivate func makeItBounce(view: UIView) {
     view.layer.add(bounceAnimation, forKey: "bounce")
 }
 
-protocol PracticeViewControllerDelegate: class {
+protocol PracticeViewControllerDelegate: AnyObject {
     func practiceViewControllerDidSkip(controller: PracticeViewController)
 }
 

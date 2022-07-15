@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol LessonLibraryDelegate: class {
+protocol LessonLibraryDelegate: AnyObject {
     func lessonLibrary(library: LessonLibrary, downloadedLessonWithIndex index: Int)
 }
 
