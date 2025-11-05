@@ -1,5 +1,7 @@
 # Echo
 
+Available on the [iOS App Store](https://apps.apple.com/us/app/echo-speech-therapy/id558585608) and the [macOS App Store](https://apps.apple.com/us/app/echo-speech-therapy/id558585608).
+
 Hear yourself  and native speakers  to improve pronunciation.
 
 Language practice / speech pathology / accent reduction
