@@ -1,0 +1,557 @@
+default_platform(:ios)
+
+require "json"
+require "shellwords"
+require "tmpdir"
+require "fileutils"
+
+XCODEPROJ = "Echo.xcodeproj"
+SCHEME = "Echo"
+APP_TARGET = "Echo"
+BUNDLE_ID = "net.phor.Echo"
+APP_STORE_CONNECT_APP_ID = "558585608"
+TEAM_ID = "8Q693ZG5RN"
+IOS_OUTPUT_NAME = "Echo.ipa"
+MAC_OUTPUT_NAME = "Echo.pkg"
+
+def repo_root
+  File.expand_path("..", __dir__)
+end
+
+def xcodeproj_path
+  File.join(repo_root, XCODEPROJ)
+end
+
+def current_marketing_version
+  require "xcodeproj"
+
+  project = Xcodeproj::Project.open(xcodeproj_path)
+  target = project.targets.find { |candidate| candidate.name == APP_TARGET }
+  UI.user_error!("Target #{APP_TARGET} not found in #{xcodeproj_path}") unless target
+
+  target.build_configurations.first.build_settings["MARKETING_VERSION"]
+end
+
+def set_marketing_version!(new_version)
+  require "xcodeproj"
+
+  project = Xcodeproj::Project.open(xcodeproj_path)
+  target = project.targets.find { |candidate| candidate.name == APP_TARGET }
+  UI.user_error!("Target #{APP_TARGET} not found in #{xcodeproj_path}") unless target
+
+  target.build_configurations.each do |config|
+    config.build_settings["MARKETING_VERSION"] = new_version
+  end
+
+  project.save
+end
+
+def current_build_number
+  get_build_number(xcodeproj: xcodeproj_path).to_s.to_i
+end
+
+def next_build_number
+  local_build = current_build_number
+  remote_build = 0
+  remote_version_build = 0
+
+  begin
+    remote_build = latest_testflight_build_number(
+      app_identifier: BUNDLE_ID,
+      initial_build_number: [local_build, 1].max,
+      live: false
+    ).to_i
+  rescue => error
+    UI.important("Falling back to local build number because App Store Connect overall build lookup failed: #{error.message}")
+  end
+
+  begin
+    remote_version_build = latest_testflight_build_number(
+      app_identifier: BUNDLE_ID,
+      version: current_marketing_version,
+      initial_build_number: [local_build, 1].max,
+      live: false
+    ).to_i
+  rescue => error
+    UI.important("Falling back to overall build number because App Store Connect version-specific build lookup failed: #{error.message}")
+  end
+
+  [local_build, remote_build, remote_version_build].max + 1
+end
+
+def bump_build_number!(build_number = nil)
+  next_build = build_number || next_build_number
+  increment_build_number(
+    xcodeproj: xcodeproj_path,
+    build_number: next_build.to_s
+  )
+  next_build
+end
+
+def altool_upload!(binary_path, type:)
+  config_path = File.expand_path("api_key.json", __dir__)
+  UI.user_error!("Missing fastlane/api_key.json - needed for App Store Connect upload") unless File.exist?(config_path)
+
+  config = JSON.parse(File.read(config_path))
+  key_id = config.fetch("key_id")
+  issuer_id = config.fetch("issuer_id")
+  key_filepath = File.expand_path(config.fetch("key_filepath"))
+  UI.user_error!("API key file not found at #{key_filepath}") unless File.exist?(key_filepath)
+
+  search_dirs = [
+    File.expand_path("~/.appstoreconnect/private_keys"),
+    File.expand_path("~/.private_keys"),
+    File.expand_path("~/private_keys"),
+    File.expand_path("./private_keys")
+  ]
+
+  unless search_dirs.any? { |dir| File.exist?(File.join(dir, "AuthKey_#{key_id}.p8")) }
+    target_dir = search_dirs.first
+    FileUtils.mkdir_p(target_dir)
+    FileUtils.cp(key_filepath, File.join(target_dir, "AuthKey_#{key_id}.p8"))
+  end
+
+  sh(
+    "xcrun altool --upload-app " \
+      "-f #{Shellwords.escape(binary_path)} " \
+      "-t #{Shellwords.escape(type)} " \
+      "--apiKey #{Shellwords.escape(key_id)} " \
+      "--apiIssuer #{Shellwords.escape(issuer_id)}"
+  )
+end
+
+def print_testflight_links!(platform:, version:, build_number:)
+  platform_slug = platform == :mac ? "macos" : "ios"
+  testflight_url = "https://appstoreconnect.apple.com/apps/#{APP_STORE_CONNECT_APP_ID}/testflight/#{platform_slug}"
+  inflight_url = "https://appstoreconnect.apple.com/apps/#{APP_STORE_CONNECT_APP_ID}/distribution/#{platform_slug}/version/inflight"
+
+  UI.success("Uploaded #{platform.upcase} build #{version} (#{build_number}). Confirm in App Store Connect:")
+  UI.success("  TestFlight: #{testflight_url}")
+  UI.success("  Inflight version: #{inflight_url}")
+end
+
+def ensure_release_notes!(notes, platform_label:)
+  candidate = notes
+  if candidate.nil? || candidate.strip.empty?
+    candidate = UI.input("Release notes for #{platform_label} en-US:")
+  end
+
+  UI.user_error!("Release notes are required to submit for review") if candidate.nil? || candidate.strip.empty?
+
+  candidate
+end
+
+def normalized_build_number(option_value)
+  selected_build_number = option_value&.to_s
+  selected_build_number = nil if selected_build_number&.strip&.empty?
+  selected_build_number
+end
+
+def selected_platforms(options)
+  raw = options[:platforms] || options[:platform] || "ios,mac"
+  values = raw.to_s.split(",").map { |item| item.strip.downcase }.reject(&:empty?)
+  values = %w[ios mac] if values.empty?
+
+  values.each do |value|
+    UI.user_error!("Unsupported platform '#{value}'. Use ios, mac, or both.") unless %w[ios mac].include?(value)
+  end
+
+  values.uniq
+end
+
+def run_platform_lane!(platform:, lane:, options: {})
+  args = ["/opt/homebrew/opt/ruby/bin/bundle", "exec", "fastlane", platform, lane]
+  options.each do |key, value|
+    next if value.nil?
+
+    text = value.to_s
+    next if text.strip.empty?
+
+    args << "#{key}:#{text}"
+  end
+
+  sh("cd #{Shellwords.escape(repo_root)} && #{Shellwords.join(args)}")
+end
+
+def with_xcode_export_path
+  original_path = ENV["PATH"]
+  sanitized = original_path.to_s.split(":").reject { |path| path.start_with?("/opt/homebrew", "/usr/local") }
+  ENV["PATH"] = sanitized.join(":") unless sanitized.empty?
+  yield
+ensure
+  ENV["PATH"] = original_path
+end
+
+def mac_screenshots_root
+  File.expand_path("screenshots", __dir__)
+end
+
+def stage_mac_screenshots!(strict: true)
+  source_root = mac_screenshots_root
+  staged_root = Dir.mktmpdir("echo_mac_screenshots")
+  copied_count = 0
+
+  Dir.glob(File.join(source_root, "*")).sort.each do |locale_dir|
+    next unless File.directory?(locale_dir)
+
+    locale = File.basename(locale_dir)
+    mac_pngs = Dir.glob(File.join(locale_dir, "Mac-*.png")).sort
+    next if mac_pngs.empty?
+
+    staged_locale_dir = File.join(staged_root, locale)
+    FileUtils.mkdir_p(staged_locale_dir)
+
+    mac_pngs.each do |src|
+      FileUtils.cp(src, File.join(staged_locale_dir, File.basename(src)))
+      copied_count += 1
+    end
+  end
+
+  if copied_count.zero?
+    message = "No macOS screenshots found. Expected files like 'Mac-*.png' under fastlane/screenshots/<locale>/"
+    UI.user_error!(message) if strict
+    UI.important(message)
+    return nil
+  end
+
+  staged_root
+end
+
+before_all do
+  config_path = File.expand_path("api_key.json", __dir__)
+  next unless File.exist?(config_path)
+
+  config = JSON.parse(File.read(config_path))
+  app_store_connect_api_key(
+    key_id: config["key_id"],
+    issuer_id: config["issuer_id"],
+    key_filepath: config["key_filepath"],
+    in_house: config.fetch("in_house", false)
+  )
+end
+
+desc "Print the supported release platforms"
+lane :platforms do
+  UI.message("Available platforms: ios, mac")
+end
+
+desc "Run the build command part for selected platforms (default: ios,mac)"
+lane :build do |options|
+  selected_platforms(options).each do |platform|
+    run_platform_lane!(platform: platform, lane: "build", options: {})
+  end
+end
+
+desc "Run the beta command part for selected platforms (default: ios,mac)"
+lane :beta do |options|
+  selected_platforms(options).each do |platform|
+    run_platform_lane!(platform: platform, lane: "beta", options: { build_number: options[:build_number] })
+  end
+end
+
+desc "Run the screenshots command part for selected platforms (default: ios,mac)"
+lane :screenshots do |options|
+  selected_platforms(options).each do |platform|
+    run_platform_lane!(platform: platform, lane: "screenshots", options: {})
+  end
+end
+
+desc "Run the upload_screenshots command part for selected platforms (default: ios,mac)"
+lane :upload_screenshots do |options|
+  selected_platforms(options).each do |platform|
+    run_platform_lane!(platform: platform, lane: "upload_screenshots", options: { screenshots: options[:screenshots] })
+  end
+end
+
+desc "Run the release command part for selected platforms (default: ios,mac)"
+lane :release do |options|
+  selected_platforms(options).each do |platform|
+    run_platform_lane!(
+      platform: platform,
+      lane: "release",
+      options: {
+        notes: options[:notes],
+        build_number: options[:build_number],
+        screenshots: options[:screenshots]
+      }
+    )
+  end
+end
+
+desc "Run a full release flow for selected platforms (default: ios,mac)"
+lane :full_release do |options|
+  options = options || {}
+  release_notes = options[:notes] || "Bug fixes and performance improvements."
+
+  bump_version(options)
+  platforms
+  build(options)
+  beta(options)
+  screenshots(options)
+  upload_screenshots(options)
+  release(options.merge(notes: release_notes))
+end
+
+desc "Bump the marketing version. Pass bump:patch (default), bump:minor, or bump:major"
+lane :bump_version do |options|
+  bump_type = options[:bump] || "patch"
+  current = current_marketing_version
+  parts = current.split(".").map(&:to_i)
+  parts << 0 while parts.length < 3
+
+  case bump_type
+  when "major"
+    parts = [parts[0] + 1, 0, 0]
+  when "minor"
+    parts = [parts[0], parts[1] + 1, 0]
+  else
+    parts = [parts[0], parts[1], parts[2] + 1]
+  end
+
+  new_version = parts.join(".")
+  set_marketing_version!(new_version)
+  next_build = bump_build_number!
+  UI.success("Bumped to #{new_version} (build #{next_build})")
+end
+
+desc "Bump only the build number"
+lane :bump_build do |options|
+  requested_build_number = options[:build_number]&.to_i
+  next_build = if requested_build_number && requested_build_number > 0
+    bump_build_number!(requested_build_number)
+  else
+    bump_build_number!
+  end
+
+  UI.success("Bumped build number to #{next_build}")
+end
+
+platform :ios do
+  desc "Prepare iOS screenshots for upload (manual staging expected)"
+  lane :screenshots do |_options|
+    root = File.expand_path("screenshots", __dir__)
+    pngs = Dir.glob(File.join(root, "*", "*.png"))
+    if pngs.empty?
+      UI.important("No staged iOS screenshots found under fastlane/screenshots/<locale>/. Continuing without changes.")
+    else
+      UI.success("Found #{pngs.length} staged screenshot file(s) under fastlane/screenshots/.")
+    end
+  end
+
+  desc "Build a signed release .ipa without uploading"
+  lane :build do
+    with_xcode_export_path do
+      build_app(
+        project: XCODEPROJ,
+        scheme: SCHEME,
+        configuration: "Release",
+        export_method: "app-store",
+        destination: "generic/platform=iOS",
+        clean: true,
+        xcodebuild_formatter: "",
+        output_directory: "build",
+        output_name: IOS_OUTPUT_NAME
+      )
+    end
+    UI.success("Built build/#{IOS_OUTPUT_NAME}")
+  end
+
+  desc "Upload staged screenshots to App Store Connect"
+  lane :upload_screenshots do |options|
+    should_upload = options[:screenshots].to_s.downcase != "false"
+    unless should_upload
+      UI.important("Skipping iOS screenshot upload because screenshots:false was provided.")
+      next
+    end
+
+    root = File.expand_path("screenshots", __dir__)
+    pngs = Dir.glob(File.join(root, "*", "*.png"))
+    if pngs.empty?
+      UI.important("Skipping iOS screenshot upload because no staged screenshots were found.")
+      next
+    end
+
+    upload_to_app_store(
+      app_version: current_marketing_version,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+
+  desc "Build a signed release .ipa and upload it to TestFlight"
+  lane :beta do |options|
+    requested_build_number = options[:build_number]&.to_i
+    build_number = if requested_build_number && requested_build_number > 0
+      bump_build_number!(requested_build_number)
+    else
+      bump_build_number!
+    end
+
+    UI.message("Using build number #{build_number}")
+    build
+    altool_upload!(File.expand_path("../build/#{IOS_OUTPUT_NAME}", __dir__), type: "ios")
+    print_testflight_links!(platform: :ios, version: current_marketing_version, build_number: build_number)
+  end
+
+  desc "Upload the latest iOS build and submit the iOS version for review"
+  lane :release do |options|
+    notes = ensure_release_notes!(options[:notes], platform_label: "iOS")
+    selected_build_number = normalized_build_number(options[:build_number])
+    use_screenshots = options[:screenshots].to_s.downcase != "false"
+
+    upload_to_app_store(
+      app_version: current_marketing_version,
+      build_number: selected_build_number,
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: !use_screenshots,
+      overwrite_screenshots: true,
+      release_notes: { "en-US" => notes },
+      submit_for_review: true,
+      automatic_release: true,
+      submission_information: {
+        add_id_info_uses_idfa: false,
+        export_compliance_uses_encryption: false,
+        content_rights_contains_third_party_content: false
+      },
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+end
+
+platform :mac do
+  desc "Prepare macOS screenshots for upload (manual staging expected)"
+  lane :screenshots do |_options|
+    staged_root = stage_mac_screenshots!(strict: false)
+    if staged_root
+      UI.success("Staged macOS screenshots from fastlane/screenshots/ for upload.")
+    else
+      UI.important("No staged macOS screenshots found. You can still release with screenshots:false.")
+    end
+  end
+
+  desc "Build a signed macOS package without uploading"
+  lane :build do
+    build_dir = File.join(repo_root, "build")
+    archive_path = File.join(build_dir, "Echo macOS.xcarchive")
+    pkg_path = File.join(build_dir, MAC_OUTPUT_NAME)
+    export_options_path = File.join(build_dir, "MacExportOptions.plist")
+
+    FileUtils.mkdir_p(build_dir)
+    FileUtils.rm_rf(archive_path)
+    FileUtils.rm_f(pkg_path)
+
+    with_xcode_export_path do
+      sh(
+        "cd #{Shellwords.escape(repo_root)} && " \
+          "xcodebuild -project #{Shellwords.escape(XCODEPROJ)} " \
+          "-scheme #{Shellwords.escape(SCHEME)} -configuration Release " \
+          "-destination 'generic/platform=macOS' " \
+          "-archivePath #{Shellwords.escape(archive_path)} " \
+          "-allowProvisioningUpdates clean archive"
+      )
+    end
+
+    File.write(export_options_path, <<~PLIST)
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0"><dict>
+        <key>method</key><string>app-store</string>
+        <key>signingStyle</key><string>automatic</string>
+        <key>teamID</key><string>#{TEAM_ID}</string>
+      </dict></plist>
+    PLIST
+
+    with_xcode_export_path do
+      sh(
+        "xcodebuild -exportArchive " \
+          "-archivePath #{Shellwords.escape(archive_path)} " \
+          "-exportOptionsPlist #{Shellwords.escape(export_options_path)} " \
+          "-exportPath #{Shellwords.escape(build_dir)} " \
+          "-allowProvisioningUpdates"
+      )
+    end
+
+    exported_pkg = Dir.glob(File.join(build_dir, "*.pkg")).first
+    UI.user_error!("macOS .pkg not found in #{build_dir}") unless exported_pkg
+    FileUtils.mv(exported_pkg, pkg_path) unless exported_pkg == pkg_path
+
+    UI.success("Built build/#{MAC_OUTPUT_NAME}")
+  end
+
+  desc "Upload only staged macOS screenshots to App Store Connect"
+  lane :upload_screenshots do |options|
+    should_upload = options[:screenshots].to_s.downcase != "false"
+    unless should_upload
+      UI.important("Skipping macOS screenshot upload because screenshots:false was provided.")
+      next
+    end
+
+    staged_root = stage_mac_screenshots!(strict: false)
+    if staged_root.nil?
+      UI.important("Skipping macOS screenshot upload because no staged screenshots were found.")
+      next
+    end
+
+    upload_to_app_store(
+      platform: "osx",
+      app_version: current_marketing_version,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      screenshots_path: staged_root,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+
+  desc "Build a signed macOS package and upload it to TestFlight"
+  lane :beta do |options|
+    requested_build_number = options[:build_number]&.to_i
+    build_number = if requested_build_number && requested_build_number > 0
+      bump_build_number!(requested_build_number)
+    else
+      bump_build_number!
+    end
+
+    UI.message("Using build number #{build_number}")
+    build
+    altool_upload!(File.expand_path("../build/#{MAC_OUTPUT_NAME}", __dir__), type: "macos")
+    print_testflight_links!(platform: :mac, version: current_marketing_version, build_number: build_number)
+  end
+
+  desc "Submit the latest macOS build for App Store review"
+  lane :release do |options|
+    notes = ensure_release_notes!(options[:notes], platform_label: "macOS")
+    selected_build_number = normalized_build_number(options[:build_number])
+    use_screenshots = options[:screenshots].to_s.downcase != "false"
+    staged_root = use_screenshots ? stage_mac_screenshots!(strict: false) : nil
+
+    upload_to_app_store(
+      platform: "osx",
+      app_version: current_marketing_version,
+      build_number: selected_build_number,
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: staged_root.nil?,
+      overwrite_screenshots: true,
+      screenshots_path: staged_root,
+      release_notes: { "en-US" => notes },
+      submit_for_review: true,
+      automatic_release: true,
+      submission_information: {
+        add_id_info_uses_idfa: false,
+        export_compliance_uses_encryption: false,
+        content_rights_contains_third_party_content: false
+      },
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+end
