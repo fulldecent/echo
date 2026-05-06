@@ -45,6 +45,8 @@ Run the beta command part for selected platforms (default: ios,mac)
 
 Run the screenshots command part for selected platforms (default: ios,mac)
 
+Pass `locales:...` and `devices:...` to filter staged screenshot work.
+
 ### upload_screenshots
 
 ```sh
@@ -52,6 +54,8 @@ Run the screenshots command part for selected platforms (default: ios,mac)
 ```
 
 Run the upload_screenshots command part for selected platforms (default: ios,mac)
+
+Pass `locales:...` and `devices:...` to filter staged screenshot work.
 
 ### release
 
@@ -86,7 +90,6 @@ Bump the marketing version. Pass bump:patch (default), bump:minor, or bump:major
 Bump only the build number
 
 ----
-
 
 ## iOS
 
@@ -128,10 +131,9 @@ Build a signed release .ipa and upload it to TestFlight
 [bundle exec] fastlane ios release
 ```
 
-Upload the latest iOS build and submit the iOS version for review
+Submit the latest iOS build and submit the iOS version for review
 
 ----
-
 
 ## Mac
 
@@ -141,7 +143,7 @@ Upload the latest iOS build and submit the iOS version for review
 [bundle exec] fastlane mac screenshots
 ```
 
-Prepare macOS screenshots for upload (manual staging expected)
+Prepare macOS screenshots for upload (manual staging expected). Pass locales:en-US or devices:'Mac' to filter
 
 ### mac build
 

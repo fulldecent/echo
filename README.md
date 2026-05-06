@@ -28,18 +28,16 @@ This project uses fastlane and App Store Connect API key authentication for rele
 
 ### One-time setup
 
-1. Setup Ruby and install Ruby dependencies:
+1. Install Ruby via rbenv (macOS system Ruby is too old for fastlane):
 
    ```sh
-   # Install Homebrew, then proceed
    brew install rbenv ruby-build
-   # Ensure you followed above instructions about `export PATH...`
-   rbenv install # gets version per .ruby-version
-   gem install bundler
-   bundle install # requires Ruby version per Gemfile
+   rbenv init # follow the printed shell setup instructions, then restart your shell
+   rbenv install   # installs the version from .ruby-version
+   bundle install
    ```
 
-2. Ceate fastlane/api_key.json:
+2. Create `fastlane/api_key.json`:
 
    ```json
    {
@@ -51,23 +49,40 @@ This project uses fastlane and App Store Connect API key authentication for rele
 
 ### Recommended release flow
 
-Complete an end-to-end non-interactive deployment for each platform: increment patch version, build, screenshots, TestFlight, submit release.
+The pipeline has five stages.
+
+```mermaid
+flowchart LR
+  bump_version --> b["beta (TestFlight)"] --> screenshots --> upload_screenshots --> r["release (App Store)"]
+```
+
+Execute the end-to-end flow with the combined command:
 
 ```sh
 bundle exec fastlane full_release # may add options from any part below; or it picks defaults
 ```
 
-Or alternatively, do each part separately (also helpful when debugging), there is no overlap:
+Or run each stage separately:
 
 ```sh
-bundle exec fastlane bump_version # may add bump:minor or bump:major
-# bundle exec fastlane platforms # list all available platform names
-bundle exec fastlane build # every platform, or add platform name before verb
-bundle exec fastlane beta # every platform, or ...
-bundle exec fastlane screenshots # every platform, or ...
-bundle exec fastlane upload_screenshots # every platform, or ...
-bundle exec fastlane release # every platform, or ...; may add notes:"This release..."
+bundle exec fastlane bump_version           # may add bump:minor or bump:major
+bundle exec fastlane build                  # every platform, or add platform name before verb
+bundle exec fastlane beta                   # every platform, or add platform name before verb
+bundle exec fastlane screenshots            # every platform, or ...; may add locales:... devices:...
+bundle exec fastlane upload_screenshots     # every platform, or ...; may add locales:... devices:...
+bundle exec fastlane release                # every platform, or ...; may add notes:"This release..."
 ```
+
+Screenshot filter examples:
+
+```sh
+bundle exec fastlane screenshots platforms:ios locales:en-US devices:"iPhone 16 Pro"
+bundle exec fastlane upload_screenshots platforms:mac locales:en-US devices:"Mac"
+```
+
+:information_source: `release` is submit-only. Run `screenshots` and `upload_screenshots` first if screenshots need to change.
+
+:information_source: If a beta upload fails because the build number is behind App Store Connect, set the project build number once to remote highest + 1, commit, rerun, then continue local increments.
 
 Each command part (and the end-to-end command) will print this evidence as available:
 

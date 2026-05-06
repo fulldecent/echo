@@ -50,33 +50,12 @@ def current_build_number
   get_build_number(xcodeproj: xcodeproj_path).to_s.to_i
 end
 
+# Simple local build number increment per apple-development skill.
+# If upload fails with 'previousBundleVersion' or 'already been used',
+# do a one-time fix: set CURRENT_PROJECT_VERSION to remote highest + 1
+# in the Xcode project, commit, then resume normal local increments.
 def next_build_number
-  local_build = current_build_number
-  remote_build = 0
-  remote_version_build = 0
-
-  begin
-    remote_build = latest_testflight_build_number(
-      app_identifier: BUNDLE_ID,
-      initial_build_number: [local_build, 1].max,
-      live: false
-    ).to_i
-  rescue => error
-    UI.important("Falling back to local build number because App Store Connect overall build lookup failed: #{error.message}")
-  end
-
-  begin
-    remote_version_build = latest_testflight_build_number(
-      app_identifier: BUNDLE_ID,
-      version: current_marketing_version,
-      initial_build_number: [local_build, 1].max,
-      live: false
-    ).to_i
-  rescue => error
-    UI.important("Falling back to overall build number because App Store Connect version-specific build lookup failed: #{error.message}")
-  end
-
-  [local_build, remote_build, remote_version_build].max + 1
+  current_build_number + 1
 end
 
 def bump_build_number!(build_number = nil)
@@ -186,16 +165,27 @@ def mac_screenshots_root
   File.expand_path("screenshots", __dir__)
 end
 
-def stage_mac_screenshots!(strict: true)
+def stage_mac_screenshots!(strict: true, locales: nil, devices: nil)
   source_root = mac_screenshots_root
   staged_root = Dir.mktmpdir("echo_mac_screenshots")
   copied_count = 0
+
+  locale_filter = Array(locales).map(&:to_s).map(&:strip).reject(&:empty?)
+  device_filter = Array(devices).map(&:to_s).map(&:strip).reject(&:empty?)
 
   Dir.glob(File.join(source_root, "*")).sort.each do |locale_dir|
     next unless File.directory?(locale_dir)
 
     locale = File.basename(locale_dir)
+    next if !locale_filter.empty? && !locale_filter.include?(locale)
+
     mac_pngs = Dir.glob(File.join(locale_dir, "Mac-*.png")).sort
+    unless device_filter.empty?
+      mac_pngs = mac_pngs.select do |path|
+        filename = File.basename(path)
+        device_filter.any? { |device| filename.start_with?(device) }
+      end
+    end
     next if mac_pngs.empty?
 
     staged_locale_dir = File.join(staged_root, locale)
@@ -252,14 +242,29 @@ end
 desc "Run the screenshots command part for selected platforms (default: ios,mac)"
 lane :screenshots do |options|
   selected_platforms(options).each do |platform|
-    run_platform_lane!(platform: platform, lane: "screenshots", options: {})
+    run_platform_lane!(
+      platform: platform,
+      lane: "screenshots",
+      options: {
+        locales: options[:locales],
+        devices: options[:devices]
+      }
+    )
   end
 end
 
 desc "Run the upload_screenshots command part for selected platforms (default: ios,mac)"
 lane :upload_screenshots do |options|
   selected_platforms(options).each do |platform|
-    run_platform_lane!(platform: platform, lane: "upload_screenshots", options: { screenshots: options[:screenshots] })
+    run_platform_lane!(
+      platform: platform,
+      lane: "upload_screenshots",
+      options: {
+        screenshots: options[:screenshots],
+        locales: options[:locales],
+        devices: options[:devices]
+      }
+    )
   end
 end
 
@@ -327,10 +332,19 @@ lane :bump_build do |options|
 end
 
 platform :ios do
-  desc "Prepare iOS screenshots for upload (manual staging expected)"
-  lane :screenshots do |_options|
+  desc "Prepare iOS screenshots for upload (manual staging expected). Pass locales:en-US,fr-FR or devices:'iPhone 16 Pro' to filter"
+  lane :screenshots do |options|
     root = File.expand_path("screenshots", __dir__)
-    pngs = Dir.glob(File.join(root, "*", "*.png"))
+    locale_filter = options[:locales].to_s.split(",").map(&:strip).reject(&:empty?)
+    device_filter = options[:devices].to_s.split(",").map(&:strip).reject(&:empty?)
+    locale_glob = locale_filter.empty? ? "*" : "{#{locale_filter.join(',')}}"
+    pngs = Dir.glob(File.join(root, locale_glob, "*.png"))
+    unless device_filter.empty?
+      pngs = pngs.select do |path|
+        filename = File.basename(path)
+        device_filter.any? { |device| filename.start_with?(device) }
+      end
+    end
     if pngs.empty?
       UI.important("No staged iOS screenshots found under fastlane/screenshots/<locale>/. Continuing without changes.")
     else
@@ -401,14 +415,13 @@ platform :ios do
   lane :release do |options|
     notes = ensure_release_notes!(options[:notes], platform_label: "iOS")
     selected_build_number = normalized_build_number(options[:build_number])
-    use_screenshots = options[:screenshots].to_s.downcase != "false"
 
     upload_to_app_store(
       app_version: current_marketing_version,
       build_number: selected_build_number,
       skip_binary_upload: true,
       skip_metadata: false,
-      skip_screenshots: !use_screenshots,
+      skip_screenshots: true,
       overwrite_screenshots: true,
       release_notes: { "en-US" => notes },
       submit_for_review: true,
@@ -425,9 +438,11 @@ platform :ios do
 end
 
 platform :mac do
-  desc "Prepare macOS screenshots for upload (manual staging expected)"
-  lane :screenshots do |_options|
-    staged_root = stage_mac_screenshots!(strict: false)
+  desc "Prepare macOS screenshots for upload (manual staging expected). Pass locales:en-US or devices:'Mac' to filter"
+  lane :screenshots do |options|
+    locale_filter = options[:locales].to_s.split(",").map(&:strip).reject(&:empty?)
+    device_filter = options[:devices].to_s.split(",").map(&:strip).reject(&:empty?)
+    staged_root = stage_mac_screenshots!(strict: false, locales: locale_filter, devices: device_filter)
     if staged_root
       UI.success("Staged macOS screenshots from fastlane/screenshots/ for upload.")
     else
@@ -492,7 +507,9 @@ platform :mac do
       next
     end
 
-    staged_root = stage_mac_screenshots!(strict: false)
+    locale_filter = options[:locales].to_s.split(",").map(&:strip).reject(&:empty?)
+    device_filter = options[:devices].to_s.split(",").map(&:strip).reject(&:empty?)
+    staged_root = stage_mac_screenshots!(strict: false, locales: locale_filter, devices: device_filter)
     if staged_root.nil?
       UI.important("Skipping macOS screenshot upload because no staged screenshots were found.")
       next
@@ -530,8 +547,6 @@ platform :mac do
   lane :release do |options|
     notes = ensure_release_notes!(options[:notes], platform_label: "macOS")
     selected_build_number = normalized_build_number(options[:build_number])
-    use_screenshots = options[:screenshots].to_s.downcase != "false"
-    staged_root = use_screenshots ? stage_mac_screenshots!(strict: false) : nil
 
     upload_to_app_store(
       platform: "osx",
@@ -539,9 +554,8 @@ platform :mac do
       build_number: selected_build_number,
       skip_binary_upload: true,
       skip_metadata: false,
-      skip_screenshots: staged_root.nil?,
+      skip_screenshots: true,
       overwrite_screenshots: true,
-      screenshots_path: staged_root,
       release_notes: { "en-US" => notes },
       submit_for_review: true,
       automatic_release: true,
