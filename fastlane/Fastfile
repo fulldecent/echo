@@ -17,8 +17,7 @@ RELEASE_NOTES_LIMIT = 3500
 # App Store locale, AppleLanguages, AppleLocale. Add a row for each language
 # you ship. Norwegian Bokmål's App Store code is "no".
 SCREENSHOT_LOCALES = [
-  ["en-US", "en", "en_US"],
-  ["zh-Hans", "zh-Hans", "zh_Hans"]
+  ["en-US", "en", "en_US"]
 ].freeze
 
 # Prefer the newest simulator whose pixels match an App Store screenshot size.
@@ -415,6 +414,11 @@ def capture_mac_screenshots!(output_root)
   end
 end
 
+# A locale directory with a name but no description, keywords, or support URL
+# makes Apple reject the version. The live listing is en-US. Any other locale
+# directory must still contain those fields, copied from en-US when absent.
+REQUIRED_METADATA = %w[description.txt keywords.txt support_url.txt marketing_url.txt privacy_url.txt].freeze
+
 def prepare_metadata!(metadata_path, notes)
   source = File.join(metadata_path, "en-US")
   UI.user_error!("#{metadata_path} is missing en-US") unless File.directory?(source)
@@ -427,6 +431,12 @@ def prepare_metadata!(metadata_path, notes)
     directory = File.join(metadata_path, entry)
     next unless File.directory?(directory)
     next if entry == "review_information"
+    REQUIRED_METADATA.each do |filename|
+      target = File.join(directory, filename)
+      next if File.file?(target) && !File.read(target).strip.empty?
+      fallback = File.join(source, filename)
+      FileUtils.cp(fallback, target) if File.file?(fallback)
+    end
     File.write(File.join(directory, "release_notes.txt"), "#{notes}\n")
   end
 end
