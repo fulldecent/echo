@@ -8,14 +8,14 @@
 import Foundation
 
 struct Audio: Codable, Sendable, Identifiable, Hashable {
-    let id: Int
-    
-    nonisolated func localURL() -> URL {
-        let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
-        return documentURL.appendingPathComponent("audio-\(id).caf")
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case id = "fileID"
-    }
+  let id: Int
+
+  nonisolated func localURL() -> URL {
+    let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+    return documentURL.appendingPathComponent("audio-\(id).caf")
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case id = "fileID"
+  }
 }
