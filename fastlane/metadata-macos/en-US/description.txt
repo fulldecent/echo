@@ -1,0 +1,3 @@
+Echo helps people improve pronunciation by comparing their own recordings with native-speaker models.
+
+Use it for speech practice, accent reduction, and language learning. Browse lessons, save them locally, and repeat words until pronunciation becomes more consistent.

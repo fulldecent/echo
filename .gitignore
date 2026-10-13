@@ -64,3 +64,8 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/api_key.json
+*.p8
+*.p12
+vendor/bundle/
+.bundle/
+.env

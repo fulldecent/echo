@@ -22,73 +22,56 @@ It is my first serious iOS app and has gone through siginificant development ove
 
 You are welcome to read and study everything here. All contents (c) William Entriken, all contributions require assigment for this copyright. Will consider a more permissive license later.
 
-## Release a new version
+## Development
 
-This project uses fastlane and App Store Connect API key authentication for release automation.
-
-### One-time setup
-
-1. Install Ruby via rbenv (macOS system Ruby is too old for fastlane):
-
-   ```sh
-   brew install rbenv ruby-build
-   rbenv init # follow the printed shell setup instructions, then restart your shell
-   rbenv install   # installs the version from .ruby-version
-   bundle install
-   ```
-
-2. Create `fastlane/api_key.json`:
-
-   ```json
-   {
-     "key_id": "ABCD123456",
-     "issuer_id": "00000000-0000-0000-0000-000000000000",
-     "key_filepath": "/absolute/path/to/AuthKey_ABCD123456.p8"
-   }
-   ```
-
-### Recommended release flow
-
-The pipeline has five stages.
-
-```mermaid
-flowchart LR
-  bump_version --> b["beta (TestFlight)"] --> screenshots --> upload_screenshots --> r["release (App Store)"]
-```
-
-Execute the end-to-end flow with the combined command:
+Format the Swift files the CI workflow checks, then test on the iPhone 17 simulator:
 
 ```sh
-bundle exec fastlane full_release # may add options from any part below; or it picks defaults
+swift format format --in-place --recursive Echo EchoTests EchoUITests
+xcodebuild test \
+  -project Echo.xcodeproj \
+  -scheme Echo \
+  -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0' \
+  CODE_SIGNING_ALLOWED=NO
 ```
 
-Or run each stage separately:
+`CODE_SIGNING_ALLOWED=NO` is for a machine that does not have a provisioning profile for this bundle id. This repository is an Xcode app, so the command is `xcodebuild test`.
+
+## Releasing
+
+Use `fix:`, `feat:` or `BREAKING CHANGE:` in commit messages. Release Please opens a pull request from those. `ci:` and `chore:` do not. Merging that pull request submits iOS and macOS for App Store review. Do not edit [VERSION](VERSION) or the marketing version by hand.
+
+Every push to `main` runs the tests and uploads an iOS build and a macOS build to TestFlight. Both go to the internal group App Store Connect Users for this app. The Apple ID has to accept the invitation before the build appears. The marketing version comes from [VERSION](VERSION). When that version is already on sale, the upload uses the next patch and does not commit it. The review submission uses the version that was uploaded. The build number is chosen at upload time and is not committed.
+
+Store text lives in [fastlane/metadata](fastlane/metadata) and [fastlane/metadata-macos](fastlane/metadata-macos). Screenshots are generated at release time and are not committed. What's New is the newest section of [CHANGELOG.md](CHANGELOG.md).
+
+Release Please opens its pull request as `github-actions`. GitHub holds those checks until a person approves the workflow run.
+
+This follows [swift-app-template](https://github.com/fulldecent/swift-app-template) release 1.1.0 and the release workflow used by [8 Ball Answer](https://github.com/fulldecent/8-ball-answer).
+
+### Setup
+
+1. GitHub repo > Settings > Actions > General > Workflow permissions: Read and write permissions. Check "Allow GitHub Actions to create and approve pull requests".
+1. Sign the Apple Developer Program agreement.
+1. Repository secrets:
+
+   - `APP_STORE_CONNECT_KEY_ID`
+   - `APP_STORE_CONNECT_ISSUER_ID`
+   - `APP_STORE_CONNECT_KEY`
+   - `APP_STORE_DISTRIBUTION_P12`
+   - `APP_STORE_DISTRIBUTION_P12_PASSWORD`
+   - `APP_STORE_MAC_INSTALLER_P12`
+   - `APP_STORE_MAC_INSTALLER_P12_PASSWORD`
+
+The workflow creates the provisioning profiles at build time. The Mac package also needs the installer certificate named in [fastlane/Fastfile](fastlane/Fastfile).
+
+App Privacy, and whether the app uses the Advertising Identifier, stay in App Store Connect. fastlane sends the encryption answer and the third-party content answer.
+
+Local commands, after `bundle install` with the Ruby in [.ruby-version](.ruby-version) and a gitignored `fastlane/api_key.json`:
 
 ```sh
-bundle exec fastlane bump_version           # may add bump:minor or bump:major
-bundle exec fastlane build                  # every platform, or add platform name before verb
-bundle exec fastlane beta                   # every platform, or add platform name before verb
-bundle exec fastlane screenshots            # every platform, or ...; may add locales:... devices:...
-bundle exec fastlane upload_screenshots     # every platform, or ...; may add locales:... devices:...
-bundle exec fastlane release                # every platform, or ...; may add notes:"This release..."
+bundle exec fastlane ship_testflight
+bundle exec fastlane generate_screenshots
+bundle exec fastlane upload_screenshots
+bundle exec fastlane submit_app_store build_number:123 version:2.2.3
 ```
-
-Screenshot filter examples:
-
-```sh
-bundle exec fastlane screenshots platforms:ios locales:en-US devices:"iPhone 16 Pro"
-bundle exec fastlane upload_screenshots platforms:mac locales:en-US devices:"Mac"
-```
-
-:information_source: `release` is submit-only. Run `screenshots` and `upload_screenshots` first if screenshots need to change.
-
-:information_source: If a beta upload fails because the build number is behind App Store Connect, set the project build number once to remote highest + 1, commit, rerun, then continue local increments.
-
-Each command part (and the end-to-end command) will print this evidence as available:
-
-- Local built path
-- Local screenshots preview
-- ios TestFlight: <https://appstoreconnect.apple.com/apps/558585608/testflight/ios>
-- ios Inflight version: <https://appstoreconnect.apple.com/apps/558585608/distribution/ios/version/inflight>
-- macos TestFlight: <https://appstoreconnect.apple.com/apps/558585608/testflight/macos>
-- macos Inflight version: <https://appstoreconnect.apple.com/apps/558585608/distribution/macos/version/inflight>
