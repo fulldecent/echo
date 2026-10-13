@@ -1,5 +1,7 @@
 # Echo
 
+[![Build and test](https://github.com/fulldecent/echo/actions/workflows/build-test.yml/badge.svg)](https://github.com/fulldecent/echo/actions/workflows/build-test.yml) [![Lint](https://github.com/fulldecent/echo/actions/workflows/lint.yml/badge.svg)](https://github.com/fulldecent/echo/actions/workflows/lint.yml)
+
 Available on the [iOS App Store](https://apps.apple.com/us/app/echo-speech-therapy/id558585608) and the [macOS App Store](https://apps.apple.com/us/app/echo-speech-therapy/id558585608).
 
 Hear yourself  and native speakers  to improve pronunciation.
@@ -10,7 +12,7 @@ Language practice / speech pathology / accent reduction
 
 This app can help you improve pronunciation. Whether that is for speech pathology, accent reduction or studying a new language. It is extremely effective. This app does not intend to teach you all the vocabulary you need, it is not a language app, it is a pronunciation app.
 
-See also my other app for speech pathology: [formant-analyzer](https://github.com/fulldecent/formant-analyzer)
+See also my other app for speech pathology: [Vowel Practice](https://github.com/fulldecent/vowel-practice)
 
 ## Intro
 
@@ -47,8 +49,6 @@ Store text lives in [fastlane/metadata](fastlane/metadata) and [fastlane/metadat
 
 Release Please opens its pull request as `github-actions`. GitHub holds those checks until a person approves the workflow run.
 
-This follows [swift-app-template](https://github.com/fulldecent/swift-app-template) release 1.1.0 and the release workflow used by [8 Ball Answer](https://github.com/fulldecent/8-ball-answer).
-
 ### Setup
 
 1. GitHub repo > Settings > Actions > General > Workflow permissions: Read and write permissions. Check "Allow GitHub Actions to create and approve pull requests".
@@ -75,3 +75,7 @@ bundle exec fastlane generate_screenshots
 bundle exec fastlane upload_screenshots
 bundle exec fastlane submit_app_store build_number:123 version:2.2.3
 ```
+
+## References
+
+1. This project is built based on [best practices documented in swift-app-template](https://github.com/fulldecent/swift-app-template), release 1.1.0. The [build-and-test workflow](.github/workflows/build-test.yml), the [lint workflow](.github/workflows/lint.yml), and the [release workflow](.github/workflows/release.yml) are that release's three files. [8 Ball Answer](https://github.com/fulldecent/8-ball-answer) is where the template's upload rules were confirmed. This app ships iOS and macOS, including the Mac installer certificate. The template's sample app is named Counter.
