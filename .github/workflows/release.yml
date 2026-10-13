@@ -57,6 +57,10 @@ jobs:
       pr: ${{ steps.merged.outputs.pr }}
       tag_name: ${{ steps.merged.outputs.tag_name }}
     steps:
+      # The default token is intentional. A pull request opened by this
+      # action does not start pull_request workflows until that run is
+      # approved. README.md describes that approval. This repository does
+      # not add a personal access token for Release Please.
       - name: Open the release pull request
         uses: googleapis/release-please-action@v5
         with:
@@ -350,6 +354,7 @@ jobs:
     if: |
       always() &&
       needs.test.result == 'success' &&
+      needs.apple.result == 'success' &&
       (needs.propose.outputs.tag_name != '' || (github.event_name == 'workflow_dispatch' && inputs.tag != '')) &&
       (needs.apple.outputs.ready != 'true' || needs.submit.result == 'success')
     runs-on: ubuntu-latest
@@ -368,6 +373,11 @@ jobs:
           case "$TAG" in
             v*.*.*) ;;
             *) echo "tag must look like v1.0.0" >&2; exit 1 ;;
+          esac
+          version=$(awk '{ print $1; exit }' VERSION)
+          case "$TAG" in
+            "v$version") ;;
+            *) echo "tag $TAG does not match VERSION $version" >&2; exit 1 ;;
           esac
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 

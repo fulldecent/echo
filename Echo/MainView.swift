@@ -9,6 +9,16 @@ struct MainView: View {
   @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
+    if ProcessInfo.processInfo.arguments.contains("-screenshot") {
+      // ImageRenderer does not present a .sheet, and onAppear does not run
+      // for that render. The second store shot is the search page itself.
+      SearchPageView(onLessonSelected: {})
+    } else {
+      lessonBrowser
+    }
+  }
+
+  private var lessonBrowser: some View {
     NavigationStack(path: $navigationPath) {
       ZStack {
         // Patterned background
@@ -58,11 +68,6 @@ struct MainView: View {
           SearchPageView(onLessonSelected: {
             showingSearch = false
           })
-        }
-        .onAppear {
-          if ProcessInfo.processInfo.arguments.contains("-screenshot") {
-            showingSearch = true
-          }
         }
       }
     }

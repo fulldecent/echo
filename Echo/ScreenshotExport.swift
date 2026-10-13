@@ -38,6 +38,9 @@ extension View {
         arguments.indices.contains(index + 1)
       else { return }
 
+      // `-screenshot` selects the search page inside MainView. A .sheet is
+      // not part of an ImageRenderer image, so the second shot cannot rely
+      // on presenting one.
       let renderer = ImageRenderer(
         content: MainView()
           .environmentObject(LessonLibrary.shared)
