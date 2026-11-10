@@ -22,7 +22,7 @@ It is my first serious iOS app and has gone through siginificant development ove
 
 ## License
 
-You are welcome to read and study everything here. All contents (c) William Entriken, all contributions require assigment for this copyright. Will consider a more permissive license later.
+You are welcome to read and study everything here. All contents (c) William Entriken, all contributions require assigment for this copyright. Will consider a more permissive license later. See [LICENSE.md](LICENSE.md).
 
 ## Development
 
